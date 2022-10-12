@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on David Raab</title>
+    <link>https://davidraab.github.io/tags/</link>
+    <description>Recent content in Tags on David Raab</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 10 Mar 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C#</title>
+      <link>https://davidraab.github.io/tags/c#/</link>
+      <pubDate>Thu, 10 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/c#/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>F#</title>
+      <link>https://davidraab.github.io/tags/f#/</link>
+      <pubDate>Thu, 10 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/f#/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>intro</title>
+      <link>https://davidraab.github.io/tags/intro/</link>
+      <pubDate>Thu, 10 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/intro/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>immutability</title>
+      <link>https://davidraab.github.io/tags/immutability/</link>
+      <pubDate>Wed, 09 Mar 2016 01:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/immutability/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>list</title>
+      <link>https://davidraab.github.io/tags/list/</link>
+      <pubDate>Wed, 09 Mar 2016 01:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/list/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>refactoring</title>
+      <link>https://davidraab.github.io/tags/refactoring/</link>
+      <pubDate>Wed, 09 Mar 2016 01:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/refactoring/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>structured</title>
+      <link>https://davidraab.github.io/tags/structured/</link>
+      <pubDate>Wed, 09 Mar 2016 01:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/structured/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

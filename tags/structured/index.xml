@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>structured on David Raab</title>
+    <link>https://davidraab.github.io/tags/structured/</link>
+    <description>Recent content in structured on David Raab</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 01:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/structured/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Applying Structured Programming</title>
+      <link>https://davidraab.github.io/posts/applying-structured-programming/</link>
+      <pubDate>Wed, 09 Mar 2016 01:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/applying-structured-programming/</guid>
+      <description>In my previous post about Structured Programming I talked about that basic looping constructs fold. But this is still to powerful. In the sense of readability we should try to eliminate them with more specific ones. In this post I go through a toy example to show the various ways on how to refactor some code.
+The Toy Example Recently I had some conversation about code in a game and providing some kind of critical hit-chance in a game.</description>
+    </item>
+    
+    <item>
+      <title>Structured Programming</title>
+      <link>https://davidraab.github.io/posts/structured-programming/</link>
+      <pubDate>Wed, 09 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/structured-programming/</guid>
+      <description>Back in 1968 Edsger W. Dijkstra wrote an open letter named &amp;ldquo;Go To Statement Considered Harmful&amp;rdquo;. As already suggested from the title, the very idea was to raise consciousness that the goto statement is more harmful then helpful. From today view we would expect that this idea catches fire really fast, but it didn&amp;rsquo;t. It took quite a long time. Even during all the 1970s and 1980s that question was debated a lot.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>list on David Raab</title>
+    <link>https://davidraab.github.io/tags/list/</link>
+    <description>Recent content in list on David Raab</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 01:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/list/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Applying Structured Programming</title>
+      <link>https://davidraab.github.io/posts/applying-structured-programming/</link>
+      <pubDate>Wed, 09 Mar 2016 01:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/applying-structured-programming/</guid>
+      <description>In my previous post about Structured Programming I talked about that basic looping constructs fold. But this is still to powerful. In the sense of readability we should try to eliminate them with more specific ones. In this post I go through a toy example to show the various ways on how to refactor some code.
+The Toy Example Recently I had some conversation about code in a game and providing some kind of critical hit-chance in a game.</description>
+    </item>
+    
+  </channel>
+</rss>
