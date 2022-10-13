@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>oop on David Raab</title>
+    <link>https://davidraab.github.io/tags/oop/</link>
+    <description>Recent content in oop on David Raab</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 14 Mar 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/oop/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Understanding Immutability and Pure Functions (for OOP)</title>
+      <link>https://davidraab.github.io/posts/immutability-and-functions/</link>
+      <pubDate>Mon, 14 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/immutability-and-functions/</guid>
+      <description>One important concept in functional programming is immutability. But also in object-oriented programming immutability and so called immutable objects getting more attention. The problem that I see especially from object-oriented programmers are really bad explanations. A lot of explanation I had see described it like this: Just create a class and make all fields readonly (final or const) and you have an immutable object.
+Explanations like these are horrible. Such explanations are so simplified that I would even call them wrong.</description>
+    </item>
+    
+  </channel>
+</rss>

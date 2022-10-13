@@ -1,0 +1,897 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Understanding Immutability and Pure Functions (for OOP) // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="Explains what immutability and pure functions are, and how we design proper immutable objects" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.a8546077d48c47c89a814549279adb362800e0bf9e49e90fe38c4f6ee35bff70.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Understanding Immutability and Pure Functions (for OOP)"/>
+<meta name="twitter:description" content="Explains what immutability and pure functions are, and how we design proper immutable objects"/>
+
+    <meta property="og:title" content="Understanding Immutability and Pure Functions (for OOP)" />
+<meta property="og:description" content="Explains what immutability and pure functions are, and how we design proper immutable objects" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/immutability-and-functions/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-03-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-03-14T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Understanding Immutability and Pure Functions (for OOP)</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Mar 14, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          29 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/immutability/">immutability</a>
+              <a class="tag" href="https://davidraab.github.io/tags/oop/">oop</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>One important concept in functional programming is immutability. But also in
+object-oriented programming immutability and so called <em>immutable objects</em> getting
+more attention. The problem that I see especially from object-oriented programmers
+are really bad explanations. A lot of explanation I had see described it like this:
+<em>Just create a class and make all fields readonly (final or const) and
+you have an immutable object</em>.</p>
+<p>Explanations like these are <strong>horrible</strong>. Such explanations are so simplified that I
+would even call them <em>wrong</em>. So why are they so horrible? Because they don&rsquo;t really
+explain anything at all. A programmer new to this concept will just immediately
+think: <em>Uhm, but I want to change things! I want to add data to an array, I want to
+modify things. I want to do some kind of calculations. I don&rsquo;t want to have static non
+changing things. Immutability sounds not practical at all!</em></p>
+<p>So let&rsquo;s see what immutability really means.</p>
+<h2 id="immutability-in-a-nutshell">Immutability in a Nutshell</h2>
+<p>A much more useful explanation is to say that <em>immutability</em> is not about <em>forbidding change</em>
+at all. Instead <em>immutability</em> is more on <strong>how</strong> to <em>handle change</em>. Immutability
+is not about forbidding some kind of operations. You still can add an element to
+an array, the difference is that you just do it differently.</p>
+<p>In an mutable world you would directly add your element to an array. In an immutable
+world you create a new array with your added element instead. The key concept is to
+understand that instead of modifying something you create something <em>new</em> with your
+change applied.</p>
+<p>Once you understand it is more about creating <em>new</em> things with your changes applied,
+the question that arise is more: <em>Why should that be better?</em></p>
+<h2 id="about-oo">About OO</h2>
+<p>Before we go into all kinds of explanations we first have to address OO programming. At first,
+talking about immutability and OO at the same time is actually a bad idea. The problem is
+that immutability doesn&rsquo;t really fit in the OO world. Because of that we should first focus
+on immutability and how it works in a functional language. This will be several magnitudes
+easier. Once we understand it there, we go back to the OO world and look how everything
+fits in the OO world.</p>
+<p>So why does <em>immutability</em> not directly fit in the OO world? Because <em>immutability</em> is solely
+about data-structures. <em>Immutability</em> is the core idea that data cannot be changed. Functions
+take <em>immutable data</em> and they return <em>immutable data</em>.</p>
+<p>The problem is that in object-orientation you usually don&rsquo;t create data-structures. You
+encapsulate and hide data instead. Data-access is often even viewed as <em>bad</em>. Often you got told
+to create methods instead of providing access to data. This and other things are the reason
+why it is hard to <em>get</em> the concept of immutability especially as an OO programmer. We will later
+talk about this problem in more depth. For the moment we will put objects aside.</p>
+<h2 id="immutability-is-about-data">Immutability is about data</h2>
+<p>So Immutability really means that data itself cannot be changed. But as stated previously, instead
+of modifying data itself we call functions that then can return new immutable data. Let&rsquo;s look at
+some immutable data-structures.</p>
+<h3 id="int-is-immutable"><code>int</code> is immutable</h3>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> 5
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">y</span> <span style="color:#ff7b72;font-weight:bold">=</span> 10
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">z</span> <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">+</span> y <span style="color:#8b949e;font-style:italic">// 15
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>You actually should be familiar with this because it even feels natural that <code>int</code> is immutable. You
+have a lot of operations like <code>+</code>, <code>-</code>,<code>*</code>, <code>*</code>, and some more in the <code>Math</code> class. All of those
+operations take some number, do some kind of operation with it and return something new instead.</p>
+<p><code>x</code> stays the same, instead <code>+</code> takes two arguments, and produces a new result. We can actually
+treat <code>+</code> just as a function that takes two <code>int</code> and produces a whole new <code>int</code>. As a result
+we get <code>z</code> that is <code>15</code>. We wouldn&rsquo;t expect that <code>x</code> or <code>y</code> also get modified at all.</p>
+<h3 id="string-is-immutable"><code>string</code> is immutable</h3>
+<p>Using <code>int</code> to get the feeling of the concept is easy, but it is sometimes hard how this concept
+works with more complex types. Additional <code>int</code> is in most languages some kind of special <em>primitive</em>
+type or a so called <em>value type</em>. So we threat them anyway as some kind of <em>special</em>.</p>
+<p>So let&rsquo;s look at <code>string</code>. <code>string</code> is usually a <em>reference type</em> in most languages like any
+other class. But at least in Java or C#, they are still immutable.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">a</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;foo&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">b</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;bar&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">c</span> <span style="color:#ff7b72;font-weight:bold">=</span> a <span style="color:#ff7b72;font-weight:bold">+</span> b <span style="color:#8b949e;font-style:italic">// &#34;foobar&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">foo1</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;foo1&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">foo2</span> <span style="color:#ff7b72;font-weight:bold">=</span> foo1<span style="color:#ff7b72;font-weight:bold">.</span>Replace<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#39;1&#39;</span><span style="color:#ff7b72;font-weight:bold">,</span> <span style="color:#a5d6ff">&#39;2&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">foo</span>  <span style="color:#ff7b72;font-weight:bold">=</span> foo2<span style="color:#ff7b72;font-weight:bold">.</span>Remove<span style="color:#ff7b72;font-weight:bold">(</span>3<span style="color:#ff7b72;font-weight:bold">,</span>1<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In this examples we even already see a little bit of OO, because we call methods that <code>string</code> provides.
+But looking at the examples we still see that also <code>string</code> behaves much like <code>int</code>. If we add
+two strings together we don&rsquo;t modify a string. Instead we create a whole new string instead.</p>
+<p>We can observe the same with our method calls. Calling <code>foo1.Replace('1', '2')</code> doesn&rsquo;t change <code>foo1</code>
+instead we get a new string back with our change applied.</p>
+<h3 id="list-is-immutable"><code>list</code> is immutable</h3>
+<p>So let&rsquo;s look into a more advanced immutable data-type a <code>list</code> in F#. (This is not
+<code>System.Collections.Generic.List&lt;T&gt;</code>).</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">data</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">[</span>1<span style="color:#ff7b72;font-weight:bold">;</span>2<span style="color:#ff7b72;font-weight:bold">;</span>3<span style="color:#ff7b72;font-weight:bold">;</span>4<span style="color:#ff7b72;font-weight:bold">;</span>5<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Usually we want operation for List, for example we want to add elements. In F# we could write something
+like this:</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">data2</span> <span style="color:#ff7b72;font-weight:bold">=</span> 0 <span style="color:#ff7b72;font-weight:bold">::</span> data
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In the same spirit like <code>+</code> we have <code>::</code> for adding an element to the top of a list. But instead
+of modifying the list itself, we get a new list back. It is now important to note that now we have
+two lists. <code>data</code> now contains <code>[1;2;3;4;5]</code> and <code>data2</code> contains <code>[0;1;2;3;4;5]</code>.</p>
+<p>From the examples so far we actually can see a <em>pattern</em>. All of our functions take some arguments.
+But they always <em>return</em> us something new with our wanted modification applied. That alone means
+we can often identify mutation by looking at the function signature. Functions without a return
+value that just return <em>unit</em> or similar <em>void</em> in C# <em>often</em> mutate data. This alone is
+not a proof, but a very high indicator.</p>
+<p>So, let&rsquo;s assume we want to do some more real-world stuff with our list. Let&rsquo;s assume we want to multiply
+each element in an <code>int list</code>. Usually in imperative languages like C# you can see something like this:</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#ff7b72">for</span> (<span style="color:#ff7b72">int</span> i=<span style="color:#a5d6ff">0</span>; i&lt;array.Count-<span style="color:#a5d6ff">1</span>; i++) {
+</span></span><span style="display:flex;"><span>    array[i] = array[i] * <span style="color:#a5d6ff">2</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>but in an immutable world we would create a whole new list with our change applied. Instead of
+direct looping we use functions instead. So for example we have <code>List.map</code> that does this kind of
+operation for us.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">data</span>  <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">[</span>1<span style="color:#ff7b72;font-weight:bold">;</span>2<span style="color:#ff7b72;font-weight:bold">;</span>3<span style="color:#ff7b72;font-weight:bold">;</span>4<span style="color:#ff7b72;font-weight:bold">;</span>5<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">data2</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">List</span>.map <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">fun</span> x <span style="color:#ff7b72;font-weight:bold">-&gt;</span> x <span style="color:#ff7b72;font-weight:bold">*</span> 2<span style="color:#ff7b72;font-weight:bold">)</span> data
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>After executing we once again have two lists. <code>data</code> that still contains <code>[1;2;3;4;5]</code> and
+<code>data2</code> that now contains <code>[2;4;6;8;10]</code>.</p>
+<h3 id="records-are-immutable">Records are immutable</h3>
+<p>Let&rsquo;s create another more advanced example. Let&rsquo;s create a <code>Person</code> type that represents a Person
+in a database.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">type</span> <span style="color:#f0883e;font-weight:bold">Person</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    Id<span style="color:#ff7b72;font-weight:bold">:</span>       int
+</span></span><span style="display:flex;"><span>    Name<span style="color:#ff7b72;font-weight:bold">:</span>     <span style="color:#ff7b72">string</span>
+</span></span><span style="display:flex;"><span>    Birthday<span style="color:#ff7b72;font-weight:bold">:</span> DateTime
+</span></span><span style="display:flex;"><span>    Likes<span style="color:#ff7b72;font-weight:bold">:</span>    <span style="color:#ff7b72">string</span> <span style="color:#ff7b72">list</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now could create a Person like this</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">me</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    Id       <span style="color:#ff7b72;font-weight:bold">=</span> 1
+</span></span><span style="display:flex;"><span>    Name     <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;David Raab&#34;</span>
+</span></span><span style="display:flex;"><span>    Birthday <span style="color:#ff7b72;font-weight:bold">=</span> DateTime<span style="color:#ff7b72;font-weight:bold">(</span>1983<span style="color:#ff7b72;font-weight:bold">,</span> 02<span style="color:#ff7b72;font-weight:bold">,</span> 19<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    Likes    <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">[</span><span style="color:#a5d6ff">&#34;Pizza&#34;</span><span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This is a record in F#, and like all other data-types it is also <em>immutable</em> by default.
+So now let&rsquo;s assume we want to change some parts.I like &ldquo;dark chocolate&rdquo; and &ldquo;tea&rdquo; so
+let&rsquo;s add them. Because we cannot change our data, we have to create a new record instead.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">me2</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    Id       <span style="color:#ff7b72;font-weight:bold">=</span> me<span style="color:#ff7b72;font-weight:bold">.</span>Id
+</span></span><span style="display:flex;"><span>    Name     <span style="color:#ff7b72;font-weight:bold">=</span> me<span style="color:#ff7b72;font-weight:bold">.</span>Name
+</span></span><span style="display:flex;"><span>    Birthday <span style="color:#ff7b72;font-weight:bold">=</span> me<span style="color:#ff7b72;font-weight:bold">.</span>Birthday
+</span></span><span style="display:flex;"><span>    Likes    <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;Tea&#34;</span> <span style="color:#ff7b72;font-weight:bold">::</span> <span style="color:#a5d6ff">&#34;Dark Chocolate&#34;</span> <span style="color:#ff7b72;font-weight:bold">::</span> me<span style="color:#ff7b72;font-weight:bold">.</span>Likes
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>What we now have are two separate variables. <code>me</code> still represents</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    Id       <span style="color:#ff7b72;font-weight:bold">=</span> 1
+</span></span><span style="display:flex;"><span>    Name     <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;David Raab&#34;</span>
+</span></span><span style="display:flex;"><span>    Birthday <span style="color:#ff7b72;font-weight:bold">=</span> 19<span style="color:#ff7b72;font-weight:bold">.</span>02<span style="color:#ff7b72;font-weight:bold">.</span>1983 00<span style="color:#ff7b72;font-weight:bold">:</span>00<span style="color:#ff7b72;font-weight:bold">:</span>00
+</span></span><span style="display:flex;"><span>    Likes    <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">[</span><span style="color:#a5d6ff">&#34;Pizza&#34;</span><span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>while <code>me2</code> represents</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    Id       <span style="color:#ff7b72;font-weight:bold">=</span> 1
+</span></span><span style="display:flex;"><span>    Name     <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;David Raab&#34;</span>
+</span></span><span style="display:flex;"><span>    Birthday <span style="color:#ff7b72;font-weight:bold">=</span> 19<span style="color:#ff7b72;font-weight:bold">.</span>02<span style="color:#ff7b72;font-weight:bold">.</span>1983 00<span style="color:#ff7b72;font-weight:bold">:</span>00<span style="color:#ff7b72;font-weight:bold">:</span>00
+</span></span><span style="display:flex;"><span>    Likes    <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">[</span><span style="color:#a5d6ff">&#34;Tea&#34;</span><span style="color:#ff7b72;font-weight:bold">;</span> <span style="color:#a5d6ff">&#34;Dark Chocolate&#34;</span><span style="color:#ff7b72;font-weight:bold">;</span> <span style="color:#a5d6ff">&#34;Pizza&#34;</span><span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Such a <em>copy &amp; update</em> operation for records is quite common so F# provides a built-in
+language construct for it. We also could have written.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">me2</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span>me <span style="color:#ff7b72">with</span> Likes <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;Tea&#34;</span> <span style="color:#ff7b72;font-weight:bold">::</span> <span style="color:#a5d6ff">&#34;Dark Chocolate&#34;</span> <span style="color:#ff7b72;font-weight:bold">::</span> me<span style="color:#ff7b72;font-weight:bold">.</span>Likes<span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So <em>immutability</em> is about data that cannot be changed. But when we want to change something
+we usually call a function that can create something new for us. Let&rsquo;s actually simplify
+our example even more. Let&rsquo;s create a <code>addLike</code> function instead of using the <code>copy &amp; update</code>
+mechanism all over our code.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">addLike</span> likes person <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span>person <span style="color:#ff7b72">with</span> Likes <span style="color:#ff7b72;font-weight:bold">=</span> likes <span style="color:#ff7b72;font-weight:bold">::</span> person<span style="color:#ff7b72;font-weight:bold">.</span>Likes<span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>What we now have is a function that takes two arguments. A <code>string</code> <code>likes</code> that we want to add
+and a <code>Person</code> record as its second argument. The function will then return a <em>new</em> <code>Person</code>
+record. Now we also could add our Elements by using <code>addLike</code> instead.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">me2</span> <span style="color:#ff7b72;font-weight:bold">=</span> addLike <span style="color:#a5d6ff">&#34;Dark Chocolate&#34;</span> me
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">me3</span> <span style="color:#ff7b72;font-weight:bold">=</span> addLike <span style="color:#a5d6ff">&#34;Tea&#34;</span> me2
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In this example we call <code>addLike</code> with <code>Dark Chocolate</code> and <code>me</code>. And we get a new <code>Person</code> back
+with our change applied. Then we use <code>addLike</code> on <code>me2</code> to create our final <code>me3</code>.</p>
+<p>It can feel a little awkward to create a lot of intermediate variables, but we can get rid of them
+by chaining functions with <code>|&gt;</code>. So we also could have written it like this.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">me2</span> <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    me
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|&gt;</span> addLike <span style="color:#a5d6ff">&#34;Dark Chocolate&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|&gt;</span> addLike <span style="color:#a5d6ff">&#34;Tea&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Here <code>me</code> is <em>piped-into</em> <code>addLike &quot;Dark Chocolate&quot;</code>. This will result in a new <code>Person</code> record
+that then is once again <em>piped-into</em> <code>addLike &quot;Tea&quot;</code>. In object-oriented programming we could
+achieve something similar if we have a <code>Person</code> class with a method <code>AddLike</code> that returns a
+new <code>Person</code> object, instead of modifying some <code>private</code> fields. in C# this would result into
+something like this</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#ff7b72">var</span> me2 =
+</span></span><span style="display:flex;"><span>    me
+</span></span><span style="display:flex;"><span>    .AddLike(<span style="color:#a5d6ff">&#34;Dark Chocolate&#34;</span>)
+</span></span><span style="display:flex;"><span>    .AddLike(<span style="color:#a5d6ff">&#34;Tea&#34;</span>);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This is similar to <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent Interfaces</a>.
+But the important point is that <code>me</code> as an object don&rsquo;t get modified. <code>AddLike</code> would return
+a whole new <code>Person</code> object with your operation applied. Because it is once again a <code>Person</code>
+you can chain methods. You also can get a <em>fluent-interface</em> by just returning <em>this</em> after
+each modification. It would look the same. But in the end <code>me</code> and <code>me2</code> would be references
+to the same object, and <code>me</code> would be changed.</p>
+<h2 id="pure-functions">Pure functions</h2>
+<p>In a <em>functional-only</em> language we could probably stop at this point. <em>Data</em> and <em>functions</em>
+are clearly separated, immutability is only about <em>data</em> that does not change. The big problem
+arises if a language also supports classes. Because a class is about <em>hiding data</em>
+and additionally contains <em>functions</em>, it introduces a lot of complexity. To understand
+the reason of this complexity, we first need to talk about <em>pure</em> and <em>impure</em> functions on
+its own.</p>
+<h3 id="side-effects">Side-effects</h3>
+<p><em>Pure</em> functions are only those functions that don&rsquo;t have any kind of side-effects. So
+what exactly is a <em>side-effect</em>? A simple explanation would be: <em>A function only can
+depend on its input</em>. Calling a function with the same input, <em>always</em> has to produce the
+same output. No matter how often, or at what time you call it. We can view <code>+</code> as a pure function.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> 3 <span style="color:#ff7b72;font-weight:bold">+</span> 5
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>No matter how often or at what time we execute the above statement, <code>x</code> should always be <code>8</code>.
+If at some point it is <em>possible</em> that it could return something different, we would have
+an <em>impure</em> function.</p>
+<p>In this example it seems even natural that we don&rsquo;t want any <em>impure</em> function. A <code>3 + 5</code>
+that sometimes could return something different sounds horrible. But the truth is, we
+often face <em>impure</em> functions and we usually also want them. Examples of <em>impure</em> functions are.</p>
+<ol>
+<li>Getting a random number</li>
+<li>Getting the current system time</li>
+<li>Getting the user input</li>
+<li>Reading data from a file</li>
+<li>Reading data from a network</li>
+</ol>
+<p>To deeper understand why they are impure. Which arguments would a function have that returns
+a random number? Usually we would say: <em>Such a function don&rsquo;t need any input</em>. And that is a problem.
+It means, whenever we call a function with no input. It always have to return the same output.
+So it just means, we cannot return <em>random numbers</em>, because otherwise that statement wouldn&rsquo;t be
+true. That&rsquo;s is also true for the other functions. We cannot for example implement a
+<code>readFile &quot;file.txt&quot;</code> function that returns the content of <code>&quot;file.txt&quot;</code>. Because that content
+could change every time. And whenever the content of the file changes. <code>readFile &quot;file.txt&quot;</code> would
+return something different.</p>
+<p>But currently we only only know half of the truth. Because a <em>function</em> still can be impure even
+following the above rule. There is even a second rule that a <em>pure function</em> have to fulfil:
+<em>We always can replace a pure function call with the value it produces, without that it yields any
+change to the program</em>.</p>
+<p>That means. Whenever we see <code>3 + 5</code>, we also could replace that calculations with <code>8</code>. Or if
+we see <code>readFile &quot;file.txt&quot;</code> we could replace all calls to <code>readFile &quot;file.txt&quot;</code> by the value
+that the first function call would produce. This also explains better why a <code>readFile &quot;file.txt&quot;</code>
+would be impure. If we call <code>readFile</code> and some time later once again, we would assume that it
+returns the new current state of the file. It also could yield an error if the function in the
+mean time was deleted. The point is, we expect that the function can return something
+different every time we call it.</p>
+<p>But this kind of description also eliminates some additional behaviour.</p>
+<ol>
+<li>We cannot print something to a console</li>
+<li>We cannot write to a file/database</li>
+<li>We cannot send data over network</li>
+</ol>
+<p>Let&rsquo;s assume we have <code>someFunction 5</code> that always will return <code>10</code> but also prints something
+to the console. We couldn&rsquo;t replace all calls to <code>someFunction 5</code> just with <code>10</code> because otherwise
+we lose all log statements in our console.</p>
+<p>Thinking over it, we could ask the question. Can we even write any useful program without
+side-effects? The answer is no. That is the reason why Erik Meijer often say:
+<em>We all love side-effects</em>. But that doesn&rsquo;t mean we want side-effects happenning all
+over our code in every function. If a statement like <code>3 + 5</code> could yield <code>10</code> that would
+probably drive a lot of people crazy, me too. We want side-effects but we somehow want to
+control them. We want to minimize side-effects as much as possible.</p>
+<p>So how do we do that? We first assume that impure functions do as little as possible and have
+nearly no logic at all, second we just assume that they return some immutable data! Those
+immutable data then can be used/transformed and so on by pure functions.</p>
+<h3 id="immutability-and-impure-functions">(Im)mutability and (im)pure functions</h3>
+<p>One interesting aspect is that both concepts are completely orthogonal. That means, we can have
+any combination of those. We can have pure functions that take mutable or immutable data, and return
+mutable or immutable data. And we can have impure functions that take and return mutable or immutable
+data. The thing is, mutability or immutability doesn&rsquo;t change whether a function is pure or not. This
+is important to understand that both concepts don&rsquo;t relate to each other. Let&rsquo;s for example look
+again at the above impure functions.</p>
+<ul>
+<li>A random number generator returns an immutable int/float</li>
+<li>A function returning the current time can return an immutable <code>DateTime</code></li>
+<li>A function that returns the user input returns an immutable string</li>
+<li>Reading a file or from a socket can also return an immutable string</li>
+<li>A function that prints something to the console takes an immutable string</li>
+<li>Sending/Serialization of data over network can take an immutable data-structure</li>
+</ul>
+<p>At this point, I cannot stress further how important it is to understand that immutability
+is all about data, not about functions or behaviour. We will see later why this is so important!</p>
+<h3 id="pure-functions-with-side-effects">Pure functions with side-effects</h3>
+<p>The last important point is that we can have pure-functions even if they have some kind of
+side-effects. A typical example of this is a function that has internal caching with a mutable
+variable.</p>
+<p>We could come to the conclusion that this is an impure function as another variable as a
+side-effects gets changed. But actually, such a function fulfil all rules we have above. Even
+the fact that it mutates some variable. It doesn&rsquo;t really matter, as such a function will still
+always return the exact same results to its input. And we always also could replace the function
+call with its output.</p>
+<p>This is important because people all to often try to look at implementations, but the implementation
+itself shouldn&rsquo;t matter at all. The only thing that should matter is how a function behaves. If
+a function behaves like a pure function it is a pure function. The same is also true for
+mutability. A lot of people try hard to get rid of mutability, sometimes that can lead to
+bad performance or in general can make the code harder to understand. For example it is also
+fine to have a function with internal mutable state. As long as that function behaves like a pure
+function and even gets/returns immutable data, it is absolutely fine to have mutable local variables.</p>
+<p>I would even state that this is a big advantage of F#! For example a lot
+of the functions from the <code>List</code> module turn a List into a mutable array, do some work on it, and
+turn it back into an immutable list. And overall we don&rsquo;t care that it does that. As long as we
+use a function and it behaves like a pure function returning immutable data, we are fine with it.</p>
+<h2 id="benefits-of-immutability">Benefits of Immutability</h2>
+<p>To shorten the example. Let&rsquo;s assume everything is mutable and a <em>reference-type</em> and it also
+applies to numbers. Saying that, lets look at the following code.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> 5
+</span></span><span style="display:flex;"><span>someFunction x
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">y</span> <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">+</span> 3
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>What value is <code>y</code> now? The answer is, we don&rsquo;t know! <code>someFunction</code> could have changed <code>x</code> to
+some other value without that we are aware of it. So after our function did run, we cannot
+know what <code>x</code> is, so we don&rsquo;t know what <code>y</code> is. But what does that overall mean?</p>
+<p>Usually we are told that functions, or also classes, methods should be treated as <em>block-boxes</em>.
+So we should never have to look at how something is implemented. But the thing is, as long we
+have mutable data, that concept cannot work. Because as long we have mutable data it means that
+a function could do more as documented. We actually can never be sure that <code>x</code> don&rsquo;t get changed
+until we look at how <code>someFunction</code> is implemented. Lets look at another problem.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">if</span> value<span style="color:#ff7b72;font-weight:bold">.</span>isValid <span style="color:#ff7b72">then</span>
+</span></span><span style="display:flex;"><span>    someFunction x
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">if</span> value<span style="color:#ff7b72;font-weight:bold">.</span>isValid <span style="color:#ff7b72">then</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72;font-weight:bold">...</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">...</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So what is the problem here? We are actually accessing <code>value.isValid</code> when it is <code>true</code>
+we enter the code. Once again we have <code>someFunction</code> using <code>value</code>. But wait, why do we now
+re-check <code>value.isValid</code>? It could <em>probably</em> be that the programmer in charge was drunk, but
+wait, can we be sure that the <code>value.isValid</code> is still true? In fact, as long as we have
+mutability the answer is <em>no</em>.</p>
+<p>The problem is we don&rsquo;t see the scope of our variables. It could be that our
+<code>someFunction</code> also has access to our <code>value</code> and modifies it. This sounds like a
+horrible programming-style but it is not so uncommon as you think. Did you ever had an
+array of objects, and returned an object from this array? If <em>yes</em>, you are open to such kind
+of errors. Because you have two functions that still can access the same object used at
+multiple places. And in fact we don&rsquo;t even need an array. Looking at object-oriented languages
+like C# nearly <em>everything</em> is actually a reference-type. <em>Objects</em> itself never get copied,
+only references are copied, and the only thing you pass around are references. This
+also means every function could hold a reference to some data and directly change
+those whenever it wants!</p>
+<p>So shortly, we cannot know if <code>value</code> still contains the same data. It already could have changed
+multiple times. This kind of possibility even raises with <em>multi-threaded</em> code. And
+I&rsquo;m not talking about <em>thread-safety</em> or <em>race-conditions</em> here. <code>value</code> could be thread-safe
+and still changed in the mean time. The thing is, mutability basically makes any kind of code
+hard or nearly completely unpredictable.</p>
+<p>The problem is, this kind of problem grows the bigger our program becomes. Multi-threading
+also increase that kind of problems by several magnitudes. And this is the overall problem.
+With more code we anyway face problems of designing and maintaining programs. Mutability
+just can create hard to track errors. It can become insanely hard to reason about some
+kind of code if at every blink of an eye every value can be changed at any time. Immutability
+overall can make code easier to read and maintain.</p>
+<p>We also can gain other benefits out of it, like easy do/undo systems, backtracking in recursive
+functions for free, and a lot of other stuff.</p>
+<h2 id="disadvantages-of-immutability">Disadvantages of Immutability</h2>
+<p>Nothing in the world really just have only benefits. Everything in the world has its advantages and
+its disadvantages. So what are the disadvantages of immutability?</p>
+<p>Mainly it is performance.
+Some people think that <em>copying</em> is the often problem or <em>memory</em>, but that isn&rsquo;t true. For example
+let&rsquo;s look at the list example. A lot of people assume that by adding an element to a list a whole
+list itself has to be copied. But that isn&rsquo;t true at all. For example adding an element to the top
+is an <em>O(1)</em> operation. It only can be made so efficient <em>because</em> of immutability. An immutable list
+is really just a data-structure that contains an element and a reference to another list.</p>
+<p>That&rsquo;s why adding/removing from the top is efficient, instead of adding/removing at the end like
+many people knew it from types like <code>List&lt;T&gt;</code> in C#. The only reason why you could safely reference
+another list is because of immutability. With mutable data this wouldn&rsquo;t be possible as
+a list can change. So sharing data with immutable data is very safe. That&rsquo;s also the reason
+why you probably hear often that immutability works better with multi-threaded system. Or
+functional languages have advantages with multi-threaded systems. It is because immutable data
+are preferred and used in such languages.</p>
+<p>But it doesn&rsquo;t change that there sometimes exists a problem where this is still a bottleneck
+or the culprit to performance problems. The problem with immutable-data is that you have to build
+them incrementally. A List with 1 Million elements is really build just as</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> 1 <span style="color:#ff7b72;font-weight:bold">::</span> 2 <span style="color:#ff7b72;font-weight:bold">::</span> 3 <span style="color:#ff7b72;font-weight:bold">::</span> 4 <span style="color:#ff7b72;font-weight:bold">::</span> <span style="color:#ff7b72;font-weight:bold">...</span> <span style="color:#ff7b72;font-weight:bold">::</span> []
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>or in other words. a lot of copy and create options. Sure a compiler or a runtime could have
+some optimization. F# probably have them for lists, but that overall doesn&rsquo;t change that
+immutability can sometimes lead to such problems. That is also the very reason why we have
+a <code>StringBuilder</code>.</p>
+<p>Also a <code>String</code> is immutable but concatenating a lot of strings can create a lot of garbage
+throw-away objects. A <code>StringBuilder</code> can actually close that bridge. A <code>StringBuilder</code> uses
+a mutable string, and once you are done, you can get an immutable <code>string</code> back.</p>
+<p>Other problems can arise that some problems or algorithms can be hard to implement with
+immutability. I just want to point again at what was said for <em>pure</em> functions. If you encounter
+such problems you always can convert some kind of data to some kind of mutable data. Do your
+operation, and convert it back to a immutable data-type.</p>
+<p>So it is still important to understand that not everything is shiny and automatically better.
+Immutability can sometime have it&rsquo;s own problems, but there exists solutions for it.</p>
+<h2 id="immutability-and-oo">Immutability and OO</h2>
+<p>Finally, we now have every knowledge to talk about immutability in object-oriented programming
+and why it is so damn hard. First, let&rsquo;s reconsider what an object is.</p>
+<p>The fundamental thing
+of object-oriented programming is to hide data and instead provide methods that do
+some stuff. We even have rules like <em>Law-of-Demeter</em> or <em>Tell don&rsquo;t ask</em> that express it.
+An object is not about asking it form some data, we usually just call a method to
+tell it that it should <em>do</em> something.</p>
+<p>Or in other words. Objects are just collection of functions. And here starts the problem. We
+actually learned that immutability has nothing to-do with functions at all! Immutability is
+about data not functions! Functions sure can be <em>pure</em> or <em>impure</em> but once again, we also
+learned that it doesn&rsquo;t matter at all for immutability. In fact we even consider it as good
+if we have side-effects that returns immutable data. That is how to solve the problem of
+side-effects. But just having data is usually discouraged in OO. OO has even it&rsquo;s own term
+for it. It is named the <em>Anemic Domain Model</em> to express if we have classes that just contains
+data.</p>
+<p>So, if object-oriented programming don&rsquo;t try to use data explicitly, if we only have objects
+that provides us functions (methods) to call. How on earth can we even talk about
+<em>immutable objects</em>? What should that thing even be? Does it even makes sense to talk
+about <em>immutable objects</em>? If we only provide methods, doesn&rsquo;t it make more sense to talk
+about <em>pure</em> and <em>impure objects</em> instead?</p>
+<p>To better see the problem, let&rsquo;s look at at the Random class.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">rng</span>    <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">System</span>.Random()
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">random</span> <span style="color:#ff7b72;font-weight:bold">=</span> rng<span style="color:#ff7b72;font-weight:bold">.</span>Next()<span style="color:#ff7b72;font-weight:bold">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Do we consider <code>rng</code> to be immutable or not? Let&rsquo;s look what we have. Besides the usual
+method inherited from <code>object</code> we only have three additional methods. <code>Next</code>, <code>NextDouble</code> and
+<code>NextBytes</code>. <code>rng</code> don&rsquo;t have any data or additional properties. We can call <code>Next</code> and
+we get an immutable <code>int</code> back. Besides that we cannot see any difference at all that <code>rng</code>
+itself changed at all! From the outside it looks like an immutable object!</p>
+<p>Sure we have knowledge on how a random class works. Usually we have an internal private field
+that holds the last generated number, with this the next number will be created when we call
+<code>Next</code>. But the point is, we cannot see that. Theoretically the implementation could also
+use no mutable field at all. It could just use the current time to generate a random number
+instead. So that <code>Next</code> is impure, but don&rsquo;t have any mutable field.</p>
+<p>From the outside the only thing we could say is that <code>Random</code> has three <em>impure</em> functions.
+And the object itself looks like immutable. We cannot see that any changes at all happens!</p>
+<p>So do we consider <code>Random</code> immutable or not? Actually if you really expect an answer, there
+isn&rsquo;t really one. Sure we could look at the implementation of it, but that is really bad,
+we shouldn&rsquo;t needed to look at some kind of implementation to determine if something is immutable
+or not. And as already explained above, it is anyway not a good idea. We should view something
+as immutable or pure by looking at how it behaves, not how it is implemented.</p>
+<p>So, now we are in a dilemma, how do we solve it? One thing we could do is to broaden the view of
+what an immutable object is. So we only consider something as immutable only if it has pure
+functions. As soon as we have one impure function on an object, we have to think that there
+exists a possibility that a private property could be modified.</p>
+<p>Let&rsquo;s look at another example that I saw some time ago. Someone provided a class like this</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">type</span> <span style="color:#f0883e;font-weight:bold">MutableSite</span><span style="color:#ff7b72;font-weight:bold">(</span>url<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">string</span><span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">member</span> <span style="color:#ff7b72">val</span> Url  <span style="color:#ff7b72;font-weight:bold">=</span> url
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">member</span> <span style="color:#ff7b72">val</span> Text <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;&#34;</span>  <span style="color:#ff7b72">with</span> get<span style="color:#ff7b72;font-weight:bold">,</span>set
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">member</span> this.<span style="color:#d2a8ff;font-weight:bold">Download</span>() <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">use</span> wc      <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">new</span> <span style="color:#ff7b72">System</span>.<span style="color:#ff7b72">Net</span>.WebClient()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">content</span> <span style="color:#ff7b72;font-weight:bold">=</span> wc<span style="color:#ff7b72;font-weight:bold">.</span>DownloadString<span style="color:#ff7b72;font-weight:bold">(</span>this<span style="color:#ff7b72;font-weight:bold">.</span>Url<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>        this<span style="color:#ff7b72;font-weight:bold">.</span>Text <span style="color:#ff7b72;font-weight:bold">&lt;-</span> content
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So, we have obviously a mutable object, right? We have an mutable <code>Text</code>. To fetch the current
+site we call <code>Download</code> that mutates <code>Text</code>. So let&rsquo;s look how that person made it immutable.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">type</span> <span style="color:#f0883e;font-weight:bold">ImmutableSite</span><span style="color:#ff7b72;font-weight:bold">(</span>url<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">string</span><span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">member</span> <span style="color:#ff7b72">val</span> Url <span style="color:#ff7b72;font-weight:bold">=</span> url
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">member</span> this.<span style="color:#d2a8ff;font-weight:bold">Text</span>() <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">use</span> wc      <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">new</span> <span style="color:#ff7b72">System</span>.<span style="color:#ff7b72">Net</span>.WebClient()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">content</span> <span style="color:#ff7b72;font-weight:bold">=</span> wc<span style="color:#ff7b72;font-weight:bold">.</span>DownloadString<span style="color:#ff7b72;font-weight:bold">(</span>this<span style="color:#ff7b72;font-weight:bold">.</span>Url<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>        content
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So, he just eliminated the <code>Text</code> field. Instead he created a <code>Text</code> method that would
+directly download the site and return the content. Obviously he thought that now he
+had an immutable class. And actually that things is just silly. Both version don&rsquo;t
+differ at all!</p>
+<p>What is the difference between a <code>Text</code> field that always can return another string after
+we called <code>Download</code>, or a <code>Text</code> method that directly return a new string whenever
+we call the method? There is no difference at all between both version. The problem
+is that <code>Text</code> always can return something different. If it
+is either a mutable field or an impure method doesn&rsquo;t matter at all! Actually it even could
+also just be a property that could do this kind of stuff, so it doesn&rsquo;t even look any different
+to a normal mutable field instead of a method call.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">type</span> <span style="color:#f0883e;font-weight:bold">SiteWithProperty</span><span style="color:#ff7b72;font-weight:bold">(</span>url<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">string</span><span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">member</span> this.<span style="color:#d2a8ff;font-weight:bold">Url</span>  <span style="color:#ff7b72;font-weight:bold">=</span> url
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">member</span> this.<span style="color:#d2a8ff;font-weight:bold">Text</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">with</span> get() <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">use</span> wc      <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">new</span> <span style="color:#ff7b72">System</span>.<span style="color:#ff7b72">Net</span>.WebClient()
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">content</span> <span style="color:#ff7b72;font-weight:bold">=</span> wc<span style="color:#ff7b72;font-weight:bold">.</span>DownloadString<span style="color:#ff7b72;font-weight:bold">(</span>this<span style="color:#ff7b72;font-weight:bold">.</span>Url<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>            content
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The thing is, he thought he made any improvement just because he eliminated a mutable field,
+but actually that change don&rsquo;t matter at all. Whether you
+have a <code>Text</code> field that can change, a <code>Text</code> property that changes, or a <code>Text</code> method,
+in the end, <code>Text</code> always can return something different if you try to access it. So it
+improves nothing at all. We don&rsquo;t get any <em>benefits</em> at all that we should get
+by imposing immutability.</p>
+<p>This example just shows how hard it is to reason about immutable objects. The problem is
+the combination of functions and data in one container like a class. And there is even another
+problem. Actually it is just fine to have <em>impure functions</em> that return immutable data. But
+how do we do that if we consider <em>impure functions</em> on an object as bad?</p>
+<p>Actually in functional programming we don&rsquo;t have that problem at all. As every function stands on
+its own. Sure we group them in Modules, but it doesn&rsquo;t mean a function is part of some kind
+of structure. We can reason about every function separately. We can have pure and impure functions.
+And none of those changes the fact that we have immutable data. But in a class you combine
+functions with some kind of data in one container, the result is that we have to view an object
+as mutable as soon as it provides an impure method. The reason is that it behaves exactly
+like a mutable field would do.</p>
+<p>So how do we create our impure functions in object-oriented programming? As we learned,
+we just need them to do anything useful. Just eliminating all kind of impure functions
+doesn&rsquo;t help us to solve any problems. The only way out of it is if you write static methods
+for impure functions. In this way you can separate impure functions from pure functions
+and an object could be considered as pure/immutable as long it only has pure methods.
+So let&rsquo;s consider how a good immutable object should look like.</p>
+<h2 id="how-to-design-immutable-objects">How to Design immutable objects</h2>
+<ol>
+<li>An immutable class don&rsquo;t have <em>hidden</em> (<code>private</code>) fields. <code>private</code> in the sense of hidden fields
+not exposed to the user. Sure a class can have <code>private</code> fields for its data. But a class always
+have to provide access to the data through a <em>readonly getter</em>. If you have <em>hidden</em> fields not
+exposed to the user, we cannot be sure that an object is <em>immutable</em> at all.</li>
+<li>A class should only contain <em>pure functions</em> (methods). We don&rsquo;t knew if an impure function
+modifies probably some hidden field or not. And it also doesn&rsquo;t matter. As soon we have a method
+that can return something different on every call we also cannot view it as <em>immutable</em>. If
+a field got changed alongside it or not doesn&rsquo;t matter at all. We judge <em>immutability</em> on how
+it behaves, not in how it is implemented. Because functions and data are mixed together in a class.
+We have to view every <em>impure method</em> as a violation against <em>immutability</em>.</li>
+<li>All <em>impure</em> functions should be static methods on a class, or extracted into it&rsquo;s own class.
+Let&rsquo;s look at <code>DateTime</code> as an example. For example we have <code>DateTime.Now</code> or <code>DateTime.Today</code>. Those
+are impure properties as they always return a different <code>DateTime</code> whenever we call it. But once we
+have a <code>DateTime</code> object we only have <em>pure methods</em> operating on it. All data are accessible
+through getters. All methods are <em>pure</em>.</li>
+<li>As we learned at the beginning, immutability is not about forbidding change, so an immutable
+objects should have a lot of methods that gives us easy ways to create new objects with our needed
+modification. If you don&rsquo;t provide them, it will probably painful to work with your objects. You
+can look again at <code>DateTime</code>. We have rich ways like <code>Add</code>, <code>AddDays</code>, <code>AddHours</code>, <code>AddMinutes</code> to
+create new DateTime objects. All of those methods return a new <code>DateTime</code> instead of mutating a field.</li>
+</ol>
+<p>So let&rsquo;s reconsider the <code>Site</code> class above. How should an immutable <code>Site</code> class looks like?</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">type</span> <span style="color:#f0883e;font-weight:bold">SiteImmutable</span><span style="color:#ff7b72;font-weight:bold">(</span>url<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">string</span><span style="color:#ff7b72;font-weight:bold">,</span> content<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">string</span><span style="color:#ff7b72;font-weight:bold">,</span> size<span style="color:#ff7b72;font-weight:bold">:</span>int<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">member</span> <span style="color:#ff7b72">val</span> Url     <span style="color:#ff7b72;font-weight:bold">=</span> url
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">member</span> <span style="color:#ff7b72">val</span> Content <span style="color:#ff7b72;font-weight:bold">=</span> content
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">member</span> <span style="color:#ff7b72">val</span> Size    <span style="color:#ff7b72;font-weight:bold">=</span> size
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">member</span> Download<span style="color:#ff7b72;font-weight:bold">(</span>url<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">string</span><span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">use</span> wc      <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">new</span> <span style="color:#ff7b72">System</span>.<span style="color:#ff7b72">Net</span>.WebClient()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">content</span> <span style="color:#ff7b72;font-weight:bold">=</span> wc<span style="color:#ff7b72;font-weight:bold">.</span>DownloadString<span style="color:#ff7b72;font-weight:bold">(</span>url<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>        SiteImmutable<span style="color:#ff7b72;font-weight:bold">(</span>url<span style="color:#ff7b72;font-weight:bold">,</span> content<span style="color:#ff7b72;font-weight:bold">,</span> content<span style="color:#ff7b72;font-weight:bold">.</span>Length<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So what we really have is a class with our immutable fields. Our member fields
+cannot be changed later as they are immutable. Our class constructor has to be pure, the
+same as all methods. The creation of our immutable object is handled by a <em>static impure method</em>
+<code>let site = SiteImmutable.Download(&quot;http://example.org&quot;)</code></p>
+<p>Let&rsquo;s for example consider we later want an <code>Update</code> method, so we can re-fetch the <code>content</code> of a
+<code>site</code>. Instead of providing an <em>impure</em> <code>Update</code> method we have to provide an <em>impure static method</em>
+that does this for us.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">type</span> <span style="color:#f0883e;font-weight:bold">SiteImmutable</span><span style="color:#ff7b72;font-weight:bold">(</span>url<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">string</span><span style="color:#ff7b72;font-weight:bold">,</span> content<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">string</span><span style="color:#ff7b72;font-weight:bold">,</span> size<span style="color:#ff7b72;font-weight:bold">:</span>int<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">member</span> <span style="color:#ff7b72">val</span> Url     <span style="color:#ff7b72;font-weight:bold">=</span> url
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">member</span> <span style="color:#ff7b72">val</span> Content <span style="color:#ff7b72;font-weight:bold">=</span> content
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">member</span> <span style="color:#ff7b72">val</span> Size    <span style="color:#ff7b72;font-weight:bold">=</span> size
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">member</span> Download<span style="color:#ff7b72;font-weight:bold">(</span>url<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">string</span><span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">use</span> wc      <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">new</span> <span style="color:#ff7b72">System</span>.<span style="color:#ff7b72">Net</span>.WebClient()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">content</span> <span style="color:#ff7b72;font-weight:bold">=</span> wc<span style="color:#ff7b72;font-weight:bold">.</span>DownloadString<span style="color:#ff7b72;font-weight:bold">(</span>url<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>        SiteImmutable<span style="color:#ff7b72;font-weight:bold">(</span>url<span style="color:#ff7b72;font-weight:bold">,</span> content<span style="color:#ff7b72;font-weight:bold">,</span> content<span style="color:#ff7b72;font-weight:bold">.</span>Length<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">member</span> Update<span style="color:#ff7b72;font-weight:bold">(</span>site<span style="color:#ff7b72;font-weight:bold">:</span>SiteImmutable<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">use</span> wc      <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">new</span> <span style="color:#ff7b72">System</span>.<span style="color:#ff7b72">Net</span>.WebClient()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">content</span> <span style="color:#ff7b72;font-weight:bold">=</span> wc<span style="color:#ff7b72;font-weight:bold">.</span>DownloadString<span style="color:#ff7b72;font-weight:bold">(</span>site<span style="color:#ff7b72;font-weight:bold">.</span>Url<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>        SiteImmutable<span style="color:#ff7b72;font-weight:bold">(</span>site<span style="color:#ff7b72;font-weight:bold">.</span>Url<span style="color:#ff7b72;font-weight:bold">,</span> content<span style="color:#ff7b72;font-weight:bold">,</span> content<span style="color:#ff7b72;font-weight:bold">.</span>Length<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So if a user wants to update the content of an object he can do something like this</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">site</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">SiteImmutable</span>.Download<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;http://example.org&#34;</span><span style="color:#ff7b72;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// Later...
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">updatedSite</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">SiteImmutable</span>.Update<span style="color:#ff7b72;font-weight:bold">(</span>site<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="conclusion">Conclusion</h2>
+<p>Immutability itself is actually an easy concept. The problem starts when we don&rsquo;t separate
+data and functions clearly from each other like OO programming does it. To really embrace
+immutability in OOP you have to forget a lot of stuff you were taught that should be good. Create
+pure data-objects as much as possible. Don&rsquo;t implement <em>impure</em> methods on such data-objects.
+Instead create <em>impure static methods</em>. Those should be as small as possible with as
+little logic possible. They should return an immutable data-objects as soon as possible.</p>
+<p>A good place for <em>impure functions</em> are <em>static methods</em> or either create special
+<em>impure/mutable</em> objects instead. But don&rsquo;t try to implement a lot of logic for them,
+provide methods to convert an mutable object to an immutable object. <code>StringBuilder</code>
+is a good example for an mutable object that fixes the performance problems for creating
+complex strings. Once you are done you convert a <code>StringBuilder</code> instance to an
+immutable <code>string</code>.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://two-wrongs.com/the-case-for-controlled-side-effects">The Case for Controlled Side Effects</a></li>
+<li><a href="http://fsharpforfunandprofit.com/posts/is-your-language-unreasonable/">Is your language unreasonable</a></li>
+<li><a href="https://blogs.msdn.microsoft.com/wesdyer/2007/03/01/immutability-purity-and-referential-transparency/">Immutability, Purity, and Referential Transparency</a></li>
+<li><a href="https://medium.com/@cscalfani/so-you-want-to-be-a-functional-programmer-part-1-1f15e387e536">So You Want to be a Functional Programmer (Part 1)</a></li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

@@ -6,11 +6,11 @@
     <description>Recent content in refactoring on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 09 Mar 2016 01:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/refactoring/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 09 Mar 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/refactoring/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Applying Structured Programming</title>
       <link>https://davidraab.github.io/posts/applying-structured-programming/</link>
-      <pubDate>Wed, 09 Mar 2016 01:00:00 +0000</pubDate>
+      <pubDate>Wed, 09 Mar 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/posts/applying-structured-programming/</guid>
       <description>In my previous post about Structured Programming I talked about that basic looping constructs fold. But this is still to powerful. In the sense of readability we should try to eliminate them with more specific ones. In this post I go through a toy example to show the various ways on how to refactor some code.
