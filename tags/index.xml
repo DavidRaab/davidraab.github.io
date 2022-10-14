@@ -6,7 +6,25 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 20 Mar 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 24 Mar 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FSharp</title>
+      <link>https://davidraab.github.io/tags/fsharp/</link>
+      <pubDate>Thu, 24 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/fsharp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>polymorphism</title>
+      <link>https://davidraab.github.io/tags/polymorphism/</link>
+      <pubDate>Thu, 24 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/polymorphism/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>CSharp</title>
       <link>https://davidraab.github.io/tags/csharp/</link>
@@ -22,15 +40,6 @@
       <pubDate>Sun, 20 Mar 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/evil/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>FSharp</title>
-      <link>https://davidraab.github.io/tags/fsharp/</link>
-      <pubDate>Sun, 20 Mar 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/fsharp/</guid>
       <description></description>
     </item>
     

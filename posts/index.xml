@@ -6,7 +6,16 @@
     <description>Recent content in Posts on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 20 Mar 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 24 Mar 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Higher-kinded Polymorphism: What is it, why you want it</title>
+      <link>https://davidraab.github.io/posts/higher-kinded-polymorphism/</link>
+      <pubDate>Thu, 24 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/higher-kinded-polymorphism/</guid>
+      <description>One aspect of a programming language that is often noted as important is the idea of Polymorphism. But there doesn&amp;rsquo;t exists just one type of polymorphism. In functional languages Parametric Polymorphism (aka Generics) is often used. Haskell was the first language that introduced &amp;ldquo;Higher-kinded polymorphism&amp;rdquo;. Sadly, F# don&amp;rsquo;t support this kind of polymorphism directly. Actually it only has partial support for it. So let&amp;rsquo;s look in what it is, and why you want it.</description>
+    </item>
+    
     <item>
       <title>null is Evil</title>
       <link>https://davidraab.github.io/posts/null-is-evil/</link>

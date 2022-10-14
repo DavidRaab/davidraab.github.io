@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Higher-kinded Polymorphism: What is it, why you want it // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="Explains Higher-Kinded Polymorphism" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.a8546077d48c47c89a814549279adb362800e0bf9e49e90fe38c4f6ee35bff70.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Higher-kinded Polymorphism: What is it, why you want it"/>
+<meta name="twitter:description" content="Explains Higher-Kinded Polymorphism"/>
+
+    <meta property="og:title" content="Higher-kinded Polymorphism: What is it, why you want it" />
+<meta property="og:description" content="Explains Higher-Kinded Polymorphism" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/higher-kinded-polymorphism/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-03-24T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-03-24T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Higher-kinded Polymorphism: What is it, why you want it</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Mar 24, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          11 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/polymorphism/">polymorphism</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>One aspect of a programming language that is often noted as important is the idea of <em>Polymorphism</em>.
+But there doesn&rsquo;t exists just one type of polymorphism. In functional languages <em>Parametric
+Polymorphism</em> (aka Generics) is often used. Haskell was the first language that introduced
+&ldquo;Higher-kinded polymorphism&rdquo;. Sadly, F# don&rsquo;t support this kind of polymorphism directly. Actually it
+only has partial support for it. So let&rsquo;s look in what it is, and why you want it.</p>
+<h2 id="polymorphism">Polymorphism</h2>
+<p>Before we go deeper let&rsquo;s recap what polymorphism is about. Polymorphism is the idea
+that you can write code that looks the same. But it can do different things depending on the
+concrete type.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> 1 <span style="color:#ff7b72;font-weight:bold">+</span> 3
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">y</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;foo&#34;</span> <span style="color:#ff7b72;font-weight:bold">+</span> <span style="color:#a5d6ff">&#34;bar&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As we see here, we have a polymorphic <code>+</code>. Depending on it&rsquo;s type, it does different things.
+It either can add two <code>int</code> or add two <code>string</code>. It is important to note that the types itself
+still remain the same. <code>+</code> is polymorphic because it can be used with different types, but every
+type can have it&rsquo;s own implementation.</p>
+<p>This idea is important because it can greatly help to make code readable. Let&rsquo;s assume we wouldn&rsquo;t
+be able to write a polymorphic <code>+</code>, so <code>+</code> always can only operate on a concrete predefined type.
+If that would be true, we actually would need different <code>+</code> operators for every type. For example
+OCaml doesn&rsquo;t support this kind of polymorphism, so OCaml has two different types for adding
+<code>int</code> and <code>float</code></p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ocaml" data-lang="ocaml"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> x <span style="color:#ff7b72;font-weight:bold">=</span> a <span style="color:#ff7b72;font-weight:bold">+</span> b  <span style="color:#ff7b72;font-weight:bold">//</span> <span style="color:#ff7b72">int</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> y <span style="color:#ff7b72;font-weight:bold">=</span> a <span style="color:#ff7b72;font-weight:bold">+.</span> b <span style="color:#ff7b72;font-weight:bold">//</span> <span style="color:#ff7b72">float</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So if you want to add a <code>string</code> you need yet again another operator/function. So Polymorphism can
+greatly help, because we can create the general concept of <em>add two things</em>. And we can use this
+operation with different types.</p>
+<h2 id="higher-kinded-polymorphism">Higher-kinded polymorphism</h2>
+<p>Now let&rsquo;s assume we want to write a function that just adds two <code>int</code> together. We could just write</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">add</span> x y <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">+</span> y
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But when we inspect the type-signature of this function, we get <code>int -&gt; int -&gt; int</code>. The reason for this
+is that the type-inference system of the F# compiler defaults to <code>int</code>. But actually the type
+can change if we use <code>add</code> with a different type. For example if we write</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">add</span> x y <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">+</span> y
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">result</span> <span style="color:#ff7b72;font-weight:bold">=</span> add 1<span style="color:#ff7b72;font-weight:bold">.</span>3 2<span style="color:#ff7b72;font-weight:bold">.</span>1
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now have <code>add</code> with the signature <code>float -&gt; float -&gt; float</code>. But it is still important to note that
+<code>add</code> now only can work with float. Using it like these</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">add</span> x y <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">+</span> y
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">r1</span> <span style="color:#ff7b72;font-weight:bold">=</span> add 1<span style="color:#ff7b72;font-weight:bold">.</span>3 2<span style="color:#ff7b72;font-weight:bold">.</span>1
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">r2</span> <span style="color:#ff7b72;font-weight:bold">=</span> add 3 4
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>will create errors at line 3 saying that <code>3</code> and <code>4</code> was expected to be of type <code>float</code>
+but we provided <code>int</code> as a value.</p>
+<p>The problem we have is that <code>add</code> itself is not polymorphic at all. But let&rsquo;s consider, why do we have
+that behaviour anyway? The only thing we do is add two things together, adding two things together is
+polymorphic, so doesn&rsquo;t make it sense that <code>add</code> also should be polymorphic? Well yes, it makes sense,
+but this is not what F# does by default. At default it tries to get concrete types or also generic
+types. But it cannot automatically create Polymorphic functions that accepts all types that can be
+added (+), for instance.</p>
+<p>But as said before, F# supports this kind of stuff partly. Indeed we can fix this problem
+very easily with the <code>inline</code> keyword.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">inline</span> add x y <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">+</span> y
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">r1</span> <span style="color:#ff7b72;font-weight:bold">=</span> add 1<span style="color:#ff7b72;font-weight:bold">.</span>3 2<span style="color:#ff7b72;font-weight:bold">.</span>1
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">r2</span> <span style="color:#ff7b72;font-weight:bold">=</span> add 3 4
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now all compiler errors are gone. Let&rsquo;s look at the type-signature of <code>add</code> again.</p>
+<pre><code>'a -&gt; 'b -&gt; 'c (requires member (+))
+</code></pre>
+<p>What we now have is a function that can take two generic values. But not any kind of generics. Both
+generics must support the <code>+</code> operation. It is also important to look at the return types. <code>r1</code> is
+of type <code>float</code> while <code>r2</code> is of type <code>int</code>. If you come from a C# background it could probably be that
+you are not impressed, but actually such kind of function is not possible to write in C#. In C# you
+always have to provide explicit arguments, and you have to write two version of <code>Add</code> if the return
+type should remain the same.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#ff7b72">public</span> <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">int</span> Add(<span style="color:#ff7b72">int</span> x, <span style="color:#ff7b72">int</span> y) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> x + y;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">public</span> <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">float</span> Add(<span style="color:#ff7b72">float</span> x, <span style="color:#ff7b72">float</span> y) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> x + y;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Actually you cannot write it with a generic type like this:</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#ff7b72">public</span> <span style="color:#ff7b72">static</span> T Add&lt;T&gt;(T x, T y) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> x + y;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The problem with this code is. You cannot add two generic variables! What you really need is the ability
+to say: Allow any type that supports the <code>+</code> operation.</p>
+<p>Probably you will say: Okay but i don&rsquo;t need to write the <code>int</code> version. As <code>int</code> can implicitly convert
+to <code>float</code>, so the <code>float</code> version also works with <code>int</code>. That might be right, but it is not the same,
+your return type will also be <code>float</code> not <code>int</code> anymore. We could argue with <em>floating-point inaccuracy</em>
+on why it is not the same, but there is a better way to show the difference. What do you do if your type
+supports <code>+</code> but don&rsquo;t support a conversion to <code>float</code>?</p>
+<p>Let&rsquo;s assume we have the following <code>Vector3</code> type.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">type</span> <span style="color:#f0883e;font-weight:bold">Vector3</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span>X<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">float</span><span style="color:#ff7b72;font-weight:bold">;</span> Y<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">float</span><span style="color:#ff7b72;font-weight:bold">;</span> Z<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">float</span><span style="color:#ff7b72;font-weight:bold">}</span> <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">member</span> create x y z <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span>X<span style="color:#ff7b72;font-weight:bold">=</span>x<span style="color:#ff7b72;font-weight:bold">;</span> Y<span style="color:#ff7b72;font-weight:bold">=</span>y<span style="color:#ff7b72;font-weight:bold">;</span> Z<span style="color:#ff7b72;font-weight:bold">=</span>z<span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">member</span> <span style="color:#ff7b72;font-weight:bold">(+)</span> <span style="color:#ff7b72;font-weight:bold">(</span>a<span style="color:#ff7b72;font-weight:bold">,</span>b<span style="color:#ff7b72;font-weight:bold">)</span>    <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Vector3</span>.create <span style="color:#ff7b72;font-weight:bold">(</span>a<span style="color:#ff7b72;font-weight:bold">.</span>X <span style="color:#ff7b72;font-weight:bold">+</span> b<span style="color:#ff7b72;font-weight:bold">.</span>X<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>a<span style="color:#ff7b72;font-weight:bold">.</span>Y <span style="color:#ff7b72;font-weight:bold">+</span> b<span style="color:#ff7b72;font-weight:bold">.</span>Y<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>a<span style="color:#ff7b72;font-weight:bold">.</span>Z <span style="color:#ff7b72;font-weight:bold">+</span> b<span style="color:#ff7b72;font-weight:bold">.</span>Z<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now have our own <code>Vector3</code> and implemented <code>+</code> for it. The big advantage is now, that
+our <code>Vector3</code> also can be used with our polymorphic <code>add</code> function written in F#. But in C#
+you must create a new <code>Add</code> function instead, because we cannot convert a <code>Vector3</code> to a <code>float</code>.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">vec1</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Vector3</span>.create 1<span style="color:#ff7b72;font-weight:bold">.</span>0 1<span style="color:#ff7b72;font-weight:bold">.</span>0 1<span style="color:#ff7b72;font-weight:bold">.</span>0
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">vec2</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Vector3</span>.create 2<span style="color:#ff7b72;font-weight:bold">.</span>0 2<span style="color:#ff7b72;font-weight:bold">.</span>0 2<span style="color:#ff7b72;font-weight:bold">.</span>0
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">vec3</span> <span style="color:#ff7b72;font-weight:bold">=</span> add vec1 vec2
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now <code>vec3</code> will also be of type <code>Vector3</code> containing <code>{X = 3.0; Y = 3.0; Z = 3.0;}</code>. But probably
+now you will say. Okay, but our <code>add</code> function is some kind of silly. We also could use <code>+</code> directly
+and we wouldn&rsquo;t have the problem at all. So let&rsquo;s create a more advanced function that does a little
+bit more. Let&rsquo;s create an <code>average</code> function.</p>
+<p>To start, let&rsquo;s create a non-polymorphic <code>average</code> function that expects a <code>float list</code> as input, and
+returns the average.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">averageFloat</span> xs <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mutable</span> amount <span style="color:#ff7b72;font-weight:bold">=</span> 0   <span style="color:#8b949e;font-style:italic">// The amount of values we have
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mutable</span> sum    <span style="color:#ff7b72;font-weight:bold">=</span> 0<span style="color:#ff7b72;font-weight:bold">.</span>0 <span style="color:#8b949e;font-style:italic">// Zero for `float`
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    <span style="color:#ff7b72">for</span> x <span style="color:#ff7b72">in</span> xs <span style="color:#ff7b72">do</span>
+</span></span><span style="display:flex;"><span>        sum    <span style="color:#ff7b72;font-weight:bold">&lt;-</span> sum <span style="color:#ff7b72;font-weight:bold">+</span> x    <span style="color:#8b949e;font-style:italic">// Add for `float`
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>        amount <span style="color:#ff7b72;font-weight:bold">&lt;-</span> amount <span style="color:#ff7b72;font-weight:bold">+</span> 1
+</span></span><span style="display:flex;"><span>    sum <span style="color:#ff7b72;font-weight:bold">/</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">float</span> amount<span style="color:#ff7b72;font-weight:bold">)</span>     <span style="color:#8b949e;font-style:italic">// Divide by int for `float`
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> averageFloat <span style="color:#ff7b72;font-weight:bold">[</span>1<span style="color:#ff7b72;font-weight:bold">.</span>0 <span style="color:#ff7b72;font-weight:bold">..</span> 100<span style="color:#ff7b72;font-weight:bold">.</span>0<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#8b949e;font-style:italic">// 50.5
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Sure, we also could solve it more functional with recursion and immutable state, but this is not
+the point of the post!</p>
+<p>So, the question is, how can we made it more polymorphic? Just adding <code>inline</code> will not help in that
+case and made it automatically polymorphic. The problem is already the third line. We write
+<code>let mutable sum = 0.0</code>. Or in other words, we create explicitly a <code>float</code> at that point. Another
+problem is the last line <code>sum / (float amount)</code>. As here we convert <code>amount</code> an <code>int</code> to a <code>float</code>.</p>
+<p>To get this function polymorphic, we need three polymorphic behaviours that every type could implement
+on their own. We need.</p>
+<ol>
+<li>A polymorphic <em>get zero</em></li>
+<li>A polymorphic <em>+</em></li>
+<li>A polymorphic <em>divide something by an int</em></li>
+</ol>
+<p>Luckily all three interfaces are already part of the F# language, and we have helper functions for those
+operations. A truly polymorphic <code>average</code> would then look like this.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">inline</span> average <span style="color:#ff7b72;font-weight:bold">(</span>xs<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">&#39;</span>a <span style="color:#ff7b72">list</span><span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mutable</span> amount <span style="color:#ff7b72;font-weight:bold">=</span> 0
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mutable</span> sum    <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">LanguagePrimitives</span>.GenericZero<span style="color:#ff7b72;font-weight:bold">&lt;</span><span style="color:#ff7b72">&#39;</span>a<span style="color:#ff7b72;font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">for</span> x <span style="color:#ff7b72">in</span> xs <span style="color:#ff7b72">do</span>
+</span></span><span style="display:flex;"><span>        sum    <span style="color:#ff7b72;font-weight:bold">&lt;-</span> sum <span style="color:#ff7b72;font-weight:bold">+</span> x
+</span></span><span style="display:flex;"><span>        amount <span style="color:#ff7b72;font-weight:bold">&lt;-</span> amount <span style="color:#ff7b72;font-weight:bold">+</span> 1
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">LanguagePrimitives</span>.DivideByInt sum amount
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>To use our <code>Vector3</code> type with <code>average</code> we have to add the remaining polymorphic <code>Zero</code> and
+<code>DivideByInt</code> members.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">type</span> <span style="color:#f0883e;font-weight:bold">Vector3</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span>X<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">float</span><span style="color:#ff7b72;font-weight:bold">;</span> Y<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">float</span><span style="color:#ff7b72;font-weight:bold">;</span> Z<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">float</span><span style="color:#ff7b72;font-weight:bold">}</span> <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">member</span> create x y z <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span>X<span style="color:#ff7b72;font-weight:bold">=</span>x<span style="color:#ff7b72;font-weight:bold">;</span> Y<span style="color:#ff7b72;font-weight:bold">=</span>y<span style="color:#ff7b72;font-weight:bold">;</span> Z<span style="color:#ff7b72;font-weight:bold">=</span>z<span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">member</span> <span style="color:#ff7b72;font-weight:bold">(+)</span> <span style="color:#ff7b72;font-weight:bold">(</span>a<span style="color:#ff7b72;font-weight:bold">,</span>b<span style="color:#ff7b72;font-weight:bold">)</span>    <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Vector3</span>.create <span style="color:#ff7b72;font-weight:bold">(</span>a<span style="color:#ff7b72;font-weight:bold">.</span>X <span style="color:#ff7b72;font-weight:bold">+</span> b<span style="color:#ff7b72;font-weight:bold">.</span>X<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>a<span style="color:#ff7b72;font-weight:bold">.</span>Y <span style="color:#ff7b72;font-weight:bold">+</span> b<span style="color:#ff7b72;font-weight:bold">.</span>Y<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>a<span style="color:#ff7b72;font-weight:bold">.</span>Z <span style="color:#ff7b72;font-weight:bold">+</span> b<span style="color:#ff7b72;font-weight:bold">.</span>Z<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">member</span> Zero         <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Vector3</span>.create 0<span style="color:#ff7b72;font-weight:bold">.</span>0 0<span style="color:#ff7b72;font-weight:bold">.</span>0 0<span style="color:#ff7b72;font-weight:bold">.</span>0
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">member</span> DivideByInt<span style="color:#ff7b72;font-weight:bold">(</span>a<span style="color:#ff7b72;font-weight:bold">,</span>b<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">Vector3</span>.create
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">LanguagePrimitives</span>.DivideByInt a<span style="color:#ff7b72;font-weight:bold">.</span>X b<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">LanguagePrimitives</span>.DivideByInt a<span style="color:#ff7b72;font-weight:bold">.</span>Y b<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">LanguagePrimitives</span>.DivideByInt a<span style="color:#ff7b72;font-weight:bold">.</span>Z b<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>average</code> is a truly polymorphic function because it can calculate the average of a list
+of any type that supports <code>Zero</code>, <code>+</code> and <code>DivideByInt</code>.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">floatAverage</span>  <span style="color:#ff7b72;font-weight:bold">=</span> average <span style="color:#ff7b72;font-weight:bold">[</span>2<span style="color:#ff7b72;font-weight:bold">.</span>0 <span style="color:#ff7b72;font-weight:bold">..</span> 99<span style="color:#ff7b72;font-weight:bold">.</span>0<span style="color:#ff7b72;font-weight:bold">]</span>            <span style="color:#8b949e;font-style:italic">// 50.5
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">vectorAverage</span> <span style="color:#ff7b72;font-weight:bold">=</span> average <span style="color:#ff7b72;font-weight:bold">[</span>vec1<span style="color:#ff7b72;font-weight:bold">;</span> vec2<span style="color:#ff7b72;font-weight:bold">;</span> vec3<span style="color:#ff7b72;font-weight:bold">;</span> vec3<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#8b949e;font-style:italic">// {X=2.25;Y=2.25;Z=2.25}
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>The big advantage is that we only need to write a single <code>average</code> function that can work with
+different types. We don&rsquo;t have to create multiple <code>average</code> function each for there own type.
+If <code>average</code> itself only uses polymorphic functions, then it means <code>average</code> itself also could
+be polymorphic.</p>
+<p>But this also means that whenever we create a new type with the correct implementations, we
+actually can get a lot of functions for free. Every type that we create that supports <code>+</code>,
+<code>Zero</code> and a <code>DivideByInt</code> automatically gets an <code>average</code> function for free!</p>
+<p>Or in other words. Higher-kinded polymorphism is about code reuse. By just implementing the
+right <em>glue-functions</em> it can be that you get hundreds of already pre-defined functions!</p>
+<p>As an example you probably heard that <code>fold</code> and <code>foldBack</code> are very powerful functions,
+and just with <code>fold</code> you can implement a lot of other functions like <code>List.filter</code>,
+<code>List.collect</code>, <code>List.map</code> and so on. This is interesting as it means, you could theoretically
+provide a single polymorphic <code>filter</code> function, and it would work with all types that
+implements a <code>fold</code> function. The same is true for all other functions that could be
+implemented through <code>fold</code>.</p>
+<p>This basically would mean you never have to implement dozens of functions that you see in
+the <code>List</code> module. You just need to implement <code>fold</code> and you would get dozens of functions
+for free. But currently this is not how it is implemented in F# or how it works. Instead
+we have <code>List.filter</code>, <code>Array.filter</code>, <code>Map.filter</code>, <code>Set.filter</code>, <code>Seq.filter</code> and so on.</p>
+<p>Or in other words, every type just implements its own <code>filter</code> function, instead that we have
+a single implementation of <code>filter</code> that could be used polymorphic across all types. That
+also means that if you create your own types you have to implement <code>filter</code> and all
+of the other functions by yourself. But with higher-kinded polymorphism you just need
+to implement <code>fold</code> for your type, and you would get hundreds of functions for free.</p>
+<p>So the big advantage of &ldquo;higher-kinded polymorphism&rdquo; is that you get a ton of code reuse.</p>
+<h2 id="can-we-solve-it-with-interfaces">Can we solve it with interfaces?</h2>
+<p>Probably you will ask: <em>Can we not solve it with an interfaces</em>? The answer is no. You can achieve
+something similar, but not the same. Actually there already exists a solution for the <code>fold</code>
+example solved with interfaces. It is the <code>IEnumerable&lt;T&gt;</code> interface.</p>
+<p><code>fold</code> itself is basically just a way to loop over a data-structure. The <code>IEnumerable&lt;T&gt;</code> interface
+provides the same logic. Once you implement the <code>IEnumerable&lt;T&gt;</code> interface that is just a single
+method <code>GetEnumerator</code> you also get all of the LINQ Methods for free like <code>Select</code>, <code>Where</code>,
+<code>Aggregate</code> and so on. In F# you get the functionality of the <code>Seq</code> module. So what is the
+difference?</p>
+<p>The difference is that your type changes from whatever you had to <code>IEnumerable&lt;T&gt;</code> (C#) <code>Seq&lt;T&gt;</code> (F#).
+If you have a <code>List&lt;T&gt;</code> (C#) and you use <code>Select</code> on it, then you get an <code>IEnumerable&lt;T&gt;</code> back.
+Or in other words, you loose your original type. If you want to go back to a <code>List&lt;T&gt;</code> you have
+to convert your <code>IEnumerable&lt;T&gt;</code> back to an <code>List&lt;T&gt;</code>, <code>T[]</code>, <code>Dictionary&lt;K,V&gt;</code> or with whatever you
+wanted/started. But with Higher-kinded polymorphism instead you would not only get all
+of the additional functions for free, your type also would still remain the same.</p>
+<p>This means for example if you use a <code>Set</code> you just can <code>filter</code> it, and directly afterwards you
+can use special <code>Set</code> methods only available on <code>Set</code> like <code>Set.intersect</code>, <code>Set.isSubset</code> and others.
+If you started with an <code>Array</code> you can use <code>Array.blit</code>, <code>Array.fill</code> and other <code>Array</code> specific
+functions and so on.</p>
+<p>Actually it is even hard to say that you get any kind of code reuse with an interface. Sure you
+can provide methods that turn something into your <code>IFace</code> interface. If you have functions that
+only expects <code>IFace</code> objects you now can use all of them.</p>
+<p>But that isn&rsquo;t really so special. Sure, after i converted something to a <code>List</code> i also can use all
+of the <code>List</code> functions inside the <code>List</code> module, what a surprise!</p>
+<h2 id="summary">Summary</h2>
+<p>F# doesn&rsquo;t support higher-kinded polymorphism directly. It has the features to create this kind
+of code with re-usability. You also don&rsquo;t need to implement the <code>average</code> function, as F# already
+has <code>List.average</code> that is polymorphic in the way I showed here. But overall the language itself
+was not build up with this feature in-mind, and it also don&rsquo;t make it easy to create polymorphic
+functions in that way.</p>
+<p>But it is a really important concept, and I think programing languages should try to focus
+more on this kind of polymorphic behaviour. If you are aware of this feature, probably you see the
+chance of creating your own polymorphic functions and you gain a lot more code reuse.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://withouttheloop.com/articles/2014-10-21-fsharp-adhoc-polymorphism/">Ad-hoc Polymorphism in F#</a></li>
+<li><a href="http://blog.2mas.xyz/constraints-in-fsharp/">Constraints in F#</a></li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
