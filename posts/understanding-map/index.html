@@ -1,0 +1,690 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Understanding map // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="Explains the map function and what a Functor is" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.a8546077d48c47c89a814549279adb362800e0bf9e49e90fe38c4f6ee35bff70.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Understanding map"/>
+<meta name="twitter:description" content="Explains the map function and what a Functor is"/>
+
+    <meta property="og:title" content="Understanding map" />
+<meta property="og:description" content="Explains the map function and what a Functor is" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/understanding-map/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-03-27T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-03-27T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Understanding map</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Mar 27, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          16 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/functor/">functor</a>
+              <a class="tag" href="https://davidraab.github.io/tags/list/">list</a>
+              <a class="tag" href="https://davidraab.github.io/tags/option/">option</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>One important function in functional programming is the <code>map</code> function. When I learned F# I must
+admit that I had some problems first, understanding it. The problem was, I already knew the <code>map</code>
+function from dozens of other languages. Or to say it correctly, I mostly learned a wrong explanation
+of <code>map</code>.</p>
+<p>The typical explanation I&rsquo;m talking about often goes something like this: <code>map</code> takes a function and
+a <code>list</code>. It applies the function to every element in the list, and returns a new <code>list</code>.
+You will often see examples like this:</p>
+<pre><code>// F#
+let xs = List.map (fun x -&gt; x * 2) [1;2;3;4;5]
+
+// C#
+var xs = Enumerable.Range(1,5).Select(x =&gt; x * 2) // Select is `map`
+
+// JavaScript
+var xs = [1,2,3,4,5].map(function(x) { return x * 2 })
+</code></pre>
+<p>All examples start with some kind of array collection that contains the numbers from 1 to 5.
+And all of them take a function multiplying the number by two. All of the examples will result in a
+new collection containing <code>[2;4;6;8;10]</code>.</p>
+<p>While this explanation of <code>map</code> is <em>right</em> for <code>List.map</code>, this is <em>not a right</em> explanation of <code>map</code> in general.
+The problem starts when you encounter a functional language, because besides a <code>List.map</code> you will also encounter
+things like <code>String.map</code> or <code>Option.map</code>. On top you will also often find the advice that you should provide
+a <code>map</code> function for every type you create (if possible). When you have a <code>Result</code> type you should
+also provide a <code>Result.map</code>. Also a <code>Async.map</code> is a good idea. So if you only knew <code>map</code> from the idea of
+going through a collection you will probably suffer to understand what <code>map</code> is about. If you try to implement
+<code>map</code> for yourself, you will probably even wonder what <code>map</code> anyway should do for an arbitrary type? What is
+for example the purpose of <code>Async.map</code>?</p>
+<p>To explain what <code>map</code> really is about, let&rsquo;s forget about what you already know and start from scratch again.</p>
+<h2 id="some-functions">Some functions</h2>
+<p>Before we look at <code>map</code>, let&rsquo;s create some simple functions. These functions will be used throughout the article.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// Squares a number: int -&gt; int
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">square</span> x <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">*</span> x
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// Add 10 to every number: int -&gt; int
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">add10</span> x <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">+</span> 10
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// Returns the length of a string: string -&gt; int
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">length</span> <span style="color:#ff7b72;font-weight:bold">(</span>str<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">string</span><span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span> str<span style="color:#ff7b72;font-weight:bold">.</span>Length
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="listmap">List.map</h2>
+<p>We now assume that we don&rsquo;t have most of the functions from the <code>List</code> module. Especially not <code>List.map</code>. Sooner
+or later you will encounter one problem. With our <code>square</code> function we can square an <code>int</code>. But our <code>square</code>
+doesn&rsquo;t work at all with a <code>list&lt;int&gt;</code>.</p>
+<p>So what do you do if you want to apply <code>square</code> to every <code>int</code> <strong>inside</strong> a <code>list</code>? You sure start looping
+over the list, and because we are immutable, we build a new list. As for easiness I write very imperative
+code with a loop, without recursion or <code>fold</code> or <code>foldBack</code>.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">squareList</span> xs <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mutable</span> results <span style="color:#ff7b72;font-weight:bold">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">for</span> x <span style="color:#ff7b72">in</span> xs <span style="color:#ff7b72">do</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">res</span> <span style="color:#ff7b72;font-weight:bold">=</span> square x
+</span></span><span style="display:flex;"><span>        results <span style="color:#ff7b72;font-weight:bold">&lt;-</span> res <span style="color:#ff7b72;font-weight:bold">::</span> results
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">List</span>.rev results
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So what we now have is a <code>squareList</code> function, this function now takes a <code>list&lt;int&gt;</code> as input and returns
+a new <code>list&lt;int&gt;</code>. Our <code>squareList</code> function basically does the same thing as <code>square</code>, but instead of
+<code>int -&gt; int</code> we have <strong>upgraded</strong> it somehow to work with <code>list&lt;int&gt; -&gt; list&lt;int&gt;</code> instead.</p>
+<p>A final note is the <code>List.rev</code> at the end, if it is unclear why we need it. <code>x :: xs</code> creates a new list,
+but it <code>prepends</code> elements. We actually cannot add elements to the end. So when we loop over a list like
+<code>[1;2;3;4;5]</code> we will first <code>square</code> 1 and add it to an empty list resulting in <code>[1]</code>. Then we <code>square</code>
+2 and the result is added to <code>[1]</code> yielding in <code>[4;1]</code> and so on. That&rsquo;s why we have to reverse the list
+at the end when we are done!</p>
+<p>Some time later we are faced with the problem that we also want to use our <code>add10</code> function on a <code>list</code>
+so we also write a new function for this.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">add10List</span> xs <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mutable</span> results <span style="color:#ff7b72;font-weight:bold">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">for</span> x <span style="color:#ff7b72">in</span> xs <span style="color:#ff7b72">do</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">res</span> <span style="color:#ff7b72;font-weight:bold">=</span> add10 x
+</span></span><span style="display:flex;"><span>        results <span style="color:#ff7b72;font-weight:bold">&lt;-</span> res <span style="color:#ff7b72;font-weight:bold">::</span> results
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">List</span>.rev results
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Besides that the code is anyway not really nice or functional to begin with, the big problem is that we basically
+have written two completely identical functions! The only difference between those two functions is line 4.
+The only thing that is different is the function we call to compute <code>res</code>.</p>
+<p>Because we like DRY (Don&rsquo;t Repeat Yourself) we do what functional programmers always tell
+<em>Parametrize all the things</em>. So instead of directly calling our function, we just expect that the
+concrete function to execute for every element is just passed as an argument. Or simply we <em>Abstract</em> those
+two functions. <em>Abstracting</em> always means that we put the things that are the same into one function, everything that
+is different will be expected as an argument. So what we finally end up with, is our own <code>map</code> function.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mapList</span> f xs <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mutable</span> results <span style="color:#ff7b72;font-weight:bold">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">for</span> x <span style="color:#ff7b72">in</span> xs <span style="color:#ff7b72">do</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mapping</span> <span style="color:#ff7b72;font-weight:bold">=</span> f x
+</span></span><span style="display:flex;"><span>        results <span style="color:#ff7b72;font-weight:bold">&lt;-</span> mapping <span style="color:#ff7b72;font-weight:bold">::</span> results
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">List</span>.rev results
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now can use <code>mapList</code> like this.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">listOfsquared</span> <span style="color:#ff7b72;font-weight:bold">=</span> mapList square <span style="color:#ff7b72;font-weight:bold">[</span>1<span style="color:#ff7b72;font-weight:bold">;</span>2<span style="color:#ff7b72;font-weight:bold">;</span>3<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#8b949e;font-style:italic">// [1;4;9]
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">listOfAdd10</span>   <span style="color:#ff7b72;font-weight:bold">=</span> mapList add10  <span style="color:#ff7b72;font-weight:bold">[</span>1<span style="color:#ff7b72;font-weight:bold">;</span>2<span style="color:#ff7b72;font-weight:bold">;</span>3<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#8b949e;font-style:italic">// [11;12;13]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Currently it doesn&rsquo;t seems like a big difference to other introductions, but let&rsquo;s reconsider what lead to
+the idea of creating a <code>map</code> function. The idea was. We have a function <code>int -&gt; int</code>. A <code>list&lt;int&gt;</code> contains
+<code>int</code> so we could use <code>square</code> or <code>add10</code> on every element. But in order to apply our function to every
+element we have to handle the <code>list</code>, and we need to loop through them. Because this process is the same
+for every function, we abstract the looping away in it&rsquo;s own function named <code>map</code>.</p>
+<p>Before we go even deeper in why this is different from other explanation. Let&rsquo;s first look at the signature
+of our <code>mapList</code> function, and let&rsquo;s just remember the signature.</p>
+<pre><code>('a -&gt; 'b) -&gt; list&lt;'a&gt; -&gt; list&lt;'b&gt;
+</code></pre>
+<h2 id="optionmap">Option.map</h2>
+<p>Suddenly later when we are programming, we face a new problem. We encounter a <code>option&lt;int&gt;</code> value. <code>option&lt;int&gt;</code>
+contains an <code>int</code>. So because it contains an int, we also could use our <code>square</code> function on the <strong>inner</strong> value.
+But sure, now we have to handle <code>option</code>. So what do we do? We can sure unwrap it, and in case of a <code>Some</code> we apply our
+function to it. But what do we do in a case of <code>None</code>? Returning some kind of <em>default</em> int doesn&rsquo;t seem to
+make sense or like a good idea. So what we will instead do, we just create a new function that will return
+an <code>option</code> again. In the case of <code>None</code> we just return <code>None</code> and do nothing.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">squareOption</span> opt <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">match</span> opt <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> None       <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Some value <span style="color:#ff7b72;font-weight:bold">-&gt;</span> Some <span style="color:#ff7b72;font-weight:bold">(</span>square value<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Like <code>squareList</code> previously we now created a <code>squareOption</code>. It is already interesting to see some common
+between all those function. <code>square</code> could simply square an <code>int</code>. <code>squareList</code> could square a <code>list&lt;int&gt;</code>
+and now <code>squareOption</code> can square an <code>option&lt;int&gt;</code>. Let&rsquo;s go further and let&rsquo;s implement <code>add10Option</code>.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">add10Option</span> opt <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">match</span> opt <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> None       <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Some value <span style="color:#ff7b72;font-weight:bold">-&gt;</span> Some <span style="color:#ff7b72;font-weight:bold">(</span>add10 value<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Once again we can see the code duplication. So instead of checking again and again for every <code>option</code>
+if it is <code>None</code> or <code>Some</code> and only in the <code>Some</code> case call a function we starting to abstract it!
+Instead of calling our function directly, we once again expect it to be passed as an argument. We will
+call this abstract function <code>mapOption</code>.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mapOption</span> f opt <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">match</span> opt <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> None       <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Some value <span style="color:#ff7b72;font-weight:bold">-&gt;</span> Some <span style="color:#ff7b72;font-weight:bold">(</span>f value<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now can use <code>mapOption</code> like this.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">OptionSquare1</span> <span style="color:#ff7b72;font-weight:bold">=</span> mapOption square <span style="color:#ff7b72;font-weight:bold">(</span>Some 5<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#8b949e;font-style:italic">// Some 25
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">OptionSquare2</span> <span style="color:#ff7b72;font-weight:bold">=</span> mapOption square None     <span style="color:#8b949e;font-style:italic">// None
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">OptionAdd10_1</span> <span style="color:#ff7b72;font-weight:bold">=</span> mapOption add10  <span style="color:#ff7b72;font-weight:bold">(</span>Some 5<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#8b949e;font-style:italic">// Some 15
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">OptionAdd10_2</span> <span style="color:#ff7b72;font-weight:bold">=</span> mapOption add10  None     <span style="color:#8b949e;font-style:italic">// None
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s once again look at the type signature of our <code>mapOption</code></p>
+<pre><code>('a -&gt; 'b) -&gt; option&lt;int&gt; -&gt; option&lt;int&gt;
+</code></pre>
+<p>Does this already look familiar?</p>
+<h2 id="the-commonalities-between-listmap-and-optionmap">The commonalities between <code>List.map</code> and <code>Option.map</code></h2>
+<p>Now let&rsquo;s reconsider with what we started. We started with functions like <code>square</code> and <code>add10</code>.
+But those function only could work with <code>int</code>. But while we were programming we faced values like
+<code>list&lt;int&gt;</code> or <code>option&lt;int&gt;</code>. To use our functions on those values, we somehow have to <strong>unwrap</strong>
+the values. Apply our function to the inner type <code>int</code>, and wrap it up again. <strong>unwraping</strong> is
+different for every type. For <code>list</code> it means we loop through a list. For an <code>option</code> it means
+we have to check whether it is <code>Some</code> or <code>None</code>. But we still can think of it as some kind of an
+<strong>unwrap</strong> function. Because what we do is, at some point in our function we turn an <code>list&lt;int&gt;</code> or
+an <code>option&lt;int&gt;</code> just to in <code>int</code>, so we can use the <code>int</code> with our <code>square</code> or <code>add10</code> function.
+But after applying our function we still return the type of what we started. When we started with
+a <code>list&lt;int&gt;</code> we still have to return a <code>list</code> again. When we started with an <code>option</code> we still
+return an <code>option</code> again.</p>
+<p>But this is a repetitive task, as this kind of <strong>unwraping</strong> and <strong>re-wraping</strong> is always the same.
+It doesn&rsquo;t matter which type we have inside <code>list&lt;&gt;</code> or <code>option</code>. And it also doesn&rsquo;t matter
+which function we use.</p>
+<p>That&rsquo;s why we abstract those idea of <strong>unwrapping</strong>, <strong>applying a function</strong>, <strong>re-wrap</strong> into it&rsquo;s
+own function and name it <code>map</code>. To understand this process further let&rsquo;s look again at the type
+signatures of our <code>mapList</code> and <code>mapOption</code> function.</p>
+<pre><code>('a -&gt; 'b) -&gt; list&lt;'a&gt;    -&gt; list&lt;'b&gt;
+('a -&gt; 'b) -&gt; option&lt;int&gt; -&gt; option&lt;int&gt;
+</code></pre>
+<p>This <em>type-signature</em> is the essence of a <code>map</code> function. Every <code>map</code> function has to look like this.
+The only part that changes is the <em>wrapping-type</em>. So at this point you could probably already assume
+how a <code>map</code> function for <code>Result</code>, <code>Async</code> or <code>Whatever</code> should look like</p>
+<pre><code>('a -&gt; 'b) -&gt; Result&lt;'a&gt;   -&gt; Result&lt;'b&gt;
+('a -&gt; 'b) -&gt; Async&lt;'a&gt;    -&gt; Async&lt;'b&gt;
+('a -&gt; 'b) -&gt; Whatever&lt;'a&gt; -&gt; Whatever&lt;'b&gt;
+</code></pre>
+<h2 id="currying-and-partial-application">Currying and Partial Application</h2>
+<p>At this point it is important to talk about Currying. Currying is the idea that there only
+exists functions with <strong>one-argument</strong> and they <strong>always</strong> have to return a value. F# is such
+a language and does currying automatically.</p>
+<p>That is also the very reason why you see multiple <code>-&gt;</code> inside a function signature. <code>-&gt;</code> is
+basically the symbol for a function. On it&rsquo;s left-side is the input of the function, on the right
+side is the output. When we look at a signature like</p>
+<pre><code>string -&gt; int -&gt; float
+</code></pre>
+<p>We often say it has two arguments, a <code>string</code> and a <code>int</code> and it returns a <code>float</code>. But this isn&rsquo;t
+quite correct. What we really have is a function that only has one argument a <code>string</code> and it will
+return a <code>int -&gt; float</code>, or in other words. A new function! That is also the reason why functional
+languages don&rsquo;t use braces as arguments, it just uses a space. Something like</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">ys</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">List</span>.map f xs
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>really means. Execute <code>List.map f</code> this returns a new function, and we immediately pass <code>xs</code> to
+that new function. That&rsquo;s also the reason why we can add braces around the function and the <em>first</em>
+argument without changing the meaning.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">ys</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">List</span>.map f<span style="color:#ff7b72;font-weight:bold">)</span> xs
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Not only that, we also can extract it, and save the <em>intermediate function</em> as a new value.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">newF</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">List</span>.map f
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">ys</span>   <span style="color:#ff7b72;font-weight:bold">=</span> newF xs
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The idea to not pass all needed values is what we call <em>Partial Application</em>. The interesting
+stuff about all of this is, that with this idea, we can come up with different interpretation
+of the same function. And this kind of interpretation is what we can apply to <code>map</code>. Actually we
+can view <code>map</code> as a single argument function, or as a two argument functions. Both have some
+different meaning. When we interpret <code>map</code> as a single argument function, we now have something like
+this</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Function</th>
+<th style="text-align:center">Input</th>
+<th style="text-align:center">Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">List.map</td>
+<td style="text-align:center">&lsquo;a -&gt; &lsquo;b</td>
+<td style="text-align:center">list&lt;&lsquo;a&gt; -&gt; list&lt;&lsquo;b&gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">Option.map</td>
+<td style="text-align:center">&lsquo;a -&gt; &lsquo;b</td>
+<td style="text-align:center">option&lt;&lsquo;a&gt; -&gt; option&lt;&lsquo;b&gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">Result.map</td>
+<td style="text-align:center">&lsquo;a -&gt; &lsquo;b</td>
+<td style="text-align:center">Result&lt;&lsquo;a&gt; -&gt; Result&lt;&lsquo;b&gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">Async.map</td>
+<td style="text-align:center">&lsquo;a -&gt; &lsquo;b</td>
+<td style="text-align:center">Async&lt;&lsquo;a&gt; -&gt; Async&lt;&lsquo;b&gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">Whatever.map</td>
+<td style="text-align:center">&lsquo;a -&gt; &lsquo;b</td>
+<td style="text-align:center">Whatever&lt;&lsquo;a&gt; -&gt; Whatever&lt;&lsquo;b&gt;</td>
+</tr>
+</tbody>
+</table>
+<p>It basically means we can think of <code>map</code> of some kind of function that can <strong>upgrade</strong> a function.
+If we pass a <code>int -&gt; string</code> function for example to <code>List.map</code> we get a <code>list&lt;int&gt; -&gt; list&lt;string&gt;</code>
+function back! If we pass the same function to <code>Async.map</code> we get a <code>Async&lt;int&gt; -&gt; Async&lt;string&gt;</code>
+function back.</p>
+<p>So <code>map</code> is a way to upgrade both sides (input and output) and add a layer to both sides. There are
+two reason on why this concept is important.</p>
+<ol>
+<li>Code-Reuse. If a type supports <code>map</code>, you just can upgrade a function to work with this type.</li>
+<li>In your own functions, you don&rsquo;t need to care about the layer itself.</li>
+</ol>
+<h2 id="code-reuse">Code Reuse</h2>
+<p>So let&rsquo;s look again at our starting functions and just use them with the already built-in <code>List.map</code>
+and <code>Option.map</code> functions.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">squareL</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">List</span>.map square
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">add10L</span>  <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">List</span>.map add10
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">lengthL</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">List</span>.map length
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">squareO</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Option</span>.map square
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">add10O</span>  <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Option</span>.map add10
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">lengthO</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Option</span>.map length
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So we just can reuse our three functions. We never have to write special functions that loops
+through a list. Or that handles <code>option</code>, <code>Async</code>, <code>Result</code>, we just can <strong>upgrade</strong> any
+function we already have written.</p>
+<h2 id="you-dont-need-to-care-for-the-layers">You don&rsquo;t need to care for the layers</h2>
+<p>This is probably the biggest advantage, as you don&rsquo;t have to care for the <em>layers</em>. You want
+to convert a list of <code>int</code> to a list of <code>string</code>. Just write a function that does <code>int -&gt; string</code>
+no List handling, no looping, no recursion. Use <code>List.map</code> and you are done.</p>
+<p>And the big advantage. You also can use that function with <code>Option.map</code> to turn it into a function
+that works on a <code>option</code> type. If you pass it to <code>Async.map</code> you get a function that can work
+on an asynchronous value. You don&rsquo;t need to write code for looping through a list, do pattern
+match an option, or write code to handle asynchronicity.</p>
+<p>All of this is done for you by the <code>map</code> function!</p>
+<h2 id="asyncmap">Async.map</h2>
+<p>Currently F# don&rsquo;t have a built-in <code>Async.map</code> function. So let&rsquo;s create the <code>map</code> function
+for <code>Async</code> ourselves.
+*)</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">module</span> <span style="color:#ff7b72">Async</span> <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">map</span> f op <span style="color:#ff7b72;font-weight:bold">=</span> async <span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">x</span>    <span style="color:#ff7b72;font-weight:bold">=</span> op
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">value</span> <span style="color:#ff7b72;font-weight:bold">=</span> f x
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">return</span> value
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So how do we now that we have to implement it in this way? Because that is what the <em>type-signature</em>
+is telling us. We have to write a function with the signature</p>
+<pre><code>('a -&gt; 'b) -&gt; Async&lt;'a&gt; -&gt; Async&lt;'b&gt;
+</code></pre>
+<ol>
+<li>That means a function with two arguments. The first arguments is a <em>function</em> <code>'a -&gt; 'b</code>, the second
+is an <code>Async&lt;'a&gt;</code>, and we have to return an <code>Async&lt;'b&gt;</code>.</li>
+<li>Because we have to return an <code>Async</code> we start with <code>async { ... }</code>.</li>
+<li>Now <code>op</code> is an <code>Async&lt;'a&gt;</code>, with <code>let! x = op</code> we run the the async operation.
+This will <strong>unwrap</strong> our <code>Async&lt;'a&gt;</code> and just returns an <code>'a</code>.</li>
+<li>We can pass that <code>'a</code> to our function <code>f</code> that converts <code>'a</code> to an <code>'b</code>.</li>
+<li>Once we have a <code>'b</code> we <code>return</code> it. <code>return</code> basically wraps the <code>'b</code> and adds the <code>Async&lt;&gt;</code> layer.</li>
+</ol>
+<h2 id="stacking-layers">Stacking Layers</h2>
+<p>The interesting idea is now. We are not restricted to adding a single layer. We can add as much layer
+we want and stack them. For example we could have <code>option</code> values that are wrapped inside a <code>list</code> returned
+by an <code>Async</code> operation.</p>
+<p>To be more concrete. Let&rsquo;s assume we have some kind of async operation that downloads from a website
+(The Async layer). This tries to Parse a table on a website that contains numbers (The List Layer).
+But because parsing could fail, for example a table entry is not a number, we wrap it in a <code>Option</code>
+(The Optional Layer).</p>
+<p>Let&rsquo;s write a <em>mock</em> function that returns this kind of data.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">downloadPage</span> <span style="color:#ff7b72;font-weight:bold">=</span> async <span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8b949e;font-style:italic">// Simulating Download, wait 1 second
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    <span style="color:#ff7b72">do</span><span style="color:#ff7b72;font-weight:bold">!</span> <span style="color:#ff7b72">Async</span>.Sleep 1000
+</span></span><span style="display:flex;"><span>    <span style="color:#8b949e;font-style:italic">// A list of optionals list&lt;option&lt;int&gt;&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">numbers</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">[</span>Some 1<span style="color:#ff7b72;font-weight:bold">;</span> Some 2<span style="color:#ff7b72;font-weight:bold">;</span> None<span style="color:#ff7b72;font-weight:bold">;</span> Some 3<span style="color:#ff7b72;font-weight:bold">;</span> None<span style="color:#ff7b72;font-weight:bold">;</span> None<span style="color:#ff7b72;font-weight:bold">;</span> Some 10<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8b949e;font-style:italic">// return it: This adds async&lt;&gt; layer
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    <span style="color:#ff7b72">return</span> numbers
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>What we now have is a <code>Async&lt;list&lt;option&lt;int&gt;&gt;&gt;</code>. Puh looks complicated! So what do we now
+if we want to square the <code>int</code> inside our <code>Async&lt;List&lt;Option&lt;...&gt;&gt;&gt;</code> construct? We just add
+one layer after another to <code>square</code>. At first, we do a <code>Option.map</code> on <code>square</code>. The result
+of this is a function that we pass to <code>List.map</code> that adds the <code>List</code> layer. And once again
+the <code>Async.map</code> finally adds the <code>Async</code> layer.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">squaring</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Async</span>.map <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">List</span>.map <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">Option</span>.map square<span style="color:#ff7b72;font-weight:bold">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now have <code>squaring</code> that has the following signature</p>
+<pre><code>Async&lt;List&lt;Option&lt;int&gt;&gt;&gt; -&gt; Async&lt;List&lt;Option&lt;int&gt;&gt;&gt;
+</code></pre>
+<p>We can now do</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">data</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Async</span>.RunSynchronously <span style="color:#ff7b72;font-weight:bold">(</span>squaring downloadPage<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And <code>data</code> will be <code>[Some 1; Some 4; None; Some 9; None; None; Some 100]</code></p>
+<p>All <code>Option</code>, <code>List</code> and <code>Async</code> handling was handled for us. We just <strong>upgraded</strong>
+<code>square</code> with the different <code>map</code> functions until it matches our needed signature.</p>
+<p>Let&rsquo;s assume we wouldn&rsquo;t have <code>Async.map</code>, <code>List.map</code>, <code>Option.map</code>. We would have needed
+to write it like this.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">squaring</span><span style="color:#ff7b72">&#39;</span> input <span style="color:#ff7b72;font-weight:bold">=</span> async <span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">data</span> <span style="color:#ff7b72;font-weight:bold">=</span> input
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">squared</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">[</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">for</span> x <span style="color:#ff7b72">in</span> data <span style="color:#ff7b72;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">match</span> x <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72;font-weight:bold">|</span> None       <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72;font-weight:bold">|</span> Some value <span style="color:#ff7b72;font-weight:bold">-&gt;</span> Some <span style="color:#ff7b72;font-weight:bold">(</span>square value<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> squared
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="functors">Functors</h2>
+<p>Whenever we have a type with a <code>map</code> function we call it a <em>Functor</em> if the implementation
+of <code>map</code> satisfies two laws. Those two laws ensures that <code>map</code> is predictable and don&rsquo;t do
+additional stuff we didn&rsquo;t expect.</p>
+<h3 id="1-law-mapping-id">1. Law: Mapping <code>id</code></h3>
+<p>The first rule says that mapping over the <code>id</code> function must not change the input. The <code>id</code>
+function is just a function that returns its input as-is</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">id</span> x <span style="color:#ff7b72;font-weight:bold">=</span> x
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So when we write</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">xs</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">List</span>.map id <span style="color:#ff7b72;font-weight:bold">[</span>1<span style="color:#ff7b72;font-weight:bold">;</span>2<span style="color:#ff7b72;font-weight:bold">;</span>3<span style="color:#ff7b72;font-weight:bold">;</span>4<span style="color:#ff7b72;font-weight:bold">;</span>5<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Then <code>xs</code> still must be <code>[1;2;3;4;5]</code>.</p>
+<h3 id="2-law-function-composition">2. Law: Function composition</h3>
+<p>The second rule says that composing two functions and then mapping, should be the same
+as mapping over both functions separately.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// 1 solution: compose two functions, and then map
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">comp</span> <span style="color:#ff7b72;font-weight:bold">=</span> square <span style="color:#ff7b72;font-weight:bold">&gt;&gt;</span> add10
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">cxs</span>  <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">List</span>.map comp <span style="color:#ff7b72;font-weight:bold">[</span>1<span style="color:#ff7b72;font-weight:bold">;</span>2<span style="color:#ff7b72;font-weight:bold">;</span>3<span style="color:#ff7b72;font-weight:bold">;</span>4<span style="color:#ff7b72;font-weight:bold">;</span>5<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// 2 solution: mapping it two times
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">sxs</span> <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">[</span>1<span style="color:#ff7b72;font-weight:bold">;</span>2<span style="color:#ff7b72;font-weight:bold">;</span>3<span style="color:#ff7b72;font-weight:bold">;</span>4<span style="color:#ff7b72;font-weight:bold">;</span>5<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|&gt;</span> <span style="color:#ff7b72">List</span>.map square
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|&gt;</span> <span style="color:#ff7b72">List</span>.map add10
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cxs <span style="color:#ff7b72;font-weight:bold">=</span> sxs <span style="color:#8b949e;font-style:italic">// must be the same
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>It shouldn&rsquo;t matter if we go through the list take one element and then do <code>square</code> and <code>add10</code>
+in one-step. Or if we go trough our list two times and do it in two separately steps. Both
+<code>cxs</code> and <code>sxs</code> have to return the same result <code>[11;14;19;26;35]</code></p>
+<p>Because <code>List.map</code> satisfies both laws, we say that <code>List</code> is a <em>functor</em>.</p>
+<h2 id="summary">Summary</h2>
+<p>I hope it is now clear why <code>map</code> is such an important function. Implementing a <code>map</code> function
+just means you can <strong>upgrade</strong> already available functions. It opens up a lot of
+code reuse as you don&rsquo;t have to write special glue code that handles your type/layer.</p>
+<p>It also can make writing new functions easier, as you don&rsquo;t have to care about a layer.
+If you find yourself writing a function that has a list as its input and a list as its output
+then you are <em>probably</em> doing something wrong! The same goes for every other type.</p>
+<p>Not only is it easier to just write a function that don&rsquo;t contain any list/looping/recursion
+logic. Such a function is even more reusable.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://fsharpforfunandprofit.com/posts/elevated-world/">Understanding map and apply</a></li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

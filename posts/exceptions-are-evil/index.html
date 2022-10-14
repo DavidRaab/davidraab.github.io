@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Exceptions are Evil // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="Explains why Exceptions are evil" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.a8546077d48c47c89a814549279adb362800e0bf9e49e90fe38c4f6ee35bff70.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Exceptions are Evil"/>
+<meta name="twitter:description" content="Explains why Exceptions are evil"/>
+
+    <meta property="og:title" content="Exceptions are Evil" />
+<meta property="og:description" content="Explains why Exceptions are evil" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/exceptions-are-evil/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-03-25T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-03-25T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Exceptions are Evil</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Mar 25, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          5 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/exceptions/">exceptions</a>
+              <a class="tag" href="https://davidraab.github.io/tags/null/">null</a>
+              <a class="tag" href="https://davidraab.github.io/tags/option/">option</a>
+              <a class="tag" href="https://davidraab.github.io/tags/evil/">evil</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>Most people today agree that <code>null</code> is evil, and they try to get rid of them. One technique that
+most people prefer is to throw an exception in the case of an error, or if we cannot return a valid
+value from a function. The problem is, exceptions are not any kind better than <code>null</code>, and
+they don&rsquo;t solve any problem that <code>null</code> introduced.</p>
+<p>In my previous post <a href="https://davidraab.github.io/posts/null-is-evil/">null is Evil</a> i mentioned seven
+problems that <code>null</code> introduced. So let&rsquo;s look if <em>exceptions</em> solve one of those problems.</p>
+<h2 id="1-you-cannot-see-if-a-function-throws-an-exception">1. You cannot see if a function throws an exception</h2>
+<p>When you look at the type signature of any function, you just see something like</p>
+<pre><code>PersonId -&gt; Person
+</code></pre>
+<p>The same way that you cannot see that <code>null</code> could be returned. The same way you don&rsquo;t know
+if an exception could be thrown or not.</p>
+<h2 id="2-we-are-not-forced-to-trycatch">2. We are not forced to try/catch</h2>
+<p>You are not forced to add any kind of <code>try/catch</code>, the same way you are not forced to add
+a <code>null</code> check. If you forgot to add your <code>null</code> checks, you end up getting <code>NullReferenceException</code>.
+If you forgot to adding <code>try/catch</code> you end up with <code>XYZException</code>. Replacing a <code>NullReferenceException</code>
+just with another kind of <code>Exception</code> isn&rsquo;t anyway better.</p>
+<h2 id="3-every-function-could-throw-an-exception">3. Every function could throw an Exception</h2>
+<p>The big problem of 1. and 2. combined is that you defensively start to check all return values
+from a function if it contains <code>null</code>. And you also have to check every argument if it contains
+<code>null</code>. This leads to numerous <code>null</code> checking throughout your code. But why do you add those
+checks in the first place? Because you want to prevent <code>NullReferenceException</code>. So how is a
+function that sometimes returns <code>null</code> that can lead to a <code>NullReferenceException</code> anyhow better
+as a function that sometimes throws <code>XYZException</code> directly?</p>
+<p>Not only does it not solve the problem at all. You still have to add your checkings. But instead of
+<code>null</code> checks throughout your code. You wrap your code in <code>try/catch</code> blocks. Why is checking for
+null bad</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">result</span> <span style="color:#ff7b72;font-weight:bold">=</span> SomeFunction()
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">if</span> result <span style="color:#ff7b72;font-weight:bold">&lt;&gt;</span> <span style="color:#ff7b72">null</span> <span style="color:#ff7b72">then</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8b949e;font-style:italic">// Some code if everything was right
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">else</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8b949e;font-style:italic">// Error condition on null
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>and suddenly wrapping your code in a <code>try/catch</code> anyhow better?</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">try</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">result</span> <span style="color:#ff7b72;font-weight:bold">=</span> SomeFunction()
+</span></span><span style="display:flex;"><span>    <span style="color:#8b949e;font-style:italic">// Some code if everything was right
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> <span style="color:#ff7b72">exn</span> <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#8b949e;font-style:italic">// Error condition on Exception
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="4-we-cannot-skip-the-checking">4. We cannot skip the checking</h2>
+<p>Probably you would assume that exceptions solve it, but actually, they don&rsquo;t really provide an improvement.
+Sure, you don&rsquo;t have to wrap a try/catch block around your code. Exactly the same as you don&rsquo;t have
+to write an explicit <code>null</code> check. So what happens in both cases?</p>
+<p>In both cases an exception is thrown either a <code>NullReferenceException</code> or probably you throw some other kind of
+<code>Exception</code>. Yes, you can catch your <code>Exception</code> further up the stack. The same way as you can catch
+a <code>NullReferenceException</code> further up the stack. There is no difference at all here.</p>
+<p>But overall, this was not meant with <em>skipping</em>. The idea of <em>skipping</em> was that you can do the null check
+at some later point where it makes sense. That doesn&rsquo;t mean only &ldquo;further up the stack&rdquo;. The idea is that you
+pass the whole error as a value around, as you can do with <code>Optional</code>, and additional you are forced
+to check the condition of your <code>Optional</code> at compile-time.</p>
+<h2 id="5-and-6-we-can-pass-functionsobjects-that-throws-exception-around">5. and 6. We can pass functions/objects that throws exception around</h2>
+<p>At default you don&rsquo;t pass <code>Exception</code> types as values around. You wrap your code in a <code>try/catch</code> and that&rsquo;s
+it. You also cannot implicitly pass an <code>Exception</code> as a valid value to a function that expects a <code>Person</code>. With
+<code>null</code> you can do that, that&rsquo;s why we have to also add <code>null</code> checks for function arguments.</p>
+<p>So it seems we are not affected if we throw exceptions. But that is wrong. An object itself contains <em>methods</em>.
+And every method on an object could throw an exception.</p>
+<p>With <code>null</code> you have to check every argument if it is <code>null</code>. With <em>exceptions</em> you have to additional add
+try/catch blocks if you call a method on an object. Because you pass objects around, and objects have <em>methods</em>
+that could throw exceptions when invoked. You end up with the same problem.</p>
+<h2 id="7-happy-path-coding">7. Happy Path Coding</h2>
+<p>It seems <em>Exceptions</em> solve the problem of Happy-Path coding. But it really does not. Yes, you are not forced to add
+a <code>try/catch</code> around every function directly. You just can use one <code>try/catch</code> around the whole code and catch
+<strong>any exception</strong>.</p>
+<p>Absolutely, and the thing is. <strong>Any exception</strong> also includes <code>NullReferenceException</code>. So if you like to have
+<em>exceptions</em>. No problem, just return <code>null</code> from your functions and don&rsquo;t add any <code>null</code> checks.</p>
+<h2 id="summary">Summary</h2>
+<p>It seems many people forget about why <code>null</code> is bad. <code>null</code> is bad because <strong>they throw exceptions</strong> when
+you try to use them. So using <em>exceptions</em> instead of using <code>null</code> makes nothing better at all. The reason
+why we add all those <code>null</code> checks is to <strong>prevent exceptions</strong> to happen. So how can we get rid of that problem
+if we choose to directly throw exceptions?</p>
+<p>We can&rsquo;t. Throwing <em>exceptions</em> as a solution of getting rid of <em>null</em> is just a Pyrrhic victory. Not only that.
+Exceptions in general share the same problems as <code>null</code>.</p>
+<p>So what is the alternative? My Post about <a href="https://davidraab.github.io/posts/null-is-evil/">null is Evil</a> contains solution
+of getting rid of <code>null</code>. The thing is, the same solutions also works for <em>Exceptions</em>!</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://fsharpforfunandprofit.com/rop/">Railway Oriented Programming</a></li>
+<li><a href="http://blog.ploeh.dk/2016/03/21/composition-with-an-either-computation-expression/">Composition with an Either computation expression</a></li>
+<li><a href="http://blog.leifbattermann.de/2016/04/09/functional-error-handling-in-fsharp-by-example/">Functional Error Handling in F# by Example</a></li>
+<li><a href="https://www.joelonsoftware.com/2003/10/13/13/">Joel on Software - Exceptions</a></li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

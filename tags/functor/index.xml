@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>option on David Raab</title>
-    <link>https://davidraab.github.io/tags/option/</link>
-    <description>Recent content in option on David Raab</description>
+    <title>functor on David Raab</title>
+    <link>https://davidraab.github.io/tags/functor/</link>
+    <description>Recent content in functor on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 03 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/option/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 03 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/functor/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Understanding bind</title>
       <link>https://davidraab.github.io/posts/understanding-bind/</link>
@@ -35,26 +35,6 @@ Problem with map It might be that you have noticed one problem with map. map onl
       <guid>https://davidraab.github.io/posts/understanding-map/</guid>
       <description>One important function in functional programming is the map function. When I learned F# I must admit that I had some problems first, understanding it. The problem was, I already knew the map function from dozens of other languages. Or to say it correctly, I mostly learned a wrong explanation of map.
 The typical explanation I&amp;rsquo;m talking about often goes something like this: map takes a function and a list. It applies the function to every element in the list, and returns a new list.</description>
-    </item>
-    
-    <item>
-      <title>Exceptions are Evil</title>
-      <link>https://davidraab.github.io/posts/exceptions-are-evil/</link>
-      <pubDate>Fri, 25 Mar 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/posts/exceptions-are-evil/</guid>
-      <description>Most people today agree that null is evil, and they try to get rid of them. One technique that most people prefer is to throw an exception in the case of an error, or if we cannot return a valid value from a function. The problem is, exceptions are not any kind better than null, and they don&amp;rsquo;t solve any problem that null introduced.
-In my previous post null is Evil i mentioned seven problems that null introduced.</description>
-    </item>
-    
-    <item>
-      <title>null is Evil</title>
-      <link>https://davidraab.github.io/posts/null-is-evil/</link>
-      <pubDate>Sun, 20 Mar 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/posts/null-is-evil/</guid>
-      <description>Tony Hoare once said: I call it my billion-dollar mistake. It was the invention of the null reference in 1965. So, why did he added &amp;ldquo;null&amp;rdquo; in the first place? Why was it such a big mistake. And if it is such a big mistake, what are the alternatives?
-The purpose of null To understand why it was a mistake, let&amp;rsquo;s look why it was even added in the first place.</description>
     </item>
     
   </channel>

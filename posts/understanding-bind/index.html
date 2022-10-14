@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Understanding bind // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="Gives an introduction to the bind function" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.a8546077d48c47c89a814549279adb362800e0bf9e49e90fe38c4f6ee35bff70.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Understanding bind"/>
+<meta name="twitter:description" content="Gives an introduction to the bind function"/>
+
+    <meta property="og:title" content="Understanding bind" />
+<meta property="og:description" content="Gives an introduction to the bind function" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/understanding-bind/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-04-03T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-04-03T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Understanding bind</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Apr 3, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          22 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/functor/">functor</a>
+              <a class="tag" href="https://davidraab.github.io/tags/applicative/">applicative</a>
+              <a class="tag" href="https://davidraab.github.io/tags/monad/">monad</a>
+              <a class="tag" href="https://davidraab.github.io/tags/option/">option</a>
+              <a class="tag" href="https://davidraab.github.io/tags/cps/">cps</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>In <a href="https://davidraab.github.io/posts/understanding-map/">Understanding map</a> we learned that implementing
+a <code>map</code> function is what we call a <em>Functor</em>. In <a href="https://davidraab.github.io/posts/applicative-functors/">Applicative Functors</a>
+we extended that idea with the <code>return</code> and <code>apply</code> function and we call the result an <em>Applicative Functor</em>.
+The next important function in our toolset is the <code>bind</code> function.</p>
+<h2 id="monads">Monads</h2>
+<p>The combination of <code>return</code> and <code>bind</code> is what we call a Monad. But currently
+I will not consider this as an introduction to Monads at all. If you heard the <em>Monad</em> term and
+search for an introduction to understand what a <em>Monad</em> is you will not find an answer her. If
+you already have some basic understanding about the term than this and my two previous blogs
+can help to understand the concept. Otherwise if you just try to understand what a <em>Monad</em> is
+I recommend the following link to understand the problem:
+<a href="http://two-wrongs.com/the-what-are-monads-fallacy">The what are Monads Fallacy</a></p>
+<h2 id="the-problem">The Problem</h2>
+<p>I think it is always good to start with a problem. If we understand a problem first, we usually
+have it easier to understand why we are doing something. Currently we have <code>map</code> to upgrade functions with
+one argument, with <code>return</code> and <code>apply</code> we could upgrade functions with multiple arguments. So
+what is <code>bind</code> supposed to do?</p>
+<p>Up to this point we only upgraded functions that had normal unboxed input and output types. We always
+faced functions like <code>'a -&gt; 'b</code>, but never functions like <code>'a -&gt; option&lt;'b&gt;</code>, <code>'a -&gt; Async&lt;'b&gt;</code>
+or <code>'a -&gt; list&lt;'b&gt;</code>. But in practice, the latter are quite common.</p>
+<p>A simple example is a function that tries to parse a <code>string</code> to a <code>float</code>. Because parsing of
+a string to a float could fail we usually expect a return type like <code>option&lt;float&gt;</code>. Usually we
+create a <code>Double</code> extension for this.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// Note: .NET System.Double is &#34;float&#34;   in F# and &#34;double&#34; in C#.
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">//       .NET System.Single is &#34;float32&#34; in F# and &#34;float&#34;  in C#.
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">type</span> <span style="color:#f0883e;font-weight:bold">Double</span> <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">member</span> tryParse str <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">match</span> <span style="color:#ff7b72">Double</span>.TryParse str <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72;font-weight:bold">|</span> <span style="color:#ff7b72">false</span><span style="color:#ff7b72;font-weight:bold">,_</span> <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72;font-weight:bold">|</span> <span style="color:#ff7b72">true</span><span style="color:#ff7b72;font-weight:bold">,</span>x  <span style="color:#ff7b72;font-weight:bold">-&gt;</span> Some x
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now have a function <code>Double.tryParse</code> with the signature.</p>
+<pre><code>string -&gt; option&lt;float&gt;
+</code></pre>
+<p>I will call such functions <em>Monadic functions</em> from now on. All <em>Monadic functions</em> expect
+normal input arguments, but return a boxed type, like <code>option&lt;'a&gt;</code>, <code>list&lt;'a&gt;</code>, <code>Async&lt;'a&gt;</code>
+and so on.</p>
+<p>The problem with such functions is that we cannot easily upgrade them like other functions. For example,
+let&rsquo;s assume we have a <code>option&lt;string&gt;</code>, and now we want to pass this value to <code>Double.tryParse</code>.
+As <code>tryParse</code> only expects <code>string</code> we could <code>Option.map</code> <code>tryParse</code> so it could work with
+a <code>option&lt;string&gt;</code>.</p>
+<p>But <code>map</code> not only adds a <code>option</code> <em>layer</em> to the input, it also adds it to the output. When we
+use <code>Option.map</code> on our <code>Double.tryParse</code> function, we get a function that looks like this:</p>
+<pre><code>option&lt;string&gt; -&gt; option&lt;option&lt;float&gt;&gt;
+</code></pre>
+<p>The problem is that our <em>output</em> is wrapped two times in the same layer. Now we have a
+<em>option containing an option containing a float</em>. But what we really want is just an <code>option&lt;float&gt;</code>.
+This is where <code>bind</code> comes into the play. The purpose of <code>bind</code> is to only <em>upgrade</em> the input of a
+function because the output of a function already returns an upgraded type. A <code>bind</code> function thus
+always have the <em>type-signature</em></p>
+<pre><code>('a -&gt; option&lt;'b&gt;) -&gt; option&lt;'a&gt; -&gt; option&lt;'b&gt;
+('a -&gt; list&lt;'b&gt;)   -&gt; list&lt;'a&gt;   -&gt; list&lt;'b&gt;
+('a -&gt; Async&lt;'b&gt;)  -&gt; Async&lt;'a&gt;  -&gt; Async&lt;'b&gt;
+</code></pre>
+<h2 id="return-once-again"><code>return</code> once again</h2>
+<p>The <code>bind</code> function don&rsquo;t stands on it&rsquo;s own. We also need a <code>return</code> function. But we
+already covered this function in <a href="https://davidraab.github.io/posts/applicative-functors/">Applicative Functors</a>.</p>
+<h2 id="implementing-bind">Implementing <code>bind</code></h2>
+<p>We can implement <code>bind</code> in two different ways. It is good to know both as depending on which type we
+have, sometimes the one or the other can be easier.</p>
+<ol>
+<li>The obvious way. You directly write a <code>bind</code> function that is similar to <code>map</code>, but instead
+of wrapping the output, you just return the output of the function as-is.</li>
+<li>You first write a <code>join</code>, <code>concat</code> or <code>flatten</code> function (The exact name of such a function
+usually depends on the type you have). The idea of such a function is to resolve two
+boxed types just into a single box. After this you just <code>map</code> and then <code>join</code> the result
+to create <code>bind</code>.</li>
+</ol>
+<p>The <code>option</code> type has the advantage that both implementations are easy, so let&rsquo;s look at how we could
+implement <code>bind</code> for <code>Option</code> in both ways.</p>
+<h3 id="the-direct-way">The direct way</h3>
+<p>The <em>direct</em> way can sometimes be nearly identical to <code>map</code>. Let&rsquo;s look at the <code>map</code> and <code>bind</code>
+implementation side-by-side.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mapOption</span> f opt <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">match</span> opt <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> None   <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Some x <span style="color:#ff7b72;font-weight:bold">-&gt;</span> Some <span style="color:#ff7b72;font-weight:bold">(</span>f x<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">bindOption</span> f opt <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">match</span> opt <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> None   <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Some x <span style="color:#ff7b72;font-weight:bold">-&gt;</span> f x
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As you can see, both functions are nearly identical. The only difference is that we just do <code>f x</code> instead
+of <code>Some (f x)</code>. We don&rsquo;t need to wrap the output in a <code>Some</code> because our function <code>f</code> already returns
+an <code>option</code>. So we just return it&rsquo;s output directly.</p>
+<h3 id="the-join-way">The <code>join</code> way</h3>
+<p>The other way is to first implement a new function that can turn a <code>option&lt;option&lt;'a&gt;&gt;</code> just into a
+<code>option&lt;'a&gt;</code>. That&rsquo;s also quite easy. We first check our outer-most <code>option</code>. If it is <code>None</code>
+we just return <code>None</code>. In the <code>Some</code> case we have another option that we directly return.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">joinOption</span> opt <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">match</span> opt <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> None          <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Some innerOpt <span style="color:#ff7b72;font-weight:bold">-&gt;</span> innerOpt
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we create <code>bind</code> by just using <code>map</code> and <code>join</code> the result.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">bindOption2</span> f opt <span style="color:#ff7b72;font-weight:bold">=</span> joinOption <span style="color:#ff7b72;font-weight:bold">(</span>mapOption f opt<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="simple-usage">Simple usage</h3>
+<p>Let&rsquo;s test both functions and compare it with a <code>map</code> call.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">input1</span> <span style="color:#ff7b72;font-weight:bold">=</span> Some <span style="color:#a5d6ff">&#34;abcde&#34;</span> <span style="color:#ff7b72;font-weight:bold">|&gt;</span> bindOption  <span style="color:#ff7b72">Double</span>.tryParse  <span style="color:#8b949e;font-style:italic">// None
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">input2</span> <span style="color:#ff7b72;font-weight:bold">=</span> Some <span style="color:#a5d6ff">&#34;100&#34;</span>   <span style="color:#ff7b72;font-weight:bold">|&gt;</span> bindOption2 <span style="color:#ff7b72">Double</span>.tryParse  <span style="color:#8b949e;font-style:italic">// Some 100.0
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">input3</span> <span style="color:#ff7b72;font-weight:bold">=</span> Some <span style="color:#a5d6ff">&#34;200&#34;</span>   <span style="color:#ff7b72;font-weight:bold">|&gt;</span> mapOption   <span style="color:#ff7b72">Double</span>.tryParse  <span style="color:#8b949e;font-style:italic">// Some (Some 200.0)
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>As we can see from the signature. <code>input1</code> and <code>input2</code> are just <code>option&lt;float&gt;</code>
+instead of <code>option&lt;option&lt;float&gt;&gt;</code> that a <code>map</code> will return us.</p>
+<p>The <code>Option</code> module already contains <code>Option.map</code> and <code>Option.bind</code>, so we don&rsquo;t have to
+rewrite those ourselves. As another exercise, let&rsquo;s look at a <code>bind</code> implementation for <code>list</code>.</p>
+<h2 id="bind-for-list"><code>bind</code> for <code>list</code></h2>
+<p>Creating a <code>bind</code> for a <code>list</code> is a case where the first-approach is usually really hard. Let&rsquo;s look
+at a <code>map</code> implementation for <code>list</code> first.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mapList</span> f inputList <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">folder</span> x xs <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72;font-weight:bold">(</span>f x<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">::</span> xs
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">List</span>.foldBack folder inputList []
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>Option.bind</code> was really easy as we could directly return what the call to <code>f</code> returned. But for a list
+this is not possible. Because in a list we call <code>f</code> multiple times for the input list, and the output
+of those are collected into a new list.</p>
+<p>Because <code>f</code> is a <em>Monadic function</em> in <code>bind</code> it means every call to <code>f</code> will return a list. If
+we add a list to another list, we get a list of list as expected <code>list&lt;list&lt;'a&gt;&gt;</code>. If we try to
+return a single <code>list</code> instead, it means we have to loop over the result of <code>f</code> and add its element
+to another list.</p>
+<p>Solving that problem inside of <code>bind</code> is hard, because <code>list</code> is an <em>immutable</em> data-structure. With a
+<em>mutable</em> list (<code>ResizeArray</code>) this operation would be quite easy, as we just could call <code>f x</code> that
+returns a <code>list</code> and loop through it and add it to some other list, but with an <em>immutable</em> list we
+cannot just add elements to an existing element.</p>
+<p>When we really want to solve it in one-go we could use a mutable list like <code>ResizeArray</code>, otherwise
+we have to use two nested <code>fold</code> or <code>foldBack</code> calls. Instead of nesting it and turning it in a complex
+function it is usually better to just extract those operation into it&rsquo;s own function. So we create
+a <code>concat</code> operation first, that can turn a <code>list&lt;list&lt;'a&gt;&gt;</code> just into a single list.</p>
+<p>I&rsquo;m not showing how to implementing <code>concat</code> for <code>list</code>, as the focus is <code>bind</code> not how immutable list
+processing works. So for <code>list</code> we usually would prefer just a <code>map</code> and <code>concat</code> implementation for
+<code>bind</code>.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">bindList</span> f xs <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">List</span>.map f xs <span style="color:#ff7b72;font-weight:bold">|&gt;</span> <span style="color:#ff7b72">List</span>.concat
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As you can see. <code>f</code> in our example now can be a <code>'a -&gt; 'b list</code> function. So it now produces a whole new list
+for every input of our starting list, but we still get a single list, not a list of list back.</p>
+<p>F# also provides an implementation for this function. But it is named <code>List.collect</code> instead of <code>List.bind</code>.</p>
+<h2 id="an-operator-for-bind">An operator for <code>bind</code></h2>
+<p>In <a href="https://davidraab.github.io/posts/applicative-functors/">Applicative Functors</a> we used <code>&lt;!&gt;</code> for the <code>map</code> function.
+And <code>&lt;*&gt;</code> for the <code>apply</code> function. We use <code>&gt;&gt;=</code> as an operator for the <code>bind</code> function. But on top of it.
+If we write it as an operator we swap the arguments. We expects our type <code>option</code>, <code>list</code>, <code>async</code> on the
+left-side and the function on the right-side.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#ff7b72;font-weight:bold">(&gt;&gt;=)</span> m f <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Option</span>.bind f m
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="continuation-passing-style">Continuation-passing Style</h2>
+<p>The reason for this change is that we think of <code>bind</code> as some kind of
+<a href="https://en.wikipedia.org/wiki/Continuation-passing_style">Continuation-passing Style</a> programming.
+To understand the change, we have to go back at the signature. Up until now i often described <code>map</code>
+and <code>apply</code> by the idea to just pass in the first argument. So when we have</p>
+<pre><code>('a -&gt; option&lt;'b&gt;) -&gt; option&lt;'a&gt; -&gt; option&lt;'b&gt;
+</code></pre>
+<p>we see it as a function that just <em>upgrades</em> the input of a function. But we still have a two argument
+function here, and the two argument form is how <code>bind</code> is used most often. If we threat it as
+a two-argument function we have something like this:</p>
+<p>We have a <code>option&lt;'a&gt;</code> as an input. And we provide a function <code>'a -&gt; option&lt;'b&gt;</code>. As we can see, the input
+of <code>f</code> is just <code>'a</code>. So what we get as the input is the <strong>unwrapped</strong> <code>'a</code> that is inside <code>option&lt;'a&gt;</code>.</p>
+<p>It can help here if we think with piping <code>|&gt;</code>. The idea of piping is that we can write the next argument
+of a function on the left side. So instead of <code>f x</code> we also can write <code>x |&gt; f</code>. When we use <code>bind</code> with
+piping we have something like <code>x |&gt; Option.bind f</code>. We also can rearange the <em>type-signature</em> to reflect
+this style of writing</p>
+<pre><code>option&lt;'a&gt; -&gt; ('a -&gt; option&lt;'b&gt;) -&gt; option&lt;'b&gt;
+</code></pre>
+<p>When we use piping with bind, we get something similar to the above. And probably the order becomes
+clearer. We start with a boxed value like <code>option&lt;'a&gt;</code>, then our <code>bind</code> function somehow extract the
+<code>'a</code> from our <code>option&lt;'a&gt;</code>, this <code>'a</code> is then passed to the function <code>('a -&gt; option&lt;'b&gt;)</code>. This function
+returns an <code>option&lt;'b&gt;</code> what is also what <code>bind</code> will then return!</p>
+<p>But it is important to understand that there is no guarantee that our function will be called at all!
+Look again at the implementation of <code>bind</code> to understand this. <code>bind</code> checks whether we have <code>None</code> or <code>Some</code>.
+In the <code>None</code> case it will just return <code>None</code> only in the <code>Some</code> case it will call <code>f x</code> and execute
+our function that we passed to <code>bind</code>!</p>
+<p>Not only that, the <em>unwrapping</em> of the <code>option</code> is already handled for us by the <code>bind</code> function. So we
+can pass a function <code>f</code> to <code>bind</code> that only will be executed if we have <code>Some value</code>.</p>
+<p>Let&rsquo;s create an example to understand this idea in more depth. At first we create a function that
+prints some text to screen and expect the user to enter a float. We try to parse the input as
+<code>float</code> with our <code>Double.tryParse</code> function that returns an <code>option&lt;float&gt;</code>.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">getUserInput</span> msg <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    printfn <span style="color:#a5d6ff">&#34;%s: &#34;</span> msg
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">Console</span>.ReadLine() <span style="color:#ff7b72;font-weight:bold">|&gt;</span> <span style="color:#ff7b72">Double</span>.tryParse
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we sure could write</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">someInput</span> <span style="color:#ff7b72;font-weight:bold">=</span> getUserInput <span style="color:#a5d6ff">&#34;Enter a number&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and <code>someInput</code> would contain an <code>option&lt;float&gt;</code>. We now could use that <code>option&lt;float&gt;</code> with other
+functions. We just could <code>map</code> or <code>apply</code> all other functions that are not compatible with <code>option</code>.</p>
+<p>But instead of doing that, let&rsquo;s pass the resulting <code>option&lt;float&gt;</code> directly to <code>bind</code>. We then
+provide a continuation function to <code>bind</code> that only will be executed if we have <code>Some value</code>.
+The advantage is that our <code>f</code> function only sees a <code>float</code>, not a <code>option&lt;float&gt;</code>. We now
+can do something with that <code>float</code>.</p>
+<p>Let&rsquo;s write an example where the user inputs the radius of a circle, and we calculate the
+area of that circle.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">retn</span> x <span style="color:#ff7b72;font-weight:bold">=</span> Some x
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">circleArea</span> r <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">(</span>r <span style="color:#ff7b72;font-weight:bold">**</span> 2<span style="color:#ff7b72;font-weight:bold">.</span>0<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">*</span> <span style="color:#ff7b72">Math</span>.PI
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">area</span> <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    getUserInput <span style="color:#a5d6ff">&#34;Enter radius&#34;</span> <span style="color:#ff7b72;font-weight:bold">|&gt;</span> <span style="color:#ff7b72">Option</span>.bind <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">fun</span> userInput <span style="color:#ff7b72;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">area</span> <span style="color:#ff7b72;font-weight:bold">=</span> circleArea userInput
+</span></span><span style="display:flex;"><span>        retn area
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s go through the example step-by-step.</p>
+<ol>
+<li>At first we just create a function <code>circleArea</code> that calculates the area from a given radius.
+For such a function we just expect <code>float</code> as input. We usually don&rsquo;t expect <code>option&lt;float&gt;</code>
+or <code>list&lt;float&gt;</code> as the input.</li>
+<li>Then we call <code>getUserInput &quot;Enter radius&quot;</code>. The user will see &ldquo;Enter radius: &quot; and he must enter
+something. The input will be parsed as a <code>float</code>. We will either get <code>Some x</code> back if
+the user input was a <code>float</code> or <code>None</code> if the input was not valid.</li>
+<li>This option is then directly passed to <code>Option.bind</code> as the second argument. We use the Pipe <code>|&gt;</code>
+here to bring the <code>option</code> to the left-side.</li>
+<li>The right-side is now a continuation function. If the <code>option</code> passed to <code>bind</code> contains <code>Some x</code>,
+that means a valid <code>float</code>, our continuation function is called and <code>bind</code> returns the result
+of our continuation function. If the input to <code>bind</code> was <code>None</code>, <code>bind</code> will immediately return <code>None</code>
+without executing the continuation function.</li>
+<li>Look at the type of <code>userInput</code>. It is a <code>float</code> not an <code>option&lt;float&gt;</code>. We have a continuation
+function that only will be execute if we have a valid <code>float</code>. And we can directly work
+with a <code>float</code>.</li>
+<li>In our Continuation function we use the <code>float</code> to calculate the area of a circle. As
+we only have <code>float</code> not an <code>option&lt;float&gt;</code> we don&rsquo;t have to <code>map</code> <code>circleArea</code>.</li>
+<li>As you now can see <code>let area</code> inside our continuation function is now a normal <code>float</code>. But
+now we want to return <code>area</code> as the result of our calculation. But <code>bind</code> must return
+an <code>option</code> value. So how do we do that? We use our <code>retn</code> (return) function to convert
+a normal <code>float</code> into an <code>option&lt;float&gt;</code></li>
+<li>Our outer <code>area</code> is now a <code>option&lt;float&gt;</code> that either is <code>Some</code> and contains the calculated area
+for a circle. Or it is <code>None</code>, because the user input could not be parsed.</li>
+</ol>
+<p>Currently we don&rsquo;t print the result. So let&rsquo;s print <code>area</code>. As <code>area</code> (outside of the
+continuation function) is now a <code>option&lt;float&gt;</code> we have to Pattern Match it to see if our computation
+was successful or not.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">match</span> area <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> None      <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;User Input was not a valid number&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> Some area <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;The area of a circle is %f&#34;</span> area
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>If the user input was <code>10</code> for example, we will see <code>The area of a circle is 314.159265</code>, but if we provide
+an invalid input, we just see <code>User Input was not a valid number</code>. In our example we first had a
+<code>option</code> value and passed it to <code>Option.bind</code> with <code>|&gt;</code>. This happens often, that is why we created
+<code>&gt;&gt;=</code> previously.</p>
+<p>Let&rsquo;s extend that example. We now ask the user for three inputs. And we will calculate the volume
+of a cube.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">cubeVolume</span> <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    getUserInput <span style="color:#a5d6ff">&#34;Length X&#34;</span> <span style="color:#ff7b72;font-weight:bold">&gt;&gt;=</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">fun</span> x <span style="color:#ff7b72;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>    getUserInput <span style="color:#a5d6ff">&#34;Length Y&#34;</span> <span style="color:#ff7b72;font-weight:bold">&gt;&gt;=</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">fun</span> y <span style="color:#ff7b72;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>    getUserInput <span style="color:#a5d6ff">&#34;Length Z&#34;</span> <span style="color:#ff7b72;font-weight:bold">&gt;&gt;=</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">fun</span> z <span style="color:#ff7b72;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">volume</span> <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">*</span> y <span style="color:#ff7b72;font-weight:bold">*</span> z
+</span></span><span style="display:flex;"><span>        retn volume
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">)))</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">match</span> cubeVolume <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> None        <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;Not all inputs were valid&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> Some volume <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;Volume of cube is: %f&#34;</span> volume
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As we can see now. We ask the user three times to input a number X, Y and Z. If all inputs were valid. We
+just calculate the volume with <code>let volume = x * y * z</code>. The important aspect is that all of our values
+are always <code>float</code> never <code>option&lt;float&gt;</code>, because the <code>bind</code> operation <code>&gt;&gt;=</code> already did the
+unwrapping for us.</p>
+<p>And probably it now becomes clear why we named our <em>constructor</em> <code>return</code> (retn). Inside of our
+continuation functions we never have lifted values. But at the end of our continuation functions we
+always must return a lifted value. So <em>lifting</em> and <em>returning</em> is always the last statement we do.</p>
+<p>Let&rsquo;s inspect the syntax a little bit deeper. Look at the syntax of a normal <code>let</code>
+definition in F#. Usually a <code>let</code> definition contains a name, a equal &ldquo;=&rdquo; and a expression that
+will be executed. Actually just look at the following two lines and just compare them.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> getUserInput <span style="color:#a5d6ff">&#34;Length X&#34;</span>
+</span></span><span style="display:flex;"><span>getUserInput <span style="color:#a5d6ff">&#34;Length X&#34;</span> <span style="color:#ff7b72;font-weight:bold">&gt;&gt;=</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">fun</span> x <span style="color:#ff7b72;font-weight:bold">-&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Do you spot the similarities?</p>
+<ol>
+<li>Both definition have an expression <code>getUserInput &quot;Length X&quot;</code> this expression will be executed.</li>
+<li>In the first example: We only have <code>=</code> for assignment, and we assign the result to <code>let x</code>.</li>
+<li>In the second example: We have <code>&gt;&gt;= (fun x</code> as we assign the result of the expression to <code>x</code>.</li>
+</ol>
+<p>So what is the difference between both?</p>
+<p>The first difference is that the statements are just flipped. With <code>let</code> we have something like</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">variable</span> <span style="color:#ff7b72;font-weight:bold">=</span> expression
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But with our <code>bind</code> operation we just have</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>expression <span style="color:#ff7b72;font-weight:bold">&gt;&gt;=</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">fun</span> variable <span style="color:#ff7b72;font-weight:bold">-&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But the more important difference is the result (our variable). In a normal <code>let</code> definition we
+will get <code>option&lt;float&gt;</code>. But with <code>bind</code>, we just get <code>float</code>. <code>bind</code> decides whether our
+continuation function should be called or not.</p>
+<h2 id="computation-expressions">Computation Expressions</h2>
+<p>The idea of this kind of continuation-passing style is actually really powerful. So powerful that F#
+provides a language construct to let it look like normal code. At first, we just create a class
+that contains a <code>Bind</code> and <code>Return</code> method that we want to use.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">type</span> <span style="color:#f0883e;font-weight:bold">MaybeBuilder</span>() <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">member</span> o.<span style="color:#d2a8ff;font-weight:bold">Bind</span><span style="color:#ff7b72;font-weight:bold">(</span>m<span style="color:#ff7b72;font-weight:bold">,</span>f<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Option</span>.bind f m
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">member</span> o.<span style="color:#d2a8ff;font-weight:bold">Return</span><span style="color:#ff7b72;font-weight:bold">(</span>x<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span> Some x
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">maybe</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">new</span> MaybeBuilder()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As you can see. The <code>Bind</code> and <code>Return</code> methods are not special. They are just the functions you already
+know! After you created a class you must create an object of this class. That is our <code>maybe</code>. Now you
+can use the following special syntax.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">cubeVolume2</span> <span style="color:#ff7b72;font-weight:bold">=</span> maybe <span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> getUserInput <span style="color:#a5d6ff">&#34;Length X&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">y</span> <span style="color:#ff7b72;font-weight:bold">=</span> getUserInput <span style="color:#a5d6ff">&#34;Length Y&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">z</span> <span style="color:#ff7b72;font-weight:bold">=</span> getUserInput <span style="color:#a5d6ff">&#34;Length Z&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span>  <span style="color:#79c0ff">volume</span> <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">*</span> y <span style="color:#ff7b72;font-weight:bold">*</span> z
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> volume
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">match</span> cubeVolume2 <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> None     <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;User entered some invalid number&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> Some vol <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;Cube volume is %f&#34;</span> vol
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So, what happens exactly here? Whenever you use <code>let!</code> <code>Bind</code> is just called. That means,
+if you have <code>option&lt;float&gt;</code> on the right side. But you use <code>let! x</code>. Then you just get a <code>float</code>.
+Every code after <code>let!</code> is automatically converted into a continuation function that is passed to
+<code>Bind</code>. The <code>return</code> statement (that is only available inside a computation expression) turns
+a normal value into a lifted value. In this example it wraps it inside a <code>option</code>.</p>
+<p>You now can write code as <code>option</code> doesn&rsquo;t exists at all. Whenever you have a
+function that returns an <code>option</code>, you just must use <code>let!</code> instead of <code>let</code>. The <code>let!</code> call uses
+<code>Bind</code> under the hood. You never need to upgrade functions with <code>map</code> or <code>apply</code> as you don&rsquo;t
+work with lifted values. You can use all your functions directly.</p>
+<p>But it doesn&rsquo;t mean that we just erased <code>option</code>. <code>option</code> is still present, but the handling
+of it is done by the <code>bind</code> function. Whenever we have an expression on the right side that for example
+returns a <code>None</code> then the computation stops at this point. Why? Because our <code>bind</code> function only calls
+the passed in <code>f</code> function (the continuation) in the <code>Some</code> case.</p>
+<p>And it overall also means that the result of a <code>maybe { ... }</code> is always an <code>option</code>! Because it
+is an <code>option</code> you easily can use functions defined with a <code>maybe { ... }</code> construct in other
+<code>maybe { ... }</code> constructs.</p>
+<p>On top of it you still get the safety that <code>option</code> provides you, that means at some point you must
+check the value. But it is up to you if you just use a generic check that you implemented in <code>bind</code>, or
+write your own handling.</p>
+<p>What you see here is a basic implementation of the <strong>Maybe Monad</strong>. And it is the implementation of
+the second solution I showed in the <a href="https://davidraab.github.io/posts/null-is-evil/">null is Evil</a> post.</p>
+<h2 id="defining-map-and-apply-through-bind">Defining <code>map</code> and <code>apply</code> through <code>bind</code></h2>
+<p>The combination of <code>return</code> and <code>bind</code> is really powerful. In
+<a href="https://davidraab.github.io/posts/applicative-functors/">Understanding apply</a> we already saw that we can
+implement <code>map</code> through <code>return</code> and <code>apply</code>. But with <code>return</code> and <code>bind</code> we can easily implement
+<code>map</code> and <code>apply</code>.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">25
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// map with bind operator
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">map</span> f opt <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    opt <span style="color:#ff7b72;font-weight:bold">&gt;&gt;=</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">fun</span> x <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#8b949e;font-style:italic">// unbox option
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>        retn <span style="color:#ff7b72;font-weight:bold">(</span>f x<span style="color:#ff7b72;font-weight:bold">)</span>    <span style="color:#8b949e;font-style:italic">// execute (f x) and box result
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    <span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// map defined with Computation Expression
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">map</span> f opt <span style="color:#ff7b72;font-weight:bold">=</span> maybe <span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> opt  <span style="color:#8b949e;font-style:italic">// unbox option
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    <span style="color:#ff7b72">return</span> f x    <span style="color:#8b949e;font-style:italic">// execute (f x) and box result
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// Apply with bind operator
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">apply</span> fo xo <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    fo <span style="color:#ff7b72;font-weight:bold">&gt;&gt;=</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">fun</span> f <span style="color:#ff7b72;font-weight:bold">-&gt;</span>  <span style="color:#8b949e;font-style:italic">// unbox function
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    xo <span style="color:#ff7b72;font-weight:bold">&gt;&gt;=</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">fun</span> x <span style="color:#ff7b72;font-weight:bold">-&gt;</span>  <span style="color:#8b949e;font-style:italic">// unbox value
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>        retn <span style="color:#ff7b72;font-weight:bold">(</span>f x<span style="color:#ff7b72;font-weight:bold">)</span>    <span style="color:#8b949e;font-style:italic">// execute (f x) and box result
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    <span style="color:#ff7b72;font-weight:bold">))</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// Apply with Computation expression
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">apply</span> fo xo <span style="color:#ff7b72;font-weight:bold">=</span> maybe <span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">f</span> <span style="color:#ff7b72;font-weight:bold">=</span> fo  <span style="color:#8b949e;font-style:italic">// unbox function
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> xo  <span style="color:#8b949e;font-style:italic">// unbox value
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    <span style="color:#ff7b72">return</span> f x   <span style="color:#8b949e;font-style:italic">// execute (f x) and box result
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Because of this we always have an <em>Applicative Functor</em> when we have a <em>Monad</em>.</p>
+<h2 id="kleisli-composition">Kleisli Composition</h2>
+<p>Function composition is the idea to create a new function out of two smaller functions. It
+usually works as long we have two function with a matching output and input type.</p>
+<pre><code>('a -&gt; 'b) &gt;&gt; ('b -&gt; 'c)
+</code></pre>
+<p>Because <code>'b</code> is the output of anothers function input, we can directly create a new composed
+function that goes from <code>'a</code> to <code>'c</code> <code>'a -&gt; 'c</code>. But this doesn&rsquo;t work for <em>Monadic functions</em>
+as they don&rsquo;t have matching input/output.</p>
+<pre><code>'a -&gt; option&lt;'b&gt;
+'b -&gt; option&lt;'c&gt;
+</code></pre>
+<p>These functions cannot be composed because <code>option&lt;'b&gt;</code> is not the same as <code>'b</code>. But with our
+bind operator <code>&gt;&gt;=</code> we can easily pass boxed values into function that don&rsquo;t expect them. Because
+of that we also can create a compose function that directly compose two <em>Monadic functions</em>.
+We use the operator <code>&gt;=&gt;</code> for this kind of composition. This kind of composition is also named
+<em>Kleisli composition</em>.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#ff7b72;font-weight:bold">(&gt;&gt;)</span>  f g x <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">(</span>f x<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">|&gt;</span> g   <span style="color:#8b949e;font-style:italic">// This is how normal composition is defined
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#ff7b72;font-weight:bold">(&gt;=&gt;)</span> f g x <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">(</span>f x<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">&gt;&gt;=</span> g  <span style="color:#8b949e;font-style:italic">// This is Kleisli composition
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we can compose two <em>Monadic</em> functions directly.</p>
+<pre><code>('a -&gt; option&lt;'b&gt;) &gt;=&gt; ('b -&gt; option&lt;'c&gt;)
+</code></pre>
+<p>the result is a new <em>Monadic function</em>.</p>
+<pre><code>'a -&gt; option&lt;'c&gt;
+</code></pre>
+<h2 id="laws">Laws</h2>
+<p>We already saw Laws for <em>Functors</em> and <em>Applicative Functors</em>. The combination of <code>return</code>
+and <code>bind</code> (a Monad) also must satisfy three laws. In the following description I use</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">f</span>   <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Double</span>.tryParse <span style="color:#8b949e;font-style:italic">// string -&gt; option&lt;float&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">g</span> x <span style="color:#ff7b72;font-weight:bold">=</span> retn <span style="color:#ff7b72;font-weight:bold">(</span>x <span style="color:#ff7b72;font-weight:bold">*</span> 2<span style="color:#ff7b72;font-weight:bold">.</span>0<span style="color:#ff7b72;font-weight:bold">)</span>  <span style="color:#8b949e;font-style:italic">// float  -&gt; option&lt;float&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">x</span>   <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;10&#34;</span>            <span style="color:#8b949e;font-style:italic">// string         -- unboxed value
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">m</span>   <span style="color:#ff7b72;font-weight:bold">=</span> retn <span style="color:#a5d6ff">&#34;10&#34;</span>       <span style="color:#8b949e;font-style:italic">// option&lt;string&gt; -- a boxed value
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>But sure, all laws have to work with any function or value combination. But seeing some actual
+values makes it easier to understand the laws.</p>
+<h3 id="1-law-left-identity">1. Law: Left identity</h3>
+<p>When we <code>return</code> (box) a value and then use <code>bind</code> (that unbox the value) and pass it to a function.
+It is the same as directly passing the value to a function.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>retn x <span style="color:#ff7b72;font-weight:bold">&gt;&gt;=</span> f  <span style="color:#ff7b72;font-weight:bold">=</span>  f x  <span style="color:#8b949e;font-style:italic">// (Some 10.0) = (Some 10.0) -&gt; true
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2-law-right-identity">2. Law: Right identity</h3>
+<p>Binding a boxed value and returning it, is the same as the boxed value</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>m <span style="color:#ff7b72;font-weight:bold">&gt;&gt;=</span> retn  <span style="color:#ff7b72;font-weight:bold">=</span>  m
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3-law-associative">3. Law: Associative</h3>
+<p>Order of composing don&rsquo;t play a role. We can pass a value to <code>f</code> and the result to <code>g</code> and
+it has to be the same as if we compose <code>f</code> and <code>g</code> first, and pass our value to the composed
+function.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">ax</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">(</span>m <span style="color:#ff7b72;font-weight:bold">&gt;&gt;=</span> f<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">&gt;&gt;=</span> g   <span style="color:#8b949e;font-style:italic">// Calling f with m then pass result to g
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">ay</span> <span style="color:#ff7b72;font-weight:bold">=</span>  m <span style="color:#ff7b72;font-weight:bold">&gt;&gt;=</span> <span style="color:#ff7b72;font-weight:bold">(</span>f <span style="color:#ff7b72;font-weight:bold">&gt;=&gt;</span> g<span style="color:#ff7b72;font-weight:bold">)</span>  <span style="color:#8b949e;font-style:italic">// Compose f and g first, then pass it m
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>
+</span></span><span style="display:flex;"><span>ax <span style="color:#ff7b72;font-weight:bold">=</span> ay <span style="color:#8b949e;font-style:italic">// Must be the same
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="summary">Summary</h2>
+<p>With <code>map</code>, <code>retn</code>, <code>apply</code> and <code>bind</code> we have four general functions that simplifies working
+with <em>boxed</em> types like <code>option</code>, <code>list</code>, <code>Async</code> and so on. Whenever you create a new type you
+should consider implementing those functions too. Here is a quick overview of those
+functions and when to use them.</p>
+<h3 id="map"><code>map</code></h3>
+<pre><code>('a -&gt; 'b) -&gt; M&lt;'a&gt; -&gt; M&lt;'b&gt;
+</code></pre>
+<p>When we interpret it as a &ldquo;one-argument&rdquo; function we can add our boxed type <code>M</code> to the input and
+output of a function.</p>
+<p>Interpreted as a &ldquo;two-argument&rdquo; function we can use a boxed value <code>M&lt;'a&gt;</code> directly with a function
+that can work with the wrapped type <code>'a</code>.</p>
+<h3 id="apply"><code>apply</code></h3>
+<pre><code>M&lt;'a -&gt; 'b&gt; -&gt; M&lt;'a&gt; -&gt; M&lt;'b&gt;
+</code></pre>
+<p>With apply we can work with boxed functions. We get those as a result if we try to <code>map</code> a function
+that has more than one argument. Or we just lift a function with <code>return</code>. We can view <code>apply</code> as
+<em>Partial Application</em> for <em>boxed</em> function. With every call we can provide the next value to a
+function that also is a boxed value. In this way we can turn every argument of a function
+to a boxed value. A function like <code>int -&gt; string -&gt; float -&gt; int</code> can thus be turned into</p>
+<pre><code>M&lt;int&gt; -&gt; M&lt;string&gt; -&gt; M&lt;float&gt; -&gt; M&lt;int&gt;
+</code></pre>
+<h3 id="return-or-retn"><code>return</code> or <code>retn</code></h3>
+<pre><code>'a -&gt; M&lt;'a&gt;
+</code></pre>
+<p>It just boxes a <code>'a</code></p>
+<h3 id="bind"><code>bind</code></h3>
+<pre><code>('a -&gt; M&lt;'b&gt;) -&gt; M&lt;'a&gt; -&gt; M&lt;'b&gt;
+</code></pre>
+<p>Interpreted as a one-argument function, we can upgrade a function like <code>map</code>. The difference is
+that we only upgrade the input, because the function we have already return a boxed value.</p>
+<p>Interpreted as a two-argument function, we see it as a form of Continuation passing style. We
+often use piping with <code>|&gt;</code> to get the value to the <em>left-side</em> and the continuation function on
+the <em>right-side</em>.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>m <span style="color:#ff7b72;font-weight:bold">|&gt;</span> <span style="color:#ff7b72">M</span>.bind f
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>On top, we give <code>|&gt; M.bind</code> it&rsquo;s own operator <code>&gt;&gt;=</code></p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>m <span style="color:#ff7b72;font-weight:bold">&gt;&gt;=</span> f
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This way we have a boxed value <code>M&lt;'a&gt;</code>, but our function <code>f</code> only receives an unboxed <code>'a</code>. In this way
+we can work with unboxed values and also use any function without explicitly box them. Because
+we must return <em>boxed</em> values we usually use <code>return</code> to return/box an unboxed value inside of <code>f</code>.</p>
+<p>The syntax of this kind of continuation-passing style can be improved with a <em>Computation Expression</em>.</p>
+<h3 id="implementations">Implementations</h3>
+<ul>
+<li><code>map</code> can be implemented through <code>return</code> and <code>apply</code></li>
+<li><code>map</code> can be implemented through <code>return</code> and <code>bind</code></li>
+<li><code>apply</code> can be implemented through <code>return</code> and <code>bind</code></li>
+<li><code>bind</code> can be implemented through <code>map</code> and some kind of <code>concat</code> operation</li>
+</ul>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://fsharpforfunandprofit.com/posts/elevated-world-2/">Understanding bind</a></li>
+<li><a href="http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html">Functors, Applicatives, And Monads In Pictures</a></li>
+<li><a href="http://fsharpforfunandprofit.com/series/computation-expressions.html">Computation Expressions</a></li>
+<li><a href="https://en.wikibooks.org/wiki/F_Sharp_Programming/Computation_Expressions">Wikibooks - Computation Expressions</a></li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

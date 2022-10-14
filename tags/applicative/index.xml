@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>applicative on David Raab</title>
+    <link>https://davidraab.github.io/tags/applicative/</link>
+    <description>Recent content in applicative on David Raab</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 03 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/applicative/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Understanding bind</title>
+      <link>https://davidraab.github.io/posts/understanding-bind/</link>
+      <pubDate>Sun, 03 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/understanding-bind/</guid>
+      <description>In Understanding map we learned that implementing a map function is what we call a Functor. In Applicative Functors we extended that idea with the return and apply function and we call the result an Applicative Functor. The next important function in our toolset is the bind function.
+Monads The combination of return and bind is what we call a Monad. But currently I will not consider this as an introduction to Monads at all.</description>
+    </item>
+    
+    <item>
+      <title>Applicative Functors</title>
+      <link>https://davidraab.github.io/posts/applicative-functors/</link>
+      <pubDate>Thu, 31 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/applicative-functors/</guid>
+      <description>In my previous article Understanding map I introduced the map function and described that implementing map and fulfilling two laws we get what we call a Functor. In this Post we discuss the apply function that we can view as an extension to the map function.
+Problem with map It might be that you have noticed one problem with map. map only can work with one-argument functions! The definition of map expects a function &#39;a -&amp;gt; &#39;b as it&amp;rsquo;s first argument.</description>
+    </item>
+    
+  </channel>
+</rss>

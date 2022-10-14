@@ -2,11 +2,56 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://davidraab.github.io/tags/applicative/</loc>
+    <lastmod>2016-04-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/cps/</loc>
+    <lastmod>2016-04-03T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://davidraab.github.io/</loc>
-    <lastmod>2016-03-24T00:00:00+00:00</lastmod>
+    <lastmod>2016-04-03T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/fsharp/</loc>
-    <lastmod>2016-03-24T00:00:00+00:00</lastmod>
+    <lastmod>2016-04-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/functor/</loc>
+    <lastmod>2016-04-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/monad/</loc>
+    <lastmod>2016-04-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/option/</loc>
+    <lastmod>2016-04-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/posts/</loc>
+    <lastmod>2016-04-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/</loc>
+    <lastmod>2016-04-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/posts/understanding-bind/</loc>
+    <lastmod>2016-04-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/posts/applicative-functors/</loc>
+    <lastmod>2016-03-31T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/list/</loc>
+    <lastmod>2016-03-27T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/posts/understanding-map/</loc>
+    <lastmod>2016-03-27T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/evil/</loc>
+    <lastmod>2016-03-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/exceptions/</loc>
+    <lastmod>2016-03-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/posts/exceptions-are-evil/</loc>
+    <lastmod>2016-03-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/null/</loc>
+    <lastmod>2016-03-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/higher-kinded-polymorphism/</loc>
     <lastmod>2016-03-24T00:00:00+00:00</lastmod>
@@ -14,25 +59,10 @@
     <loc>https://davidraab.github.io/tags/polymorphism/</loc>
     <lastmod>2016-03-24T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://davidraab.github.io/posts/</loc>
-    <lastmod>2016-03-24T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/</loc>
-    <lastmod>2016-03-24T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://davidraab.github.io/tags/csharp/</loc>
     <lastmod>2016-03-20T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://davidraab.github.io/tags/evil/</loc>
-    <lastmod>2016-03-20T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/null/</loc>
-    <lastmod>2016-03-20T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://davidraab.github.io/posts/null-is-evil/</loc>
-    <lastmod>2016-03-20T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/option/</loc>
     <lastmod>2016-03-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/immutability/</loc>
@@ -51,9 +81,6 @@
     <lastmod>2016-03-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/applying-structured-programming/</loc>
-    <lastmod>2016-03-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/list/</loc>
     <lastmod>2016-03-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/refactoring/</loc>

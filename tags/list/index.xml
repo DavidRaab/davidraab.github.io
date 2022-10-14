@@ -6,7 +6,17 @@
     <description>Recent content in list on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 09 Mar 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/list/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 27 Mar 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/list/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Understanding map</title>
+      <link>https://davidraab.github.io/posts/understanding-map/</link>
+      <pubDate>Sun, 27 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/understanding-map/</guid>
+      <description>One important function in functional programming is the map function. When I learned F# I must admit that I had some problems first, understanding it. The problem was, I already knew the map function from dozens of other languages. Or to say it correctly, I mostly learned a wrong explanation of map.
+The typical explanation I&amp;rsquo;m talking about often goes something like this: map takes a function and a list. It applies the function to every element in the list, and returns a new list.</description>
+    </item>
+    
     <item>
       <title>Applying Structured Programming</title>
       <link>https://davidraab.github.io/posts/applying-structured-programming/</link>
