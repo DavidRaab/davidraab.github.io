@@ -2,11 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://davidraab.github.io/tags/csharp/</loc>
+    <lastmod>2016-03-20T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://davidraab.github.io/</loc>
-    <lastmod>2016-03-14T00:00:00+00:00</lastmod>
+    <lastmod>2016-03-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/evil/</loc>
+    <lastmod>2016-03-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/fsharp/</loc>
-    <lastmod>2016-03-14T00:00:00+00:00</lastmod>
+    <lastmod>2016-03-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/null/</loc>
+    <lastmod>2016-03-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/posts/null-is-evil/</loc>
+    <lastmod>2016-03-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/option/</loc>
+    <lastmod>2016-03-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/posts/</loc>
+    <lastmod>2016-03-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/</loc>
+    <lastmod>2016-03-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/immutability/</loc>
     <lastmod>2016-03-14T00:00:00+00:00</lastmod>
@@ -14,17 +35,8 @@
     <loc>https://davidraab.github.io/tags/oop/</loc>
     <lastmod>2016-03-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://davidraab.github.io/posts/</loc>
-    <lastmod>2016-03-14T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/</loc>
-    <lastmod>2016-03-14T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://davidraab.github.io/posts/immutability-and-functions/</loc>
     <lastmod>2016-03-14T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/csharp/</loc>
-    <lastmod>2016-03-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/intro/</loc>
     <lastmod>2016-03-10T00:00:00+00:00</lastmod>

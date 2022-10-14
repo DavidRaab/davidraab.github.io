@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>null is Evil // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="Explains why we consider null as a mistake, and shows alternatives to it" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.a8546077d48c47c89a814549279adb362800e0bf9e49e90fe38c4f6ee35bff70.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="null is Evil"/>
+<meta name="twitter:description" content="Explains why we consider null as a mistake, and shows alternatives to it"/>
+
+    <meta property="og:title" content="null is Evil" />
+<meta property="og:description" content="Explains why we consider null as a mistake, and shows alternatives to it" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/null-is-evil/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-03-20T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-03-20T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">null is Evil</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Mar 20, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          17 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/csharp/">CSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/null/">null</a>
+              <a class="tag" href="https://davidraab.github.io/tags/option/">option</a>
+              <a class="tag" href="https://davidraab.github.io/tags/evil/">evil</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>Tony Hoare once said: <em>I call it my billion-dollar mistake. It was the invention of the null
+reference in 1965.</em> So, why did he added &ldquo;null&rdquo; in the first place? Why was it such a big
+mistake. And if it is such a big mistake, what are the alternatives?</p>
+<h2 id="the-purpose-of-null">The purpose of null</h2>
+<p>To understand why it was a mistake, let&rsquo;s look why it was even added in the first place. Let&rsquo;s
+assume we have a simple function expecting a <code>PersonId</code> that returns a <code>Person</code> object. We would
+have a function with the following function signature.</p>
+<pre><code>PersonId -&gt; Person
+</code></pre>
+<p>Implementing such a function means, we always have to return a <code>Person</code>. But what happens if we
+are not able to return a <code>Person</code>? What should we return instead? And there can be a multitude of
+reasons why that could be the case. A database could not contain a <code>Person</code> with your provided
+<code>PersonId</code>. Also an error could have happened while trying to retrieve data. So overall we have
+two kinds of problems that could happen.</p>
+<ol>
+<li>The passed in value was invalid, or in other words, there doesn&rsquo;t exists a <code>Person</code> for the provided input</li>
+<li>Some kind of error happened that prevents us returning a <code>Person</code> object.</li>
+</ol>
+<p>So how do we solve that problem? Hoare&rsquo;s answer was the invention of the <em>null-reference</em>. A
+<em>null-reference</em> is compatible with any other type. So instead of returning a <code>Person</code> we just
+could return a <code>null</code> instead.</p>
+<p>Our client code calling our function just need to check whether it is <code>null</code> or not. As easy as
+this sound, this easiness is exactly what leads to numerous errors and problems.</p>
+<p>As a first note. Some people will probably tell, that for <em>errors</em> we should throw an exception
+instead. Actually I leave the discussion for <em>exception</em> for another blog post. The important thing
+is more that you could return a <code>null</code> in the error case. Some functions/libraries do that, and
+there is no way you can prevent that. You just have to deal with it, whether you like it or not.</p>
+<h2 id="the-problems-with-null">The problems with null</h2>
+<p>Now that we understand why we have null. Let&rsquo;s create a list of problems that the implementation
+of <em>null</em> causes.</p>
+<p>The first problem is, we cannot see if a function could return <code>null</code> or not. We could just
+have written code like this (C#)</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#ff7b72">var</span> person = Person.FetchById(<span style="color:#a5d6ff">10</span>);
+</span></span><span style="display:flex;"><span>Console.WriteLine(<span style="color:#ff7b72">string</span>.Format(<span style="color:#a5d6ff">&#34;Name of Person is {0}&#34;</span>, person.Name));
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The problem is that <code>Person.FetchById()</code> sometimes returns a <em>null-reference</em>. But we could use
+it just like a valid <code>Person</code>. But using it just like that, means that sometimes our code will throw a
+<code>NullReferenceException</code>. Because sometimes, we don&rsquo;t have a <code>Person</code>.</p>
+<p>To be safe, we have to explicitly check if <code>Person.FetchById()</code> returns <code>null</code> or not. This results in
+code like this:</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#ff7b72">var</span> person = Person.FetchById(<span style="color:#a5d6ff">10</span>);
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">if</span> ( person == <span style="color:#ff7b72">null</span> ) {
+</span></span><span style="display:flex;"><span>    Console.WriteLine(<span style="color:#a5d6ff">&#34;No Person with ID 10&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">else</span> {
+</span></span><span style="display:flex;"><span>    Console.WriteLine(<span style="color:#ff7b72">string</span>.Format(<span style="color:#a5d6ff">&#34;Name of Person is {0}&#34;</span>, person.Name));
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The big problem is that we cannot see from a function type signature that it could return <code>null</code> or
+not. That means, we have to check <strong>every</strong> function call in our system explicitly because it could
+potentially return <code>null</code>.</p>
+<p>This explicit checking of <code>null</code> for every function is sure bother some. So what do we do? Sure, we don&rsquo;t
+do that checking on every function. We only check those function that we know they could return a <code>null</code>.
+Or in other words. We probably rely on <em>documentation</em>. Because we all know that <em>documentation</em> is always
+correct, never has mistakes, and everyone who writes documentation always adds the information if
+a function call could return <code>null</code> or not. And sure, we as programmers always re-check the whole documentation
+for every Class, Method or Function once we updated a library to ensure that the behaviour of all functions
+still remains the same!</p>
+<p>Jokes aside, sure we don&rsquo;t do that. Not doing that doesn&rsquo;t mean we are bad programmers. The problem is
+that doing such kind of things is just silly. Instead of us humans, the language/compiler should do
+such kinds of checks for us. We cannot solve the problem with <em>documentation</em>. The burden of checking
+should be leveraged to the language/compiler instead of us humans. Sure we humans are those who have
+to program what happens at some places if we have a <code>null</code> or not. But our language should notify us
+at compile-time where we have forgotten such checks. We only should add those check where it is really
+needed, and the language should notify us where we have forgotten them.</p>
+<p>But we don&rsquo;t even have covered all problems yet! We also can pass <code>null</code> to other functions. We can
+do that because <code>null</code> is technically just a value. So we also could do stuff like that.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#ff7b72">var</span> person = Person.FetchById(<span style="color:#a5d6ff">10</span>);
+</span></span><span style="display:flex;"><span>DoSomethingWithPerson(person);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It basically means, we not only have to check <code>null</code> from every function that we call. We also have to
+add <code>null</code> checks to every function we write, because someone could provide us a <code>null</code> value even
+if we don&rsquo;t want them. Not doing the checking can actually lead to the problem that somewhere
+else, probably even in code we don&rsquo;t have written, we get a <code>NullReferenceException</code>.</p>
+<p>And the last problem is a so called <em>Happy path-coding</em>. Usually we mean it negative that someone
+just writes code for the <em>Happy-Path</em> expecting that everything works correctly. And as soon there
+is some problem, our program blows up and crashes. This leads to very buggy programs. So what we
+actually really want is sure we want to code like &ldquo;Happ-Path&rdquo;, we want to cover as much possible
+errors as possible. But we don&rsquo;t want to include some kind of checking and validation throughout
+our whole code, nearly at every line, after every function call.</p>
+<p>Usually what we want is just write code as if there are no errors (Happy-Path). And only at the end of a
+chain we want to check if some-kind of error happened, or probably at selected points inside our chain.
+So ideally we want that we are forced to check, but only at specific places where we explicitly want it.
+But <code>null</code> doesn&rsquo;t provide that. We sure can leave the checks, but then our program will be buggy. As a
+result we often add so much <code>null</code> checks that our language also could have forced us to write them always
+and otherwise return a error. It probably seems impossible how we can get both. Forcing us to check
+and gain the safeness to not forget it anywhere, but still only doing the checks when we really want it.</p>
+<p>So as a summary, we have the following problems with <code>null</code>.</p>
+<ol>
+<li>We cannot see if a function returns <code>null</code> or not</li>
+<li>We are not forced to add <code>null</code> checks, this can lead to <code>NullReferenceException</code></li>
+<li>Because every function could return <code>null</code> we also have to check every function</li>
+<li>We cannot <em>skip</em> the checking and do it at some later point</li>
+<li>We can pass <code>null</code> as valid values. And because we are not forced to check for <code>null</code>, this
+can throw <code>NullReferenceException</code> at some other places.</li>
+<li>We also have to check every function argument for <code>null</code></li>
+<li>It destroys <em>Happy Path-coding</em></li>
+</ol>
+<h2 id="optionals">Optionals</h2>
+<p>Actually retro-fixing <em>null</em> in a language is nearly impossible. There exists often some kind of <em>hack-ish</em>
+ways on how to fix it. But it usually feels not natural, or it doesn&rsquo;t fix all problems. So let&rsquo;s look at
+F# that does not support <code>null</code> <em>directly</em>. So how do we write a functions that sometimes can return an
+absence of a value?</p>
+<p>The answer is, it is not possible. We actually cannot write a function that sometimes returns <code>Person</code>
+or not. What we really have to do is return another type instead. What we really need to return is an
+<code>Option</code> instead. An <code>Option</code> is just a data-type on its own. But an Option can either be <code>Some value</code>
+or <code>None</code>. You can compare it to a <code>bool</code> that is either <code>true</code> or <code>false</code>. The only difference is that in
+the case of <code>true</code> or <code>Some</code> it can carry an additional value with it. Option is already part of F#
+but you could easily define it yourself like this.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">type</span> <span style="color:#f0883e;font-weight:bold">Option</span><span style="color:#ff7b72;font-weight:bold">&lt;</span><span style="color:#ff7b72">&#39;</span>a<span style="color:#ff7b72;font-weight:bold">&gt;</span> <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> None
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Some <span style="color:#ff7b72">of</span> <span style="color:#ff7b72">&#39;</span>a
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Or to say it otherwise. It is just a <em>generic</em> type. That either could be <code>None</code> or <code>Some 'a</code>. With this
+kind of idea we now can create types like <code>Option&lt;int&gt;</code>, <code>Option&lt;Person&gt;</code>, <code>Option&lt;Foo&gt;</code>, &hellip; and so on.
+There is also an alternative style for writing a generic type <code>int person</code>, <code>Person option</code>, <code>Foo option</code>.
+We will use this style, because this is also the style how it is often shown by the IDE (like Visual Studio).
+Also note that the <code>Option</code> type itself defined in F# uses a small letter <code>option</code> instead of <code>Option</code>.</p>
+<p>So what we really have is not a function <code>PersonId -&gt; Person</code> we really have:</p>
+<pre><code>PersonId -&gt; Person option
+</code></pre>
+<p>Or in other words. A function taking a <code>PersonId</code> that returns an <code>option</code> that either can
+contain a <code>Person</code> or don&rsquo;t contain anything. The first improvement is now that we can see
+clearly which functions can return a value or not. We don&rsquo;t have to rely on documentation
+anymore. Code itself is the best documentation at all! So lets assume we want to
+print the Name of a person, what do we have to write now?</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">person</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Person</span>.fetchById 10
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">match</span> person <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> None        <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;No Person with Id 10&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> Some person <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;Name of Person is %s&#34;</span> person<span style="color:#ff7b72;font-weight:bold">.</span>Name
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>At first, this doesn&rsquo;t look like an improvement over the <code>if</code> checking. We still have to check for
+either <code>Some</code> or <code>None</code>. So why is that better?</p>
+<ol>
+<li>The important point is, not every function returns an <code>option</code>. You only have to add this check if
+a function returns an optional.</li>
+<li>You are <em>forced</em> by the language at <em>compile-time</em> to add the checks if a function returns an <code>option</code>.</li>
+</ol>
+<p>You cannot write code like this.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">person</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Person</span>.fetchById 10
+</span></span><span style="display:flex;"><span>printfn <span style="color:#a5d6ff">&#34;Name of person is %s&#34;</span> person<span style="color:#ff7b72;font-weight:bold">.</span>Name
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This will give you a <em>compile-time error</em>. Because <code>person</code> is of type <code>option</code> and <code>option</code> don&rsquo;t
+contain a field <code>Name</code>. It basically means, you cannot create <code>NullReferenceException</code> because you cannot
+forget to add the checking. And you only have to really check those functions that could return an option.</p>
+<p>Actually that eliminates all problems we have, but let&rsquo;s go over the problems once more to describe
+why they are eliminated.</p>
+<h3 id="1-we-can-identify-functions-returning-nothing">1: We can identify functions returning <em>Nothing</em></h3>
+<p>It is just part of the function signature.</p>
+<pre><code>int -&gt; int option
+</code></pre>
+<p>it can return an <code>int</code> or not</p>
+<pre><code>int -&gt; int
+</code></pre>
+<p>This will always return an <code>int</code></p>
+<h3 id="2-we-must-check">2: We must check</h3>
+<p>We cannot access a value directly. <code>option</code> is a type on its own. If we want to get the inner value
+we have to <em>Pattern Match</em> against an optional.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">person</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Person</span>.fetchById 10
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">match</span> person <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> None        <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;No Person with Id 10&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> Some person <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;Name of Person is %s&#34;</span> person<span style="color:#ff7b72;font-weight:bold">.</span>Name
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Runtime <code>NullReferenceException</code> are not possible anymore</p>
+<h3 id="3-not-every-function-returns-option">3: Not every function returns <code>option</code></h3>
+<p>That means we only need to <em>Pattern Match</em> those function that return an <code>option</code>. Functions
+that don&rsquo;t return <code>option</code> also cannot be Pattern Matched! If we would Pattern Match against
+a value that is not an <code>option</code> we get an error. Once again, everything happens already at
+compile-time. That means you can see the error already in your IDE.</p>
+<h3 id="4-we-can-skip-the-checking">4: We can skip the checking</h3>
+<p><code>option</code> is just a type like any other. That means you can return an option from your function.
+But you also can pass <code>option</code> as a value around. The important thing is, you only need to do
+the checking once you also need the value inside of the <code>option</code>. But note that you cannot pass
+a <code>int option</code> to a function expecting a <code>int</code>. Both are different types. If a function expects
+<code>int</code> you must unwrap the value inside the <code>option</code>. Well that isn&rsquo;t quite correct, because
+you can automate this process, but we will look later at this in more detail.</p>
+<h3 id="5-and-6-passing-option">5 and 6: Passing <code>option</code></h3>
+<p>We can pass <code>option</code> as a valid value. But only to those function that expects a <code>option</code>. We
+cannot implicitly pass it. And a function expecting an <code>option</code> as a value also must <em>Pattern Match</em>
+the argument.</p>
+<p>So it cannot happen that values sometimes are <code>option</code> or not. Either they are, and we must check. Or
+we don&rsquo;t have to check at all.</p>
+<h2 id="happy-path-coding">Happy Path-Coding</h2>
+<p>Happy Path-Coding needs some further explanations. Previously i said that F# don&rsquo;t support <code>null</code>
+but this isn&rsquo;t quite right. F# runs on the .NET platform, and the runtime supports the concept
+of <code>null</code>. From F# we can call any code that was written for example in C#. So we have to add
+<code>null</code> checks for data-types, functions and so on that where not directly written in F#.</p>
+<p>To deal with functions that returns <code>null</code> we often write wrappers and turn the result into an <code>option</code>.
+For example the <code>Int32.TryParse</code> function is a good candidate to show the idea.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">tryParse</span> <span style="color:#ff7b72;font-weight:bold">(</span>str<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">string</span><span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">match</span> <span style="color:#ff7b72">Int32</span>.TryParse str <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> <span style="color:#ff7b72">false</span><span style="color:#ff7b72;font-weight:bold">,_</span> <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> <span style="color:#ff7b72">true</span><span style="color:#ff7b72;font-weight:bold">,</span>x  <span style="color:#ff7b72;font-weight:bold">-&gt;</span> Some x
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now created a <code>tryParse</code> function. When we look at the signature we see <code>string -&gt; int option</code>. Or
+in other words. A function that can return an <code>int</code> or not. Let&rsquo;s assume we now parse three strings.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;10&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">y</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;20&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">z</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;30&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and now we want to add them together. Ideally in a <em>Happy-Path</em> coding we could directly write.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">result</span> <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">+</span> y <span style="color:#ff7b72;font-weight:bold">+</span> z
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But the problem is that <code>x</code>, <code>y</code> and <code>z</code> are <code>int optional</code>. So we cannot add <code>optional</code> values.
+We first have to unwrap them. And it makes sense that we cannot do it. What for example should the
+the result be if some of the parsing failed? Should it just add those that where valid? Should
+the whole <em>computation</em> be aborted as soon one was invalid? Let&rsquo;s stick for the last one. As soon
+one is invalid, the whole computation should be invalid. Or in our case now. We now have to <em>Pattern
+Match</em> every variable, check if it is <code>Some value</code>. If true, we check the next variable, if <code>None</code>
+the whole computations returns <code>None</code>.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">result</span> <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">match</span> x <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> None <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Some extractedX <span style="color:#ff7b72;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">match</span> y <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72;font-weight:bold">|</span> None <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72;font-weight:bold">|</span> Some extractedY <span style="color:#ff7b72;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">match</span> z <span style="color:#ff7b72">with</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72;font-weight:bold">|</span> None <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72;font-weight:bold">|</span> Some extractedZ <span style="color:#ff7b72;font-weight:bold">-&gt;</span> Some <span style="color:#ff7b72;font-weight:bold">(</span>extractedX <span style="color:#ff7b72;font-weight:bold">+</span> extractedY <span style="color:#ff7b72;font-weight:bold">+</span> extractedZ<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Man, that is some ugly code! We have the benefit that we are forced to check, we cannot have
+<code>NullReferenceException</code> and all of the other benefits. Also <code>result</code> is now an <code>int option</code>. And
+it makes sense. As soon one of <code>x</code>, <code>y</code> or <code>z</code> was not a valid <code>int</code>, also <code>return</code> would be <code>None</code>.
+But it seems we have lost any kind of our <em>Happy-Path</em> coding. Because now we have to check every value
+directly. Isn&rsquo;t there some way to be as close to <code>let result = x + y + z</code>, so if every value was <code>Some</code>
+it does it calculation, and otherwise it just returns <code>None</code>? So instead of checking every value directly
+we just want to work with the values as they would be normal non-optional values? But as soon one value
+is <code>None</code> just everything is <code>None</code>? The answer is. Yes, there is a way to achieve that!</p>
+<p>But at this point i will not show how to build the solution for yourself. And actually there even exists
+two solutions to solve it. Either way through a so called <em>Applicative Functor</em> or the <em>Maybe Monad</em>.
+So let&rsquo;s look how both solution would look like.</p>
+<h3 id="applicative-functor">Applicative Functor</h3>
+<p>The approach with an <em>applicative functor</em> works that we can <em>upgrade</em> any kind of functions. Let&rsquo;s
+first create a function that added our three variables together.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">addThree</span> a b c <span style="color:#ff7b72;font-weight:bold">=</span> a <span style="color:#ff7b72;font-weight:bold">+</span> b <span style="color:#ff7b72;font-weight:bold">+</span> c
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we have a function with the function signature</p>
+<pre><code>int -&gt; int -&gt; int -&gt; int
+</code></pre>
+<p>Or in other words, a function taking three <code>int</code> as an argument, and returning an <code>int</code>. But as learned
+so far we could not just call.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">result</span> <span style="color:#ff7b72;font-weight:bold">=</span> addThree x y z
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Because or <code>x</code>, <code>y</code> and <code>z</code> are <code>int optional</code>. So with an <em>Applicative Functor</em> we could <em>upgrade</em> our
+<em>addThree</em> function. So we could do something like this.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">addThreeOptionals</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Option</span>.lift3 addThree
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So we have a function <code>Option.lift3</code>. We can pass any three argument function to it and what we get
+back is a new three argument function that now could be <code>optional</code>. When we expect the signature
+of our <code>addThreeOptionals</code> function (You can hover over <code>addThreeOptionals</code> if you don&rsquo;t know yet)
+we now see <code>addThreeOptionals</code> has the following signature.</p>
+<pre><code>int optional -&gt; int optional -&gt; int optional -&gt; int optional
+</code></pre>
+<p>Or in other words. We now have a function taking three arguments, sum then only when all of them
+are <code>Some</code>, and returning another <code>int optional</code> as a result. What we now can do is just write.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">resultWithA</span> <span style="color:#ff7b72;font-weight:bold">=</span> addThreeOptionals x y z <span style="color:#8b949e;font-style:italic">// Some 60
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>But as soon as we have an optional in it, we just get a <code>None</code> overall back.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">w</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;hallo&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">ax</span> <span style="color:#ff7b72;font-weight:bold">=</span> addThreeOptionals x y w <span style="color:#8b949e;font-style:italic">// None
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>But we are not forced to create an intermediate function like <code>addThreeOptionals</code>. We also could
+have written.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">bx</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Option</span>.lift3 addThree x y z
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It just means, you can just write any kind of function, and you never have to care if they are <code>option</code>
+or not. You always can assume that you have a valid value. If your function should also be able to work
+with <code>optional</code>, you just pass your function to <code>Option.lift1</code>, <code>Option.lift2</code>, <code>Option.lift3</code> and so
+on to <em>upgrade</em> your function. So you just can stay on the Happy-Path as long as you wish!</p>
+<p>But all of your functions will return <code>option</code> now. So at some point in your application you have
+to check whether your computation was successful or not. But it is up to you where you do it or
+where it makes sense to check it. So instead of checking <code>x</code>, <code>y</code> and <code>z</code> directly, you just can work
+with the values, directly add them but if you want to print the result of your <code>addThreeOptionals</code>
+function. You have to Pattern Match.</p>
+<h3 id="maybe-monad">Maybe Monad</h3>
+<p>Another solution is the so called <em>Maybe Monad</em>. F# supports a feature named <em>Computation Expression</em>
+that are syntactic sugar for this kind of computations. Let&rsquo;s just look how our code could look like
+with a <em>Maybe Monad</em>.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">resultWithMaybeA</span> <span style="color:#ff7b72;font-weight:bold">=</span> maybe <span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;10&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">y</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;20&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">z</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;30&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> x <span style="color:#ff7b72;font-weight:bold">+</span> y <span style="color:#ff7b72;font-weight:bold">+</span> z
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As you see, we just can wrap our code inside a <code>maybe { ... }</code>. What you now see is a special
+syntax only available in a <em>Computation Expression</em>. You can write <code>let!</code> instead of just <code>let</code>.
+A <code>let!</code> basically does the <em>unwrapping</em> of a value for you.</p>
+<p>Remember that <code>tryParse</code> actually returned an <code>int option</code>. But if you hover over <code>x</code> it is
+just an <code>int</code>. <code>let!</code> basically can turn a <code>int option</code> to an ordinary <code>int</code> for you. So you
+can work with the result of <code>tryParse</code> just as if it is a normal value. But
+overall <code>resultWithMaybeA</code> is still an <code>int optional</code>. In those case it will be <code>Some 60</code>.</p>
+<p>If you would have written.</p>
+<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">resultWithMaybeB</span> <span style="color:#ff7b72;font-weight:bold">=</span> maybe <span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;10&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">y</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;hallo&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">z</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;30&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> x <span style="color:#ff7b72;font-weight:bold">+</span> y <span style="color:#ff7b72;font-weight:bold">+</span> z
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>resultWithMaybeB</code> would be <code>None</code>. This is because <code>tryParse &quot;hallo&quot;</code> would result in <code>None</code>. And this
+will abort the <code>maybe</code> construct at this point, and it would overall just return <code>None</code>.</p>
+<h2 id="summary">Summary</h2>
+<p><code>null</code> is evil, because you have to add a lot of checking to get it right, a language like C# don&rsquo;t
+support you in trying to find all places where you forgot or have to add checking to get a correct
+program.</p>
+<p>Optionals solve the problem as you already get forced to check for <code>None</code> at compile-time. And
+you only need to do it at places where an Optional could be returned. With the idea of
+an <em>Applicative Functor</em> or the <em>Maybe Monad</em> you can still write code at places where you don&rsquo;t
+want to add explicit checking, without losing the benefits of optionals.</p>
+<p>In some future blogs I will show you in more detail how <em>Applicative Functors</em> and the <em>Maybe Monad</em>
+works. So you can build your own constructs !</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://blog.ploeh.dk/2015/11/13/null-has-no-type-but-maybe-has/">Null has no type, but Maybe has</a></li>
+<li><a href="http://fsharpforfunandprofit.com/posts/the-option-type/">The Option Type</a></li>
+<li><a href="https://en.wikibooks.org/wiki/F_Sharp_Programming/Option_Types">Wikibook - Option Type</a></li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

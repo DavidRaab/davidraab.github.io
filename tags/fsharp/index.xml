@@ -6,7 +6,17 @@
     <description>Recent content in FSharp on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 14 Mar 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/fsharp/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 20 Mar 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/fsharp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>null is Evil</title>
+      <link>https://davidraab.github.io/posts/null-is-evil/</link>
+      <pubDate>Sun, 20 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/null-is-evil/</guid>
+      <description>Tony Hoare once said: I call it my billion-dollar mistake. It was the invention of the null reference in 1965. So, why did he added &amp;ldquo;null&amp;rdquo; in the first place? Why was it such a big mistake. And if it is such a big mistake, what are the alternatives?
+The purpose of null To understand why it was a mistake, let&amp;rsquo;s look why it was even added in the first place.</description>
+    </item>
+    
     <item>
       <title>Understanding Immutability and Pure Functions (for OOP)</title>
       <link>https://davidraab.github.io/posts/immutability-and-functions/</link>
