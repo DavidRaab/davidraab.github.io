@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="David Raab" />
     <meta name="description" content="Explains the apply Function (Applicative Functors) with the option type" />
-    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.a8546077d48c47c89a814549279adb362800e0bf9e49e90fe38c4f6ee35bff70.css" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.c5d0d3078a177d7cfb9aa69e4ac0843c2cef8c18ec3ed7421bb5e95b879ca2f7.css" />
 
     
     <meta name="twitter:card" content="summary"/>
@@ -92,31 +92,31 @@ if we want to upgrade two, three or four argument functions?</p>
 <h2 id="some-dummy-functions">Some dummy functions</h2>
 <p>Once again we will create some dummy functions with more than one argument to see
 how we can work with them.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// int -&gt; int -&gt; int
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mul</span> x y <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">*</span> y
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// int -&gt; string -&gt; string
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">repeat</span> count <span style="color:#ff7b72;font-weight:bold">(</span>str<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">string</span><span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">String</span>.replicate count str
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// int -&gt; int -&gt; int
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">mul</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// int -&gt; string -&gt; string
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">repeat</span> <span class="n">count</span> <span class="o">(</span><span class="n">str</span><span class="o">:</span><span class="kt">string</span><span class="o">)</span> <span class="o">=</span> <span class="nn">String</span><span class="p">.</span><span class="n">replicate</span> <span class="n">count</span> <span class="n">str</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Some simple usage of those:</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>mul 3 7        <span style="color:#8b949e;font-style:italic">// 21
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>repeat 3 <span style="color:#a5d6ff">&#34;abc&#34;</span> <span style="color:#8b949e;font-style:italic">// &#34;abcabcabc&#34;
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="n">3</span> <span class="n">7</span>        <span class="c1">// 21
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">repeat</span> <span class="n">3</span> <span class="s">&#34;abc&#34;</span> <span class="c1">// &#34;abcabcabc&#34;
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="currying-again">Currying again</h2>
@@ -128,12 +128,12 @@ has clearly a signature of <code>'a -&gt; 'b</code>. So how can we pass a <code>
 Shouldn&rsquo;t we need a <code>map</code> function that expects something like <code>'a -&gt; 'b -&gt; 'c</code> as it&rsquo;s first
 arguments? Before we answer that question, actually just let&rsquo;s partial apply one of our function
 with a <code>map</code> function and let&rsquo;s see what we get.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">optionMul</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Option</span>.map mul
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">optionMul</span> <span class="o">=</span> <span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">mul</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>When we expect the signature of our <code>optionMul</code> function we now get a new function that looks like this.</p>
@@ -165,20 +165,20 @@ means we either have an <code>int</code> or not. Now we have the same, just for 
 <p>Even answering on how you can work with it is easy. The same as with any other option! You have to
 <em>Pattern match</em> it. The only difference is that instead of for example an <code>int</code> you get a function
 that you can execute in the <code>Some</code> case.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">seven</span> <span style="color:#ff7b72;font-weight:bold">=</span> optionMul <span style="color:#ff7b72;font-weight:bold">(</span>Some 7<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#8b949e;font-style:italic">// returns: option&lt;(int -&gt; int)&gt;
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">match</span> seven <span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> None   <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;Nothing to do&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> Some f <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;Executing f: %d&#34;</span> <span style="color:#ff7b72;font-weight:bold">(</span>f 3<span style="color:#ff7b72;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// prints: Executing f: 21
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">seven</span> <span class="o">=</span> <span class="n">optionMul</span> <span class="o">(</span><span class="n">Some</span> <span class="n">7</span><span class="o">)</span> <span class="c1">// returns: option&lt;(int -&gt; int)&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">match</span> <span class="n">seven</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl"><span class="o">|</span> <span class="n">None</span>   <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;Nothing to do&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">|</span> <span class="n">Some</span> <span class="n">f</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;Executing f: %d&#34;</span> <span class="o">(</span><span class="n">f</span> <span class="n">3</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// prints: Executing f: 21
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>The bigger problem is that all of this question and answers are currently <em>unhelpful</em> because
@@ -208,12 +208,12 @@ so we can handle functions with arbitrary arguments? Sure there is!</p>
 <p>The solution to our problem is that we just write a function that can handle the output of
 our <code>map</code> function. Let&rsquo;s work with the <code>repeat</code> function this time, and let&rsquo;s also pass in the
 first argument.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">optionRepeat3</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Option</span>.map repeat <span style="color:#ff7b72;font-weight:bold">(</span>Some 3<span style="color:#ff7b72;font-weight:bold">)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">optionRepeat3</span> <span class="o">=</span> <span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">repeat</span> <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>As we can see we start with a <code>int -&gt; string -&gt; string</code> function. But the interesting thing is, we
@@ -250,68 +250,68 @@ with another idea. This kind of idea can sometimes simplifies the implementation
 <p>For example let&rsquo;s stick with the second idea. We want to transform the input to another function.
 But when we write the type-signature of our function that we need to implement, it is just the same
 as a two argument function. So we start with</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">apply</span> optionF optionStr <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">...</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">apply</span> <span class="n">optionF</span> <span class="n">optionStr</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>So what we now have is a function as the first argument <code>option&lt;(string -&gt; string)&gt;</code> that expects
 a <code>string</code>. And we have a <code>option&lt;string&gt;</code> as it&rsquo;s second argument. What we now have to do is
 unwrap both optionals, and when we have <code>Some function</code> and <code>Some string</code> we can execute our
 function with our value. Actually, there exists 4 possible combination. So we write</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">apply</span> optionF optionStr <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">match</span> optionF<span style="color:#ff7b72;font-weight:bold">,</span>optionStr <span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Some f<span style="color:#ff7b72;font-weight:bold">,</span> Some str <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72;font-weight:bold">??</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Some f<span style="color:#ff7b72;font-weight:bold">,</span> None <span style="color:#ff7b72;font-weight:bold">_</span>   <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72;font-weight:bold">??</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> None <span style="color:#ff7b72;font-weight:bold">_,</span> Some str <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72;font-weight:bold">??</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> None <span style="color:#ff7b72;font-weight:bold">_,</span> None <span style="color:#ff7b72;font-weight:bold">_</span>   <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72;font-weight:bold">??</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">apply</span> <span class="n">optionF</span> <span class="n">optionStr</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">optionF</span><span class="o">,</span><span class="n">optionStr</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Some</span> <span class="n">f</span><span class="o">,</span> <span class="n">Some</span> <span class="n">str</span> <span class="o">-&gt;</span> <span class="o">??</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Some</span> <span class="n">f</span><span class="o">,</span> <span class="n">None</span> <span class="o">_</span>   <span class="o">-&gt;</span> <span class="o">??</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">None</span> <span class="o">_,</span> <span class="n">Some</span> <span class="n">str</span> <span class="o">-&gt;</span> <span class="o">??</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">None</span> <span class="o">_,</span> <span class="n">None</span> <span class="o">_</span>   <span class="o">-&gt;</span> <span class="o">??</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>So we <em>pattern match</em> both values at once, in our first case we have a function, and
 a string, so we can execute the inner function with our passed in value. We must return
 an <code>option</code> again, so we end up with</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> Some f<span style="color:#ff7b72;font-weight:bold">,</span> Some str <span style="color:#ff7b72;font-weight:bold">-&gt;</span> Some <span style="color:#ff7b72;font-weight:bold">(</span>f x<span style="color:#ff7b72;font-weight:bold">)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">|</span> <span class="n">Some</span> <span class="n">f</span><span class="o">,</span> <span class="n">Some</span> <span class="n">str</span> <span class="o">-&gt;</span> <span class="n">Some</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>All other cases are actually the same. What do we do if we don&rsquo;t have a function, or we don&rsquo;t
 have a value? Or we don&rsquo;t have both? Well, then we can&rsquo;t execute our function, so all
 of the other cases will return <code>None</code> instead.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">apply</span> optionF optionStr <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">match</span> optionF<span style="color:#ff7b72;font-weight:bold">,</span>optionStr <span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Some f<span style="color:#ff7b72;font-weight:bold">,</span> Some str <span style="color:#ff7b72;font-weight:bold">-&gt;</span> Some <span style="color:#ff7b72;font-weight:bold">(</span>f str<span style="color:#ff7b72;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Some f<span style="color:#ff7b72;font-weight:bold">,</span> None <span style="color:#ff7b72;font-weight:bold">_</span>   <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> None <span style="color:#ff7b72;font-weight:bold">_,</span> Some str <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> None <span style="color:#ff7b72;font-weight:bold">_,</span> None <span style="color:#ff7b72;font-weight:bold">_</span>   <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">apply</span> <span class="n">optionF</span> <span class="n">optionStr</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">optionF</span><span class="o">,</span><span class="n">optionStr</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Some</span> <span class="n">f</span><span class="o">,</span> <span class="n">Some</span> <span class="n">str</span> <span class="o">-&gt;</span> <span class="n">Some</span> <span class="o">(</span><span class="n">f</span> <span class="n">str</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Some</span> <span class="n">f</span><span class="o">,</span> <span class="n">None</span> <span class="o">_</span>   <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">None</span> <span class="o">_,</span> <span class="n">Some</span> <span class="n">str</span> <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">None</span> <span class="o">_,</span> <span class="n">None</span> <span class="o">_</span>   <span class="o">-&gt;</span> <span class="n">None</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>So, now we have written a way we can handle the output of <code>Option.map repeat (Some 3)</code>. Should we now
@@ -336,24 +336,24 @@ we can pass to <code>apply</code>. By calling <code>map</code> we provided the f
 expects the next <code>option</code> value.</p>
 <p>Now let&rsquo;s try to use <code>apply</code> with our <code>optionMul</code> function. We first can call <code>OptionMul (Some 7)</code>
 that will return us an <code>option&lt;int -&gt; int&gt;</code>, the result of this can then be used with <code>apply</code>.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">optionMul2</span> <span style="color:#ff7b72;font-weight:bold">=</span> optionMul <span style="color:#ff7b72;font-weight:bold">(</span>Some 7<span style="color:#ff7b72;font-weight:bold">)</span>        <span style="color:#8b949e;font-style:italic">// option&lt;(int -&gt; int)&gt;
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">resultMul</span>  <span style="color:#ff7b72;font-weight:bold">=</span> apply optionMul2 <span style="color:#ff7b72;font-weight:bold">(</span>Some 3<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#8b949e;font-style:italic">// option&lt;int&gt;
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">optionMul2</span> <span class="o">=</span> <span class="n">optionMul</span> <span class="o">(</span><span class="n">Some</span> <span class="n">7</span><span class="o">)</span>        <span class="c1">// option&lt;(int -&gt; int)&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">resultMul</span>  <span class="o">=</span> <span class="n">apply</span> <span class="n">optionMul2</span> <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span> <span class="c1">// option&lt;int&gt;
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>We also can write everything in one step, instead of creating the intermediate functions. Not only that,
 let&rsquo;s even inline the <code>map</code> call.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">resultMul2</span> <span style="color:#ff7b72;font-weight:bold">=</span> apply <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">Option</span>.map mul <span style="color:#ff7b72;font-weight:bold">(</span>Some 7<span style="color:#ff7b72;font-weight:bold">))</span> <span style="color:#ff7b72;font-weight:bold">(</span>Some 3<span style="color:#ff7b72;font-weight:bold">)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">resultMul2</span> <span class="o">=</span> <span class="n">apply</span> <span class="o">(</span><span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">mul</span> <span class="o">(</span><span class="n">Some</span> <span class="n">7</span><span class="o">))</span> <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>This doesn&rsquo;t seems very readable, but we will work on that soon. Let&rsquo;s first understand what exactly happens.</p>
@@ -371,49 +371,49 @@ make the execution more readable.</p>
 writing <code>f x y</code> an operator is written between (infix) two arguments <code>x f y</code>. The value
 left of the operator is the first argument, the value right of an operator is the second argument.
 So instead of calling <code>Option.map f x</code> let&rsquo;s create an operator for <code>Option.map</code>.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#ff7b72;font-weight:bold">(&lt;!&gt;)</span> f x <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Option</span>.map f x
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="o">(&lt;!&gt;)</span> <span class="n">f</span> <span class="n">x</span> <span class="o">=</span> <span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">f</span> <span class="n">x</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We now can use our first improvement. Instead of <code>Option.map mul (Some 7)</code> we now can write</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>mul <span style="color:#ff7b72;font-weight:bold">&lt;!&gt;</span> <span style="color:#ff7b72;font-weight:bold">(</span>Some 7<span style="color:#ff7b72;font-weight:bold">)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="o">(</span><span class="n">Some</span> <span class="n">7</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Our whole line turns now into</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>apply <span style="color:#ff7b72;font-weight:bold">(</span>mul <span style="color:#ff7b72;font-weight:bold">&lt;!&gt;</span> <span style="color:#ff7b72;font-weight:bold">(</span>Some 7<span style="color:#ff7b72;font-weight:bold">))</span> <span style="color:#ff7b72;font-weight:bold">(</span>Some 3<span style="color:#ff7b72;font-weight:bold">)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">apply</span> <span class="o">(</span><span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="o">(</span><span class="n">Some</span> <span class="n">7</span><span class="o">))</span> <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>But once again. Writing <code>apply</code> in front looks ugly, so let&rsquo;s also create an operator for our
 <code>apply</code> function.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#ff7b72;font-weight:bold">(&lt;*&gt;)</span> fo xo <span style="color:#ff7b72;font-weight:bold">=</span> apply fo xo
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="o">(&lt;*&gt;)</span> <span class="n">fo</span> <span class="n">xo</span> <span class="o">=</span> <span class="n">apply</span> <span class="n">fo</span> <span class="n">xo</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We now getting the following line:</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>mul <span style="color:#ff7b72;font-weight:bold">&lt;!&gt;</span> Some 7 <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> Some 3 <span style="color:#8b949e;font-style:italic">// Some 21
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="n">Some</span> <span class="n">7</span> <span class="o">&lt;*&gt;</span> <span class="n">Some</span> <span class="n">3</span> <span class="c1">// Some 21
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>The nice thing is now. With <code>&lt;!&gt;</code> we just can <code>map</code> a function (left-side) and on the right side
@@ -421,49 +421,49 @@ we provide an optional value. In this example <code>mul &lt;!&gt; Some 7</code> 
 and this is the input to <code>&lt;*&gt;</code>, because it stands on it&rsquo;s left-side. And we provide <code>Some 3</code>
 as the next value.</p>
 <p>This is nice because it resembles the normal way how we call a function. Normally we would do</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>mul 7 3
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="n">7</span> <span class="n">3</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>But what happens if we have <code>optional</code> values? We just write</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>mul <span style="color:#ff7b72;font-weight:bold">&lt;!&gt;</span> Some 7 <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> Some 3
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="n">Some</span> <span class="n">7</span> <span class="o">&lt;*&gt;</span> <span class="n">Some</span> <span class="n">3</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Sure, normally you wouldn&rsquo;t wrap the values directly, you just would have variables that contain
 optionals. So if you have <code>x</code> and <code>y</code> that are just <code>int</code> you can do</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>mul x y
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="n">x</span> <span class="n">y</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>But if your <code>x</code> and <code>y</code> contains <code>option&lt;int&gt;</code> instead, you just write</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>mul <span style="color:#ff7b72;font-weight:bold">&lt;!&gt;</span> x <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> y
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="n">x</span> <span class="o">&lt;*&gt;</span> <span class="n">y</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Probably you will ask, how can we handle functions with three or four arguments. Easy!</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>someFunction <span style="color:#ff7b72;font-weight:bold">&lt;!&gt;</span> x <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> y <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> z <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> w
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">someFunction</span> <span class="o">&lt;!&gt;</span> <span class="n">x</span> <span class="o">&lt;*&gt;</span> <span class="n">y</span> <span class="o">&lt;*&gt;</span> <span class="n">z</span> <span class="o">&lt;*&gt;</span> <span class="n">w</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Why does that work? Because once again of currying! If you start with let&rsquo;s say a <code>int -&gt; int -&gt; int -&gt; int</code>
@@ -476,16 +476,16 @@ function inside <code>option</code>.</p>
 <p>But currently, with <code>map</code> and <code>apply</code> we map a function and directly pass values to it. What do we do
 if we just want to <strong>upgrade</strong> a function without executing it? With what we have so far, we usually
 write some helper functions <code>lift2</code>, <code>lift3</code>, <code>lift4</code> and so on.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">lift2</span> f x y     <span style="color:#ff7b72;font-weight:bold">=</span> f <span style="color:#ff7b72;font-weight:bold">&lt;!&gt;</span> x <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> y
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">lift3</span> f x y z   <span style="color:#ff7b72;font-weight:bold">=</span> f <span style="color:#ff7b72;font-weight:bold">&lt;!&gt;</span> x <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> y <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> z
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">lift4</span> f x y z w <span style="color:#ff7b72;font-weight:bold">=</span> f <span style="color:#ff7b72;font-weight:bold">&lt;!&gt;</span> x <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> y <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> z <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> w
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">lift2</span> <span class="n">f</span> <span class="n">x</span> <span class="n">y</span>     <span class="o">=</span> <span class="n">f</span> <span class="o">&lt;!&gt;</span> <span class="n">x</span> <span class="o">&lt;*&gt;</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">lift3</span> <span class="n">f</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span>   <span class="o">=</span> <span class="n">f</span> <span class="o">&lt;!&gt;</span> <span class="n">x</span> <span class="o">&lt;*&gt;</span> <span class="n">y</span> <span class="o">&lt;*&gt;</span> <span class="n">z</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">lift4</span> <span class="n">f</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="n">w</span> <span class="o">=</span> <span class="n">f</span> <span class="o">&lt;!&gt;</span> <span class="n">x</span> <span class="o">&lt;*&gt;</span> <span class="n">y</span> <span class="o">&lt;*&gt;</span> <span class="n">z</span> <span class="o">&lt;*&gt;</span> <span class="n">w</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>What we now get are the following functions.</p>
@@ -521,31 +521,31 @@ this.</p>
 'a -&gt; Async&lt;'a&gt;
 </code></pre>
 <p>It is pretty-easy to implement <code>retn</code> for our option type.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">retn</span> x <span style="color:#ff7b72;font-weight:bold">=</span> Some x
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">retn</span> <span class="n">x</span> <span class="o">=</span> <span class="n">Some</span> <span class="n">x</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Looking at the previous examples we now also could write</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>mul <span style="color:#ff7b72;font-weight:bold">&lt;!&gt;</span> retn 7 <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> retn 3 <span style="color:#8b949e;font-style:italic">// Some 21
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="n">retn</span> <span class="n">7</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="n">3</span> <span class="c1">// Some 21
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>This is probably not such a big surprise. But once again we should consider that <code>'a</code> also
 could stand for a function. We not only can upgrade values to a type. But also functions.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>retn mul
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">retn</span> <span class="n">mul</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>So why do we want to do that? Well we could use <code>map</code> or <code>&lt;!&gt;</code>. But consider that with <code>map</code>
@@ -553,14 +553,14 @@ we <strong>only</strong> can upgrade functions. <code>retn</code> is more basic 
 While it seems we don&rsquo;t need <code>retn</code> for functions, sometimes we are just interested in just
 upgrading a function as raw as possible. The difference becomes more obvious when we compare
 both operations.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>retn mul       <span style="color:#8b949e;font-style:italic">// option&lt;int -&gt; int -&gt; int&gt;
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">Option</span>.map mul <span style="color:#8b949e;font-style:italic">// option&lt;int&gt; -&gt; option&lt;(int -&gt; int)&gt;
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">retn</span> <span class="n">mul</span>       <span class="c1">// option&lt;int -&gt; int -&gt; int&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">mul</span> <span class="c1">// option&lt;int&gt; -&gt; option&lt;(int -&gt; int)&gt;
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>So with <code>retn</code> we just do the bare minimum to upgrade a value/function. One
@@ -568,22 +568,22 @@ interesting aspect is, that we don&rsquo;t need <code>map</code> at all. In fact
 out of <code>retn</code> and <code>apply</code>! As we can see <code>retn mul</code> returns <code>option&lt;(int -&gt; int -&gt; int)&gt;</code>
 and we already saw how we can work with such values. We just can use <code>apply</code> to <em>Partial Apply</em>
 the first inner value. So overal we also could just write.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>retn mul <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> retn 7 <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> retn 3 <span style="color:#8b949e;font-style:italic">// Some 21
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">retn</span> <span class="n">mul</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="n">7</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="n">3</span> <span class="c1">// Some 21
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>It basically means. <code>map</code> is the same as <code>retn</code> and <code>apply</code> once! We actually could have
 implemented <code>map</code> like this.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mapOption</span> f x <span style="color:#ff7b72;font-weight:bold">=</span> retn f <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> x
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">mapOption</span> <span class="n">f</span> <span class="n">x</span> <span class="o">=</span> <span class="n">retn</span> <span class="n">f</span> <span class="o">&lt;*&gt;</span> <span class="n">x</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>retn</code> is just such an easy function that usually it doesn&rsquo;t seems like much value. But
@@ -612,55 +612,55 @@ we either have to:</p>
 <p>Both solutions are very tedious and can become very annoying. Like <code>null</code> checking is always
 annoying. So you end up with either.</p>
 <h3 id="1-unwrap-all-optionals-beforehand">1. Unwrap all optionals beforehand</h3>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">10
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">11
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">12
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// Assume we have two optionals from somewhere else
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> Some 3
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">y</span> <span style="color:#ff7b72;font-weight:bold">=</span> Some 7
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">match</span> x <span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> None   <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;None&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> Some x <span style="color:#ff7b72;font-weight:bold">-&gt;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">match</span> y <span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> None   <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;None&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Some y <span style="color:#ff7b72;font-weight:bold">-&gt;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#8b949e;font-style:italic">// Finally we can use `mul`
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>        printfn <span style="color:#a5d6ff">&#34;Result: %d&#34;</span> <span style="color:#ff7b72;font-weight:bold">(</span>mul x y<span style="color:#ff7b72;font-weight:bold">)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// Assume we have two optionals from somewhere else
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">Some</span> <span class="n">3</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">Some</span> <span class="n">7</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">match</span> <span class="n">x</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl"><span class="o">|</span> <span class="n">None</span>   <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;None&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">|</span> <span class="n">Some</span> <span class="n">x</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">y</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">None</span>   <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;None&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Some</span> <span class="n">y</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// Finally we can use `mul`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">printfn</span> <span class="s">&#34;Result: %d&#34;</span> <span class="o">(</span><span class="n">mul</span> <span class="n">x</span> <span class="n">y</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="2-rewrite-a-optionmul-function">2. Rewrite a <code>optionMul</code> function</h3>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">optionMul</span> x y <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">match</span> x <span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> None   <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Some x <span style="color:#ff7b72;font-weight:bold">-&gt;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">match</span> y <span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72;font-weight:bold">|</span> None   <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72;font-weight:bold">|</span> Some y <span style="color:#ff7b72;font-weight:bold">-&gt;</span> Some <span style="color:#ff7b72;font-weight:bold">(</span>x <span style="color:#ff7b72;font-weight:bold">*</span> y<span style="color:#ff7b72;font-weight:bold">)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">optionMul</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">x</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">None</span>   <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Some</span> <span class="n">x</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">match</span> <span class="n">y</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">None</span>   <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Some</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="n">Some</span> <span class="o">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Both solutions seems dull. The first solution becomes annoying. Even if we only have to do
@@ -671,16 +671,16 @@ again.</p>
 <p>The bad part is, that such a function contains more <code>option</code> handling to what it even does.
 So with our <em>Applicative Functor</em> we just can write a normal function, that knows nothing about
 <code>option</code>, and we later just upgrade it.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>mul <span style="color:#ff7b72;font-weight:bold">&lt;!&gt;</span> x <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> y
-</span></span><span style="display:flex;"><span>retn mul <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> x <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> y
-</span></span><span style="display:flex;"><span>lift2 mul x y
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="n">x</span> <span class="o">&lt;*&gt;</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">retn</span> <span class="n">mul</span> <span class="o">&lt;*&gt;</span> <span class="n">x</span> <span class="o">&lt;*&gt;</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="n">lift2</span> <span class="n">mul</span> <span class="n">x</span> <span class="n">y</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>All three ways are identical they lift <code>mul</code> so we can pass <code>option</code> values as arguments.
@@ -688,40 +688,40 @@ Sure at some point in your program you probably want or must check the <code>opt
 is up to you where you do it. You can do your whole computation first, and only later check
 once if you got <code>Some value</code> or <code>None</code>. Theoretically it means you can write your whole
 program, and it only contains a single <code>option</code> check at the end.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">parseInt</span> str <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">match</span> <span style="color:#ff7b72">System</span>.<span style="color:#ff7b72">Int32</span>.TryParse str <span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> <span style="color:#ff7b72">false</span><span style="color:#ff7b72;font-weight:bold">,_</span> <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> <span style="color:#ff7b72">true</span><span style="color:#ff7b72;font-weight:bold">,</span>x  <span style="color:#ff7b72;font-weight:bold">-&gt;</span> Some x
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">parseInt</span> <span class="n">str</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="nn">System</span><span class="p">.</span><span class="nn">Int32</span><span class="p">.</span><span class="n">TryParse</span> <span class="n">str</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="k">false</span><span class="o">,_</span> <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="k">true</span><span class="o">,</span><span class="n">x</span>  <span class="o">-&gt;</span> <span class="n">Some</span> <span class="n">x</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">8
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">userInput</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">System</span>.<span style="color:#ff7b72">Console</span>.ReadLine() <span style="color:#ff7b72;font-weight:bold">|&gt;</span> parseInt
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">multipliedBy3</span> <span style="color:#ff7b72;font-weight:bold">=</span> mul <span style="color:#ff7b72;font-weight:bold">&lt;!&gt;</span> userInput <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> retn 3
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">repeatedAbc</span>   <span style="color:#ff7b72;font-weight:bold">=</span> repeat <span style="color:#ff7b72;font-weight:bold">&lt;!&gt;</span> multipliedBy3 <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> retn <span style="color:#a5d6ff">&#34;abc&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">match</span> repeatedAbc <span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> None     <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;Error: User Input was not an int&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> Some str <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;%s&#34;</span> str
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">userInput</span> <span class="o">=</span> <span class="nn">System</span><span class="p">.</span><span class="nn">Console</span><span class="p">.</span><span class="n">ReadLine</span><span class="bp">()</span> <span class="o">|&gt;</span> <span class="n">parseInt</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">multipliedBy3</span> <span class="o">=</span> <span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="n">userInput</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="n">3</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">repeatedAbc</span>   <span class="o">=</span> <span class="n">repeat</span> <span class="o">&lt;!&gt;</span> <span class="n">multipliedBy3</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="s">&#34;abc&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">match</span> <span class="n">repeatedAbc</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl"><span class="o">|</span> <span class="n">None</span>     <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;Error: User Input was not an int&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">|</span> <span class="n">Some</span> <span class="n">str</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;%s&#34;</span> <span class="n">str</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>So if the user input is &ldquo;3&rdquo; we will see <code>abcabcabcabcabcabcabcabcabc</code>. If a user don&rsquo;t provide
@@ -742,68 +742,68 @@ and <code>apply</code> there also exists some laws they have to satisfy until we
 <p>This basically refers to the first law of a functor. We said that mapping over the <code>id</code>
 function should not change the value. Because <code>map</code> can be implemented in terms of
 <code>return</code> and <code>apply</code> the same law must be hold.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> Some 10
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">y</span> <span style="color:#ff7b72;font-weight:bold">=</span> retn id <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> x
-</span></span><span style="display:flex;"><span>x <span style="color:#ff7b72;font-weight:bold">=</span> y <span style="color:#8b949e;font-style:italic">// comparing must be true -- here it will be (Some 10)
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">Some</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">retn</span> <span class="n">id</span> <span class="o">&lt;*&gt;</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="c1">// comparing must be true -- here it will be (Some 10)
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="2-rule-order-of-upgrading">2. Rule: Order of <strong>upgrading</strong></h3>
 <p>It shouldn&rsquo;t matter if we first calculate <code>f x</code> and then <code>retn</code>. Or if we <code>retn</code> <code>f</code>
 and <code>x</code> separately, and then do the calculation</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> retn <span style="color:#ff7b72;font-weight:bold">(</span>mul 7 3<span style="color:#ff7b72;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">y</span> <span style="color:#ff7b72;font-weight:bold">=</span> retn mul <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> retn 7 <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> retn 3
-</span></span><span style="display:flex;"><span>x <span style="color:#ff7b72;font-weight:bold">=</span> y <span style="color:#8b949e;font-style:italic">// Both must be the same -- here it will be (Some 21)
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">retn</span> <span class="o">(</span><span class="n">mul</span> <span class="n">7</span> <span class="n">3</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">retn</span> <span class="n">mul</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="n">7</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="n">3</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="c1">// Both must be the same -- here it will be (Some 21)
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="3-rule-partial-applying">3. Rule: Partial Applying</h3>
 <p>That one probably needs some more explanation. Usually we can <em>Partial Apply</em> a function
 by just omitting values. For example <code>repeat 3</code>. But what is if you want to <em>Partial Apply</em>
 the second argument? Here are two solutions in how we can write it.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">repeatAbc</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">fun</span> x <span style="color:#ff7b72;font-weight:bold">-&gt;</span> repeat x <span style="color:#a5d6ff">&#34;abc&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">repeatAbc</span> x <span style="color:#ff7b72;font-weight:bold">=</span> repeat x <span style="color:#a5d6ff">&#34;abc&#34;</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">repeatAbc</span> <span class="o">=</span> <span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">repeat</span> <span class="n">x</span> <span class="s">&#34;abc&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">repeatAbc</span> <span class="n">x</span> <span class="o">=</span> <span class="n">repeat</span> <span class="n">x</span> <span class="s">&#34;abc&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>So after that we can just call <code>repeatAbc 3</code>. The thing is we expect the same results regardless
 if we Partial Apply the first or second argument first. As long the arguments are the same,
 the result should be the same. The same rule must hold when we additionally lift <code>repeat</code> to an optional.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">ax</span> <span style="color:#ff7b72;font-weight:bold">=</span> retn repeat <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> Some 3
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span>  <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> ax <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> retn <span style="color:#a5d6ff">&#34;abc&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">ay</span> <span style="color:#ff7b72;font-weight:bold">=</span> retn <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">fun</span> x <span style="color:#ff7b72;font-weight:bold">-&gt;</span> repeat x <span style="color:#a5d6ff">&#34;abc&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span>  <span style="color:#79c0ff">y</span> <span style="color:#ff7b72;font-weight:bold">=</span> ay <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> retn 3
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>x <span style="color:#ff7b72;font-weight:bold">=</span> y <span style="color:#8b949e;font-style:italic">// Both must be the same -- Here it will be -- Some &#34;abcabcabc&#34;
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">ax</span> <span class="o">=</span> <span class="n">retn</span> <span class="n">repeat</span> <span class="o">&lt;*&gt;</span> <span class="n">Some</span> <span class="n">3</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span>  <span class="nv">x</span> <span class="o">=</span> <span class="n">ax</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="s">&#34;abc&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">ay</span> <span class="o">=</span> <span class="n">retn</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">repeat</span> <span class="n">x</span> <span class="s">&#34;abc&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span>  <span class="nv">y</span> <span class="o">=</span> <span class="n">ay</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="n">3</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="c1">// Both must be the same -- Here it will be -- Some &#34;abcabcabc&#34;
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="4rule-composition">4.Rule: Composition</h3>
@@ -811,30 +811,30 @@ the result should be the same. The same rule must hold when we additionally lift
 to a value, another one adds &ldquo;2&rdquo; to a value. Function Composition says that it doesn&rsquo;t matter
 if you execute the first function on a value, and then the second function on the returned
 value. Or of you first compose both function and give it the value.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">10
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">add1</span> x <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">+</span> 1
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">add2</span> x <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">+</span> 2
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// First executing add1, and pass the result to add2
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">nx</span> <span style="color:#ff7b72;font-weight:bold">=</span> add2 <span style="color:#ff7b72;font-weight:bold">(</span>add1 3<span style="color:#ff7b72;font-weight:bold">)</span>       <span style="color:#8b949e;font-style:italic">// 6
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>
-</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// First compose add1 and add2 then provide the value
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">ny</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">(</span>add1 <span style="color:#ff7b72;font-weight:bold">&gt;&gt;</span> add2<span style="color:#ff7b72;font-weight:bold">)</span> 3    <span style="color:#8b949e;font-style:italic">// 6
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>
-</span></span><span style="display:flex;"><span>nx <span style="color:#ff7b72;font-weight:bold">=</span> ny <span style="color:#8b949e;font-style:italic">// Both must be the same
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add1</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add2</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// First executing add1, and pass the result to add2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">nx</span> <span class="o">=</span> <span class="n">add2</span> <span class="o">(</span><span class="n">add1</span> <span class="n">3</span><span class="o">)</span>       <span class="c1">// 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// First compose add1 and add2 then provide the value
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">ny</span> <span class="o">=</span> <span class="o">(</span><span class="n">add1</span> <span class="o">&gt;&gt;</span> <span class="n">add2</span><span class="o">)</span> <span class="n">3</span>    <span class="c1">// 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">nx</span> <span class="o">=</span> <span class="n">ny</span> <span class="c1">// Both must be the same
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>This makes sense as composing is just executing two functions in sequence and passing the return
@@ -843,14 +843,14 @@ lift/box our functions into another type like <code>option</code>.</p>
 <p>One note first. Operators are really just functions with two arguments. And they can be lifted too!
 Normally we write an operator infix (between two arguments). But we also can write it like a normal
 function if we add braces around the operator. Thus both following lines are the same.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">h</span> <span style="color:#ff7b72;font-weight:bold">=</span> f <span style="color:#ff7b72;font-weight:bold">&gt;&gt;</span> g
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">h</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">(&gt;&gt;)</span> f g
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">h</span> <span class="o">=</span> <span class="n">f</span> <span class="o">&gt;&gt;</span> <span class="n">g</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">h</span> <span class="o">=</span> <span class="o">(&gt;&gt;)</span> <span class="n">f</span> <span class="n">g</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>The second style of writing can be used to lift an operator. With <code>retn (&gt;&gt;)</code> we can upgrade <code>&gt;&gt;</code>.
@@ -864,30 +864,30 @@ so we would get a compose function that looks like this.</p>
 </code></pre>
 <p>With that in mind, our forth rule says, that we also must ensure that composed lifted
 functions still behaves the same, as if we just execute both functions directly in sequence.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">10
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">oadd1</span> <span style="color:#ff7b72;font-weight:bold">=</span> retn <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">fun</span> x <span style="color:#ff7b72;font-weight:bold">-&gt;</span> x <span style="color:#ff7b72;font-weight:bold">+</span> 1<span style="color:#ff7b72;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">oadd2</span> <span style="color:#ff7b72;font-weight:bold">=</span> retn <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">fun</span> x <span style="color:#ff7b72;font-weight:bold">-&gt;</span> x <span style="color:#ff7b72;font-weight:bold">+</span> 2<span style="color:#ff7b72;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// First executing oadd1, and pass the result to oadd2
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">ox</span> <span style="color:#ff7b72;font-weight:bold">=</span> oadd2 <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> <span style="color:#ff7b72;font-weight:bold">(</span>oadd1 <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> retn 3<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#8b949e;font-style:italic">// Some 6
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>
-</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// First compose oadd1 and oadd2 into a new function, then provide the value
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">oy</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">(</span>retn <span style="color:#ff7b72;font-weight:bold">(&gt;&gt;)</span> <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> oadd1 <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> oadd2<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">&lt;*&gt;</span> retn 3 <span style="color:#8b949e;font-style:italic">// Some 6
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>
-</span></span><span style="display:flex;"><span>ox <span style="color:#ff7b72;font-weight:bold">=</span> oy <span style="color:#8b949e;font-style:italic">// Both must be the same
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">oadd1</span> <span class="o">=</span> <span class="n">retn</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">oadd2</span> <span class="o">=</span> <span class="n">retn</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// First executing oadd1, and pass the result to oadd2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">ox</span> <span class="o">=</span> <span class="n">oadd2</span> <span class="o">&lt;*&gt;</span> <span class="o">(</span><span class="n">oadd1</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="n">3</span><span class="o">)</span> <span class="c1">// Some 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// First compose oadd1 and oadd2 into a new function, then provide the value
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">oy</span> <span class="o">=</span> <span class="o">(</span><span class="n">retn</span> <span class="o">(&gt;&gt;)</span> <span class="o">&lt;*&gt;</span> <span class="n">oadd1</span> <span class="o">&lt;*&gt;</span> <span class="n">oadd2</span><span class="o">)</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="n">3</span> <span class="c1">// Some 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">ox</span> <span class="o">=</span> <span class="n">oy</span> <span class="c1">// Both must be the same
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="summary">Summary</h2>

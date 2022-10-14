@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="David Raab" />
     <meta name="description" content="Gives an introduction to F# for C# developers" />
-    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.a8546077d48c47c89a814549279adb362800e0bf9e49e90fe38c4f6ee35bff70.css" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.c5d0d3078a177d7cfb9aa69e4ac0843c2cef8c18ec3ed7421bb5e95b879ca2f7.css" />
 
     
     <meta name="twitter:card" content="summary"/>
@@ -95,44 +95,44 @@ and understand functional code.</p>
 <h3 id="definition-c">Definition C#</h3>
 <p>Variables are an important concept, in C# you can define variables in two ways. First with an
 explicit type. You can optionally initialize it with a value.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#ff7b72">int</span>    num  = <span style="color:#a5d6ff">33</span>;
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">string</span> name = <span style="color:#a5d6ff">&#34;Hello&#34;</span>;
-</span></span><span style="display:flex;"><span>Person person;
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">int</span>    <span class="n">num</span>  <span class="p">=</span> <span class="m">33</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">string</span> <span class="n">name</span> <span class="p">=</span> <span class="s">&#34;Hello&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">Person</span> <span class="n">person</span><span class="p">;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>The second way is to use the <code>var</code> keyword. It uses <em>type-inference</em> to automatically determine the
 type of a variable. You are also forced to specify a value in this way.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#ff7b72">var</span> num    = <span style="color:#a5d6ff">33</span>;
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">var</span> name   = <span style="color:#a5d6ff">&#34;Hello&#34;</span>;
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">var</span> person = <span style="color:#ff7b72">new</span> Person(<span style="color:#a5d6ff">&#34;foo&#34;</span>);
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">num</span>    <span class="p">=</span> <span class="m">33</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">name</span>   <span class="p">=</span> <span class="s">&#34;Hello&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">person</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Person</span><span class="p">(</span><span class="s">&#34;foo&#34;</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="definition-in-f">Definition in F#</h3>
 <p>In F# we usually only use the second form of definition. But instead of <code>var</code> we write <code>let</code>.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">num</span>    <span style="color:#ff7b72;font-weight:bold">=</span> 33
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">name</span>   <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;Hello&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">person</span> <span style="color:#ff7b72;font-weight:bold">=</span> Person<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;foo&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">num</span>    <span class="o">=</span> <span class="n">33</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">name</span>   <span class="o">=</span> <span class="s">&#34;Hello&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">person</span> <span class="o">=</span> <span class="n">Person</span><span class="o">(</span><span class="s">&#34;foo&#34;</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We already can see some important differences.</p>
@@ -141,32 +141,32 @@ type of a variable. You are also forced to specify a value in this way.</p>
 <li>We don&rsquo;t have to specify <code>new</code> to create an object.</li>
 </ol>
 <p>We still can add <em>type-annotations</em> if we want.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">num</span>    <span style="color:#ff7b72;font-weight:bold">:</span> int    <span style="color:#ff7b72;font-weight:bold">=</span> 33
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">name</span>   <span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#ff7b72">string</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;Hello&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">person</span> <span style="color:#ff7b72;font-weight:bold">:</span> Person <span style="color:#ff7b72;font-weight:bold">=</span> Person<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;foo&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">num</span>    <span class="o">:</span> <span class="n">int</span>    <span class="o">=</span> <span class="n">33</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">name</span>   <span class="o">:</span> <span class="kt">string</span> <span class="o">=</span> <span class="s">&#34;Hello&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">person</span> <span class="o">:</span> <span class="n">Person</span> <span class="o">=</span> <span class="n">Person</span><span class="o">(</span><span class="s">&#34;foo&#34;</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="immutability">(Im)mutability</h2>
 <h3 id="immutability-in-c">(Im)mutability in C#</h3>
 <p>One important difference is that every variable in C# is <em>mutable</em> by default. This
 means you can change a variable at any time you want</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>num    = <span style="color:#a5d6ff">66</span>;
-</span></span><span style="display:flex;"><span>name  += <span style="color:#a5d6ff">&#34; World!&#34;</span>;
-</span></span><span style="display:flex;"><span>person = <span style="color:#ff7b72">new</span> Person(<span style="color:#a5d6ff">&#34;bar&#34;</span>);
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="n">num</span>    <span class="p">=</span> <span class="m">66</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">name</span>  <span class="p">+=</span> <span class="s">&#34; World!&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">person</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Person</span><span class="p">(</span><span class="s">&#34;bar&#34;</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>In C# you otherwise only can create immutable class fields with the <code>readonly</code> keyword.
@@ -174,61 +174,61 @@ You cannot create immutable <em>local-variables</em>.</p>
 <h3 id="immutability-in-f">(Im)mutability in F#</h3>
 <p>In F# on the other hand, everything is immutable by default. You cannot change a variable by default.
 If you want to create a mutable variable you have to mark a variable as <code>mutable</code></p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mutable</span> num    <span style="color:#ff7b72;font-weight:bold">=</span> 33
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mutable</span> name   <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;Hello&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mutable</span> person <span style="color:#ff7b72;font-weight:bold">=</span> Person<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;foo&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">mutable</span> <span class="n">num</span>    <span class="o">=</span> <span class="n">33</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">mutable</span> <span class="n">name</span>   <span class="o">=</span> <span class="s">&#34;Hello&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">mutable</span> <span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="o">(</span><span class="s">&#34;foo&#34;</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>You change the content of a variable with <code>&lt;-</code> instead of <code>=</code>. Equal is only used to specify or comparison.
 There is no operator like <code>+=</code> in F#. F# doesn&rsquo;t try to make mutability convenient.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span>num    <span style="color:#ff7b72;font-weight:bold">&lt;-</span> 66
-</span></span><span style="display:flex;"><span>name   <span style="color:#ff7b72;font-weight:bold">&lt;-</span> name <span style="color:#ff7b72;font-weight:bold">+</span> <span style="color:#a5d6ff">&#34; World!&#34;</span>
-</span></span><span style="display:flex;"><span>person <span style="color:#ff7b72;font-weight:bold">&lt;-</span> Person<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;bar&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">num</span>    <span class="o">&lt;-</span> <span class="n">66</span>
+</span></span><span class="line"><span class="cl"><span class="n">name</span>   <span class="o">&lt;-</span> <span class="n">name</span> <span class="o">+</span> <span class="s">&#34; World!&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">person</span> <span class="o">&lt;-</span> <span class="n">Person</span><span class="o">(</span><span class="s">&#34;bar&#34;</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="functions--static-methods">Functions / Static Methods</h2>
 <h3 id="definition-in-c">Definition in C#</h3>
 <p>In C# you define <em>static methods</em> as part of a <em>class</em>.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#ff7b72">public</span> <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">class</span> <span style="color:#f0883e;font-weight:bold">MyOperations</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">public</span> <span style="color:#ff7b72">static</span> Add(<span style="color:#ff7b72">int</span> x, <span style="color:#ff7b72">int</span> y) {
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">return</span> x + y;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">MyOperations</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="n">Add</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">x</span> <span class="p">+</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="definition-in-f-1">Definition in F#</h3>
 <p>In F# you put functions inside modules.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">module</span> <span style="color:#ff7b72">MyOperations</span> <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">add</span> x y <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">+</span> y
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">MyOperations</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">add</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We can see once again some important differences.</p>
@@ -239,32 +239,32 @@ There is no operator like <code>+=</code> in F#. F# doesn&rsquo;t try to make mu
 <li>There doesn&rsquo;t exists a <code>return</code> keyword. The last <em>expression</em> is automatically returned as a value.</li>
 </ol>
 <p>You also can add explicit <em>type-annotations</em>.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">module</span> <span style="color:#ff7b72">MyOperations</span> <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">add</span> <span style="color:#ff7b72;font-weight:bold">(</span>x<span style="color:#ff7b72;font-weight:bold">:</span>int<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>y<span style="color:#ff7b72;font-weight:bold">:</span>int<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">:</span> int <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">+</span> y
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">MyOperations</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">add</span> <span class="o">(</span><span class="n">x</span><span class="o">:</span><span class="n">int</span><span class="o">)</span> <span class="o">(</span><span class="n">y</span><span class="o">:</span><span class="n">int</span><span class="o">)</span> <span class="o">:</span> <span class="n">int</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="calling-functions-in-c">Calling functions in C#</h3>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span> <span style="color:#ff7b72">var</span> result = MyOperations.Add(<span style="color:#a5d6ff">5</span>, <span style="color:#a5d6ff">10</span>);
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"> <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="n">MyOperations</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">10</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="calling-functions-in-f">Calling functions in F#</h3>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span> <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">result</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">MyOperations</span>.add 5 10
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="nn">MyOperations</span><span class="p">.</span><span class="n">add</span> <span class="n">5</span> <span class="n">10</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>The only difference is that you don&rsquo;t use braces and commas to separate the arguments. You
@@ -275,25 +275,25 @@ Because <em>type-inference</em> also works with functions. F# often automaticall
 with generic arguments, instead of specific-types. And overall generics are more important in
 functional languages.</p>
 <h3 id="generics-in-c">Generics in C#</h3>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#ff7b72">public</span> <span style="color:#ff7b72">static</span> T SomeFunction&lt;T&gt;(T input) {
-</span></span><span style="display:flex;"><span>    <span style="color:#8b949e;font-style:italic">// Some code</span>
-</span></span><span style="display:flex;"><span>}
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="n">T</span> <span class="n">SomeFunction</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="n">T</span> <span class="n">input</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Some code</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="generics-in-f">Generics in F#</h3>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span> <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">someFunction</span> <span style="color:#ff7b72;font-weight:bold">(</span>input<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">&#39;</span>a<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#8b949e;font-style:italic">// Some code
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">someFunction</span> <span class="o">(</span><span class="n">input</span><span class="o">:</span><span class="k">&#39;</span><span class="n">a</span><span class="o">)</span> <span class="o">=</span> <span class="c1">// Some code
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Generics in F# are just annotated like normal types. The only difference is that all of them start
@@ -301,12 +301,12 @@ with an apostrophe. Instead of <code>T</code>, <code>TIn</code>, <code>TOut</cod
 be just letters <code>'a</code>, <code>'b</code>, <code>'c</code> &hellip;</p>
 <p>As stated previously. You also don&rsquo;t need to annotate generics. If you have written a generic function,
 F# will automatically infer a generic type for you. So overall you also could just write.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span> <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">someFunction</span> input <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#8b949e;font-style:italic">// Some code
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">someFunction</span> <span class="n">input</span> <span class="o">=</span> <span class="c1">// Some code
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="data-types">Data-Types</h2>
@@ -321,18 +321,18 @@ classes to define data-types. Besides classes we can use <em>tuples</em>, <em>re
 <h3 id="tuples-in-c">Tuples in C#</h3>
 <p>Tuples are also present in C#. There already exists as a <code>Tuple</code> class. But working with them
 is not so convenient as in F#. Anyway let&rsquo;s quickly look at how you use them.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#ff7b72">var</span> position = Tuple.Create(<span style="color:#a5d6ff">3</span>, <span style="color:#a5d6ff">4</span>, <span style="color:#a5d6ff">5</span>); <span style="color:#8b949e;font-style:italic">// The type is: Tuple&lt;int,int,int&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">var</span> x = position.Item1; <span style="color:#8b949e;font-style:italic">// 3</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">var</span> y = position.Item2; <span style="color:#8b949e;font-style:italic">// 4</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">var</span> z = position.Item3; <span style="color:#8b949e;font-style:italic">// 5</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">position</span> <span class="p">=</span> <span class="n">Tuple</span><span class="p">.</span><span class="n">Create</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">);</span> <span class="c1">// The type is: Tuple&lt;int,int,int&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">x</span> <span class="p">=</span> <span class="n">position</span><span class="p">.</span><span class="n">Item1</span><span class="p">;</span> <span class="c1">// 3</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">y</span> <span class="p">=</span> <span class="n">position</span><span class="p">.</span><span class="n">Item2</span><span class="p">;</span> <span class="c1">// 4</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">z</span> <span class="p">=</span> <span class="n">position</span><span class="p">.</span><span class="n">Item3</span><span class="p">;</span> <span class="c1">// 5</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Tuples are a good way for intermediate types. If you easily want to pass some values as
@@ -340,46 +340,46 @@ is not so convenient as in F#. Anyway let&rsquo;s quickly look at how you use th
 multiple different values from a function.</p>
 <h3 id="tuples-in-f">Tuples in F#</h3>
 <p>Working with Tuples is much easier in F#</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">position</span> <span style="color:#ff7b72;font-weight:bold">=</span> 3<span style="color:#ff7b72;font-weight:bold">,</span>4<span style="color:#ff7b72;font-weight:bold">,</span>5  <span style="color:#8b949e;font-style:italic">// The type is: int * int * int
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">x</span><span style="color:#ff7b72;font-weight:bold">,</span>y<span style="color:#ff7b72;font-weight:bold">,</span>z    <span style="color:#ff7b72;font-weight:bold">=</span> position
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">position</span> <span class="o">=</span> <span class="n">3</span><span class="o">,</span><span class="n">4</span><span class="o">,</span><span class="n">5</span>  <span class="c1">// The type is: int * int * int
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">x</span><span class="o">,</span><span class="n">y</span><span class="o">,</span><span class="n">z</span>    <span class="o">=</span> <span class="n">position</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>You create Tuples just by separating values with a comma. You can extract a Tuple with
 a <code>let</code> definition. This way you can easily create a function that return multiple data
 at once. Tuples don&rsquo;t must contain the same types.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span> <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">someFunction</span> x <span style="color:#ff7b72;font-weight:bold">=</span> x<span style="color:#ff7b72;font-weight:bold">,</span> x<span style="color:#ff7b72;font-weight:bold">*</span>2
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">someFunction</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">,</span> <span class="n">x</span><span class="o">*</span><span class="n">2</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>This function for example returns a Tuple with two elements. The input itself, and the input
 multiplied by Two.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">result</span> <span style="color:#ff7b72;font-weight:bold">=</span> someFunction 10
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">x</span><span style="color:#ff7b72;font-weight:bold">,</span> y   <span style="color:#ff7b72;font-weight:bold">=</span> result
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="n">someFunction</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span><span class="o">,</span> <span class="n">y</span>   <span class="o">=</span> <span class="n">result</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We also can write it in one line</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span> <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">x</span><span style="color:#ff7b72;font-weight:bold">,</span>y <span style="color:#ff7b72;font-weight:bold">=</span> someFunction 10
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">x</span><span class="o">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">someFunction</span> <span class="n">10</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Other than C#, tuples have its own type signature. Instead of a Generic Class like <code>Tuple&lt;int,int,int&gt;</code>
@@ -393,50 +393,50 @@ have more elements, they are unhandy to work with. An alternative to this is a R
 you know JavaScript you can compare them just to an object. Or a hash in Perl. The only difference
 is that they are static typed. So you must define a type beforehand.</p>
 <p>Records are planned as a feature in C# 7.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">10
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">11
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">12
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">13
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">14
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">15
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">16
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">17
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">18
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">19
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">20
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">type</span> <span style="color:#f0883e;font-weight:bold">Human</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>    Id<span style="color:#ff7b72;font-weight:bold">:</span>        int
-</span></span><span style="display:flex;"><span>    FirstName<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#ff7b72">string</span>
-</span></span><span style="display:flex;"><span>    LastName<span style="color:#ff7b72;font-weight:bold">:</span>  <span style="color:#ff7b72">string</span>
-</span></span><span style="display:flex;"><span>    Born<span style="color:#ff7b72;font-weight:bold">:</span>      DateTime
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">me</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>    Id        <span style="color:#ff7b72;font-weight:bold">=</span> 1
-</span></span><span style="display:flex;"><span>    FirstName <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;David&#34;</span>
-</span></span><span style="display:flex;"><span>    LastName  <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;Rab&#34;</span>
-</span></span><span style="display:flex;"><span>    Born      <span style="color:#ff7b72;font-weight:bold">=</span> DateTime<span style="color:#ff7b72;font-weight:bold">(</span>1983<span style="color:#ff7b72;font-weight:bold">,</span> 02<span style="color:#ff7b72;font-weight:bold">,</span> 19<span style="color:#ff7b72;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">age</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">DateTime</span>.<span style="color:#ff7b72">Today</span>.Year <span style="color:#ff7b72;font-weight:bold">-</span> me<span style="color:#ff7b72;font-weight:bold">.</span>Born<span style="color:#ff7b72;font-weight:bold">.</span>Year
-</span></span><span style="display:flex;"><span>printfn <span style="color:#a5d6ff">&#34;%s %s is currently %d years old&#34;</span> me<span style="color:#ff7b72;font-weight:bold">.</span>FirstName me<span style="color:#ff7b72;font-weight:bold">.</span>LastName age
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">newMe</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span>me <span style="color:#ff7b72">with</span> LastName <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;Raab&#34;</span><span style="color:#ff7b72;font-weight:bold">}</span>
-</span></span><span style="display:flex;"><span>printfn <span style="color:#a5d6ff">&#34;%s %s is currently %d years old&#34;</span> me<span style="color:#ff7b72;font-weight:bold">.</span>FirstName    me<span style="color:#ff7b72;font-weight:bold">.</span>LastName    age
-</span></span><span style="display:flex;"><span>printfn <span style="color:#a5d6ff">&#34;%s %s is currently %d years old&#34;</span> newMe<span style="color:#ff7b72;font-weight:bold">.</span>FirstName newMe<span style="color:#ff7b72;font-weight:bold">.</span>LastName age
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Human</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Id</span><span class="o">:</span>        <span class="n">int</span>
+</span></span><span class="line"><span class="cl">    <span class="n">FirstName</span><span class="o">:</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LastName</span><span class="o">:</span>  <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Born</span><span class="o">:</span>      <span class="n">DateTime</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">me</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Id</span>        <span class="o">=</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">FirstName</span> <span class="o">=</span> <span class="s">&#34;David&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LastName</span>  <span class="o">=</span> <span class="s">&#34;Rab&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Born</span>      <span class="o">=</span> <span class="n">DateTime</span><span class="o">(</span><span class="n">1983</span><span class="o">,</span> <span class="n">02</span><span class="o">,</span> <span class="n">19</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">age</span> <span class="o">=</span> <span class="nn">DateTime</span><span class="p">.</span><span class="nn">Today</span><span class="p">.</span><span class="n">Year</span> <span class="o">-</span> <span class="n">me</span><span class="o">.</span><span class="n">Born</span><span class="o">.</span><span class="n">Year</span>
+</span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%s %s is currently %d years old&#34;</span> <span class="n">me</span><span class="o">.</span><span class="n">FirstName</span> <span class="n">me</span><span class="o">.</span><span class="n">LastName</span> <span class="n">age</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">newMe</span> <span class="o">=</span> <span class="o">{</span><span class="n">me</span> <span class="k">with</span> <span class="n">LastName</span> <span class="o">=</span> <span class="s">&#34;Raab&#34;</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%s %s is currently %d years old&#34;</span> <span class="n">me</span><span class="o">.</span><span class="n">FirstName</span>    <span class="n">me</span><span class="o">.</span><span class="n">LastName</span>    <span class="n">age</span>
+</span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%s %s is currently %d years old&#34;</span> <span class="n">newMe</span><span class="o">.</span><span class="n">FirstName</span> <span class="n">newMe</span><span class="o">.</span><span class="n">LastName</span> <span class="n">age</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>This code will produce the output:</p>
@@ -453,58 +453,58 @@ also can set multiple fields at once. As seen in the example. This creates a new
 modify the old record.</p>
 <p>You can access member of a record with a dot. Records also can be deeply nested, so
 you can create hierarchical data-structures.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">10
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">11
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">12
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">13
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">14
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">15
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">16
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">17
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">18
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">19
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">20
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">21
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">22
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">23
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">24
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">type</span> <span style="color:#f0883e;font-weight:bold">Attributes</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>    Strength<span style="color:#ff7b72;font-weight:bold">:</span>     int
-</span></span><span style="display:flex;"><span>    Dexterity<span style="color:#ff7b72;font-weight:bold">:</span>    int
-</span></span><span style="display:flex;"><span>    Intelligence<span style="color:#ff7b72;font-weight:bold">:</span> int
-</span></span><span style="display:flex;"><span>    Vitality<span style="color:#ff7b72;font-weight:bold">:</span>     int
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">type</span> <span style="color:#f0883e;font-weight:bold">CaharacterSheet</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>    Name<span style="color:#ff7b72;font-weight:bold">:</span>      <span style="color:#ff7b72">string</span>
-</span></span><span style="display:flex;"><span>    Attribute<span style="color:#ff7b72;font-weight:bold">:</span> Attributes
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">warrior</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>    Name <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;Conan&#34;</span>
-</span></span><span style="display:flex;"><span>    Attribute <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>        Strength <span style="color:#ff7b72;font-weight:bold">=</span> 1000
-</span></span><span style="display:flex;"><span>        Dexterity <span style="color:#ff7b72;font-weight:bold">=</span> 200
-</span></span><span style="display:flex;"><span>        Intelligence <span style="color:#ff7b72;font-weight:bold">=</span> 3
-</span></span><span style="display:flex;"><span>        Vitality <span style="color:#ff7b72;font-weight:bold">=</span> 1000
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>printfn <span style="color:#a5d6ff">&#34;%s was a Warrior with Strength of %d&#34;</span> warrior<span style="color:#ff7b72;font-weight:bold">.</span>Name warrior<span style="color:#ff7b72;font-weight:bold">.</span>Attribute<span style="color:#ff7b72;font-weight:bold">.</span>Strength
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Attributes</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Strength</span><span class="o">:</span>     <span class="n">int</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Dexterity</span><span class="o">:</span>    <span class="n">int</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Intelligence</span><span class="o">:</span> <span class="n">int</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Vitality</span><span class="o">:</span>     <span class="n">int</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">CaharacterSheet</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Name</span><span class="o">:</span>      <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Attribute</span><span class="o">:</span> <span class="n">Attributes</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">warrior</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Name</span> <span class="o">=</span> <span class="s">&#34;Conan&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Attribute</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Strength</span> <span class="o">=</span> <span class="n">1000</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Dexterity</span> <span class="o">=</span> <span class="n">200</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Intelligence</span> <span class="o">=</span> <span class="n">3</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Vitality</span> <span class="o">=</span> <span class="n">1000</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%s was a Warrior with Strength of %d&#34;</span> <span class="n">warrior</span><span class="o">.</span><span class="n">Name</span> <span class="n">warrior</span><span class="o">.</span><span class="n">Attribute</span><span class="o">.</span><span class="n">Strength</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="discriminated-unions-in-f">Discriminated Unions in F#</h3>
@@ -521,38 +521,38 @@ user can pay with different methods.</p>
 <li><strong>PayPal</strong> &ndash; We need the email address</li>
 <li><strong>CreditCard</strong> &ndash; We need the credit card number</li>
 </ol>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">10
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">11
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">12
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">13
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">14
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">type</span> <span style="color:#f0883e;font-weight:bold">Payment</span> <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Cash
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> PayPal     <span style="color:#ff7b72">of</span> <span style="color:#ff7b72">string</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> CreditCard <span style="color:#ff7b72">of</span> <span style="color:#ff7b72">string</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">inform</span> payment <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">match</span> payment <span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Cash          <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;User payed cash&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> PayPal email  <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;User payed with PayPal. Email: %s&#34;</span> email
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> CreditCard no <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;User payed with CC. No: %s&#34;</span> no
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>inform Cash
-</span></span><span style="display:flex;"><span>inform <span style="color:#ff7b72;font-weight:bold">(</span>PayPal <span style="color:#a5d6ff">&#34;foo@example.com&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span>inform <span style="color:#ff7b72;font-weight:bold">(</span>CreditCard <span style="color:#a5d6ff">&#34;123456789&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Payment</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cash</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">PayPal</span>     <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">CreditCard</span> <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">inform</span> <span class="n">payment</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">payment</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cash</span>          <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;User payed cash&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">PayPal</span> <span class="n">email</span>  <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;User payed with PayPal. Email: %s&#34;</span> <span class="n">email</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">CreditCard</span> <span class="n">no</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;User payed with CC. No: %s&#34;</span> <span class="n">no</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">inform</span> <span class="n">Cash</span>
+</span></span><span class="line"><span class="cl"><span class="n">inform</span> <span class="o">(</span><span class="n">PayPal</span> <span class="s">&#34;foo@example.com&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">inform</span> <span class="o">(</span><span class="n">CreditCard</span> <span class="s">&#34;123456789&#34;</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>The above code will produce an output like</p>
@@ -575,105 +575,105 @@ and we want the result to pass to our function. That is why we need to add brace
 <p>This is comparable to just simple maths. <code>3 + 4 * 5</code> would yield in <code>23</code>. If we otherwise write
 <code>(3 + 4) * 5</code> we would get <code>35</code>. Braces are just grouping constructs! This becomes more important
 if we have something like these.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span> someFunction <span style="color:#ff7b72;font-weight:bold">(</span>Foo x<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>Bar z<span style="color:#ff7b72;font-weight:bold">)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="n">someFunction</span> <span class="o">(</span><span class="n">Foo</span> <span class="n">x</span><span class="o">)</span> <span class="o">(</span><span class="n">Bar</span> <span class="n">z</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>This would be a Function call with two arguments. The first argument is the result of <code>Foo x</code>, the
 second argument would be the Result of <code>Bar z</code>. Coming from a C-style language people often try to read it as</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span> someFunction(Foo x)
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"> <span class="n">someFunction</span><span class="p">(</span><span class="n">Foo</span> <span class="n">x</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>as a single function invocation with one argument, and they see a trailing <code>(Bar z)</code> and they don&rsquo;t know
 what it stands for. Actually converting such a function call to C# would result in something like this</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span> someFunction(<span style="color:#ff7b72">new</span> Foo(x), <span style="color:#ff7b72">new</span> Bar(z));
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"> <span class="n">someFunction</span><span class="p">(</span><span class="k">new</span> <span class="n">Foo</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="k">new</span> <span class="n">Bar</span><span class="p">(</span><span class="n">z</span><span class="p">));</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>The big advantage of Discriminated Unions is that each case can contain objects, tuples, records or
 other discriminated unions as values. It even can contain itself as an element. In this way you
 can easily build recursive data-structures.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">10
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">11
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">12
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">13
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">14
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">15
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">16
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">17
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">18
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">19
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">20
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">21
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">22
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">23
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">24
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">25
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">26
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">27
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">28
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">29
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">30
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">31
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">32
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">type</span> <span style="color:#f0883e;font-weight:bold">Markdown</span> <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> NewLine
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Literal    <span style="color:#ff7b72">of</span> <span style="color:#ff7b72">string</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Bold       <span style="color:#ff7b72">of</span> <span style="color:#ff7b72">string</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> InlineCode <span style="color:#ff7b72">of</span> <span style="color:#ff7b72">string</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Block      <span style="color:#ff7b72">of</span> Markdown <span style="color:#ff7b72">list</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">document</span> <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    Block <span style="color:#ff7b72;font-weight:bold">[</span>
-</span></span><span style="display:flex;"><span>        Literal <span style="color:#a5d6ff">&#34;Hello&#34;</span><span style="color:#ff7b72;font-weight:bold">;</span> Bold <span style="color:#a5d6ff">&#34;World!&#34;</span><span style="color:#ff7b72;font-weight:bold">;</span> NewLine
-</span></span><span style="display:flex;"><span>        Literal <span style="color:#a5d6ff">&#34;InlineCode of&#34;</span><span style="color:#ff7b72;font-weight:bold">;</span> InlineCode <span style="color:#a5d6ff">&#34;let sum x y = x + y&#34;</span><span style="color:#ff7b72;font-weight:bold">;</span> NewLine
-</span></span><span style="display:flex;"><span>        Block <span style="color:#ff7b72;font-weight:bold">[</span>
-</span></span><span style="display:flex;"><span>            Literal <span style="color:#a5d6ff">&#34;This is the end&#34;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72;font-weight:bold">]</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">]</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">rec</span> produceHtml markdown <span style="color:#ff7b72;font-weight:bold">(</span>sb<span style="color:#ff7b72;font-weight:bold">:</span>StringBuilder<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">match</span> markdown <span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> NewLine         <span style="color:#ff7b72;font-weight:bold">-&gt;</span> sb<span style="color:#ff7b72;font-weight:bold">.</span>Append<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;&lt;br/&gt;&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">|&gt;</span> ignore
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Literal    str  <span style="color:#ff7b72;font-weight:bold">-&gt;</span> sb<span style="color:#ff7b72;font-weight:bold">.</span>Append<span style="color:#ff7b72;font-weight:bold">(</span>str<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">|&gt;</span> ignore
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Bold       str  <span style="color:#ff7b72;font-weight:bold">-&gt;</span> sb<span style="color:#ff7b72;font-weight:bold">.</span>AppendFormat<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;&lt;strong&gt;{0}&lt;/strong&gt;&#34;</span><span style="color:#ff7b72;font-weight:bold">,</span> str<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">|&gt;</span> ignore
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> InlineCode code <span style="color:#ff7b72;font-weight:bold">-&gt;</span> sb<span style="color:#ff7b72;font-weight:bold">.</span>AppendFormat<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;&lt;code&gt;{0}&lt;/code&gt;&#34;</span><span style="color:#ff7b72;font-weight:bold">,</span> code<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">|&gt;</span> ignore
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Block  markdown <span style="color:#ff7b72;font-weight:bold">-&gt;</span>
-</span></span><span style="display:flex;"><span>        sb<span style="color:#ff7b72;font-weight:bold">.</span>Append<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;&lt;p&gt;&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">|&gt;</span> ignore
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">for</span> x <span style="color:#ff7b72">in</span> markdown <span style="color:#ff7b72">do</span>
-</span></span><span style="display:flex;"><span>            produceHtml x sb <span style="color:#ff7b72;font-weight:bold">|&gt;</span> ignore
-</span></span><span style="display:flex;"><span>        sb<span style="color:#ff7b72;font-weight:bold">.</span>Append<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;&lt;/p&gt;&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">|&gt;</span> ignore
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">html</span> <span style="color:#ff7b72;font-weight:bold">=</span> StringBuilder()
-</span></span><span style="display:flex;"><span>produceHtml document html
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>printfn <span style="color:#a5d6ff">&#34;%s&#34;</span> <span style="color:#ff7b72;font-weight:bold">(</span>html<span style="color:#ff7b72;font-weight:bold">.</span>ToString()<span style="color:#ff7b72;font-weight:bold">)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Markdown</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">NewLine</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Literal</span>    <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Bold</span>       <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">InlineCode</span> <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Block</span>      <span class="k">of</span> <span class="n">Markdown</span> <span class="kt">list</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">document</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Block</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Literal</span> <span class="s">&#34;Hello&#34;</span><span class="o">;</span> <span class="n">Bold</span> <span class="s">&#34;World!&#34;</span><span class="o">;</span> <span class="n">NewLine</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Literal</span> <span class="s">&#34;InlineCode of&#34;</span><span class="o">;</span> <span class="n">InlineCode</span> <span class="s">&#34;let sum x y = x + y&#34;</span><span class="o">;</span> <span class="n">NewLine</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Block</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Literal</span> <span class="s">&#34;This is the end&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">produceHtml</span> <span class="n">markdown</span> <span class="o">(</span><span class="n">sb</span><span class="o">:</span><span class="n">StringBuilder</span><span class="o">)</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">markdown</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">NewLine</span>         <span class="o">-&gt;</span> <span class="n">sb</span><span class="o">.</span><span class="n">Append</span><span class="o">(</span><span class="s">&#34;&lt;br/&gt;&#34;</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="n">ignore</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Literal</span>    <span class="n">str</span>  <span class="o">-&gt;</span> <span class="n">sb</span><span class="o">.</span><span class="n">Append</span><span class="o">(</span><span class="n">str</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="n">ignore</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Bold</span>       <span class="n">str</span>  <span class="o">-&gt;</span> <span class="n">sb</span><span class="o">.</span><span class="n">AppendFormat</span><span class="o">(</span><span class="s">&#34;&lt;strong&gt;{0}&lt;/strong&gt;&#34;</span><span class="o">,</span> <span class="n">str</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="n">ignore</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">InlineCode</span> <span class="n">code</span> <span class="o">-&gt;</span> <span class="n">sb</span><span class="o">.</span><span class="n">AppendFormat</span><span class="o">(</span><span class="s">&#34;&lt;code&gt;{0}&lt;/code&gt;&#34;</span><span class="o">,</span> <span class="n">code</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="n">ignore</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Block</span>  <span class="n">markdown</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sb</span><span class="o">.</span><span class="n">Append</span><span class="o">(</span><span class="s">&#34;&lt;p&gt;&#34;</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="n">ignore</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="n">markdown</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">            <span class="n">produceHtml</span> <span class="n">x</span> <span class="n">sb</span> <span class="o">|&gt;</span> <span class="n">ignore</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sb</span><span class="o">.</span><span class="n">Append</span><span class="o">(</span><span class="s">&#34;&lt;/p&gt;&#34;</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="n">ignore</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">html</span> <span class="o">=</span> <span class="n">StringBuilder</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">produceHtml</span> <span class="n">document</span> <span class="n">html</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%s&#34;</span> <span class="o">(</span><span class="n">html</span><span class="o">.</span><span class="n">ToString</span><span class="bp">()</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Running the above code will produce us the following output</p>
@@ -687,21 +687,21 @@ In C# you create a mutable <code>List&lt;T&gt;</code> object and you can directl
 create lists just with the syntax <code>[ ... ]</code> (Like in JavaScript). Otherwise elements get separated by <code>;</code>
 instead of <code>,</code>. This is often a source of confusion, because both styles are allowed but they mean something
 different.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span> <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">data</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">[</span>1<span style="color:#ff7b72;font-weight:bold">;</span>2<span style="color:#ff7b72;font-weight:bold">;</span>3<span style="color:#ff7b72;font-weight:bold">;</span>4<span style="color:#ff7b72;font-weight:bold">]</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>This is a List of <code>int</code>. And it contains four elements.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span> <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">data</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">[</span>1<span style="color:#ff7b72;font-weight:bold">,</span>2<span style="color:#ff7b72;font-weight:bold">,</span>3<span style="color:#ff7b72;font-weight:bold">,</span>4<span style="color:#ff7b72;font-weight:bold">]</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="o">[</span><span class="n">1</span><span class="o">,</span><span class="n">2</span><span class="o">,</span><span class="n">3</span><span class="o">,</span><span class="n">4</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>This is a List of a Tuple <code>int * int * int * int</code> and it contains a single element. Remember <code>,</code> is
@@ -709,23 +709,23 @@ for creating Tuples!</p>
 <p>Additional lists in F# are also immutable. They also provide default implementations of equality, comparison
 and so on. If you want to add elements to a list you have to create a new list. This can be easily done with
 <code>::</code>.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">data</span>    <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">[</span>1<span style="color:#ff7b72;font-weight:bold">;</span>2<span style="color:#ff7b72;font-weight:bold">;</span>3<span style="color:#ff7b72;font-weight:bold">;</span>4<span style="color:#ff7b72;font-weight:bold">]</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">oneMore</span> <span style="color:#ff7b72;font-weight:bold">=</span> 5 <span style="color:#ff7b72;font-weight:bold">::</span> data
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">data</span>    <span class="o">=</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">oneMore</span> <span class="o">=</span> <span class="n">5</span> <span class="o">::</span> <span class="n">data</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>oneMore</code> is now</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span> <span style="color:#ff7b72;font-weight:bold">[</span>5<span style="color:#ff7b72;font-weight:bold">;</span>1<span style="color:#ff7b72;font-weight:bold">;</span>2<span style="color:#ff7b72;font-weight:bold">;</span>3<span style="color:#ff7b72;font-weight:bold">;</span>4<span style="color:#ff7b72;font-weight:bold">]</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="o">[</span><span class="n">5</span><span class="o">;</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>note that <code>data</code> is unchanged and is still a four element list. The way how lists are build (<em>immutable</em>
@@ -738,12 +738,12 @@ functions as in the <code>List</code> module.</p>
 are very important in functional languages, as more complex logic is achieved by composing of functions.
 Compose ability is actually pretty easy. Let&rsquo;s assume we have a function that takes an <code>int</code> as its input
 and a <code>string</code> as its output. In C# we would usually define such a <em>method interface</em> in that way.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span> <span style="color:#ff7b72">string</span> SomeMethod(<span style="color:#ff7b72">int</span> x);
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"> <span class="kt">string</span> <span class="n">SomeMethod</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>This could be for example part of an <code>interface</code> definition in C#. In F# we would define such an interface
@@ -788,29 +788,29 @@ that takes a string, splits a string on &lsquo;,&rsquo; and parses every number 
 and returns <code>int list</code>. The signature would be <code>string -&gt; int list</code>.</p>
 <p>We then have another function <code>sumList</code> that just takes a <code>int list</code> and sums all
 numbers together returning an <code>int</code>. We could use those two functions like this:</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">nums</span> <span style="color:#ff7b72;font-weight:bold">=</span> parseInts <span style="color:#a5d6ff">&#34;1,2,3,4,5&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">sum</span>  <span style="color:#ff7b72;font-weight:bold">=</span> sumList nums <span style="color:#8b949e;font-style:italic">// 15
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">nums</span> <span class="o">=</span> <span class="n">parseInts</span> <span class="s">&#34;1,2,3,4,5&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span>  <span class="o">=</span> <span class="n">sumList</span> <span class="n">nums</span> <span class="c1">// 15
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>We also could create a new function that combines these two steps into a new function</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">strToSum</span> stringList <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">nums</span> <span style="color:#ff7b72;font-weight:bold">=</span> parseInts stringList
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">sum</span>  <span style="color:#ff7b72;font-weight:bold">=</span> sumList nums
-</span></span><span style="display:flex;"><span>    sum
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">strToSum</span> <span class="n">stringList</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">nums</span> <span class="o">=</span> <span class="n">parseInts</span> <span class="n">stringList</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">sum</span>  <span class="o">=</span> <span class="n">sumList</span> <span class="n">nums</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sum</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We now have a function <code>strToSum</code> that goes directly from <code>string -&gt; int</code></p>
@@ -823,12 +823,12 @@ any kind of function with any kind of type. In general we can say. When we have 
 <pre><code>'a -&gt; 'c
 </code></pre>
 <p>So let&rsquo;s write a <code>compose</code> function that does that kind of stuff for us.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span> <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">compose</span> f g x <span style="color:#ff7b72;font-weight:bold">=</span> g <span style="color:#ff7b72;font-weight:bold">(</span>f x<span style="color:#ff7b72;font-weight:bold">)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">compose</span> <span class="n">f</span> <span class="n">g</span> <span class="n">x</span> <span class="o">=</span> <span class="n">g</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>So let&rsquo;s look at the implementation. We have a function <code>compose</code> with three arguments. <code>f</code>
@@ -839,18 +839,18 @@ first do is</p>
 <p>meaning we will call our <code>f</code> function with the <code>x</code> value. The Result of that is passed to the <code>g</code>
 function. The result of the <code>g</code> function is then returned as a value. We also could have written it
 like this.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">compose</span> f g x <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">y</span> <span style="color:#ff7b72;font-weight:bold">=</span> f x
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">z</span> <span style="color:#ff7b72;font-weight:bold">=</span> g y
-</span></span><span style="display:flex;"><span>    z
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">compose</span> <span class="n">f</span> <span class="n">g</span> <span class="n">x</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">f</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">z</span> <span class="o">=</span> <span class="n">g</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">    <span class="n">z</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>The F# compiler automatically infers that <code>f</code> and <code>g</code> are functions.
@@ -858,12 +858,12 @@ Just by using it like <code>f x</code> or <code>g y</code> the compiler knows th
 functions with a single argument.</p>
 <p>But what kind of types do we have here? The answer is, they are generic. When we look at the type
 signature that the compiler created for us, it looks some kind of scary first. We have.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span> <span style="color:#ff7b72">val</span> compose <span style="color:#ff7b72;font-weight:bold">:</span> f<span style="color:#ff7b72;font-weight:bold">:(</span><span style="color:#ff7b72">&#39;</span>a <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">&#39;</span>b<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">-&gt;</span> g<span style="color:#ff7b72;font-weight:bold">:(</span><span style="color:#ff7b72">&#39;</span>b <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">&#39;</span>c<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">-&gt;</span> x<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">&#39;</span>a <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">&#39;</span>c
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">val</span> <span class="n">compose</span> <span class="o">:</span> <span class="n">f</span><span class="o">:(</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">g</span><span class="o">:(</span><span class="k">&#39;</span><span class="n">b</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">c</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">:</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">c</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Let&rsquo;s go over it step-by-step</p>
@@ -904,12 +904,12 @@ functions. And we need to return a <code>'c</code>. So how do we get a <code>'c<
 return a <code>'b</code> value. After we have a <code>'b</code> value it only can pass that value into the <code>g</code> function.
 Finally this returns a <code>'c</code> that the <code>compose</code> function then returns.</p>
 <p>We now could use <code>compose</code> like this.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span> <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">sum</span> <span style="color:#ff7b72;font-weight:bold">=</span> compose parseInts sumList <span style="color:#a5d6ff">&#34;1,2,3,4,5&#34;</span> <span style="color:#8b949e;font-style:italic">// 15
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> <span class="n">compose</span> <span class="n">parseInts</span> <span class="n">sumList</span> <span class="s">&#34;1,2,3,4,5&#34;</span> <span class="c1">// 15
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Here we now call <code>compose</code> with three arguments. We provide the <code>parseInts</code> function itself as a value.
@@ -919,14 +919,14 @@ string.</p>
 get a function back with the remaining arguments. Currently our <code>compose</code> function is a three arguments
 function. So what happens if we just provide the first two functions as arguments? We get a function back
 that is still waiting for the last third argument.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">strToSum</span> <span style="color:#ff7b72;font-weight:bold">=</span> compose parseInts sumList
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">result</span>   <span style="color:#ff7b72;font-weight:bold">=</span> strToSum <span style="color:#a5d6ff">&#34;1,2,3,4,5&#34;</span> <span style="color:#8b949e;font-style:italic">// 15
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">strToSum</span> <span class="o">=</span> <span class="n">compose</span> <span class="n">parseInts</span> <span class="n">sumList</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">result</span>   <span class="o">=</span> <span class="n">strToSum</span> <span class="s">&#34;1,2,3,4,5&#34;</span> <span class="c1">// 15
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>This kind of composing is so common that we have a special operator <code>&gt;&gt;</code> for this. So all we really need to
@@ -934,30 +934,30 @@ do is put &raquo; between two functions, and we get a new function back! So what
 <pre><code>(string -&gt; int list) &gt;&gt; (int list -&gt; int)
 </code></pre>
 <p>and we just get a <code>string -&gt; int</code> back.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">strToSum</span> <span style="color:#ff7b72;font-weight:bold">=</span> parseInts <span style="color:#ff7b72;font-weight:bold">&gt;&gt;</span> sumList
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">result</span>   <span style="color:#ff7b72;font-weight:bold">=</span> strToSum <span style="color:#a5d6ff">&#34;1,2,3,4,5&#34;</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">strToSum</span> <span class="o">=</span> <span class="n">parseInts</span> <span class="o">&gt;&gt;</span> <span class="n">sumList</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">result</span>   <span class="o">=</span> <span class="n">strToSum</span> <span class="s">&#34;1,2,3,4,5&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>So we can easily create new functions out of smaller functions. This is the essence of <em>functional programming</em>.
 We have <em>immutable data-types</em> that gets transformed from one type to another. And we compose functions
 together to create new functions. Note that we also could create such a <code>compose</code> function in C#.
 But because of a lack of some features in C#, such a function is less practical as it seems.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#ff7b72">public</span> <span style="color:#ff7b72">static</span> Func&lt;A, C&gt; Compose&lt;A, B, C&gt;(Func&lt;A, B&gt; f, Func&lt;B, C&gt; g) {
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> input =&gt; g(f(input));
-</span></span><span style="display:flex;"><span>}
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="n">Func</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span> <span class="n">C</span><span class="p">&gt;</span> <span class="n">Compose</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">&gt;(</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">&gt;</span> <span class="n">f</span><span class="p">,</span> <span class="n">Func</span><span class="p">&lt;</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">&gt;</span> <span class="n">g</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">input</span> <span class="p">=&gt;</span> <span class="n">g</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">input</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>But it is can help to understand what <em>composition</em> means.</p>
@@ -969,94 +969,94 @@ Pipes. For example in Bash you can do stuff like this.</p>
 that only shows the line that contains a <code>foo</code>. And that output is finally sorted by <code>sort</code>. F# has the operator
 <code>|&gt;</code> to provide such a functionality. <code>|&gt;</code> just means, pass the value on the left to the function on the right.
 So instead of</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span> strToSum <span style="color:#a5d6ff">&#34;1,2,3,4,5&#34;</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="n">strToSum</span> <span class="s">&#34;1,2,3,4,5&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We also could write</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span> <span style="color:#a5d6ff">&#34;1,2,3,4,5&#34;</span> <span style="color:#ff7b72;font-weight:bold">|&gt;</span> strToSum
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="s">&#34;1,2,3,4,5&#34;</span> <span class="o">|&gt;</span> <span class="n">strToSum</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Having this kind of Piping means we also could have written <code>strToSum</code> like this</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span> <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">strToStum</span> x <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">|&gt;</span> parseInts <span style="color:#ff7b72;font-weight:bold">|&gt;</span> sumList
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">strToStum</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">|&gt;</span> <span class="n">parseInts</span> <span class="o">|&gt;</span> <span class="n">sumList</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>instead of</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span> <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">strToSum</span> <span style="color:#ff7b72;font-weight:bold">=</span> parseInts <span style="color:#ff7b72;font-weight:bold">&gt;&gt;</span> sumList
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">strToSum</span> <span class="o">=</span> <span class="n">parseInts</span> <span class="o">&gt;&gt;</span> <span class="n">sumList</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Both styles means the same. In the <code>|&gt;</code> we just provide the input argument explcitily. <code>x |&gt; parseInts |&gt; sumList</code>
 also can be read as. Take argument <code>x</code> and pass it to the <code>parseInts</code> function. The result of <code>parseInts</code> is then
 passed into the <code>sumList</code> function. This kind of style is often what you see with <code>List</code> manipulations.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">9
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">numbers</span> xs <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    xs
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|&gt;</span> <span style="color:#ff7b72">List</span>.map    <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">fun</span> x <span style="color:#ff7b72;font-weight:bold">-&gt;</span> x <span style="color:#ff7b72;font-weight:bold">+</span> 3<span style="color:#ff7b72;font-weight:bold">)</span>     <span style="color:#8b949e;font-style:italic">// Add +3 to every element
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    <span style="color:#ff7b72;font-weight:bold">|&gt;</span> <span style="color:#ff7b72">List</span>.map    <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">fun</span> x <span style="color:#ff7b72;font-weight:bold">-&gt;</span> x <span style="color:#ff7b72;font-weight:bold">*</span> 2<span style="color:#ff7b72;font-weight:bold">)</span>     <span style="color:#8b949e;font-style:italic">// Multiply every element by 2
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    <span style="color:#ff7b72;font-weight:bold">|&gt;</span> <span style="color:#ff7b72">List</span>.filter <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">fun</span> x <span style="color:#ff7b72;font-weight:bold">-&gt;</span> x <span style="color:#ff7b72;font-weight:bold">%</span> 2 <span style="color:#ff7b72;font-weight:bold">=</span> 0<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#8b949e;font-style:italic">// Only pick even elements
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    <span style="color:#ff7b72;font-weight:bold">|&gt;</span> <span style="color:#ff7b72">List</span>.filter <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">fun</span> x <span style="color:#ff7b72;font-weight:bold">-&gt;</span> x <span style="color:#ff7b72;font-weight:bold">&gt;</span> 10<span style="color:#ff7b72;font-weight:bold">)</span>    <span style="color:#8b949e;font-style:italic">// Only pick elements greater than 10
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    <span style="color:#ff7b72;font-weight:bold">|&gt;</span> <span style="color:#ff7b72">List</span>.take   10                   <span style="color:#8b949e;font-style:italic">// Only take 10 Elements
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">result</span> <span style="color:#ff7b72;font-weight:bold">=</span> numbers <span style="color:#ff7b72;font-weight:bold">[</span>1<span style="color:#ff7b72;font-weight:bold">..</span>100<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#8b949e;font-style:italic">// [12; 14; 16; 18; 20; 22; 24; 26; 28; 30]
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">numbers</span> <span class="n">xs</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">xs</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span>    <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">3</span><span class="o">)</span>     <span class="c1">// Add +3 to every element
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span>    <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span><span class="o">)</span>     <span class="c1">// Multiply every element by 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span><span class="o">)</span> <span class="c1">// Only pick even elements
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">10</span><span class="o">)</span>    <span class="c1">// Only pick elements greater than 10
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">take</span>   <span class="n">10</span>                   <span class="c1">// Only take 10 Elements
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="n">numbers</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">100</span><span class="o">]</span> <span class="c1">// [12; 14; 16; 18; 20; 22; 24; 26; 28; 30]
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>This style of composing is also what you see with LINQ in C# or Java 8 Stream interface. The above
 code could also be implemented in this way with C# LINQ feature.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">10
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#ff7b72">public</span> <span style="color:#ff7b72">static</span> IEnumerable&lt;<span style="color:#ff7b72">int</span>&gt; Numbers(IEnumerable&lt;<span style="color:#ff7b72">int</span>&gt; xs) {
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> xs
-</span></span><span style="display:flex;"><span>        .Select(x =&gt; x + <span style="color:#a5d6ff">3</span>)
-</span></span><span style="display:flex;"><span>        .Select(x =&gt; x * <span style="color:#a5d6ff">2</span>)
-</span></span><span style="display:flex;"><span>        .Where(x =&gt; x % <span style="color:#a5d6ff">2</span> == <span style="color:#a5d6ff">0</span>)
-</span></span><span style="display:flex;"><span>        .Where(x =&gt; x &gt; <span style="color:#a5d6ff">10</span>)
-</span></span><span style="display:flex;"><span>        .Take(<span style="color:#a5d6ff">10</span>);
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">var</span> result = Numbers(Enumerable.Range(<span style="color:#a5d6ff">1</span>,<span style="color:#a5d6ff">100</span>));
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">Numbers</span><span class="p">(</span><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">xs</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">xs</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span> <span class="p">+</span> <span class="m">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span> <span class="p">*</span> <span class="m">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span> <span class="p">&gt;</span> <span class="m">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="n">Take</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="n">Numbers</span><span class="p">(</span><span class="n">Enumerable</span><span class="p">.</span><span class="n">Range</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">100</span><span class="p">));</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="final-note">Final Note</h2>

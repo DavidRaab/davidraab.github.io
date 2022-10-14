@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="David Raab" />
     <meta name="description" content="Explains Higher-Kinded Polymorphism" />
-    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.a8546077d48c47c89a814549279adb362800e0bf9e49e90fe38c4f6ee35bff70.css" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.c5d0d3078a177d7cfb9aa69e4ac0843c2cef8c18ec3ed7421bb5e95b879ca2f7.css" />
 
     
     <meta name="twitter:card" content="summary"/>
@@ -87,14 +87,14 @@ only has partial support for it. So let&rsquo;s look in what it is, and why you 
 <p>Before we go deeper let&rsquo;s recap what polymorphism is about. Polymorphism is the idea
 that you can write code that looks the same. But it can do different things depending on the
 concrete type.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> 1 <span style="color:#ff7b72;font-weight:bold">+</span> 3
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">y</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;foo&#34;</span> <span style="color:#ff7b72;font-weight:bold">+</span> <span style="color:#a5d6ff">&#34;bar&#34;</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">1</span> <span class="o">+</span> <span class="n">3</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="s">&#34;foo&#34;</span> <span class="o">+</span> <span class="s">&#34;bar&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>As we see here, we have a polymorphic <code>+</code>. Depending on it&rsquo;s type, it does different things.
@@ -106,14 +106,14 @@ be able to write a polymorphic <code>+</code>, so <code>+</code> always can only
 If that would be true, we actually would need different <code>+</code> operators for every type. For example
 OCaml doesn&rsquo;t support this kind of polymorphism, so OCaml has two different types for adding
 <code>int</code> and <code>float</code></p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ocaml" data-lang="ocaml"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> x <span style="color:#ff7b72;font-weight:bold">=</span> a <span style="color:#ff7b72;font-weight:bold">+</span> b  <span style="color:#ff7b72;font-weight:bold">//</span> <span style="color:#ff7b72">int</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> y <span style="color:#ff7b72;font-weight:bold">=</span> a <span style="color:#ff7b72;font-weight:bold">+.</span> b <span style="color:#ff7b72;font-weight:bold">//</span> <span style="color:#ff7b72">float</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">x</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>  <span class="o">//</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="n">y</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+.</span> <span class="n">b</span> <span class="o">//</span> <span class="kt">float</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>So if you want to add a <code>string</code> you need yet again another operator/function. So Polymorphism can
@@ -121,39 +121,39 @@ greatly help, because we can create the general concept of <em>add two things</e
 operation with different types.</p>
 <h2 id="higher-kinded-polymorphism">Higher-kinded polymorphism</h2>
 <p>Now let&rsquo;s assume we want to write a function that just adds two <code>int</code> together. We could just write</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">add</span> x y <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">+</span> y
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>But when we inspect the type-signature of this function, we get <code>int -&gt; int -&gt; int</code>. The reason for this
 is that the type-inference system of the F# compiler defaults to <code>int</code>. But actually the type
 can change if we use <code>add</code> with a different type. For example if we write</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">add</span> x y <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">+</span> y
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">result</span> <span style="color:#ff7b72;font-weight:bold">=</span> add 1<span style="color:#ff7b72;font-weight:bold">.</span>3 2<span style="color:#ff7b72;font-weight:bold">.</span>1
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="n">add</span> <span class="n">1</span><span class="o">.</span><span class="n">3</span> <span class="n">2</span><span class="o">.</span><span class="n">1</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We now have <code>add</code> with the signature <code>float -&gt; float -&gt; float</code>. But it is still important to note that
 <code>add</code> now only can work with float. Using it like these</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">add</span> x y <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">+</span> y
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">r1</span> <span style="color:#ff7b72;font-weight:bold">=</span> add 1<span style="color:#ff7b72;font-weight:bold">.</span>3 2<span style="color:#ff7b72;font-weight:bold">.</span>1
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">r2</span> <span style="color:#ff7b72;font-weight:bold">=</span> add 3 4
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">r1</span> <span class="o">=</span> <span class="n">add</span> <span class="n">1</span><span class="o">.</span><span class="n">3</span> <span class="n">2</span><span class="o">.</span><span class="n">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">r2</span> <span class="o">=</span> <span class="n">add</span> <span class="n">3</span> <span class="n">4</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>will create errors at line 3 saying that <code>3</code> and <code>4</code> was expected to be of type <code>float</code>
@@ -166,16 +166,16 @@ types. But it cannot automatically create Polymorphic functions that accepts all
 added (+), for instance.</p>
 <p>But as said before, F# supports this kind of stuff partly. Indeed we can fix this problem
 very easily with the <code>inline</code> keyword.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">inline</span> add x y <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">+</span> y
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">r1</span> <span style="color:#ff7b72;font-weight:bold">=</span> add 1<span style="color:#ff7b72;font-weight:bold">.</span>3 2<span style="color:#ff7b72;font-weight:bold">.</span>1
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">r2</span> <span style="color:#ff7b72;font-weight:bold">=</span> add 3 4
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">inline</span> <span class="n">add</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">r1</span> <span class="o">=</span> <span class="n">add</span> <span class="n">1</span><span class="o">.</span><span class="n">3</span> <span class="n">2</span><span class="o">.</span><span class="n">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">r2</span> <span class="o">=</span> <span class="n">add</span> <span class="n">3</span> <span class="n">4</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Now all compiler errors are gone. Let&rsquo;s look at the type-signature of <code>add</code> again.</p>
@@ -187,37 +187,37 @@ of type <code>float</code> while <code>r2</code> is of type <code>int</code>. If
 you are not impressed, but actually such kind of function is not possible to write in C#. In C# you
 always have to provide explicit arguments, and you have to write two version of <code>Add</code> if the return
 type should remain the same.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#ff7b72">public</span> <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">int</span> Add(<span style="color:#ff7b72">int</span> x, <span style="color:#ff7b72">int</span> y) {
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> x + y;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">public</span> <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">float</span> Add(<span style="color:#ff7b72">float</span> x, <span style="color:#ff7b72">float</span> y) {
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> x + y;
-</span></span><span style="display:flex;"><span>}
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="n">Add</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">x</span> <span class="p">+</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="kt">float</span> <span class="n">Add</span><span class="p">(</span><span class="kt">float</span> <span class="n">x</span><span class="p">,</span> <span class="kt">float</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">x</span> <span class="p">+</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Actually you cannot write it with a generic type like this:</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#ff7b72">public</span> <span style="color:#ff7b72">static</span> T Add&lt;T&gt;(T x, T y) {
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> x + y;
-</span></span><span style="display:flex;"><span>}
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="n">T</span> <span class="n">Add</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="n">T</span> <span class="n">x</span><span class="p">,</span> <span class="n">T</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">x</span> <span class="p">+</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>The problem with this code is. You cannot add two generic variables! What you really need is the ability
@@ -228,31 +228,31 @@ your return type will also be <code>float</code> not <code>int</code> anymore. W
 on why it is not the same, but there is a better way to show the difference. What do you do if your type
 supports <code>+</code> but don&rsquo;t support a conversion to <code>float</code>?</p>
 <p>Let&rsquo;s assume we have the following <code>Vector3</code> type.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">type</span> <span style="color:#f0883e;font-weight:bold">Vector3</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span>X<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">float</span><span style="color:#ff7b72;font-weight:bold">;</span> Y<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">float</span><span style="color:#ff7b72;font-weight:bold">;</span> Z<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">float</span><span style="color:#ff7b72;font-weight:bold">}</span> <span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">member</span> create x y z <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span>X<span style="color:#ff7b72;font-weight:bold">=</span>x<span style="color:#ff7b72;font-weight:bold">;</span> Y<span style="color:#ff7b72;font-weight:bold">=</span>y<span style="color:#ff7b72;font-weight:bold">;</span> Z<span style="color:#ff7b72;font-weight:bold">=</span>z<span style="color:#ff7b72;font-weight:bold">}</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">member</span> <span style="color:#ff7b72;font-weight:bold">(+)</span> <span style="color:#ff7b72;font-weight:bold">(</span>a<span style="color:#ff7b72;font-weight:bold">,</span>b<span style="color:#ff7b72;font-weight:bold">)</span>    <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Vector3</span>.create <span style="color:#ff7b72;font-weight:bold">(</span>a<span style="color:#ff7b72;font-weight:bold">.</span>X <span style="color:#ff7b72;font-weight:bold">+</span> b<span style="color:#ff7b72;font-weight:bold">.</span>X<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>a<span style="color:#ff7b72;font-weight:bold">.</span>Y <span style="color:#ff7b72;font-weight:bold">+</span> b<span style="color:#ff7b72;font-weight:bold">.</span>Y<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>a<span style="color:#ff7b72;font-weight:bold">.</span>Z <span style="color:#ff7b72;font-weight:bold">+</span> b<span style="color:#ff7b72;font-weight:bold">.</span>Z<span style="color:#ff7b72;font-weight:bold">)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Vector3</span> <span class="o">=</span> <span class="o">{</span><span class="n">X</span><span class="o">:</span><span class="kt">float</span><span class="o">;</span> <span class="n">Y</span><span class="o">:</span><span class="kt">float</span><span class="o">;</span> <span class="n">Z</span><span class="o">:</span><span class="kt">float</span><span class="o">}</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">create</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">=</span> <span class="o">{</span><span class="n">X</span><span class="o">=</span><span class="n">x</span><span class="o">;</span> <span class="n">Y</span><span class="o">=</span><span class="n">y</span><span class="o">;</span> <span class="n">Z</span><span class="o">=</span><span class="n">z</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="o">(+)</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">)</span>    <span class="o">=</span> <span class="nn">Vector3</span><span class="p">.</span><span class="n">create</span> <span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="n">X</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">X</span><span class="o">)</span> <span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="n">Y</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">Y</span><span class="o">)</span> <span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="n">Z</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">Z</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We now have our own <code>Vector3</code> and implemented <code>+</code> for it. The big advantage is now, that
 our <code>Vector3</code> also can be used with our polymorphic <code>add</code> function written in F#. But in C#
 you must create a new <code>Add</code> function instead, because we cannot convert a <code>Vector3</code> to a <code>float</code>.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">vec1</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Vector3</span>.create 1<span style="color:#ff7b72;font-weight:bold">.</span>0 1<span style="color:#ff7b72;font-weight:bold">.</span>0 1<span style="color:#ff7b72;font-weight:bold">.</span>0
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">vec2</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Vector3</span>.create 2<span style="color:#ff7b72;font-weight:bold">.</span>0 2<span style="color:#ff7b72;font-weight:bold">.</span>0 2<span style="color:#ff7b72;font-weight:bold">.</span>0
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">vec3</span> <span style="color:#ff7b72;font-weight:bold">=</span> add vec1 vec2
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">vec1</span> <span class="o">=</span> <span class="nn">Vector3</span><span class="p">.</span><span class="n">create</span> <span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="n">1</span><span class="o">.</span><span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">vec2</span> <span class="o">=</span> <span class="nn">Vector3</span><span class="p">.</span><span class="n">create</span> <span class="n">2</span><span class="o">.</span><span class="n">0</span> <span class="n">2</span><span class="o">.</span><span class="n">0</span> <span class="n">2</span><span class="o">.</span><span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">vec3</span> <span class="o">=</span> <span class="n">add</span> <span class="n">vec1</span> <span class="n">vec2</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Now <code>vec3</code> will also be of type <code>Vector3</code> containing <code>{X = 3.0; Y = 3.0; Z = 3.0;}</code>. But probably
@@ -261,28 +261,28 @@ and we wouldn&rsquo;t have the problem at all. So let&rsquo;s create a more adva
 bit more. Let&rsquo;s create an <code>average</code> function.</p>
 <p>To start, let&rsquo;s create a non-polymorphic <code>average</code> function that expects a <code>float list</code> as input, and
 returns the average.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">9
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">averageFloat</span> xs <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mutable</span> amount <span style="color:#ff7b72;font-weight:bold">=</span> 0   <span style="color:#8b949e;font-style:italic">// The amount of values we have
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mutable</span> sum    <span style="color:#ff7b72;font-weight:bold">=</span> 0<span style="color:#ff7b72;font-weight:bold">.</span>0 <span style="color:#8b949e;font-style:italic">// Zero for `float`
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    <span style="color:#ff7b72">for</span> x <span style="color:#ff7b72">in</span> xs <span style="color:#ff7b72">do</span>
-</span></span><span style="display:flex;"><span>        sum    <span style="color:#ff7b72;font-weight:bold">&lt;-</span> sum <span style="color:#ff7b72;font-weight:bold">+</span> x    <span style="color:#8b949e;font-style:italic">// Add for `float`
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>        amount <span style="color:#ff7b72;font-weight:bold">&lt;-</span> amount <span style="color:#ff7b72;font-weight:bold">+</span> 1
-</span></span><span style="display:flex;"><span>    sum <span style="color:#ff7b72;font-weight:bold">/</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">float</span> amount<span style="color:#ff7b72;font-weight:bold">)</span>     <span style="color:#8b949e;font-style:italic">// Divide by int for `float`
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> averageFloat <span style="color:#ff7b72;font-weight:bold">[</span>1<span style="color:#ff7b72;font-weight:bold">.</span>0 <span style="color:#ff7b72;font-weight:bold">..</span> 100<span style="color:#ff7b72;font-weight:bold">.</span>0<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#8b949e;font-style:italic">// 50.5
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">averageFloat</span> <span class="n">xs</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">mutable</span> <span class="n">amount</span> <span class="o">=</span> <span class="n">0</span>   <span class="c1">// The amount of values we have
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">let</span> <span class="nv">mutable</span> <span class="n">sum</span>    <span class="o">=</span> <span class="n">0</span><span class="o">.</span><span class="n">0</span> <span class="c1">// Zero for `float`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="n">xs</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sum</span>    <span class="o">&lt;-</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">x</span>    <span class="c1">// Add for `float`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">amount</span> <span class="o">&lt;-</span> <span class="n">amount</span> <span class="o">+</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sum</span> <span class="o">/</span> <span class="o">(</span><span class="kt">float</span> <span class="n">amount</span><span class="o">)</span>     <span class="c1">// Divide by int for `float`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">averageFloat</span> <span class="o">[</span><span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">..</span> <span class="n">100</span><span class="o">.</span><span class="n">0</span><span class="o">]</span> <span class="c1">// 50.5
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Sure, we also could solve it more functional with recursion and immutable state, but this is not
@@ -300,62 +300,62 @@ on their own. We need.</p>
 </ol>
 <p>Luckily all three interfaces are already part of the F# language, and we have helper functions for those
 operations. A truly polymorphic <code>average</code> would then look like this.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">inline</span> average <span style="color:#ff7b72;font-weight:bold">(</span>xs<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">&#39;</span>a <span style="color:#ff7b72">list</span><span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mutable</span> amount <span style="color:#ff7b72;font-weight:bold">=</span> 0
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">mutable</span> sum    <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">LanguagePrimitives</span>.GenericZero<span style="color:#ff7b72;font-weight:bold">&lt;</span><span style="color:#ff7b72">&#39;</span>a<span style="color:#ff7b72;font-weight:bold">&gt;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">for</span> x <span style="color:#ff7b72">in</span> xs <span style="color:#ff7b72">do</span>
-</span></span><span style="display:flex;"><span>        sum    <span style="color:#ff7b72;font-weight:bold">&lt;-</span> sum <span style="color:#ff7b72;font-weight:bold">+</span> x
-</span></span><span style="display:flex;"><span>        amount <span style="color:#ff7b72;font-weight:bold">&lt;-</span> amount <span style="color:#ff7b72;font-weight:bold">+</span> 1
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">LanguagePrimitives</span>.DivideByInt sum amount
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">inline</span> <span class="n">average</span> <span class="o">(</span><span class="n">xs</span><span class="o">:</span><span class="k">&#39;</span><span class="n">a</span> <span class="kt">list</span><span class="o">)</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">mutable</span> <span class="n">amount</span> <span class="o">=</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">mutable</span> <span class="n">sum</span>    <span class="o">=</span> <span class="nn">LanguagePrimitives</span><span class="p">.</span><span class="n">GenericZero</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="n">xs</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sum</span>    <span class="o">&lt;-</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">        <span class="n">amount</span> <span class="o">&lt;-</span> <span class="n">amount</span> <span class="o">+</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">LanguagePrimitives</span><span class="p">.</span><span class="n">DivideByInt</span> <span class="n">sum</span> <span class="n">amount</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>To use our <code>Vector3</code> type with <code>average</code> we have to add the remaining polymorphic <code>Zero</code> and
 <code>DivideByInt</code> members.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">9
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">type</span> <span style="color:#f0883e;font-weight:bold">Vector3</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span>X<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">float</span><span style="color:#ff7b72;font-weight:bold">;</span> Y<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">float</span><span style="color:#ff7b72;font-weight:bold">;</span> Z<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">float</span><span style="color:#ff7b72;font-weight:bold">}</span> <span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">member</span> create x y z <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span>X<span style="color:#ff7b72;font-weight:bold">=</span>x<span style="color:#ff7b72;font-weight:bold">;</span> Y<span style="color:#ff7b72;font-weight:bold">=</span>y<span style="color:#ff7b72;font-weight:bold">;</span> Z<span style="color:#ff7b72;font-weight:bold">=</span>z<span style="color:#ff7b72;font-weight:bold">}</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">member</span> <span style="color:#ff7b72;font-weight:bold">(+)</span> <span style="color:#ff7b72;font-weight:bold">(</span>a<span style="color:#ff7b72;font-weight:bold">,</span>b<span style="color:#ff7b72;font-weight:bold">)</span>    <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Vector3</span>.create <span style="color:#ff7b72;font-weight:bold">(</span>a<span style="color:#ff7b72;font-weight:bold">.</span>X <span style="color:#ff7b72;font-weight:bold">+</span> b<span style="color:#ff7b72;font-weight:bold">.</span>X<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>a<span style="color:#ff7b72;font-weight:bold">.</span>Y <span style="color:#ff7b72;font-weight:bold">+</span> b<span style="color:#ff7b72;font-weight:bold">.</span>Y<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>a<span style="color:#ff7b72;font-weight:bold">.</span>Z <span style="color:#ff7b72;font-weight:bold">+</span> b<span style="color:#ff7b72;font-weight:bold">.</span>Z<span style="color:#ff7b72;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">member</span> Zero         <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Vector3</span>.create 0<span style="color:#ff7b72;font-weight:bold">.</span>0 0<span style="color:#ff7b72;font-weight:bold">.</span>0 0<span style="color:#ff7b72;font-weight:bold">.</span>0
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">static</span> <span style="color:#ff7b72">member</span> DivideByInt<span style="color:#ff7b72;font-weight:bold">(</span>a<span style="color:#ff7b72;font-weight:bold">,</span>b<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">Vector3</span>.create
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">LanguagePrimitives</span>.DivideByInt a<span style="color:#ff7b72;font-weight:bold">.</span>X b<span style="color:#ff7b72;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">LanguagePrimitives</span>.DivideByInt a<span style="color:#ff7b72;font-weight:bold">.</span>Y b<span style="color:#ff7b72;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#ff7b72">LanguagePrimitives</span>.DivideByInt a<span style="color:#ff7b72;font-weight:bold">.</span>Z b<span style="color:#ff7b72;font-weight:bold">)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Vector3</span> <span class="o">=</span> <span class="o">{</span><span class="n">X</span><span class="o">:</span><span class="kt">float</span><span class="o">;</span> <span class="n">Y</span><span class="o">:</span><span class="kt">float</span><span class="o">;</span> <span class="n">Z</span><span class="o">:</span><span class="kt">float</span><span class="o">}</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">create</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">=</span> <span class="o">{</span><span class="n">X</span><span class="o">=</span><span class="n">x</span><span class="o">;</span> <span class="n">Y</span><span class="o">=</span><span class="n">y</span><span class="o">;</span> <span class="n">Z</span><span class="o">=</span><span class="n">z</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="o">(+)</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">)</span>    <span class="o">=</span> <span class="nn">Vector3</span><span class="p">.</span><span class="n">create</span> <span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="n">X</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">X</span><span class="o">)</span> <span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="n">Y</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">Y</span><span class="o">)</span> <span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="n">Z</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">Z</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">Zero</span>         <span class="o">=</span> <span class="nn">Vector3</span><span class="p">.</span><span class="n">create</span> <span class="n">0</span><span class="o">.</span><span class="n">0</span> <span class="n">0</span><span class="o">.</span><span class="n">0</span> <span class="n">0</span><span class="o">.</span><span class="n">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">DivideByInt</span><span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">)</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="nn">Vector3</span><span class="p">.</span><span class="n">create</span>
+</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="nn">LanguagePrimitives</span><span class="p">.</span><span class="n">DivideByInt</span> <span class="n">a</span><span class="o">.</span><span class="n">X</span> <span class="n">b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="nn">LanguagePrimitives</span><span class="p">.</span><span class="n">DivideByInt</span> <span class="n">a</span><span class="o">.</span><span class="n">Y</span> <span class="n">b</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="nn">LanguagePrimitives</span><span class="p">.</span><span class="n">DivideByInt</span> <span class="n">a</span><span class="o">.</span><span class="n">Z</span> <span class="n">b</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>average</code> is a truly polymorphic function because it can calculate the average of a list
 of any type that supports <code>Zero</code>, <code>+</code> and <code>DivideByInt</code>.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">floatAverage</span>  <span style="color:#ff7b72;font-weight:bold">=</span> average <span style="color:#ff7b72;font-weight:bold">[</span>2<span style="color:#ff7b72;font-weight:bold">.</span>0 <span style="color:#ff7b72;font-weight:bold">..</span> 99<span style="color:#ff7b72;font-weight:bold">.</span>0<span style="color:#ff7b72;font-weight:bold">]</span>            <span style="color:#8b949e;font-style:italic">// 50.5
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">vectorAverage</span> <span style="color:#ff7b72;font-weight:bold">=</span> average <span style="color:#ff7b72;font-weight:bold">[</span>vec1<span style="color:#ff7b72;font-weight:bold">;</span> vec2<span style="color:#ff7b72;font-weight:bold">;</span> vec3<span style="color:#ff7b72;font-weight:bold">;</span> vec3<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#8b949e;font-style:italic">// {X=2.25;Y=2.25;Z=2.25}
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">floatAverage</span>  <span class="o">=</span> <span class="n">average</span> <span class="o">[</span><span class="n">2</span><span class="o">.</span><span class="n">0</span> <span class="o">..</span> <span class="n">99</span><span class="o">.</span><span class="n">0</span><span class="o">]</span>            <span class="c1">// 50.5
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">vectorAverage</span> <span class="o">=</span> <span class="n">average</span> <span class="o">[</span><span class="n">vec1</span><span class="o">;</span> <span class="n">vec2</span><span class="o">;</span> <span class="n">vec3</span><span class="o">;</span> <span class="n">vec3</span><span class="o">]</span> <span class="c1">// {X=2.25;Y=2.25;Z=2.25}
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>The big advantage is that we only need to write a single <code>average</code> function that can work with

@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="David Raab" />
     <meta name="description" content="Explains why Exceptions are evil" />
-    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.a8546077d48c47c89a814549279adb362800e0bf9e49e90fe38c4f6ee35bff70.css" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.c5d0d3078a177d7cfb9aa69e4ac0843c2cef8c18ec3ed7421bb5e95b879ca2f7.css" />
 
     
     <meta name="twitter:card" content="summary"/>
@@ -107,37 +107,37 @@ as a function that sometimes throws <code>XYZException</code> directly?</p>
 <p>Not only does it not solve the problem at all. You still have to add your checkings. But instead of
 <code>null</code> checks throughout your code. You wrap your code in <code>try/catch</code> blocks. Why is checking for
 null bad</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">result</span> <span style="color:#ff7b72;font-weight:bold">=</span> SomeFunction()
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">if</span> result <span style="color:#ff7b72;font-weight:bold">&lt;&gt;</span> <span style="color:#ff7b72">null</span> <span style="color:#ff7b72">then</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#8b949e;font-style:italic">// Some code if everything was right
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">else</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#8b949e;font-style:italic">// Error condition on null
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="n">SomeFunction</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="n">result</span> <span class="o">&lt;&gt;</span> <span class="k">null</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Some code if everything was right
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Error condition on null
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>and suddenly wrapping your code in a <code>try/catch</code> anyhow better?</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">try</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let</span> <span style="color:#79c0ff">result</span> <span style="color:#ff7b72;font-weight:bold">=</span> SomeFunction()
-</span></span><span style="display:flex;"><span>    <span style="color:#8b949e;font-style:italic">// Some code if everything was right
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span><span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> <span style="color:#ff7b72">exn</span> <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#8b949e;font-style:italic">// Error condition on Exception
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">try</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="n">SomeFunction</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Some code if everything was right
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="kt">exn</span> <span class="o">-&gt;</span> <span class="c1">// Error condition on Exception
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="4-we-cannot-skip-the-checking">4. We cannot skip the checking</h2>

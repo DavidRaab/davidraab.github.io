@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="David Raab" />
     <meta name="description" content="Explains why we consider null as a mistake, and shows alternatives to it" />
-    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.a8546077d48c47c89a814549279adb362800e0bf9e49e90fe38c4f6ee35bff70.css" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.c5d0d3078a177d7cfb9aa69e4ac0843c2cef8c18ec3ed7421bb5e95b879ca2f7.css" />
 
     
     <meta name="twitter:card" content="summary"/>
@@ -113,14 +113,14 @@ there is no way you can prevent that. You just have to deal with it, whether you
 of <em>null</em> causes.</p>
 <p>The first problem is, we cannot see if a function could return <code>null</code> or not. We could just
 have written code like this (C#)</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#ff7b72">var</span> person = Person.FetchById(<span style="color:#a5d6ff">10</span>);
-</span></span><span style="display:flex;"><span>Console.WriteLine(<span style="color:#ff7b72">string</span>.Format(<span style="color:#a5d6ff">&#34;Name of Person is {0}&#34;</span>, person.Name));
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">person</span> <span class="p">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">FetchById</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&#34;Name of Person is {0}&#34;</span><span class="p">,</span> <span class="n">person</span><span class="p">.</span><span class="n">Name</span><span class="p">));</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>The problem is that <code>Person.FetchById()</code> sometimes returns a <em>null-reference</em>. But we could use
@@ -128,24 +128,24 @@ it just like a valid <code>Person</code>. But using it just like that, means tha
 <code>NullReferenceException</code>. Because sometimes, we don&rsquo;t have a <code>Person</code>.</p>
 <p>To be safe, we have to explicitly check if <code>Person.FetchById()</code> returns <code>null</code> or not. This results in
 code like this:</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">7
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#ff7b72">var</span> person = Person.FetchById(<span style="color:#a5d6ff">10</span>);
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">if</span> ( person == <span style="color:#ff7b72">null</span> ) {
-</span></span><span style="display:flex;"><span>    Console.WriteLine(<span style="color:#a5d6ff">&#34;No Person with ID 10&#34;</span>);
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">else</span> {
-</span></span><span style="display:flex;"><span>    Console.WriteLine(<span style="color:#ff7b72">string</span>.Format(<span style="color:#a5d6ff">&#34;Name of Person is {0}&#34;</span>, person.Name));
-</span></span><span style="display:flex;"><span>}
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">person</span> <span class="p">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">FetchById</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span> <span class="n">person</span> <span class="p">==</span> <span class="k">null</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&#34;No Person with ID 10&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&#34;Name of Person is {0}&#34;</span><span class="p">,</span> <span class="n">person</span><span class="p">.</span><span class="n">Name</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>The big problem is that we cannot see from a function type signature that it could return <code>null</code> or
@@ -167,14 +167,14 @@ at compile-time where we have forgotten such checks. We only should add those ch
 needed, and the language should notify us where we have forgotten them.</p>
 <p>But we don&rsquo;t even have covered all problems yet! We also can pass <code>null</code> to other functions. We can
 do that because <code>null</code> is technically just a value. So we also could do stuff like that.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#ff7b72">var</span> person = Person.FetchById(<span style="color:#a5d6ff">10</span>);
-</span></span><span style="display:flex;"><span>DoSomethingWithPerson(person);
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">person</span> <span class="p">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">FetchById</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">DoSomethingWithPerson</span><span class="p">(</span><span class="n">person</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>It basically means, we not only have to check <code>null</code> from every function that we call. We also have to
@@ -216,16 +216,16 @@ or not. What we really have to do is return another type instead. What we really
 or <code>None</code>. You can compare it to a <code>bool</code> that is either <code>true</code> or <code>false</code>. The only difference is that in
 the case of <code>true</code> or <code>Some</code> it can carry an additional value with it. Option is already part of F#
 but you could easily define it yourself like this.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">type</span> <span style="color:#f0883e;font-weight:bold">Option</span><span style="color:#ff7b72;font-weight:bold">&lt;</span><span style="color:#ff7b72">&#39;</span>a<span style="color:#ff7b72;font-weight:bold">&gt;</span> <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> None
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Some <span style="color:#ff7b72">of</span> <span style="color:#ff7b72">&#39;</span>a
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Option</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Some</span> <span class="k">of</span> <span class="k">&#39;</span><span class="n">a</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Or to say it otherwise. It is just a <em>generic</em> type. That either could be <code>None</code> or <code>Some 'a</code>. With this
@@ -241,18 +241,18 @@ contain a <code>Person</code> or don&rsquo;t contain anything. The first improve
 clearly which functions can return a value or not. We don&rsquo;t have to rely on documentation
 anymore. Code itself is the best documentation at all! So lets assume we want to
 print the Name of a person, what do we have to write now?</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">person</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Person</span>.fetchById 10
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">match</span> person <span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> None        <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;No Person with Id 10&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> Some person <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;Name of Person is %s&#34;</span> person<span style="color:#ff7b72;font-weight:bold">.</span>Name
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">person</span> <span class="o">=</span> <span class="nn">Person</span><span class="p">.</span><span class="n">fetchById</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl"><span class="k">match</span> <span class="n">person</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl"><span class="o">|</span> <span class="n">None</span>        <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;No Person with Id 10&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">|</span> <span class="n">Some</span> <span class="n">person</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;Name of Person is %s&#34;</span> <span class="n">person</span><span class="o">.</span><span class="n">Name</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>At first, this doesn&rsquo;t look like an improvement over the <code>if</code> checking. We still have to check for
@@ -263,14 +263,14 @@ a function returns an optional.</li>
 <li>You are <em>forced</em> by the language at <em>compile-time</em> to add the checks if a function returns an <code>option</code>.</li>
 </ol>
 <p>You cannot write code like this.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">person</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Person</span>.fetchById 10
-</span></span><span style="display:flex;"><span>printfn <span style="color:#a5d6ff">&#34;Name of person is %s&#34;</span> person<span style="color:#ff7b72;font-weight:bold">.</span>Name
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">person</span> <span class="o">=</span> <span class="nn">Person</span><span class="p">.</span><span class="n">fetchById</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;Name of person is %s&#34;</span> <span class="n">person</span><span class="o">.</span><span class="n">Name</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>This will give you a <em>compile-time error</em>. Because <code>person</code> is of type <code>option</code> and <code>option</code> don&rsquo;t
@@ -289,18 +289,18 @@ why they are eliminated.</p>
 <h3 id="2-we-must-check">2: We must check</h3>
 <p>We cannot access a value directly. <code>option</code> is a type on its own. If we want to get the inner value
 we have to <em>Pattern Match</em> against an optional.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">person</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Person</span>.fetchById 10
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">match</span> person <span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> None        <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;No Person with Id 10&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">|</span> Some person <span style="color:#ff7b72;font-weight:bold">-&gt;</span> printfn <span style="color:#a5d6ff">&#34;Name of Person is %s&#34;</span> person<span style="color:#ff7b72;font-weight:bold">.</span>Name
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">person</span> <span class="o">=</span> <span class="nn">Person</span><span class="p">.</span><span class="n">fetchById</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl"><span class="k">match</span> <span class="n">person</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl"><span class="o">|</span> <span class="n">None</span>        <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;No Person with Id 10&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">|</span> <span class="n">Some</span> <span class="n">person</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;Name of Person is %s&#34;</span> <span class="n">person</span><span class="o">.</span><span class="n">Name</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Runtime <code>NullReferenceException</code> are not possible anymore</p>
@@ -329,41 +329,41 @@ of <code>null</code>. From F# we can call any code that was written for example 
 <code>null</code> checks for data-types, functions and so on that where not directly written in F#.</p>
 <p>To deal with functions that returns <code>null</code> we often write wrappers and turn the result into an <code>option</code>.
 For example the <code>Int32.TryParse</code> function is a good candidate to show the idea.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">tryParse</span> <span style="color:#ff7b72;font-weight:bold">(</span>str<span style="color:#ff7b72;font-weight:bold">:</span><span style="color:#ff7b72">string</span><span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">match</span> <span style="color:#ff7b72">Int32</span>.TryParse str <span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> <span style="color:#ff7b72">false</span><span style="color:#ff7b72;font-weight:bold">,_</span> <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> <span style="color:#ff7b72">true</span><span style="color:#ff7b72;font-weight:bold">,</span>x  <span style="color:#ff7b72;font-weight:bold">-&gt;</span> Some x
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">tryParse</span> <span class="o">(</span><span class="n">str</span><span class="o">:</span><span class="kt">string</span><span class="o">)</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="nn">Int32</span><span class="p">.</span><span class="n">TryParse</span> <span class="n">str</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="k">false</span><span class="o">,_</span> <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="k">true</span><span class="o">,</span><span class="n">x</span>  <span class="o">-&gt;</span> <span class="n">Some</span> <span class="n">x</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We now created a <code>tryParse</code> function. When we look at the signature we see <code>string -&gt; int option</code>. Or
 in other words. A function that can return an <code>int</code> or not. Let&rsquo;s assume we now parse three strings.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;10&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">y</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;20&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">z</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;30&#34;</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">tryParse</span> <span class="s">&#34;10&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">tryParse</span> <span class="s">&#34;20&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">z</span> <span class="o">=</span> <span class="n">tryParse</span> <span class="s">&#34;30&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>and now we want to add them together. Ideally in a <em>Happy-Path</em> coding we could directly write.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">result</span> <span style="color:#ff7b72;font-weight:bold">=</span> x <span style="color:#ff7b72;font-weight:bold">+</span> y <span style="color:#ff7b72;font-weight:bold">+</span> z
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>But the problem is that <code>x</code>, <code>y</code> and <code>z</code> are <code>int optional</code>. So we cannot add <code>optional</code> values.
@@ -373,30 +373,30 @@ the whole <em>computation</em> be aborted as soon one was invalid? Let&rsquo;s s
 one is invalid, the whole computation should be invalid. Or in our case now. We now have to <em>Pattern
 Match</em> every variable, check if it is <code>Some value</code>. If true, we check the next variable, if <code>None</code>
 the whole computations returns <code>None</code>.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">10
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">result</span> <span style="color:#ff7b72;font-weight:bold">=</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">match</span> x <span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> None <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">|</span> Some extractedX <span style="color:#ff7b72;font-weight:bold">-&gt;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">match</span> y <span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72;font-weight:bold">|</span> None <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72;font-weight:bold">|</span> Some extractedY <span style="color:#ff7b72;font-weight:bold">-&gt;</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">match</span> z <span style="color:#ff7b72">with</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72;font-weight:bold">|</span> None <span style="color:#ff7b72;font-weight:bold">-&gt;</span> None
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72;font-weight:bold">|</span> Some extractedZ <span style="color:#ff7b72;font-weight:bold">-&gt;</span> Some <span style="color:#ff7b72;font-weight:bold">(</span>extractedX <span style="color:#ff7b72;font-weight:bold">+</span> extractedY <span style="color:#ff7b72;font-weight:bold">+</span> extractedZ<span style="color:#ff7b72;font-weight:bold">)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">result</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">x</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">None</span> <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Some</span> <span class="n">extractedX</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">match</span> <span class="n">y</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">None</span> <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Some</span> <span class="n">extractedY</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">match</span> <span class="n">z</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">            <span class="o">|</span> <span class="n">None</span> <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">            <span class="o">|</span> <span class="n">Some</span> <span class="n">extractedZ</span> <span class="o">-&gt;</span> <span class="n">Some</span> <span class="o">(</span><span class="n">extractedX</span> <span class="o">+</span> <span class="n">extractedY</span> <span class="o">+</span> <span class="n">extractedZ</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Man, that is some ugly code! We have the benefit that we are forced to check, we cannot have
@@ -413,12 +413,12 @@ So let&rsquo;s look how both solution would look like.</p>
 <h3 id="applicative-functor">Applicative Functor</h3>
 <p>The approach with an <em>applicative functor</em> works that we can <em>upgrade</em> any kind of functions. Let&rsquo;s
 first create a function that added our three variables together.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">addThree</span> a b c <span style="color:#ff7b72;font-weight:bold">=</span> a <span style="color:#ff7b72;font-weight:bold">+</span> b <span style="color:#ff7b72;font-weight:bold">+</span> c
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">addThree</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">c</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Now we have a function with the function signature</p>
@@ -426,22 +426,22 @@ first create a function that added our three variables together.</p>
 </code></pre>
 <p>Or in other words, a function taking three <code>int</code> as an argument, and returning an <code>int</code>. But as learned
 so far we could not just call.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">result</span> <span style="color:#ff7b72;font-weight:bold">=</span> addThree x y z
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="n">addThree</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Because or <code>x</code>, <code>y</code> and <code>z</code> are <code>int optional</code>. So with an <em>Applicative Functor</em> we could <em>upgrade</em> our
 <em>addThree</em> function. So we could do something like this.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">addThreeOptionals</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Option</span>.lift3 addThree
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">addThreeOptionals</span> <span class="o">=</span> <span class="nn">Option</span><span class="p">.</span><span class="n">lift3</span> <span class="n">addThree</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>So we have a function <code>Option.lift3</code>. We can pass any three argument function to it and what we get
@@ -452,33 +452,33 @@ we now see <code>addThreeOptionals</code> has the following signature.</p>
 </code></pre>
 <p>Or in other words. We now have a function taking three arguments, sum then only when all of them
 are <code>Some</code>, and returning another <code>int optional</code> as a result. What we now can do is just write.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">resultWithA</span> <span style="color:#ff7b72;font-weight:bold">=</span> addThreeOptionals x y z <span style="color:#8b949e;font-style:italic">// Some 60
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">resultWithA</span> <span class="o">=</span> <span class="n">addThreeOptionals</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="c1">// Some 60
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>But as soon as we have an optional in it, we just get a <code>None</code> overall back.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">w</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;hallo&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">ax</span> <span style="color:#ff7b72;font-weight:bold">=</span> addThreeOptionals x y w <span style="color:#8b949e;font-style:italic">// None
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">w</span> <span class="o">=</span> <span class="n">tryParse</span> <span class="s">&#34;hallo&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">ax</span> <span class="o">=</span> <span class="n">addThreeOptionals</span> <span class="n">x</span> <span class="n">y</span> <span class="n">w</span> <span class="c1">// None
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>But we are not forced to create an intermediate function like <code>addThreeOptionals</code>. We also could
 have written.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">bx</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">Option</span>.lift3 addThree x y z
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">bx</span> <span class="o">=</span> <span class="nn">Option</span><span class="p">.</span><span class="n">lift3</span> <span class="n">addThree</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>It just means, you can just write any kind of function, and you never have to care if they are <code>option</code>
@@ -494,22 +494,22 @@ function. You have to Pattern Match.</p>
 <p>Another solution is the so called <em>Maybe Monad</em>. F# supports a feature named <em>Computation Expression</em>
 that are syntactic sugar for this kind of computations. Let&rsquo;s just look how our code could look like
 with a <em>Maybe Monad</em>.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">resultWithMaybeA</span> <span style="color:#ff7b72;font-weight:bold">=</span> maybe <span style="color:#ff7b72;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;10&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">y</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;20&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">z</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;30&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> x <span style="color:#ff7b72;font-weight:bold">+</span> y <span style="color:#ff7b72;font-weight:bold">+</span> z
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">}</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">resultWithMaybeA</span> <span class="o">=</span> <span class="n">maybe</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let!</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">tryParse</span> <span class="s">&#34;10&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let!</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">tryParse</span> <span class="s">&#34;20&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let!</span> <span class="nv">z</span> <span class="o">=</span> <span class="n">tryParse</span> <span class="s">&#34;30&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>As you see, we just can wrap our code inside a <code>maybe { ... }</code>. What you now see is a special
@@ -520,22 +520,22 @@ just an <code>int</code>. <code>let!</code> basically can turn a <code>int optio
 can work with the result of <code>tryParse</code> just as if it is a normal value. But
 overall <code>resultWithMaybeA</code> is still an <code>int optional</code>. In those case it will be <code>Some 60</code>.</p>
 <p>If you would have written.</p>
-<div class="highlight"><div style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#64686c">6
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fsharp" data-lang="fsharp"><span style="display:flex;"><span><span style="color:#ff7b72">let</span> <span style="color:#79c0ff">resultWithMaybeB</span> <span style="color:#ff7b72;font-weight:bold">=</span> maybe <span style="color:#ff7b72;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">x</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;10&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">y</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;hallo&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">let!</span> <span style="color:#79c0ff">z</span> <span style="color:#ff7b72;font-weight:bold">=</span> tryParse <span style="color:#a5d6ff">&#34;30&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> x <span style="color:#ff7b72;font-weight:bold">+</span> y <span style="color:#ff7b72;font-weight:bold">+</span> z
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">}</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">resultWithMaybeB</span> <span class="o">=</span> <span class="n">maybe</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let!</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">tryParse</span> <span class="s">&#34;10&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let!</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">tryParse</span> <span class="s">&#34;hallo&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let!</span> <span class="nv">z</span> <span class="o">=</span> <span class="n">tryParse</span> <span class="s">&#34;30&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>resultWithMaybeB</code> would be <code>None</code>. This is because <code>tryParse &quot;hallo&quot;</code> would result in <code>None</code>. And this
