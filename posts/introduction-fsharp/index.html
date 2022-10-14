@@ -255,7 +255,7 @@ There is no operator like <code>+=</code> in F#. F# doesn&rsquo;t try to make mu
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"> <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="n">MyOperations</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">10</span><span class="p">);</span>
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="n">MyOperations</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">10</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="calling-functions-in-f">Calling functions in F#</h3>
@@ -264,7 +264,7 @@ There is no operator like <code>+=</code> in F#. F# doesn&rsquo;t try to make mu
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="nn">MyOperations</span><span class="p">.</span><span class="n">add</span> <span class="n">5</span> <span class="n">10</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="nn">MyOperations</span><span class="p">.</span><span class="n">add</span> <span class="n">5</span> <span class="n">10</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>The only difference is that you don&rsquo;t use braces and commas to separate the arguments. You
@@ -293,7 +293,7 @@ functional languages.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">someFunction</span> <span class="o">(</span><span class="n">input</span><span class="o">:</span><span class="k">&#39;</span><span class="n">a</span><span class="o">)</span> <span class="o">=</span> <span class="c1">// Some code
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">someFunction</span> <span class="o">(</span><span class="n">input</span><span class="o">:</span><span class="k">&#39;</span><span class="n">a</span><span class="o">)</span> <span class="o">=</span> <span class="c1">// Some code
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Generics in F# are just annotated like normal types. The only difference is that all of them start
@@ -306,7 +306,7 @@ F# will automatically infer a generic type for you. So overall you also could ju
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">someFunction</span> <span class="n">input</span> <span class="o">=</span> <span class="c1">// Some code
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">someFunction</span> <span class="n">input</span> <span class="o">=</span> <span class="c1">// Some code
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="data-types">Data-Types</h2>
@@ -358,7 +358,7 @@ at once. Tuples don&rsquo;t must contain the same types.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">someFunction</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">,</span> <span class="n">x</span><span class="o">*</span><span class="n">2</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">someFunction</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">,</span> <span class="n">x</span><span class="o">*</span><span class="n">2</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>This function for example returns a Tuple with two elements. The input itself, and the input
@@ -379,7 +379,7 @@ multiplied by Two.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">x</span><span class="o">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">someFunction</span> <span class="n">10</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span><span class="o">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">someFunction</span> <span class="n">10</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Other than C#, tuples have its own type signature. Instead of a Generic Class like <code>Tuple&lt;int,int,int&gt;</code>
@@ -580,7 +580,7 @@ if we have something like these.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="n">someFunction</span> <span class="o">(</span><span class="n">Foo</span> <span class="n">x</span><span class="o">)</span> <span class="o">(</span><span class="n">Bar</span> <span class="n">z</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">someFunction</span> <span class="o">(</span><span class="n">Foo</span> <span class="n">x</span><span class="o">)</span> <span class="o">(</span><span class="n">Bar</span> <span class="n">z</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>This would be a Function call with two arguments. The first argument is the result of <code>Foo x</code>, the
@@ -590,7 +590,7 @@ second argument would be the Result of <code>Bar z</code>. Coming from a C-style
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"> <span class="n">someFunction</span><span class="p">(</span><span class="n">Foo</span> <span class="n">x</span><span class="p">)</span>
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="n">someFunction</span><span class="p">(</span><span class="n">Foo</span> <span class="n">x</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>as a single function invocation with one argument, and they see a trailing <code>(Bar z)</code> and they don&rsquo;t know
@@ -600,7 +600,7 @@ what it stands for. Actually converting such a function call to C# would result 
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"> <span class="n">someFunction</span><span class="p">(</span><span class="k">new</span> <span class="n">Foo</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="k">new</span> <span class="n">Bar</span><span class="p">(</span><span class="n">z</span><span class="p">));</span>
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="n">someFunction</span><span class="p">(</span><span class="k">new</span> <span class="n">Foo</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="k">new</span> <span class="n">Bar</span><span class="p">(</span><span class="n">z</span><span class="p">));</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>The big advantage of Discriminated Unions is that each case can contain objects, tuples, records or
@@ -692,7 +692,7 @@ different.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>This is a List of <code>int</code>. And it contains four elements.</p>
@@ -701,7 +701,7 @@ different.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="o">[</span><span class="n">1</span><span class="o">,</span><span class="n">2</span><span class="o">,</span><span class="n">3</span><span class="o">,</span><span class="n">4</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="o">[</span><span class="n">1</span><span class="o">,</span><span class="n">2</span><span class="o">,</span><span class="n">3</span><span class="o">,</span><span class="n">4</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>This is a List of a Tuple <code>int * int * int * int</code> and it contains a single element. Remember <code>,</code> is
@@ -725,7 +725,7 @@ and so on. If you want to add elements to a list you have to create a new list. 
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="o">[</span><span class="n">5</span><span class="o">;</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">5</span><span class="o">;</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>note that <code>data</code> is unchanged and is still a four element list. The way how lists are build (<em>immutable</em>
@@ -743,7 +743,7 @@ and a <code>string</code> as its output. In C# we would usually define such a <e
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"> <span class="kt">string</span> <span class="n">SomeMethod</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">);</span>
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">string</span> <span class="n">SomeMethod</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>This could be for example part of an <code>interface</code> definition in C#. In F# we would define such an interface
@@ -828,7 +828,7 @@ any kind of function with any kind of type. In general we can say. When we have 
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">compose</span> <span class="n">f</span> <span class="n">g</span> <span class="n">x</span> <span class="o">=</span> <span class="n">g</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">compose</span> <span class="n">f</span> <span class="n">g</span> <span class="n">x</span> <span class="o">=</span> <span class="n">g</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>So let&rsquo;s look at the implementation. We have a function <code>compose</code> with three arguments. <code>f</code>
@@ -863,7 +863,7 @@ signature that the compiler created for us, it looks some kind of scary first. W
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">val</span> <span class="n">compose</span> <span class="o">:</span> <span class="n">f</span><span class="o">:(</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">g</span><span class="o">:(</span><span class="k">&#39;</span><span class="n">b</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">c</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">:</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">c</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">val</span> <span class="n">compose</span> <span class="o">:</span> <span class="n">f</span><span class="o">:(</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">g</span><span class="o">:(</span><span class="k">&#39;</span><span class="n">b</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">c</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">:</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">c</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Let&rsquo;s go over it step-by-step</p>
@@ -909,7 +909,7 @@ Finally this returns a <code>'c</code> that the <code>compose</code> function th
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> <span class="n">compose</span> <span class="n">parseInts</span> <span class="n">sumList</span> <span class="s">&#34;1,2,3,4,5&#34;</span> <span class="c1">// 15
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> <span class="n">compose</span> <span class="n">parseInts</span> <span class="n">sumList</span> <span class="s">&#34;1,2,3,4,5&#34;</span> <span class="c1">// 15
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Here we now call <code>compose</code> with three arguments. We provide the <code>parseInts</code> function itself as a value.
@@ -974,7 +974,7 @@ So instead of</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="n">strToSum</span> <span class="s">&#34;1,2,3,4,5&#34;</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">strToSum</span> <span class="s">&#34;1,2,3,4,5&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We also could write</p>
@@ -983,7 +983,7 @@ So instead of</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="s">&#34;1,2,3,4,5&#34;</span> <span class="o">|&gt;</span> <span class="n">strToSum</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="s">&#34;1,2,3,4,5&#34;</span> <span class="o">|&gt;</span> <span class="n">strToSum</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Having this kind of Piping means we also could have written <code>strToSum</code> like this</p>
@@ -992,7 +992,7 @@ So instead of</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">strToStum</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">|&gt;</span> <span class="n">parseInts</span> <span class="o">|&gt;</span> <span class="n">sumList</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">strToStum</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">|&gt;</span> <span class="n">parseInts</span> <span class="o">|&gt;</span> <span class="n">sumList</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>instead of</p>
@@ -1001,7 +1001,7 @@ So instead of</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"> <span class="k">let</span> <span class="nv">strToSum</span> <span class="o">=</span> <span class="n">parseInts</span> <span class="o">&gt;&gt;</span> <span class="n">sumList</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">strToSum</span> <span class="o">=</span> <span class="n">parseInts</span> <span class="o">&gt;&gt;</span> <span class="n">sumList</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Both styles means the same. In the <code>|&gt;</code> we just provide the input argument explcitily. <code>x |&gt; parseInts |&gt; sumList</code>
