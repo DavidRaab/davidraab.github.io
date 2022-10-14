@@ -6,7 +6,16 @@
     <description>Recent content in immutability on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 14 Mar 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/immutability/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 05 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/immutability/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>From mutable loops to immutable folds</title>
+      <link>https://davidraab.github.io/posts/loops-to-folds/</link>
+      <pubDate>Tue, 05 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/loops-to-folds/</guid>
+      <description>When we ask of key-features of functional programming, you will probably hear two things most often. Immutability and recursion. But why is that so? As Immutability also becomes more important in OO languages you will probably find a lot of reason for that one, but why are recursive functions so important? The short answer is, because of Immutability! To understand the connection between those, let&amp;rsquo;s start with some code that uses loops with mutation.</description>
+    </item>
+    
     <item>
       <title>Understanding Immutability and Pure Functions (for OOP)</title>
       <link>https://davidraab.github.io/posts/immutability-and-functions/</link>

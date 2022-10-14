@@ -6,7 +6,52 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 03 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 05 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>fold</title>
+      <link>https://davidraab.github.io/tags/fold/</link>
+      <pubDate>Tue, 05 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/fold/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FSharp</title>
+      <link>https://davidraab.github.io/tags/fsharp/</link>
+      <pubDate>Tue, 05 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/fsharp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>immutability</title>
+      <link>https://davidraab.github.io/tags/immutability/</link>
+      <pubDate>Tue, 05 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/immutability/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>list</title>
+      <link>https://davidraab.github.io/tags/list/</link>
+      <pubDate>Tue, 05 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/list/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>recursion</title>
+      <link>https://davidraab.github.io/tags/recursion/</link>
+      <pubDate>Tue, 05 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/recursion/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>applicative</title>
       <link>https://davidraab.github.io/tags/applicative/</link>
@@ -22,15 +67,6 @@
       <pubDate>Sun, 03 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/cps/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>FSharp</title>
-      <link>https://davidraab.github.io/tags/fsharp/</link>
-      <pubDate>Sun, 03 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/fsharp/</guid>
       <description></description>
     </item>
     
@@ -58,15 +94,6 @@
       <pubDate>Sun, 03 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/option/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>list</title>
-      <link>https://davidraab.github.io/tags/list/</link>
-      <pubDate>Sun, 27 Mar 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/list/</guid>
       <description></description>
     </item>
     
@@ -112,15 +139,6 @@
       <pubDate>Sun, 20 Mar 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/csharp/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>immutability</title>
-      <link>https://davidraab.github.io/tags/immutability/</link>
-      <pubDate>Mon, 14 Mar 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/immutability/</guid>
       <description></description>
     </item>
     

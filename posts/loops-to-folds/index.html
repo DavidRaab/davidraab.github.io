@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>From mutable loops to immutable folds // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="David Raab" />
+    <meta name="description" content="Explains the shift from imperative loops to more functional folds" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.c5d0d3078a177d7cfb9aa69e4ac0843c2cef8c18ec3ed7421bb5e95b879ca2f7.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="From mutable loops to immutable folds"/>
+<meta name="twitter:description" content="Explains the shift from imperative loops to more functional folds"/>
+
+    <meta property="og:title" content="From mutable loops to immutable folds" />
+<meta property="og:description" content="Explains the shift from imperative loops to more functional folds" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/loops-to-folds/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-04-05T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-04-05T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>My personal Blog. Writing about programming and other stuff.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">From mutable loops to immutable folds</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Apr 5, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          18 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/immutability/">immutability</a>
+              <a class="tag" href="https://davidraab.github.io/tags/list/">list</a>
+              <a class="tag" href="https://davidraab.github.io/tags/fold/">fold</a>
+              <a class="tag" href="https://davidraab.github.io/tags/recursion/">recursion</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>When we ask of <em>key-features</em> of functional programming, you will probably hear two things most often.
+Immutability and recursion. But why is that so? As Immutability also becomes more important in OO
+languages you will probably find a lot of reason for that one, but why are recursive
+functions so important? The short answer is, because of Immutability! To understand the connection
+between those, let&rsquo;s start with some code that uses loops with mutation.</p>
+<h2 id="resizearray">ResizeArray</h2>
+<p>Let&rsquo;s start with <code>ResizeArray</code>, and let&rsquo;s implement a <code>map</code> for it. The interesting idea,
+even if we have a <em>mutable data-structures</em> we still can write functions that behaves as
+if we had <em>immutable data</em>. That means, we return new data, instead of <em>mutating</em> data.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">ResizeArray</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">map</span> <span class="n">f</span> <span class="n">oldArray</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="nv">newArray</span> <span class="o">=</span> <span class="n">ResizeArray</span><span class="o">&lt;_&gt;</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="n">oldArray</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">            <span class="n">newArray</span><span class="o">.</span><span class="n">Add</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">newArray</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we can do stuff like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="n">ResizeArray</span><span class="o">&lt;_&gt;</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="o">.</span><span class="n">Add</span><span class="o">(</span><span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="o">.</span><span class="n">Add</span><span class="o">(</span><span class="n">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="o">.</span><span class="n">Add</span><span class="o">(</span><span class="n">3</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">squaredNumbers</span> <span class="o">=</span> <span class="nn">ResizeArray</span><span class="p">.</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">)</span> <span class="n">numbers</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now have two <code>ResizeArray</code>. <code>numbers</code> still contains <code>1</code>, <code>2</code> and <code>3</code> while <code>squaredNumbers</code>
+contains <code>1</code>, <code>4</code>, <code>9</code>. So while this behaves like <em>immutability</em>, it still isn&rsquo;t exactly
+<em>immutable</em>. We also see that in the <code>map</code> implementation. In <code>map</code> we first create
+an empty <em>mutable</em> <code>newArray</code>. While we loop over <code>oldArray</code> we <em>mutate</em> <code>newArray</code> by adding
+the result of the transformation <code>f x</code> to <code>newArray</code>. But the only reason why we could do that
+is because <code>newArray</code> is <em>mutable</em>!</p>
+<p>But what do we do if we have a true <em>immutable list</em> like the built-in F# list? We cannot start with
+an <code>empty list</code> just loop over <code>oldArray</code> and directly add an element to the empty list. We only can
+prepend elements, but this would create a whole new list and not <em>mutate</em> the empty list.</p>
+<p>Sure we can assign the new list to a new variable inside the loop. But this doesn&rsquo;t make much sense
+as with the next iteration we will lose our newly created list. The thing is, looping always need
+some kind of <em>mutable</em> variable outside of the loop that we can <em>mutate</em>.</p>
+<p>Actually F# supports <em>mutable variables</em> so as a quick fix we could define a <em>mutable variable</em>
+outside the loop.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">mapWithImmutableList</span> <span class="n">f</span> <span class="o">(</span><span class="kt">list</span><span class="o">:_</span> <span class="kt">list</span><span class="o">)</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">mutable</span> <span class="n">acc</span> <span class="o">=</span> <span class="bp">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="kt">list</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">        <span class="n">acc</span> <span class="o">&lt;-</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span> <span class="o">::</span> <span class="n">acc</span>
+</span></span><span class="line"><span class="cl">    <span class="n">acc</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It doesn&rsquo;t mean we created a <em>mutable list</em> here. We still only have <em>immutable lists</em>.
+But <code>acc</code> itself is <em>mutable</em> and can be changed to point to a new <em>immutable list</em>.</p>
+<p>With <code>(f x) :: acc</code> we always create a whole new <em>immutable list</em> by using the <code>acc</code>
+from the previous <em>loop iteration</em>. So <code>acc</code> only keeps track of the <em>last or newest</em>
+<code>acc</code>.</p>
+<p>This implementation still has a problem as we will also <em>reverse</em> the list. The problem
+is that we only can <em>prepend</em> elements to a list and not <em>append</em> them.</p>
+<p>But on top, we still relaying on <em>mutable</em> variables. Let&rsquo;s first forget about the <em>reverse</em>
+problem. Here we see a general problem. Looping needs <em>mutable</em> variables! Sure, we
+also can do just some <em>side-effects</em> and don&rsquo;t <em>mutate</em> anything, but whenever you really
+want to compute something you are forced to use <em>mutation</em> if you choose a loop.</p>
+<p>Looping constructs in general just don&rsquo;t work nicely together with <em>immuability</em>. That&rsquo;s also
+the reason why looping is discouraged in functional programming. But it opens up the
+question how we solve the problems that <em>looping</em> solves. How can we for example go through an
+<em>immutable list</em> without <em>looping</em>? And how can we compute something with every element
+without accessing a <em>mutable variable</em>?</p>
+<p>The answer is: Through recursion!</p>
+<h2 id="looping-with-recursion">Looping with recursion</h2>
+<p>To understand how we can replace loops through recursion, let&rsquo;s start with something simple. We
+start with a typical <code>for</code> loop as you can see with <code>C#</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">=</span><span class="m">0</span><span class="p">;</span> <span class="n">i</span><span class="p">&lt;</span><span class="m">10</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&#34;{0}&#34;</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>If we really appreciate <em>immutability</em> we cannot directly create such a looping construct.
+Because such a <code>for</code> loop relies on mutating <code>i</code> after every step. But it doesn&rsquo;t mean we can
+calculate <code>i + 1</code>. We can increment <code>i</code>, but we have to assign the result to a new variable.
+Technically we could expand the looping construct into separate statements.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">i</span>  <span class="o">=</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">i</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">i1</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">i1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">i2</span> <span class="o">=</span> <span class="n">i1</span> <span class="o">+</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">i2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">i3</span> <span class="o">=</span> <span class="n">i2</span> <span class="o">+</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">i3</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Sure, writing stuff like that is simple stupid. We don&rsquo;t want to increment <code>i</code> ten times, always
+create a new variable, and a new print statement. But it is still interesting that the idea
+is the same with our first <code>map</code> implementation we did for <code>ResizeArray</code>.</p>
+<p>We always create a new <em>immutable state</em>, by using the previous state. And that is where functions
+come into play. Actually we are not limited to just assign the result of a calculation just to a
+variable. We also can pass the result to a function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">calc</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl"><span class="n">f</span> <span class="n">calc</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>or better, we can do it in one step.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">f</span> <span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">1</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This is an important idea. It just means that when we call a function, it is also an assign statement
+at the same time! With this idea, we can actually create a looping construct just out of functions.
+Instead of mutating <code>i</code> at the end of a loop and repeating our loop. We just call our function
+recursively and pass it the next state as an argument!</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">i</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">i</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">loop</span> <span class="n">0</span> <span class="c1">// infinity loop
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Sure, we now have another problem, as we currently have an infinity loop. We now <em>always</em> call <code>loop i+1</code>.
+So we have to add some condition when we really want to loop.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">i</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">10</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">        <span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">i</span>
+</span></span><span class="line"><span class="cl">        <span class="n">loop</span> <span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">loop</span> <span class="n">0</span> <span class="c1">// Will now print numbers from 0 to 9
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s abstract it further. Instead of hard coding <code>10</code> we want to provide the end as an argument.
+Additionally, we also want to be able to execute <em>any code</em> <em>inside our loop</em> iteration, instead
+of hard-coding the <em>print-statement</em>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">forLoop</span> <span class="n">i</span> <span class="n">stop</span> <span class="n">f</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">stop</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">        <span class="n">f</span> <span class="n">i</span>
+</span></span><span class="line"><span class="cl">        <span class="n">forLoop</span> <span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="n">1</span><span class="o">)</span> <span class="n">stop</span> <span class="n">f</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">forLoop</span> <span class="n">0</span> <span class="n">10</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">i</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now basically recreated a <code>for</code> loop through a recursive function! We just can provide
+the starting and the stop value and just provide a function for the <em>loop-body</em> that describes
+what should be done at every step. The current <code>i</code> is just passed as an argument to our function
+<code>f</code>. This way we can do something with the value.</p>
+<p>Let&rsquo;s improve that solution a little bit. It feels a little bit awkward that we have
+to provide <code>stop</code> and <code>f</code> again as arguments. We can fix this problem by just creating a special
+<code>loop</code> function inside <code>forLoop</code> instead.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">forLoop</span> <span class="n">start</span> <span class="n">stop</span> <span class="n">f</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">i</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">stop</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">            <span class="n">f</span> <span class="n">i</span>
+</span></span><span class="line"><span class="cl">            <span class="n">loop</span> <span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="n">start</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">forLoop</span> <span class="n">0</span> <span class="n">10</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">i</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Our <code>forLoop</code> function is not a recursive function any more, instead it contains a recursive <code>loop</code>
+function. <code>loop</code> only contains those variables as arguments that we really expect to change.</p>
+<p>This has several advantages:</p>
+<ol>
+<li><code>loop</code> itself is easier and nearly resembles the first <code>loop</code> we started with.</li>
+<li>We don&rsquo;t need to pass variables like <code>f</code> or <code>stop</code> to the recursive call as we don&rsquo;t expect
+them to change.</li>
+<li>This reduces the possibility of bugs as we cannot change variables that we didn&rsquo;t expect to change.
+For example, previously we could write: <code>forLoop (i+1) (stop+1) f</code></li>
+<li>In other cases it also means we can <em>pre-</em> or <em>post-process</em> data before or after the loop
+starts/finish.</li>
+<li>Sometimes we just want to provide a fixed starting value. For example in a <code>sum</code> function
+we provide <code>0</code> as the starting value. We don&rsquo;t want that the user must enter <code>0</code> as a
+starting value for the recursion call!</li>
+<li>Different names for arguments. For example our <code>forLoop</code> now has <code>start</code> instead of <code>i</code>. But
+it doesn&rsquo;t make sense to use <code>start</code> inside of <code>loop</code>. Clearer names can help in understanding
+code. But it also helps users of <code>forEach</code>. As they now see <code>start</code> as an argument, not <code>i</code>.</li>
+</ol>
+<p>The only problem so far is that we only can call functions that do some sort of side-effect.
+But we cannot for example create something new out of the looping. For example if we want to
+create the sum of all numbers from 0 to 9 we could write something like this in C#</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">sum</span> <span class="p">=</span> <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">=</span><span class="m">0</span><span class="p">;</span> <span class="n">i</span><span class="p">&lt;</span><span class="m">10</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sum</span> <span class="p">=</span> <span class="n">sum</span> <span class="p">+</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But we now know how to fix that problem. We just add <code>sum</code> to the <code>loop</code> function
+as this is a value that we expect to change with every <em>iteration</em>. On top our function <code>f</code> must
+change. In the body of a loop we have access to <code>i</code> and access to <code>sum</code> outside of the loop.
+With recursion we only get access to those data that we pass to the <code>f</code> function. So we also must
+pass <code>sum</code> as an argument to our <code>f</code> function. As we cannot <em>mutate</em> <code>sum</code> inside <code>f</code> we expect that
+<code>f</code> returns the new <code>sum</code> that we then use for the next <em>recursive call</em>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">forLoop</span> <span class="n">start</span> <span class="n">stop</span> <span class="n">f</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">i</span> <span class="n">sum</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">stop</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// create the next sum
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">let</span> <span class="nv">nextSum</span> <span class="o">=</span> <span class="n">f</span> <span class="n">i</span> <span class="n">sum</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// next recursive call with updated &#34;i&#34; and &#34;sum&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">loop</span> <span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="n">1</span><span class="o">)</span> <span class="n">nextSum</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// Return &#34;sum&#34; as soon we reach stop
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">sum</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="n">start</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> <span class="n">forLoop</span> <span class="n">0</span> <span class="n">10</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="n">sum</span> <span class="o">-&gt;</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">i</span><span class="o">)</span> <span class="c1">// 45
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>The only thing I dislike at this point is that the usage of our <code>forLoop</code> is still limited. We have
+the signature.</p>
+<pre><code>start:int -&gt; stop:int -&gt; f:(int -&gt; int -&gt; int) -&gt; int
+</code></pre>
+<p>It makes sense that <code>start</code> and <code>stop</code> are <code>int</code>. But usually we expect that the <em>looping-body</em> (<code>f</code>)
+can work with any type. Or in other words, that <code>sum</code> can be of any type. And that a <code>forLoop</code>
+also can return any type. But currently we are limited to <code>int</code>.</p>
+<p>It is an <code>int</code> because we call <code>loop start 0</code> and directly pass <code>0</code> (an <code>int</code>) as <code>sum</code>.
+It makes more sense that the user can provide the <em>initial-value</em>. And <code>f</code> just returns a new value
+of the same type. This way, the <em>initial-value</em> can be generic.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">forLoop</span> <span class="n">start</span> <span class="n">stop</span> <span class="n">init</span> <span class="n">f</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">i</span> <span class="n">acc</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">stop</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">            <span class="k">let</span> <span class="nv">nextAcc</span> <span class="o">=</span> <span class="n">f</span> <span class="n">i</span> <span class="n">acc</span>
+</span></span><span class="line"><span class="cl">            <span class="n">loop</span> <span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="n">1</span><span class="o">)</span> <span class="n">nextAcc</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="n">acc</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="n">start</span> <span class="n">init</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> <span class="n">forLoop</span> <span class="n">0</span> <span class="n">10</span> <span class="n">0</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="n">sum</span> <span class="o">-&gt;</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">i</span><span class="o">)</span> <span class="c1">// 45
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now have the signature:</p>
+<pre><code>start:int -&gt; stop:int -&gt; init:'a -&gt; f:(int -&gt; 'a -&gt; 'a) -&gt; 'a
+</code></pre>
+<p>We now created a <code>forLoop</code> just with recursion and without any <em>mutable variable</em>. Our loop supports
+the creation of any value. The function <code>f</code> just returns the next state (<code>acc</code>) that is used for
+the next <em>iteration/recursion</em> and we don&rsquo;t need any <em>mutable variable</em> anymore.</p>
+<p>We now can create any type not just <code>int</code>. We could for example build another list from it in
+an <em>immutable</em> way.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listOfNumbers</span> <span class="o">=</span> <span class="n">forLoop</span> <span class="n">0</span> <span class="n">10</span> <span class="bp">[]</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="kt">list</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">::</span> <span class="kt">list</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// [9;8;7;6;5;4;3;2;1;0]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c">(** Or build a string *)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">stringofNumbers</span> <span class="o">=</span> <span class="n">forLoop</span> <span class="n">0</span> <span class="n">10</span> <span class="s">&#34;&#34;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="n">str</span> <span class="o">-&gt;</span> <span class="n">str</span> <span class="o">+</span> <span class="o">(</span><span class="kt">string</span> <span class="n">i</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// &#34;0123456789&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c">(** Or start with a value and just repeatedly call a function on it *)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">100</span><span class="o">.</span><span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">forLoop</span> <span class="n">0</span> <span class="n">5</span> <span class="n">x</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">/</span> <span class="n">2</span><span class="o">.</span><span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 3.125
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="creating-an-immutable-foreach">Creating an immutable <code>foreach</code></h2>
+<p>So far we only looped over numbers. But usually we want to loop over whole <em>data-structures</em>.
+In C# we have <code>foreach</code> for this kind of idea. For example we can loop over a list in this way.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">sum</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span> <span class="p">(</span> <span class="kt">var</span> <span class="n">x</span> <span class="k">in</span> <span class="n">list</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sum</span> <span class="p">=</span> <span class="n">sum</span> <span class="p">+</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now want to do the same but with an <em>immutable F# list</em> instead, so how do we loop an
+<em>immutable list</em>? Actually the only thing we can do with a F# list is either prepend some element
+or use pattern matching to extract values from the beginning.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">numbers1</span> <span class="o">=</span> <span class="o">[</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">numbers2</span> <span class="o">=</span> <span class="n">1</span> <span class="o">::</span> <span class="n">numbers1</span> <span class="c1">// [1;2;3;4;5]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="o">(</span><span class="n">head</span><span class="o">::</span><span class="n">tail</span><span class="o">)</span> <span class="o">=</span> <span class="n">numbers2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">head</span> <span class="c1">// 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">tail</span> <span class="c1">// [2;3;4;5]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Doing the extraction with a <code>let</code> is usually discouraged because such an operation could fail.
+If we have an empty list for example we couldn&rsquo;t extract the first element of a list
+(and the code throws an exception). With Pattern matching we can specify multiple cases that we
+can check. But as you already can imagine again. This must be recursive again! Because we
+repeatedly want to extract one element from <code>tail</code> and we sure don&rsquo;t want to write:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="o">(</span><span class="n">head1</span><span class="o">::</span><span class="n">tail1</span><span class="o">)</span> <span class="o">=</span> <span class="n">numbers2</span> <span class="c1">// 1 [2;3;4;5]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="o">(</span><span class="n">head2</span><span class="o">::</span><span class="n">tail2</span><span class="o">)</span> <span class="o">=</span> <span class="n">tail1</span>    <span class="c1">// 2 [3;4;5]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="o">(</span><span class="n">head3</span><span class="o">::</span><span class="n">tail3</span><span class="o">)</span> <span class="o">=</span> <span class="n">tail2</span>    <span class="c1">// 3 [4;5]
+</span></span></span><span class="line"><span class="cl"><span class="c1">// and so on ...
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>And on top, we need an exit condition. We want to end as soon we end up with an empty list for <code>tail</code>.
+Now let&rsquo;s do the same stuff we did with our <code>forLoop</code>. We expect some <em>initial value</em> that we can
+specify as an <em>accumulator</em>. The <code>f</code> function now just gets the list element and our <em>accumulator</em>.
+Once we end up with an empty list, we just return the <em>accumulator</em>. We call this function <code>fold</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">fold</span> <span class="n">f</span> <span class="o">(</span><span class="n">acc</span><span class="o">:</span><span class="k">&#39;</span><span class="n">State</span><span class="o">)</span> <span class="kt">list</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">remainingList</span> <span class="n">acc</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">match</span> <span class="n">remainingList</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="bp">[]</span>         <span class="o">-&gt;</span> <span class="n">acc</span>  <span class="c1">// We return &#34;acc&#34; when we reached the end of the list
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">|</span> <span class="n">head</span><span class="o">::</span><span class="n">tail</span> <span class="o">-&gt;</span>      <span class="c1">// extract first element of remainingList
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">let</span> <span class="nv">nextAcc</span> <span class="o">=</span> <span class="n">f</span> <span class="n">acc</span> <span class="n">head</span> <span class="c1">// Compute the next accumulator
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">loop</span> <span class="n">tail</span> <span class="n">nextAcc</span>        <span class="c1">// Recurse with remaining list &#34;tail&#34; and &#34;nextAcc&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">loop</span> <span class="kt">list</span> <span class="n">acc</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>I also changed the order of the arguments compared to the <code>forEach</code> function. Now <code>f</code> comes first
+followed by <code>acc</code> and <code>list</code>. Summing a list of <code>int</code>s can now be written as:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> <span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span> <span class="n">0</span> <span class="o">[</span><span class="n">1</span> <span class="o">..</span> <span class="n">9</span><span class="o">]</span> <span class="c1">// 45
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>So, what is <code>fold</code> exactly? <code>fold</code> is just the idea of looping through a <em>data-structure</em>
+in an <em>immutable way</em>. Instead of accessing a <em>mutable variable</em> that you access and <em>mutate</em> while
+you are looping, you provide a function as the <em>loop-body</em> and an <em>initial-accumulator</em>.</p>
+<p>In looping you then have access to the current element and a <em>mutable variable</em> that you can
+modify. In <code>fold</code> your <code>f</code> function you get the current element and the last state as
+function arguments. Instead of <em>mutating</em> a variable outside of a loop. In <code>fold</code> you just
+return the new state that will be used for the next recursive call.</p>
+<p>Your <em>accumulator</em> will be returned as a result once you traversed all elements of
+your data-structure.</p>
+<h2 id="creating-map">Creating <code>map</code></h2>
+<p>Now that we abstracted the recursive looping in it&rsquo;s own function, we don&rsquo;t need to write a
+recursive loop function anymore to traverse a list! We just can use <code>fold</code> for this purpose.</p>
+<p>A first attempt to build <code>map</code> could look like that.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">map</span> <span class="n">f</span> <span class="kt">list</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="c1">// foreach (var x in list )
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span> <span class="o">::</span> <span class="n">acc</span>   <span class="c1">//     nextAcc &lt;- (f x) :: acc
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">)</span> <span class="bp">[]</span> <span class="kt">list</span>          <span class="c1">// Start with &#34;[]&#34; as &#34;acc&#34; and go through &#34;list&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span><span class="o">)</span> <span class="o">[</span><span class="n">0</span><span class="o">..</span><span class="n">9</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// [18; 16; 14; 12; 10; 8; 6; 4; 2; 0]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>But we still have the same problem as in the beginning. The list is reversed because we <em>prepend</em>
+and not <em>append</em> elements. As we cannot <em>append</em> we have to provide another solution.</p>
+<p>Besides a <code>fold</code> we usually also provide a <code>foldBack</code>. A <code>foldBack</code> just traverses a data-structure
+backwards or from <em>right-to-left</em> instead of <em>left-to-right</em>.</p>
+<p>But we also cannot easily go through a list backwards, an easy fix to this problem is when we
+implement <code>foldBack</code> by first <em>reversing</em> the input list and then use <code>fold</code> on it. After we
+have <code>foldBack</code> we can define <code>map</code> with <code>foldBack</code> instead of <code>fold</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// Reverses a List
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">rev</span> <span class="kt">list</span> <span class="o">=</span> <span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">::</span> <span class="n">acc</span><span class="o">)</span> <span class="bp">[]</span> <span class="kt">list</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// foldBack loops through the list from the end to start
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">foldBack</span> <span class="n">f</span> <span class="kt">list</span> <span class="o">(</span><span class="n">acc</span><span class="o">:</span><span class="k">&#39;</span><span class="n">State</span><span class="o">)</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="n">x</span> <span class="n">acc</span><span class="o">)</span> <span class="n">acc</span> <span class="o">(</span><span class="n">rev</span> <span class="kt">list</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// map defined in terms of foldBack
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">map</span> <span class="n">f</span> <span class="kt">list</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span> <span class="o">::</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="bp">[]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Now we get the right result
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span><span class="o">)</span> <span class="o">[</span><span class="n">1</span> <span class="o">..</span> <span class="n">9</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// [2; 4; 6; 8; 10; 12; 14; 16; 18]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Probably you wonder why we choose different argument orders for <code>fold</code> and <code>foldBack</code> including the
+arguments for the <code>f</code> function. In <code>fold</code> we first have <code>acc</code> then <code>x</code>, in <code>foldBack</code> it is reversed.
+<code>x</code> then <code>acc</code>. The reason is, the position of <code>acc</code> <em>resembles</em> the order how we traverse the list.</p>
+<p>In <code>fold</code> we go from left to right. We start with the initial <code>acc</code>, we extract the first value
+from our list and we somehow <em>combine</em> it with the already present <code>acc</code>. Let&rsquo;s visualize the
+steps that code like this do:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> <span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span> <span class="n">0</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">5</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>acc | list        | acc + x
+-----------------------------
+0   | [1;2;3;4;5] | 0 + 1
+1   | [2;3;4;5]   | 1 + 2
+3   | [3;4;5]     | 3 + 3
+6   | [4;5]       | 6 + 4
+10  | [5]         | 10 + 5
+15  | []          | return -&gt; 15
+</code></pre>
+<p>When we use <code>foldBack</code> we get the same result, but we go from right to left.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> <span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">5</span><span class="o">]</span> <span class="n">0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>list        | acc | x + acc
+---------------------------
+[1;2;3;4;5] | 0   | 5 + 0
+  [1;2;3;4] | 5   | 4 + 5
+    [1;2;3] | 9   | 3 + 9
+      [1;2] | 12  | 2 + 12
+        [1] | 14  | 1 + 14
+         [] | 15  | return -&gt; 15
+</code></pre>
+<p>That&rsquo;s why we use <code>acc x</code> in <code>fold</code> and <code>x acc</code> in <code>foldBack</code>. For summing numbers this
+doesn&rsquo;t make any difference, but for other operations like <code>map</code> it does!</p>
+<h2 id="length-filter-iter-append-concat-and-collect"><code>length</code>, <code>filter</code>, <code>iter</code>, <code>append</code>, <code>concat</code> and <code>collect</code></h2>
+<p>Let&rsquo;s create some more functions. As an exercise you also can try to first implement
+those functions yourself.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// Length
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">length</span> <span class="n">xs</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">1</span><span class="o">)</span> <span class="n">0</span> <span class="n">xs</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">length</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">10</span><span class="o">]</span> <span class="c1">// 10
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Filter
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">filter</span> <span class="n">predicate</span> <span class="n">xs</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="n">predicate</span> <span class="n">x</span> <span class="k">then</span> <span class="n">x</span> <span class="o">::</span> <span class="n">acc</span> <span class="k">else</span> <span class="n">acc</span><span class="o">)</span> <span class="n">xs</span> <span class="bp">[]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">filter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span><span class="o">)</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">10</span><span class="o">]</span> <span class="c1">// [2;4;6;8;10]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Iter
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">iter</span> <span class="n">f</span> <span class="n">xs</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="n">x</span><span class="o">)</span> <span class="bp">()</span> <span class="n">xs</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">iter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">x</span><span class="o">)</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">5</span><span class="o">]</span> <span class="c1">// Prints numbers 1 to 5 on a line
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Append
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">append</span> <span class="n">xs</span> <span class="n">ys</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">::</span> <span class="n">acc</span><span class="o">)</span> <span class="n">xs</span> <span class="n">ys</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">append</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">[</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">;</span><span class="n">6</span><span class="o">]</span> <span class="c1">// [1;2;3;4;5;6]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// concat
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">concat</span> <span class="n">lol</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">append</span> <span class="n">acc</span> <span class="n">x</span><span class="o">)</span> <span class="bp">[]</span> <span class="n">lol</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">concat</span> <span class="o">[[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">];</span> <span class="o">[</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">;</span><span class="n">6</span><span class="o">];</span> <span class="o">[</span><span class="n">7</span><span class="o">;</span><span class="n">8</span><span class="o">;</span><span class="n">9</span><span class="o">]]</span> <span class="c1">// [1;2;3;4;5;6;7;8;9]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// collect
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">collect</span> <span class="n">f</span> <span class="n">xs</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">map</span> <span class="n">f</span> <span class="n">xs</span> <span class="o">|&gt;</span> <span class="n">concat</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">collect</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="o">[</span><span class="n">x</span><span class="o">;</span><span class="n">x</span><span class="o">;</span><span class="n">x</span><span class="o">])</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="c1">// [1;1;1;2;2;2;3;3;3]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>From the implementation i think only <code>append</code>, <code>concat</code> and <code>collect</code> are interesting.</p>
+<p>In <code>append</code> you see that you don&rsquo;t have to start from an empty list. Appending two list basically
+means you prepend the first list to the second list by going backwards through the first list. So
+the second list is your starting <em>accumulator</em>.</p>
+<p>With <code>append</code> in place, <code>concat</code> becomes easy. As you just repeatedly append two lists to a single
+one.</p>
+<p>And once you have <code>concat</code>, it is also pretty easy to implement <code>collect</code> through <code>map</code> and <code>concat</code>.</p>
+<h2 id="summary">Summary</h2>
+<p>We first started with some loops that modifies <em>mutable variables</em>. In order to get rid of <em>mutable</em>
+variables or to work with <em>immutable data-structures</em> we need recursion. Without <em>recursion</em>
+it is basically impossible to effectively work with <em>immutable data-structures</em>. But this doesn&rsquo;t mean
+we always have to write recursive functions.</p>
+<p>We start by implementing a <code>fold</code> function that does the same thing as a <code>foreach</code> loop just in
+an <em>immutable</em> way. With <code>fold</code> we abstracted the <em>recursive looping</em> in it&rsquo;s own function.
+New functions can now be implemented on top of <code>fold</code> or the function we created with <code>fold</code>.</p>
+<p>While <em>recursion</em> is indeed an important aspect of functional programming, as we just need it to
+work with <em>immutable data</em>. It doesn&rsquo;t mean we should use <em>recursion</em> all over the place. The use
+of <em>recursion</em> is often a sign that we lack abstraction.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="https://lorgonblog.wordpress.com/2008/04/05/catamorphisms-part-one/">Catamorphisms</a></li>
+<li><a href="http://fsharpforfunandprofit.com/series/recursive-types-and-folds.html">Recursive Types and Folds</a></li>
+<li><a href="https://en.wikibooks.org/wiki/F_Sharp_Programming/Lists">Wikibook - Lists</a></li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
