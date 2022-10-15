@@ -6,22 +6,40 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 05 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 11 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FSharp</title>
+      <link>https://davidraab.github.io/tags/fsharp/</link>
+      <pubDate>Mon, 11 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/fsharp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>null</title>
+      <link>https://davidraab.github.io/tags/null/</link>
+      <pubDate>Mon, 11 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/null/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>option</title>
+      <link>https://davidraab.github.io/tags/option/</link>
+      <pubDate>Mon, 11 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/option/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>fold</title>
       <link>https://davidraab.github.io/tags/fold/</link>
       <pubDate>Tue, 05 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/fold/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>FSharp</title>
-      <link>https://davidraab.github.io/tags/fsharp/</link>
-      <pubDate>Tue, 05 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/fsharp/</guid>
       <description></description>
     </item>
     
@@ -89,15 +107,6 @@
     </item>
     
     <item>
-      <title>option</title>
-      <link>https://davidraab.github.io/tags/option/</link>
-      <pubDate>Sun, 03 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/option/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>evil</title>
       <link>https://davidraab.github.io/tags/evil/</link>
       <pubDate>Fri, 25 Mar 2016 00:00:00 +0000</pubDate>
@@ -112,15 +121,6 @@
       <pubDate>Fri, 25 Mar 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/exceptions/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>null</title>
-      <link>https://davidraab.github.io/tags/null/</link>
-      <pubDate>Fri, 25 Mar 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/null/</guid>
       <description></description>
     </item>
     
