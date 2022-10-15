@@ -94,7 +94,7 @@ Sure, as long we only get request to products that exists, we don&rsquo;t run in
 But let&rsquo;s imagine we write a function that returns a <em>Product</em>, and the requested <em>Product</em> doesn&rsquo;t
 exists. What do we do in such a case?</p>
 <p>The usual approach, at least in OO programming, is to either return <code>null</code>, or throwing an
-<em>Exception</em>. But i [don&rsquo;t think that Exceptions are better compared to null]({% post_url 2016-03-25-exceptions-are-evil %}).</p>
+<em>Exception</em>. But i <a href="https://davidraab.github.io/posts/exceptions-are-evil/">don&rsquo;t think that Exceptions are better compared to null</a>.</p>
 <p>So, why is returning <code>null</code> bad? Because a client calling our function is not forced to check
 for <code>null</code>. And if he works with <code>null</code> as if he had a <em>Product</em>, the program will crash. What
 happens if we throw an <em>Exception</em>? Well, our program still crashes!</p>
