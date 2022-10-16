@@ -458,22 +458,6 @@ extend the <code>Async</code> module with the needed functions.</p>
 </span><span class="lnt">18
 </span><span class="lnt">19
 </span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">Async</span> <span class="o">=</span>
@@ -496,10 +480,27 @@ extend the <code>Async</code> module with the needed functions.</p>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">traverse</span> <span class="n">f</span> <span class="kt">list</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="nv">folder</span> <span class="n">x</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">retn</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">xs</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">::</span> <span class="n">xs</span><span class="o">)</span> <span class="o">&lt;*&gt;</span> <span class="n">f</span> <span class="n">x</span> <span class="o">&lt;*&gt;</span> <span class="n">xs</span>
 </span></span><span class="line"><span class="cl">        <span class="nn">List</span><span class="p">.</span><span class="n">foldBack</span> <span class="n">folder</span> <span class="kt">list</span> <span class="o">(</span><span class="n">retn</span> <span class="bp">[]</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c">(** We now can use `Async.traverse` in the following way *)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">uris</span> <span class="o">=</span> <span class="o">[</span><span class="n">Uri</span><span class="o">(</span><span class="s">&#34;http://www.google.com&#34;</span><span class="o">);</span> <span class="n">Uri</span><span class="o">(</span><span class="s">&#34;https://fsharpforfunandprofit.com&#34;</span><span class="o">)]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now can use <code>Async.traverse</code> in the following way</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">uris</span> <span class="o">=</span> <span class="o">[</span><span class="n">Uri</span><span class="o">(</span><span class="s">&#34;http://www.google.com&#34;</span><span class="o">);</span> <span class="n">Uri</span><span class="o">(</span><span class="s">&#34;https://fsharpforfunandprofit.com&#34;</span><span class="o">)]</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">download</span> <span class="n">uri</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="k">use</span> <span class="n">wc</span> <span class="o">=</span> <span class="k">new</span> <span class="nn">System</span><span class="p">.</span><span class="nn">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="bp">()</span>
 </span></span><span class="line"><span class="cl">    <span class="n">wc</span><span class="o">.</span><span class="n">AsyncDownloadString</span><span class="o">(</span><span class="n">uri</span><span class="o">)</span>
