@@ -6,11 +6,11 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 13 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 14 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>applicative</title>
       <link>https://davidraab.github.io/tags/applicative/</link>
-      <pubDate>Wed, 13 Apr 2016 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 14 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/applicative/</guid>
       <description></description>
@@ -19,18 +19,36 @@
     <item>
       <title>FSharp</title>
       <link>https://davidraab.github.io/tags/fsharp/</link>
-      <pubDate>Wed, 13 Apr 2016 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 14 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/fsharp/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>functor</title>
+      <link>https://davidraab.github.io/tags/functor/</link>
+      <pubDate>Thu, 14 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/functor/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>list</title>
       <link>https://davidraab.github.io/tags/list/</link>
-      <pubDate>Wed, 13 Apr 2016 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 14 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/list/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>option</title>
+      <link>https://davidraab.github.io/tags/option/</link>
+      <pubDate>Thu, 14 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/option/</guid>
       <description></description>
     </item>
     
@@ -40,15 +58,6 @@
       <pubDate>Mon, 11 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/null/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>option</title>
-      <link>https://davidraab.github.io/tags/option/</link>
-      <pubDate>Mon, 11 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/option/</guid>
       <description></description>
     </item>
     
@@ -85,15 +94,6 @@
       <pubDate>Sun, 03 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/cps/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>functor</title>
-      <link>https://davidraab.github.io/tags/functor/</link>
-      <pubDate>Sun, 03 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/functor/</guid>
       <description></description>
     </item>
     

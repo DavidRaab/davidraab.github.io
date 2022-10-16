@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Sequence and Traverse // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="David Raab" />
+    <meta name="description" content="Explains the sequence and traverse functions" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.c5d0d3078a177d7cfb9aa69e4ac0843c2cef8c18ec3ed7421bb5e95b879ca2f7.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Sequence and Traverse"/>
+<meta name="twitter:description" content="Explains the sequence and traverse functions"/>
+
+    <meta property="og:title" content="Sequence and Traverse" />
+<meta property="og:description" content="Explains the sequence and traverse functions" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/sequence-and-traverse/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-04-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-04-14T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>My personal Blog. Writing about programming and other stuff.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Sequence and Traverse</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Apr 14, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          9 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/functor/">functor</a>
+              <a class="tag" href="https://davidraab.github.io/tags/applicative/">applicative</a>
+              <a class="tag" href="https://davidraab.github.io/tags/list/">list</a>
+              <a class="tag" href="https://davidraab.github.io/tags/option/">option</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>One problem that appears from time to time is that we we have some kind of
+collection (I use <code>list</code> here) and we want to <code>map</code> every element with a
+<em>monadic function</em> <code>'a -&gt; M&lt;'b&gt;</code>. This then returns a <code>list&lt;M&lt;'a&gt;&gt;</code>. But
+often we want a <code>M&lt;list&lt;'a&gt;&gt;</code>.</p>
+<p>To be more concrete. Let&rsquo;s assume we want to turn a list of strings into integers. We could
+write a <code>tryParseInt</code> function that does <code>string -&gt; option&lt;int&gt;</code>. But if we <code>map</code>
+our function with a <code>list&lt;string&gt;</code> we get a <code>list&lt;option&lt;int&gt;&gt;</code> back.</p>
+<p>Sometimes that is what we want, but very often it is not. Usually what we want is
+a <code>option&lt;list&lt;int&gt;&gt;</code> instead. So we expect the types to be switched.</p>
+<p>The idea behind it in this example is that when we use <code>map</code> over a list of strings it is
+either successful as a whole and all elements are integers or as soon a single element
+is not an integer we get <code>None</code> back as a whole.</p>
+<p>We could just write a function that somehow does that kind of transformation just for
+<code>tryParseInt</code>, but instead of doing that again and again for every function we try to
+generalize that problem, so we can turn every <code>list&lt;option&lt;'a&gt;&gt;</code> into <code>option&lt;list&lt;'a&gt;&gt;</code>.
+Not only that, we want to generalize the problem that it works for any type, not
+just <code>option</code>.</p>
+<p>This generalization is what we think of the <code>sequence</code> and <code>traverse</code> functions.</p>
+<h2 id="sequence">Sequence</h2>
+<p>We first start with the <em>monadic</em> <code>tryParseInt</code> function we already mentioned.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">tryParseInt</span> <span class="n">str</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="nn">System</span><span class="p">.</span><span class="nn">Int32</span><span class="p">.</span><span class="n">TryParse</span><span class="o">(</span><span class="n">str</span><span class="o">)</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="k">false</span><span class="o">,_</span> <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="k">true</span><span class="o">,</span><span class="n">x</span>  <span class="o">-&gt;</span> <span class="n">Some</span> <span class="n">x</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Next, we have some kind of input from a file, user or somewhere else.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">validInput</span>   <span class="o">=</span> <span class="o">[</span><span class="s">&#34;1&#34;</span><span class="o">;</span><span class="s">&#34;100&#34;</span><span class="o">;</span><span class="s">&#34;12&#34;</span><span class="o">;</span><span class="s">&#34;5789&#34;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">invalidInput</span> <span class="o">=</span> <span class="o">[</span><span class="s">&#34;1&#34;</span><span class="o">;</span><span class="s">&#34;100&#34;</span><span class="o">;</span><span class="s">&#34;12&#34;</span><span class="o">;</span><span class="s">&#34;foo&#34;</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In our example we want to do the following:</p>
+<ol>
+<li>Parse every <code>string</code> to an <code>int</code></li>
+<li>If all inputs are valid, we want to <code>sum</code> the results</li>
+<li>If one input is invalid, we want to print an error message</li>
+</ol>
+<p>The first step is easy, as we could just <code>map</code> the list.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">validInts</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">tryParseInt</span> <span class="n">validInput</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now have a list containing:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">Some</span> <span class="n">1</span><span class="o">;</span> <span class="n">Some</span> <span class="n">100</span><span class="o">;</span> <span class="n">Some</span> <span class="n">12</span><span class="o">;</span> <span class="n">Some</span> <span class="n">5789</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The problem starts in how we determine that every element is valid. We sure could
+use <code>fold</code> to loop through our list. Starting with a <code>bool</code> set to <code>true</code> and as soon
+we encounter a <code>None</code> we set the <code>bool</code> to <code>false</code>.</p>
+<p>But we already have <code>Option</code> for this kind of purpose. With <code>Option</code> we still can
+return the idea of <code>true</code> (Some) and <code>false</code> (None), but additional we also can return
+a value.</p>
+<p>Instead of just getting a boolean flag like <code>true</code> and <code>false</code> we just return <code>Some</code>
+with a new list that has all the <code>option</code> values stripped instead. For the valid
+input case we just expect:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">Some</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span> <span class="n">100</span><span class="o">;</span> <span class="n">12</span><span class="o">;</span> <span class="n">5789</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>for the invalid input list we just expect:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">None</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As we need to loop through every element and build a new list, this is just a task for
+<code>List.foldBack</code>.</p>
+<ol>
+<li>Because we want a <code>option&lt;list&lt;'a&gt;&gt;</code> as a result, we start with <code>Some []</code></li>
+<li>Then we check if <code>acc</code> and <code>x</code> are both <code>Some</code></li>
+<li>If that is the case we add <code>x</code> to <code>acc</code></li>
+<li>Otherwise we return <code>None</code></li>
+</ol>
+<p>We name this operation <code>sequence</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sequenceFold</span> <span class="n">listOfOptions</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">folder</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">match</span> <span class="n">x</span><span class="o">,</span><span class="n">acc</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Some</span> <span class="n">x</span><span class="o">,</span> <span class="n">Some</span> <span class="kt">list</span> <span class="o">-&gt;</span> <span class="n">Some</span> <span class="o">(</span><span class="n">x</span> <span class="o">::</span> <span class="kt">list</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Some</span> <span class="o">_,</span> <span class="n">None</span> <span class="o">_</span>    <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">None</span> <span class="o">_,</span> <span class="n">Some</span> <span class="o">_</span>    <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">None</span> <span class="o">_,</span> <span class="n">None</span> <span class="o">_</span>    <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">List</span><span class="p">.</span><span class="n">foldBack</span> <span class="n">folder</span> <span class="n">listOfOptions</span> <span class="o">(</span><span class="n">Some</span> <span class="bp">[]</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">(** When we test our function it returns the right result *)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">tryParseInt</span> <span class="n">validInput</span> <span class="o">|&gt;</span> <span class="n">sequenceFold</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Some [1; 100; 12; 5789]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">tryParseInt</span> <span class="n">invalidInput</span> <span class="o">|&gt;</span> <span class="n">sequenceFold</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// None
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Nice, it works! But this implementation still has a problem. Our <code>folder</code> function
+is basically a duplicate of the <code>apply</code> function! The whole idea to check two
+<code>option</code> and only execute some code if both are <code>Some</code> is exactly what <code>apply</code> does.
+Let&rsquo;s look again at <code>apply</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">apply</span> <span class="n">fo</span> <span class="n">xo</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">fo</span><span class="o">,</span><span class="n">xo</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Some</span> <span class="n">f</span><span class="o">,</span> <span class="n">Some</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">Some</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Some</span> <span class="o">_,</span> <span class="n">None</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">None</span> <span class="o">_,</span> <span class="n">Some</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">None</span> <span class="o">_,</span> <span class="n">None</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="o">(&lt;*&gt;)</span> <span class="o">=</span> <span class="n">apply</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>There is also another problem here. It doesn&rsquo;t matter which type we use. We always have
+to lift an empty list. In this case we did <code>Some []</code> for the accumulator. But in a
+<code>Async</code> case we just want an empty list inside an <code>Async</code>. So we always just want to
+<code>return</code> a list for the context. It just means: We always can create a <code>sequence</code>
+function as long our type provides a <code>return</code> and <code>apply</code> function. Or in other words,
+our type is an <a href="https://davidraab.github.io/posts/applicative-functors/">Applicative Functor</a>.</p>
+<p>Let&rsquo;s think about how we can implement <code>sequence</code> with <code>return</code> and <code>apply</code>.</p>
+<ol>
+<li>The code we executed when we had two <code>Some</code> values was <code>x :: list</code></li>
+<li>So we just create a function for this operation</li>
+<li>And <code>apply</code> this function</li>
+<li>Then we use this function as our <code>folder</code> function</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">retn</span> <span class="n">x</span> <span class="o">=</span> <span class="n">Some</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sequence</span> <span class="n">listOfOptions</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">folder</span> <span class="n">x</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">retn</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">xs</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">::</span> <span class="n">xs</span><span class="o">)</span> <span class="o">&lt;*&gt;</span> <span class="n">x</span> <span class="o">&lt;*&gt;</span> <span class="n">xs</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">List</span><span class="p">.</span><span class="n">foldBack</span> <span class="n">folder</span> <span class="n">listOfOptions</span> <span class="o">(</span><span class="n">retn</span> <span class="bp">[]</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">(** We still get our expected results *)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">tryParseInt</span> <span class="n">validInput</span> <span class="o">|&gt;</span> <span class="n">sequence</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Some [1; 100; 12; 5789]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">tryParseInt</span> <span class="n">invalidInput</span> <span class="o">|&gt;</span> <span class="n">sequence</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// None
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Nice, everything works. So why is rewriting <code>sequence</code> in such a way better?
+What we basically have here is a <em>Design Pattern</em> (or what every Design Pattern is &ndash;
+A Copy &amp; Paste Pattern).</p>
+<p>The <code>sequence</code> operation for a <code>list</code> is <em>always</em> the same. It just depends solely that
+a type supports a <code>retn</code> and a <code>apply</code> function. It probably opens up the question
+that when the implementation is always the same if we cannot just have a single
+implementation?</p>
+<p>Yes and no. Currently in F# <code>retn</code> and <code>&lt;*&gt;</code> are not Polymorphic, they are specific functions
+we define ourself. <a href="https://davidraab.github.io/posts/higher-kinded-polymorphism/">We could fix it with Higher-Kinded Polymorphism</a>
+but F# don&rsquo;t support this nicely, but there are ways around it. But i will not cover
+this topic here.</p>
+<h2 id="traverse">Traverse</h2>
+<p>So far we discussed <code>sequence</code> but in practice you will less likely implement <code>sequence</code>
+at all. Instead we will implement <code>traverse</code>. So how is <code>traverse</code> different from <code>sequence</code>?</p>
+<p>As you have seen so far. Even with <code>sequence</code> there is one <em>pattern</em> that is always the same.
+You first <code>map</code> a list, then you use <code>sequence</code> on it. <code>traverse</code> is just the idea to combine
+both operations into a single operation.</p>
+<p>If that sounds complicated, it isn&rsquo;t at all! Just think for a moment. <code>map</code> just means we apply
+a function to every element before we use <code>sequence</code>. So the only thing we need to
+implement <code>traverse</code> is to make sure we call a function that transforms every element
+before we pass it to our <em>lifted</em> function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">traverse</span> <span class="n">f</span> <span class="kt">list</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">folder</span> <span class="n">x</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">retn</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">xs</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">::</span> <span class="n">xs</span><span class="o">)</span> <span class="o">&lt;*&gt;</span> <span class="n">f</span> <span class="n">x</span> <span class="o">&lt;*&gt;</span> <span class="n">xs</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">List</span><span class="p">.</span><span class="n">foldBack</span> <span class="n">folder</span> <span class="kt">list</span> <span class="o">(</span><span class="n">retn</span> <span class="bp">[]</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The difference is so <em>minimal</em> that it can even be overlooked easily. We added the function
+call between the <code>&lt;*&gt;</code> operators: <code>... &lt;*&gt; f x &lt;*&gt; xs</code>. Instead of <code>map</code> and then calling
+<code>sequence</code>, we now just can use <code>traverse</code> instead.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">traverse</span> <span class="n">tryParseInt</span> <span class="n">validInput</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Some [1; 100; 12; 5789]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">traverse</span> <span class="n">tryParseInt</span> <span class="n">invalidInput</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// None
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>If the <em>logic</em> seems still hard to follow. We just can think of <code>traverse</code> as a <code>map</code> function
+for <em>monadic functions</em> that additionally <em>swaps</em> the layer when it finishes. When we use</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">tryParseInt</span> <span class="n">xs</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We get a <code>list&lt;option&lt;'b&gt;&gt;</code>. But when we use</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">traverse</span> <span class="n">tryParseInt</span> <span class="n">xs</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>we get a <code>option&lt;list&lt;'b&gt;&gt;</code>.</p>
+<h2 id="sequence-defined-through-traverse">Sequence defined through traverse</h2>
+<p>The primary reason why you less likely implement <code>sequence</code> is because <code>traverse</code> is
+basically the same implementation. You can enhance a <code>sequence</code> implementation easily
+by just adding a function call to the element before you <code>apply</code> it.</p>
+<p>Once you have a <code>traverse</code> function, you can very easily create <code>sequence</code> by just
+using the <code>id</code> function with <code>traverse</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sequence</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">traverse</span> <span class="n">id</span> <span class="n">xs</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>You could even come to the conclusion to not provide a <code>sequence</code> implementation at all.</p>
+<h2 id="finishing-the-example">Finishing the Example</h2>
+<p>With <code>traverse</code> we now can easily finish our example that we started.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="n">input</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">input</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">traverse</span> <span class="n">tryParseInt</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="nn">List</span><span class="p">.</span><span class="n">sum</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">printSum</span> <span class="n">opt</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">opt</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">None</span>     <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;Error: Some inputs were not numbers!&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Some</span> <span class="n">sum</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;Sum: %d&#34;</span> <span class="n">sum</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">printSum</span> <span class="o">(</span><span class="n">sum</span> <span class="n">validInput</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">printSum</span> <span class="o">(</span><span class="n">sum</span> <span class="n">invalidInput</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This code now produces:</p>
+<pre><code>Sum: 5902
+Error: Some inputs were not numbers!
+</code></pre>
+<h2 id="not-limited-to-option">Not limited to Option</h2>
+<p>It is in general important to understand that this concept is not limited to <code>list</code>
+and <code>option</code>. The only thing we need is a data-structure that has a <code>fold</code> function,
+and another type that is an <em>Applicative Functor</em> (has <code>return</code> and a <code>apply</code> function).</p>
+<p>After we have those the general idea is to swap both layers.
+For example when we have a <em>monadic function</em> <code>download</code> that has the signature
+<code>Uri -&gt; Async&lt;string&gt;</code> we expect that we can use this function on a <code>list&lt;Uri&gt;</code>.
+With <code>List.map</code> we would get a</p>
+<pre><code>list&lt;Async&lt;string&gt;&gt;
+</code></pre>
+<p>But when we use <code>traverse</code> we get a</p>
+<pre><code>Async&lt;list&lt;string&gt;&gt;
+</code></pre>
+<p>We don&rsquo;t need to write such a function for the <code>Async</code> type as we can use <code>Async.Parallel</code>.
+<code>Async.Parallel</code> is basically the <code>sequence</code> function. It takes a <code>seq&lt;Async&lt;'a&gt;&gt;</code> and turns
+it into an Async containing an array <code>Async&lt;'b []&gt;</code>. But anyway to see how it works we could
+extend the <code>Async</code> module with the needed functions.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">Async</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">retn</span> <span class="n">x</span> <span class="o">=</span> <span class="n">async</span> <span class="o">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">apply</span> <span class="n">af</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">async</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// We start both async task in Parallel
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">let!</span> <span class="nv">pf</span> <span class="o">=</span> <span class="nn">Async</span><span class="p">.</span><span class="n">StartChild</span> <span class="n">af</span>
+</span></span><span class="line"><span class="cl">        <span class="k">let!</span> <span class="nv">px</span> <span class="o">=</span> <span class="nn">Async</span><span class="p">.</span><span class="n">StartChild</span> <span class="n">ax</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// We then wait that both async operations complete
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">let!</span> <span class="nv">f</span> <span class="o">=</span> <span class="n">pf</span>
+</span></span><span class="line"><span class="cl">        <span class="k">let!</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">px</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// Finally we execute (f x)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="n">f</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="o">(&lt;*&gt;)</span>   <span class="o">=</span> <span class="n">apply</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">map</span> <span class="n">f</span> <span class="n">x</span> <span class="o">=</span> <span class="n">retn</span> <span class="n">f</span> <span class="o">&lt;*&gt;</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">traverse</span> <span class="n">f</span> <span class="kt">list</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="nv">folder</span> <span class="n">x</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">retn</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">xs</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">::</span> <span class="n">xs</span><span class="o">)</span> <span class="o">&lt;*&gt;</span> <span class="n">f</span> <span class="n">x</span> <span class="o">&lt;*&gt;</span> <span class="n">xs</span>
+</span></span><span class="line"><span class="cl">        <span class="nn">List</span><span class="p">.</span><span class="n">foldBack</span> <span class="n">folder</span> <span class="kt">list</span> <span class="o">(</span><span class="n">retn</span> <span class="bp">[]</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">(** We now can use `Async.traverse` in the following way *)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">uris</span> <span class="o">=</span> <span class="o">[</span><span class="n">Uri</span><span class="o">(</span><span class="s">&#34;http://www.google.com&#34;</span><span class="o">);</span> <span class="n">Uri</span><span class="o">(</span><span class="s">&#34;https://fsharpforfunandprofit.com&#34;</span><span class="o">)]</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">download</span> <span class="n">uri</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">use</span> <span class="n">wc</span> <span class="o">=</span> <span class="k">new</span> <span class="nn">System</span><span class="p">.</span><span class="nn">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">wc</span><span class="o">.</span><span class="n">AsyncDownloadString</span><span class="o">(</span><span class="n">uri</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sizes</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">uris</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Async</span><span class="p">.</span><span class="n">traverse</span> <span class="n">download</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Async</span><span class="p">.</span><span class="n">map</span> <span class="o">(</span><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">str</span> <span class="o">-&gt;</span> <span class="n">str</span><span class="o">.</span><span class="n">Length</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Async</span><span class="p">.</span><span class="n">RunSynchronously</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">size</span> <span class="k">in</span> <span class="n">sizes</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printfn</span> <span class="s">&#34;Content Length: %d&#34;</span> <span class="n">size</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>With <code>Async.traverse</code> we get a single Async that only completes once all Uris are downloaded.
+As you can see from the implementation. <code>Async.traverse</code> is identical to the version that we
+wrote for the <code>option</code> type. We just have to set <code>retn</code> and <code>&lt;*&gt;</code> to functions that work
+with <code>Async</code>.</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://fsharpforfunandprofit.com/posts/elevated-world-4/">Understanding traverse and sequence</a></li>
+<li><a href="https://en.wikibooks.org/wiki/Haskell/Traversable">[Haskell] Traversable</a></li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

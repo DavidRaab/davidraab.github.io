@@ -6,7 +6,17 @@
     <description>Recent content in Posts on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 13 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 14 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sequence and Traverse</title>
+      <link>https://davidraab.github.io/posts/sequence-and-traverse/</link>
+      <pubDate>Thu, 14 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/sequence-and-traverse/</guid>
+      <description>One problem that appears from time to time is that we we have some kind of collection (I use list here) and we want to map every element with a monadic function &#39;a -&amp;gt; M&amp;lt;&#39;b&amp;gt;. This then returns a list&amp;lt;M&amp;lt;&#39;a&amp;gt;&amp;gt;. But often we want a M&amp;lt;list&amp;lt;&#39;a&amp;gt;&amp;gt;.
+To be more concrete. Let&amp;rsquo;s assume we want to turn a list of strings into integers. We could write a tryParseInt function that does string -&amp;gt; option&amp;lt;int&amp;gt;.</description>
+    </item>
+    
     <item>
       <title>Applicative: Lists</title>
       <link>https://davidraab.github.io/posts/applicative-list/</link>

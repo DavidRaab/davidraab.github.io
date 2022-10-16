@@ -3,30 +3,36 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://davidraab.github.io/tags/applicative/</loc>
-    <lastmod>2016-04-13T00:00:00+00:00</lastmod>
+    <lastmod>2016-04-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/</loc>
+    <lastmod>2016-04-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/fsharp/</loc>
+    <lastmod>2016-04-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/functor/</loc>
+    <lastmod>2016-04-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/list/</loc>
+    <lastmod>2016-04-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/option/</loc>
+    <lastmod>2016-04-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/posts/</loc>
+    <lastmod>2016-04-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/posts/sequence-and-traverse/</loc>
+    <lastmod>2016-04-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/</loc>
+    <lastmod>2016-04-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/applicative-list/</loc>
     <lastmod>2016-04-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://davidraab.github.io/</loc>
-    <lastmod>2016-04-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/fsharp/</loc>
-    <lastmod>2016-04-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/list/</loc>
-    <lastmod>2016-04-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/posts/</loc>
-    <lastmod>2016-04-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/</loc>
-    <lastmod>2016-04-13T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://davidraab.github.io/tags/null/</loc>
-    <lastmod>2016-04-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/option/</loc>
     <lastmod>2016-04-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/optionals-app/</loc>
@@ -45,9 +51,6 @@
     <lastmod>2016-04-05T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/cps/</loc>
-    <lastmod>2016-04-03T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/functor/</loc>
     <lastmod>2016-04-03T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/monad/</loc>
