@@ -455,32 +455,34 @@ the next <em>iteration/recursion</em> and we don&rsquo;t need any <em>mutable va
 an <em>immutable</em> way.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listOfNumbers</span> <span class="o">=</span> <span class="n">forLoop</span> <span class="n">0</span> <span class="n">10</span> <span class="bp">[]</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="kt">list</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">::</span> <span class="kt">list</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// [9;8;7;6;5;4;3;2;1;0]
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="c">(** Or build a string *)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">stringofNumbers</span> <span class="o">=</span> <span class="n">forLoop</span> <span class="n">0</span> <span class="n">10</span> <span class="s">&#34;&#34;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="n">str</span> <span class="o">-&gt;</span> <span class="n">str</span> <span class="o">+</span> <span class="o">(</span><span class="kt">string</span> <span class="n">i</span><span class="o">))</span>
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Or build a string</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">stringofNumbers</span> <span class="o">=</span> <span class="n">forLoop</span> <span class="n">0</span> <span class="n">10</span> <span class="s">&#34;&#34;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="n">str</span> <span class="o">-&gt;</span> <span class="n">str</span> <span class="o">+</span> <span class="o">(</span><span class="kt">string</span> <span class="n">i</span><span class="o">))</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// &#34;0123456789&#34;
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="c">(** Or start with a value and just repeatedly call a function on it *)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">100</span><span class="o">.</span><span class="n">0</span>
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Or start with a value and just repeatedly call a function on it</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">100</span><span class="o">.</span><span class="n">0</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">forLoop</span> <span class="n">0</span> <span class="n">5</span> <span class="n">x</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">/</span> <span class="n">2</span><span class="o">.</span><span class="n">0</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// 3.125
 </span></span></span></code></pre></td></tr></table>

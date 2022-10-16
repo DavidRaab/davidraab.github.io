@@ -433,6 +433,44 @@ function has.</p>
 for a set of data. For example we could create all possible Playing cards in a game this way.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Suit</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Club</span> <span class="o">|</span> <span class="n">Diamond</span> <span class="o">|</span> <span class="n">Heart</span> <span class="o">|</span> <span class="n">Spade</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Rank</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Ace</span> <span class="o">|</span> <span class="n">Two</span> <span class="o">|</span> <span class="n">Three</span> <span class="o">|</span> <span class="n">Four</span> <span class="o">|</span> <span class="n">Five</span> <span class="o">|</span> <span class="n">Six</span> <span class="o">|</span> <span class="n">Seven</span> <span class="o">|</span> <span class="n">Eight</span> <span class="o">|</span> <span class="n">Nine</span> <span class="o">|</span> <span class="n">Ten</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Jack</span> <span class="o">|</span> <span class="n">Queen</span> <span class="o">|</span> <span class="n">King</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Card</span> <span class="o">=</span> <span class="n">Card</span> <span class="k">of</span> <span class="n">Suit</span> <span class="o">*</span> <span class="n">Rank</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now can generate all possible Cards by using.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">suits</span> <span class="o">=</span> <span class="o">[</span><span class="n">Club</span><span class="o">;</span><span class="n">Diamond</span><span class="o">;</span><span class="n">Heart</span><span class="o">;</span><span class="n">Spade</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">ranks</span> <span class="o">=</span> <span class="o">[</span><span class="n">Ace</span><span class="o">;</span><span class="n">Two</span><span class="o">;</span><span class="n">Three</span><span class="o">;</span><span class="n">Four</span><span class="o">;</span><span class="n">Five</span><span class="o">;</span><span class="n">Six</span><span class="o">;</span><span class="n">Seven</span><span class="o">;</span><span class="n">Eight</span><span class="o">;</span><span class="n">Nine</span><span class="o">;</span><span class="n">Ten</span><span class="o">;</span><span class="n">Jack</span><span class="o">;</span><span class="n">Queen</span><span class="o">;</span><span class="n">King</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cards</span> <span class="o">=</span> <span class="o">[</span><span class="k">fun</span> <span class="n">s</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">Card</span><span class="o">(</span><span class="n">s</span><span class="o">,</span><span class="n">r</span><span class="o">)]</span> <span class="o">&lt;*&gt;</span> <span class="n">suits</span> <span class="o">&lt;*&gt;</span> <span class="n">ranks</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now get a list of all 52 cards as a result.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
@@ -452,45 +490,9 @@ for a set of data. For example we could create all possible Playing cards in a g
 </span><span class="lnt">17
 </span><span class="lnt">18
 </span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Suit</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Club</span> <span class="o">|</span> <span class="n">Diamond</span> <span class="o">|</span> <span class="n">Heart</span> <span class="o">|</span> <span class="n">Spade</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Rank</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Ace</span> <span class="o">|</span> <span class="n">Two</span> <span class="o">|</span> <span class="n">Three</span> <span class="o">|</span> <span class="n">Four</span> <span class="o">|</span> <span class="n">Five</span> <span class="o">|</span> <span class="n">Six</span> <span class="o">|</span> <span class="n">Seven</span> <span class="o">|</span> <span class="n">Eight</span> <span class="o">|</span> <span class="n">Nine</span> <span class="o">|</span> <span class="n">Ten</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Jack</span> <span class="o">|</span> <span class="n">Queen</span> <span class="o">|</span> <span class="n">King</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Card</span> <span class="o">=</span> <span class="n">Card</span> <span class="k">of</span> <span class="n">Suit</span> <span class="o">*</span> <span class="n">Rank</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c">(** We now can generate all possible Cards by using. *)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">suits</span> <span class="o">=</span> <span class="o">[</span><span class="n">Club</span><span class="o">;</span><span class="n">Diamond</span><span class="o">;</span><span class="n">Heart</span><span class="o">;</span><span class="n">Spade</span><span class="o">]</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">ranks</span> <span class="o">=</span> <span class="o">[</span><span class="n">Ace</span><span class="o">;</span><span class="n">Two</span><span class="o">;</span><span class="n">Three</span><span class="o">;</span><span class="n">Four</span><span class="o">;</span><span class="n">Five</span><span class="o">;</span><span class="n">Six</span><span class="o">;</span><span class="n">Seven</span><span class="o">;</span><span class="n">Eight</span><span class="o">;</span><span class="n">Nine</span><span class="o">;</span><span class="n">Ten</span><span class="o">;</span><span class="n">Jack</span><span class="o">;</span><span class="n">Queen</span><span class="o">;</span><span class="n">King</span><span class="o">]</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cards</span> <span class="o">=</span> <span class="o">[</span><span class="k">fun</span> <span class="n">s</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">Card</span><span class="o">(</span><span class="n">s</span><span class="o">,</span><span class="n">r</span><span class="o">)]</span> <span class="o">&lt;*&gt;</span> <span class="n">suits</span> <span class="o">&lt;*&gt;</span> <span class="n">ranks</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c">(** We now get a list of all 52 cards as a result. *)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cards</span> <span class="o">=</span> <span class="o">[</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cards</span> <span class="o">=</span> <span class="o">[</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Ace</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Two</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Three</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Four</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Five</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Six</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Seven</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Eight</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Nine</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Ten</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Jack</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Queen</span><span class="o">);</span>
@@ -542,14 +544,6 @@ create two lists that refers to each other, with <code>apply</code> we then can 
 </span><span class="lnt">24
 </span><span class="lnt">25
 </span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Person</span> <span class="o">=</span> <span class="o">{</span>
@@ -578,10 +572,19 @@ create two lists that refers to each other, with <code>apply</code> we then can 
 </span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="n">1</span> <span class="s">&#34;Tea&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="n">2</span> <span class="s">&#34;Tea&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="o">]</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c">(** We now can create the *Cartesian Product* of those Data. And afterwards filter it. *)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">likesTea</span> <span class="o">=</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now can create the <em>Cartesian Product</em> of those Data. And afterwards filter it.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">likesTea</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="o">[</span><span class="k">fun</span> <span class="n">p</span> <span class="n">l</span> <span class="o">-&gt;</span> <span class="n">p</span><span class="o">,</span><span class="n">l</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="n">persons</span> <span class="o">&lt;*&gt;</span> <span class="n">likes</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="k">fun</span> <span class="o">(</span><span class="n">person</span><span class="o">,</span><span class="n">like</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">person</span><span class="o">.</span><span class="n">Id</span> <span class="o">=</span> <span class="n">like</span><span class="o">.</span><span class="n">PersonId</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="k">fun</span> <span class="o">(</span><span class="n">person</span><span class="o">,</span><span class="n">like</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">like</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&#34;Tea&#34;</span><span class="o">)</span>
