@@ -6,7 +6,17 @@
     <description>Recent content in cps on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 16 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/cps/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 07 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/cps/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CPS fold -- fold with early exit</title>
+      <link>https://davidraab.github.io/posts/cps-fold/</link>
+      <pubDate>Sat, 07 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/cps-fold/</guid>
+      <description>The most general function to traverse a data-structures is the fold function. But fold has one problem that is sometimes not optimal. It always traverses the whole data-structure and we cannot abort the recusion early.
+But sometimes, that is exactly what we want to do. For example when we want to search for a specific element in a list, when we found it, we don&amp;rsquo;t want to go through the remaing list.</description>
+    </item>
+    
     <item>
       <title>Continuations and foldBack</title>
       <link>https://davidraab.github.io/posts/continuations-and-foldback/</link>
