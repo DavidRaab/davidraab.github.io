@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>The Option Module // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="David Raab" />
+    <meta name="description" content="Explains some lesser known functions in the Option Module" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.c5d0d3078a177d7cfb9aa69e4ac0843c2cef8c18ec3ed7421bb5e95b879ca2f7.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="The Option Module"/>
+<meta name="twitter:description" content="Explains some lesser known functions in the Option Module"/>
+
+    <meta property="og:title" content="The Option Module" />
+<meta property="og:description" content="Explains some lesser known functions in the Option Module" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/option-module/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-05-11T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-05-11T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>My personal Blog. Writing about programming and other stuff.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">The Option Module</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          May 11, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          6 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/option/">option</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>The Option type is a well known and often used type, but at least for me, most of the
+time I just used <code>Option.map</code> and <code>Option.bind</code> and ignored functions like <code>Option.exists</code>,
+<code>Option.filter</code>, <code>Option.fold</code> and so on. I spent some time with those functions to understand
+when those are useful.</p>
+<h2 id="defaultarg">defaultArg</h2>
+<p>The first function i look at is actually not in the Option module. It is the <code>defaultArg</code>
+function. With <code>defaultArg</code> we can extract an option type and provide a default value
+in the case we had no value.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">o1</span> <span class="o">=</span> <span class="n">defaultArg</span> <span class="o">(</span><span class="n">Some</span> <span class="n">10</span><span class="o">)</span> <span class="n">0</span> <span class="c1">// 10
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">o2</span> <span class="o">=</span> <span class="n">defaultArg</span> <span class="o">(</span><span class="n">None</span><span class="o">)</span> <span class="n">0</span>    <span class="c1">// 0
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>One think I dislike is the order of the arguments. Because the Option type is expected first
+as an argument, <code>defaultArg</code> is unsuitable for piping or composition. That&rsquo;s why I most often
+add a <code>orElse</code> function to the Option module myself.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">Option</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">orElse</span> <span class="n">x</span> <span class="n">o</span> <span class="o">=</span> <span class="n">defaultArg</span> <span class="n">o</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Some</span> <span class="n">10</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">orElse</span> <span class="n">10</span> <span class="c1">// 10
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">None</span>    <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">orElse</span> <span class="n">0</span>  <span class="c1">// 0
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="exists--forall">exists &amp; forall</h2>
+<p>I must admit, i never looked closer at those functions. It is obvious that those functions are
+<em>ported</em> from the List/Array/Seq module. But because an option never contains more than one element,
+I never looked closer to those functions. The truth is, because we know that an option only contains
+either no value or a single value, the meaning of those functions just change.</p>
+<p>Let&rsquo;s look at some typical code with no option at all that you will sometimes have. You just
+check a variable if some statement is true or false and you use that for branching.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">input</span> <span class="o">=</span> <span class="n">5</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span>   <span class="n">input</span> <span class="o">&lt;</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl"><span class="k">then</span> <span class="n">printfn</span> <span class="s">&#34;input smaller 10&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="n">printfn</span> <span class="s">&#34;Input must be smaller than 10&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// prints: input smaller 10
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>What do you do, when x is an <code>option</code>? Then you can use <code>Option.exists</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">input</span> <span class="o">=</span> <span class="n">Some</span> <span class="n">5</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span>   <span class="n">input</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">exists</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">then</span> <span class="n">printfn</span> <span class="s">&#34;input smaller 10&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="n">printfn</span> <span class="s">&#34;Input must be smaller than 10&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// prints: input smaller 10
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Generally speaking. With <code>Option.exists</code> you can check an option for a condition. <code>None</code>
+is treated as <code>false</code>. Naming the function <code>check</code> or some other name than
+<code>exists</code> would probably have been a better name. With some helper functions we can enhance
+the validation process.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">smaller</span> <span class="n">min</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">min</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">greater</span> <span class="n">max</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="n">max</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">input</span> <span class="o">=</span> <span class="n">Some</span> <span class="n">5</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span>   <span class="n">input</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">exists</span> <span class="o">(</span><span class="n">greater</span> <span class="n">0</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">input</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">exists</span> <span class="o">(</span><span class="n">smaller</span> <span class="n">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">then</span> <span class="n">printfn</span> <span class="s">&#34;input between 0 and 10&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="n">printfn</span> <span class="s">&#34;input not valid&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// prints: input between 0 and 10
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>Option.forall</code> is basically the same, only that <code>None</code> is threaten as <code>true</code> instead of <code>false</code>.
+But I must admit, I cannot come up with a useful example for <code>forall</code>.</p>
+<h2 id="filter">filter</h2>
+<p>In my last example I added a second check. While two checks are still somehow okay in terms of
+readability it can become unhandy fast. Wouldn&rsquo;t it be better if we could chain the operations?</p>
+<p><code>filter</code> gives us exactly this ability. Instead of returning <code>true</code> or <code>false</code> it just returns
+an option again. When the predicate we provided returns <code>true</code> we just get back the original value
+unchanged. Otherwise we get <code>None</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">isValid</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">exists</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="k">true</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">isEven</span> <span class="n">x</span>  <span class="o">=</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">input</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Some</span> <span class="n">6</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="n">greater</span> <span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="n">smaller</span> <span class="n">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">filter</span> <span class="n">isEven</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span>   <span class="n">input</span> <span class="o">|&gt;</span> <span class="n">isValid</span>
+</span></span><span class="line"><span class="cl"><span class="k">then</span> <span class="n">printfn</span> <span class="s">&#34;input between 0 and 10 and even&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="n">printfn</span> <span class="s">&#34;invalid input&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// prints: input between 0 and 10 and even
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>We also can use <code>Option.filter</code> to easily turn a type into an option based on a predicate.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">Some</span> <span class="n">1</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">filter</span> <span class="n">isEven</span> <span class="c1">// None
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">Some</span> <span class="n">2</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">filter</span> <span class="n">isEven</span> <span class="c1">// Some 2
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="fold">fold</h2>
+<p>I started with <code>defaultArg</code> and implemented <code>orElse</code>. But overall we could replace those with
+<code>fold</code>. Besides the option itself, <code>fold</code> expects two additional arguments. A function and an
+accumulator. <code>fold</code> either executes the function or it returns the accumulator as the default value.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">orElse</span> <span class="n">def</span> <span class="n">o</span> <span class="o">=</span> <span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">)</span> <span class="n">def</span> <span class="n">o</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In general the idea of <code>fold</code> is that we can return any other type that we want. <code>fold</code> is
+a general way to convert types. If that sounds a lot like <code>map</code>. The difference is that <code>map</code>
+still only converts the wrapped type and we still get an option back. But with <code>fold</code> we
+directly get the wrapped type back. It just means that whenever you use a <code>map</code> and then
+<code>orElse</code>. You also could use <code>fold</code> instead.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">square</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Some</span> <span class="n">10</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">orElse</span> <span class="n">0</span> <span class="c1">// 100
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">Some</span> <span class="n">10</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">square</span> <span class="n">x</span><span class="o">)</span> <span class="n">0</span>  <span class="c1">// 100
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Up to this point I always ignored the accumulator argument, and just used the accumulator
+as the default argument. But in general it means whenever you want to use a function
+where one argument is an option you could probably use <code>fold</code>. In general <code>fold</code> works
+nicely together with binary functions.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">swap</span> <span class="n">f</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">f</span> <span class="n">y</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="n">min</span> <span class="n">0</span> <span class="o">(</span><span class="n">Some</span> <span class="n">100</span><span class="o">)</span> <span class="c1">// 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="n">max</span> <span class="n">0</span> <span class="o">(</span><span class="n">Some</span> <span class="n">100</span><span class="o">)</span> <span class="c1">// 100
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="n">min</span> <span class="n">0</span> <span class="o">(</span><span class="n">None</span><span class="o">)</span>     <span class="c1">// 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="n">max</span> <span class="n">0</span> <span class="o">(</span><span class="n">None</span><span class="o">)</span>     <span class="c1">// 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="o">(+)</span> <span class="n">0</span> <span class="o">(</span><span class="n">Some</span> <span class="n">100</span><span class="o">)</span> <span class="c1">// 100
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="o">(+)</span> <span class="n">0</span> <span class="o">(</span><span class="n">None</span><span class="o">)</span>     <span class="c1">// 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="n">swap</span> <span class="nn">String</span><span class="p">.</span><span class="n">replicate</span><span class="o">)</span> <span class="s">&#34;x&#34;</span> <span class="o">(</span><span class="n">Some</span> <span class="n">5</span><span class="o">)</span> <span class="c1">// &#34;xxxxx&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="n">swap</span> <span class="nn">String</span><span class="p">.</span><span class="n">replicate</span><span class="o">)</span> <span class="s">&#34;x&#34;</span> <span class="o">(</span><span class="n">None</span><span class="o">)</span>   <span class="c1">// &#34;x&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="nn">List</span><span class="p">.</span><span class="n">append</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">(</span><span class="n">Some</span> <span class="o">[</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">;</span><span class="n">6</span><span class="o">])</span>   <span class="c1">// [1;2;3;4;5;6]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="nn">List</span><span class="p">.</span><span class="n">append</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">(</span><span class="n">None</span><span class="o">)</span>           <span class="c1">// [1;2;3]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>We either execute our function with two arguments, or if the second argument is a <code>None</code> we return
+the first argument as the default value. The arguments itself don&rsquo;t need to be of the same types.</p>
+<h2 id="validation">Validation</h2>
+<p>With very few helper functions we could built a small validation framework that uses the option type.
+Most of them are just other names instead of <code>map</code>, <code>filter</code> or <code>bind</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// Monadic functions -- Converter
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">toInt</span> <span class="n">str</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="nn">Int32</span><span class="p">.</span><span class="n">TryParse</span> <span class="n">str</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="k">false</span><span class="o">,_</span> <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="k">true</span><span class="o">,</span><span class="n">x</span>  <span class="o">-&gt;</span> <span class="n">Some</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Helper Functions
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">orReturn</span> <span class="n">x</span>  <span class="o">=</span> <span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">)</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">whenValid</span>   <span class="o">=</span> <span class="nn">Option</span><span class="p">.</span><span class="n">map</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">is</span>          <span class="o">=</span> <span class="nn">Option</span><span class="p">.</span><span class="n">filter</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">convert</span>     <span class="o">=</span> <span class="nn">Option</span><span class="p">.</span><span class="n">bind</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">combine</span> <span class="n">f</span> <span class="n">g</span> <span class="o">=</span> <span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">Some</span> <span class="n">x</span> <span class="o">|&gt;</span> <span class="n">is</span> <span class="n">f</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">exists</span> <span class="n">g</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Validation Functions
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">smaller</span> <span class="n">min</span> <span class="n">x</span>   <span class="o">=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">min</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">greater</span> <span class="n">max</span> <span class="n">x</span>   <span class="o">=</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="n">max</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">between</span> <span class="n">min</span> <span class="n">max</span> <span class="o">=</span> <span class="o">(</span><span class="n">combine</span> <span class="o">(</span><span class="n">greater</span> <span class="n">min</span><span class="o">)</span> <span class="o">(</span><span class="n">smaller</span> <span class="n">max</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">even</span> <span class="n">x</span>          <span class="o">=</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Mapping functions
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">square</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Usage
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">transformInput</span> <span class="n">input</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">input</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">convert</span> <span class="n">toInt</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="n">0</span> <span class="n">100</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">is</span> <span class="n">even</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">whenValid</span> <span class="n">square</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">orReturn</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">transformInput</span> <span class="o">(</span><span class="n">Some</span> <span class="s">&#34;foo&#34;</span><span class="o">)</span> <span class="c1">// 0   -- not valid int
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">transformInput</span> <span class="o">(</span><span class="n">Some</span> <span class="s">&#34;2&#34;</span><span class="o">)</span>   <span class="c1">// 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">transformInput</span> <span class="o">(</span><span class="n">Some</span> <span class="s">&#34;5&#34;</span><span class="o">)</span>   <span class="c1">// 0   -- not even
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">transformInput</span> <span class="o">(</span><span class="n">Some</span> <span class="s">&#34;10&#34;</span><span class="o">)</span>  <span class="c1">// 100
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">transformInput</span> <span class="o">(</span><span class="n">Some</span> <span class="s">&#34;102&#34;</span><span class="o">)</span> <span class="c1">// 0   -- greater 100
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

@@ -6,7 +6,25 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 07 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 11 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FSharp</title>
+      <link>https://davidraab.github.io/tags/fsharp/</link>
+      <pubDate>Wed, 11 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/fsharp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>option</title>
+      <link>https://davidraab.github.io/tags/option/</link>
+      <pubDate>Wed, 11 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/option/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>cps</title>
       <link>https://davidraab.github.io/tags/cps/</link>
@@ -22,15 +40,6 @@
       <pubDate>Sat, 07 May 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/fold/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>FSharp</title>
-      <link>https://davidraab.github.io/tags/fsharp/</link>
-      <pubDate>Sat, 07 May 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/fsharp/</guid>
       <description></description>
     </item>
     
@@ -94,15 +103,6 @@
       <pubDate>Thu, 14 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/functor/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>option</title>
-      <link>https://davidraab.github.io/tags/option/</link>
-      <pubDate>Thu, 14 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/option/</guid>
       <description></description>
     </item>
     
