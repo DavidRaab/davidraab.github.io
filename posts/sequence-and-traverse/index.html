@@ -187,22 +187,14 @@ input case we just expect:</p>
 <p>We name this operation <code>sequence</code>.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sequenceFold</span> <span class="n">listOfOptions</span> <span class="o">=</span>
@@ -213,10 +205,19 @@ input case we just expect:</p>
 </span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">None</span> <span class="o">_,</span> <span class="n">Some</span> <span class="o">_</span>    <span class="o">-&gt;</span> <span class="n">None</span>
 </span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">None</span> <span class="o">_,</span> <span class="n">None</span> <span class="o">_</span>    <span class="o">-&gt;</span> <span class="n">None</span>
 </span></span><span class="line"><span class="cl">    <span class="nn">List</span><span class="p">.</span><span class="n">foldBack</span> <span class="n">folder</span> <span class="n">listOfOptions</span> <span class="o">(</span><span class="n">Some</span> <span class="bp">[]</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c">(** When we test our function it returns the right result *)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">tryParseInt</span> <span class="n">validInput</span> <span class="o">|&gt;</span> <span class="n">sequenceFold</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>When we test our function it returns the right result</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">tryParseInt</span> <span class="n">validInput</span> <span class="o">|&gt;</span> <span class="n">sequenceFold</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// Some [1; 100; 12; 5789]
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">tryParseInt</span> <span class="n">invalidInput</span> <span class="o">|&gt;</span> <span class="n">sequenceFold</span>
@@ -264,19 +265,11 @@ our type is an <a href="https://davidraab.github.io/posts/applicative-functors/"
 </ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">retn</span> <span class="n">x</span> <span class="o">=</span> <span class="n">Some</span> <span class="n">x</span>
@@ -284,10 +277,19 @@ our type is an <a href="https://davidraab.github.io/posts/applicative-functors/"
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sequence</span> <span class="n">listOfOptions</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">folder</span> <span class="n">x</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">retn</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">xs</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">::</span> <span class="n">xs</span><span class="o">)</span> <span class="o">&lt;*&gt;</span> <span class="n">x</span> <span class="o">&lt;*&gt;</span> <span class="n">xs</span>
 </span></span><span class="line"><span class="cl">    <span class="nn">List</span><span class="p">.</span><span class="n">foldBack</span> <span class="n">folder</span> <span class="n">listOfOptions</span> <span class="o">(</span><span class="n">retn</span> <span class="bp">[]</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c">(** We still get our expected results *)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">tryParseInt</span> <span class="n">validInput</span> <span class="o">|&gt;</span> <span class="n">sequence</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We still get our expected results</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">tryParseInt</span> <span class="n">validInput</span> <span class="o">|&gt;</span> <span class="n">sequence</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// Some [1; 100; 12; 5789]
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">tryParseInt</span> <span class="n">invalidInput</span> <span class="o">|&gt;</span> <span class="n">sequence</span>
