@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Applicative: Lists // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="David Raab" />
+    <meta name="description" content="Building an Applicative Functor for the list type" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.c5d0d3078a177d7cfb9aa69e4ac0843c2cef8c18ec3ed7421bb5e95b879ca2f7.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Applicative: Lists"/>
+<meta name="twitter:description" content="Building an Applicative Functor for the list type"/>
+
+    <meta property="og:title" content="Applicative: Lists" />
+<meta property="og:description" content="Building an Applicative Functor for the list type" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/applicative-list/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-04-13T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-04-13T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>My personal Blog. Writing about programming and other stuff.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Applicative: Lists</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Apr 13, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          9 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/applicative/">applicative</a>
+              <a class="tag" href="https://davidraab.github.io/tags/list/">list</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>In <a href="https://davidraab.github.io/posts/applicative-functors/">Applicative Functors</a> I primarily
+used the <code>Option</code> type to show how you implement and use an <em>Applicative Functor</em>.
+But the concept also works for any other type. This time I want to show
+you the idea of an <em>Applicative</em> with a list, what it means, what you can do
+with it and how <code>apply</code> works.</p>
+<h2 id="implementing-apply">Implementing <code>apply</code></h2>
+<p>Currently the <code>List</code> module don&rsquo;t offer a <code>apply</code> function. So we must write it on our own.
+As we learned in <a href="https://davidraab.github.io/posts/understanding-bind/">Understanding bind</a> we
+could implement <code>apply</code> with <code>bind</code>. Because <code>List.collect</code> is the <code>bind</code> function (you
+can see that by inspecting the function-signature), we could implement <code>apply</code> like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">apply</span> <span class="n">lf</span> <span class="n">lx</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lf</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">collect</span> <span class="o">(</span><span class="k">fun</span> <span class="n">f</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lx</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">collect</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">[</span><span class="n">f</span> <span class="n">x</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Although it is good to know this, this time we implement <code>apply</code> from scratch. So we can
+better understand how <code>apply</code> works.</p>
+<p>The general idea of <code>apply</code> is easy. We need to implement a function that expects a
+function as it&rsquo;s first argument, and a value as the second argument. But both arguments
+are <em>boxed</em> in our type. The only thing we must do is somehow call our function with
+our value. So we need a function that can handle the following function signature:</p>
+<pre><code>list&lt;('a -&gt; 'b)&gt; -&gt; list&lt;'a&gt; -&gt; list&lt;'b&gt;
+</code></pre>
+<p>If it is unclear why we get a <code>list&lt;'b&gt;</code> as a result. We should remember
+what <code>apply</code> does as a single argument function. It just takes a <code>A&lt;('a -&gt; 'b)&gt;</code> and
+transform it into a new function <code>A&lt;'a&gt; -&gt; A&lt;'b&gt;</code>. Here <code>A</code> stands for any <em>Applicative</em>
+type.</p>
+<p>For a list it has the following meaning:</p>
+<ol>
+<li>We get a list of functions as the first value</li>
+<li>We get a list of values as the second argument</li>
+<li><em>Unboxing</em> a list means we just loop over the list</li>
+<li>Then we just execute every function with every value</li>
+</ol>
+<p>We can implement <code>apply</code> like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">apply</span> <span class="n">lf</span> <span class="n">lx</span> <span class="o">=</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">f</span> <span class="k">in</span> <span class="n">lf</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="n">lx</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">        <span class="k">yield</span> <span class="n">f</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="o">(&lt;*&gt;)</span> <span class="o">=</span> <span class="n">apply</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="working-with-apply">Working with <code>apply</code></h2>
+<p>We keep it easy, so we just create two to four arguments functions that just adds its
+inputs together.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add2</span> <span class="n">x</span> <span class="n">y</span>     <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add3</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span>   <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add4</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="n">w</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span> <span class="o">+</span> <span class="n">w</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Usually we need a <code>return</code> function, but we can easily lift any values into a list by just
+surrounding it with <code>[]</code>, so we will skip this one. The idea of <code>apply</code> means every argument
+of a function can now be a boxed type. That means, instead of just passing two <code>int</code>
+to <code>add2</code> we can now pass a <code>list&lt;int&gt;</code> as the first argument and a <code>list&lt;int&gt;</code>
+as the second argument, and so on. We now can write something like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">add2</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">10</span><span class="o">;</span><span class="n">20</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">add3</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">10</span><span class="o">;</span><span class="n">20</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">5</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">add4</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">10</span><span class="o">;</span><span class="n">20</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">5</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">100</span><span class="o">;</span><span class="n">200</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s see what those function calls produces</p>
+<pre><code>[11; 21; 12; 22; 13; 23]
+[16; 26; 17; 27; 18; 28]
+[116; 216; 126; 226; 117; 217; 127; 227; 118; 218; 128; 228]
+</code></pre>
+<p>What we get back is the result of every input combination. Our first call with <code>add2</code>
+expands to:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">1</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">1</span> <span class="n">20</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">2</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">2</span> <span class="n">20</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">3</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">3</span> <span class="n">20</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="how-apply-works">How <code>apply</code> works</h2>
+<p>At this point it is interesting to see how <code>apply</code> actually works to get a better understanding
+why we get those results. First we should remember how the operator <code>&lt;*&gt;</code> works. Our
+apply operator is just a infix function. It uses the the thing on the left-side as the
+first argument, and the thing on the right-side as the second argument. Instead of</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">f</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>we also could write</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">apply</span> <span class="o">[</span><span class="n">f</span><span class="o">]</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>When we have a term like <code>[add2] &lt;*&gt; [1;2;3] &lt;*&gt; [10;20]</code> it means, first <code>[add2] &lt;*&gt; [1;2;3]</code>
+is executed and it will return a result! This is exactly how a normal function call work.
+Even a normal function call like <code>add2 1 10</code> basically works by first executing <code>add2 1</code>
+returning a new function and then pass <code>10</code> to it. That&rsquo;s why we also can write. <code>(add2 1) 10</code>
+and it produces the same result. With <code>apply</code> or <code>&lt;*&gt;</code> it is the same, our term is
+basically interpreted as</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span> <span class="o">[</span><span class="n">add2</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">)</span>     <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">10</span><span class="o">;</span><span class="n">20</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>At first, our <code>apply</code> function is called with <code>[add2]</code> and <code>[1;2;3]</code> as its arguments.
+Our <code>apply</code> function just just loops over the functions and the values and call every
+function with a value. After <code>[add2] &lt;*&gt; [1;2;3]</code> we get a new list back, containing:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">2</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">3</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>At this point it probably becomes clear why we can view <code>apply</code> as some kind of
+<em>Partial Application</em> for <em>boxed</em> functions. The only thing that <code>apply</code> does is take
+a <em>boxed</em> function and a <em>boxed</em> value and execute it. But it only does it for the
+next argument. The first <code>apply</code> call returns a new list with three <em>Partial Applied</em>
+functions. We get:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">add2</span> <span class="n">1</span><span class="o">;</span> <span class="n">add2</span> <span class="n">2</span><span class="o">;</span> <span class="n">add2</span> <span class="n">3</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">10</span><span class="o">;</span><span class="n">20</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In other words, the new list is used as the first argument to the next <code>apply</code> call.
+This time we have a list of functions that contains three functions and two values.
+Once again we loop over the functions and call every function with every value. We get:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">1</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">1</span> <span class="n">20</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">2</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">2</span> <span class="n">20</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">3</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">3</span> <span class="n">20</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And this will result in</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">11</span><span class="o">;</span> <span class="n">21</span><span class="o">;</span> <span class="n">12</span><span class="o">;</span> <span class="n">22</span><span class="o">;</span> <span class="n">13</span><span class="o">;</span> <span class="n">23</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>To get a hang of it, let&rsquo;s once again go through the <code>add4</code> example and visualize
+every step. We start with</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">add4</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">10</span><span class="o">;</span><span class="n">20</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">5</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">100</span><span class="o">;</span><span class="n">200</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The first <code>apply</code> call produces:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">2</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">3</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We then use this result with <code>apply</code> and use <code>[10;20]</code> next.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">1</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">1</span> <span class="n">20</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">2</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">2</span> <span class="n">20</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">3</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">3</span> <span class="n">20</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Then we use this list of functions with <code>[5]</code> and we get</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">1</span> <span class="n">10</span> <span class="n">5</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">1</span> <span class="n">20</span> <span class="n">5</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">2</span> <span class="n">10</span> <span class="n">5</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">2</span> <span class="n">20</span> <span class="n">5</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">3</span> <span class="n">10</span> <span class="n">5</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">3</span> <span class="n">20</span> <span class="n">5</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Finally we use <code>[100;200]</code> on this list, and we get.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">1</span> <span class="n">10</span> <span class="n">5</span> <span class="n">100</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">1</span> <span class="n">10</span> <span class="n">5</span> <span class="n">200</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">1</span> <span class="n">20</span> <span class="n">5</span> <span class="n">100</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">1</span> <span class="n">20</span> <span class="n">5</span> <span class="n">200</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">2</span> <span class="n">10</span> <span class="n">5</span> <span class="n">100</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">2</span> <span class="n">10</span> <span class="n">5</span> <span class="n">200</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">2</span> <span class="n">20</span> <span class="n">5</span> <span class="n">100</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">2</span> <span class="n">20</span> <span class="n">5</span> <span class="n">200</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">3</span> <span class="n">10</span> <span class="n">5</span> <span class="n">100</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">3</span> <span class="n">10</span> <span class="n">5</span> <span class="n">200</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">3</span> <span class="n">20</span> <span class="n">5</span> <span class="n">100</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">3</span> <span class="n">20</span> <span class="n">5</span> <span class="n">200</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The last call executes the functions, so we get the result.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">116</span><span class="o">;</span> <span class="n">216</span><span class="o">;</span> <span class="n">126</span><span class="o">;</span> <span class="n">226</span><span class="o">;</span> <span class="n">117</span><span class="o">;</span> <span class="n">217</span><span class="o">;</span> <span class="n">127</span><span class="o">;</span> <span class="n">227</span><span class="o">;</span> <span class="n">118</span><span class="o">;</span> <span class="n">218</span><span class="o">;</span> <span class="n">128</span><span class="o">;</span> <span class="n">228</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="using-apply">Using <code>apply</code></h2>
+<p>In general what we can do with an <em>Applicative</em> for a list is that we can get the result
+of all possible input combinations for a function, no matter how many arguments that
+function has.</p>
+<p>We also can easily create <a href="https://en.wikipedia.org/wiki/Cartesian_product">Cartesian Products</a>
+for a set of data. For example we could create all possible Playing cards in a game this way.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Suit</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Club</span> <span class="o">|</span> <span class="n">Diamond</span> <span class="o">|</span> <span class="n">Heart</span> <span class="o">|</span> <span class="n">Spade</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Rank</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Ace</span> <span class="o">|</span> <span class="n">Two</span> <span class="o">|</span> <span class="n">Three</span> <span class="o">|</span> <span class="n">Four</span> <span class="o">|</span> <span class="n">Five</span> <span class="o">|</span> <span class="n">Six</span> <span class="o">|</span> <span class="n">Seven</span> <span class="o">|</span> <span class="n">Eight</span> <span class="o">|</span> <span class="n">Nine</span> <span class="o">|</span> <span class="n">Ten</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Jack</span> <span class="o">|</span> <span class="n">Queen</span> <span class="o">|</span> <span class="n">King</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Card</span> <span class="o">=</span> <span class="n">Card</span> <span class="k">of</span> <span class="n">Suit</span> <span class="o">*</span> <span class="n">Rank</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">(** We now can generate all possible Cards by using. *)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">suits</span> <span class="o">=</span> <span class="o">[</span><span class="n">Club</span><span class="o">;</span><span class="n">Diamond</span><span class="o">;</span><span class="n">Heart</span><span class="o">;</span><span class="n">Spade</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">ranks</span> <span class="o">=</span> <span class="o">[</span><span class="n">Ace</span><span class="o">;</span><span class="n">Two</span><span class="o">;</span><span class="n">Three</span><span class="o">;</span><span class="n">Four</span><span class="o">;</span><span class="n">Five</span><span class="o">;</span><span class="n">Six</span><span class="o">;</span><span class="n">Seven</span><span class="o">;</span><span class="n">Eight</span><span class="o">;</span><span class="n">Nine</span><span class="o">;</span><span class="n">Ten</span><span class="o">;</span><span class="n">Jack</span><span class="o">;</span><span class="n">Queen</span><span class="o">;</span><span class="n">King</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cards</span> <span class="o">=</span> <span class="o">[</span><span class="k">fun</span> <span class="n">s</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">Card</span><span class="o">(</span><span class="n">s</span><span class="o">,</span><span class="n">r</span><span class="o">)]</span> <span class="o">&lt;*&gt;</span> <span class="n">suits</span> <span class="o">&lt;*&gt;</span> <span class="n">ranks</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">(** We now get a list of all 52 cards as a result. *)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cards</span> <span class="o">=</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Ace</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Two</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Three</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Four</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Five</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Six</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Seven</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Eight</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Nine</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Ten</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Jack</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">Queen</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Club</span><span class="o">,</span><span class="n">King</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Diamond</span><span class="o">,</span><span class="n">Ace</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Diamond</span><span class="o">,</span><span class="n">Two</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Diamond</span><span class="o">,</span><span class="n">Three</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Diamond</span><span class="o">,</span><span class="n">Four</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Diamond</span><span class="o">,</span><span class="n">Five</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Diamond</span><span class="o">,</span><span class="n">Six</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Diamond</span><span class="o">,</span><span class="n">Seven</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Diamond</span><span class="o">,</span><span class="n">Eight</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Diamond</span><span class="o">,</span><span class="n">Nine</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Diamond</span><span class="o">,</span><span class="n">Ten</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Diamond</span><span class="o">,</span><span class="n">Jack</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Diamond</span><span class="o">,</span><span class="n">Queen</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Diamond</span><span class="o">,</span><span class="n">King</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Heart</span><span class="o">,</span><span class="n">Ace</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Heart</span><span class="o">,</span><span class="n">Two</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Heart</span><span class="o">,</span><span class="n">Three</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Heart</span><span class="o">,</span><span class="n">Four</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Heart</span><span class="o">,</span><span class="n">Five</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Heart</span><span class="o">,</span><span class="n">Six</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Heart</span><span class="o">,</span><span class="n">Seven</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Heart</span><span class="o">,</span><span class="n">Eight</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Heart</span><span class="o">,</span><span class="n">Nine</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Heart</span><span class="o">,</span><span class="n">Ten</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Heart</span><span class="o">,</span><span class="n">Jack</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Heart</span><span class="o">,</span><span class="n">Queen</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Heart</span><span class="o">,</span><span class="n">King</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Spade</span><span class="o">,</span><span class="n">Ace</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Spade</span><span class="o">,</span><span class="n">Two</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Spade</span><span class="o">,</span><span class="n">Three</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Spade</span><span class="o">,</span><span class="n">Four</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Spade</span><span class="o">,</span><span class="n">Five</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Spade</span><span class="o">,</span><span class="n">Six</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Spade</span><span class="o">,</span><span class="n">Seven</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Spade</span><span class="o">,</span><span class="n">Eight</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Spade</span><span class="o">,</span><span class="n">Nine</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Spade</span><span class="o">,</span><span class="n">Ten</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Spade</span><span class="o">,</span><span class="n">Jack</span><span class="o">);</span> <span class="n">Card</span> <span class="o">(</span><span class="n">Spade</span><span class="o">,</span><span class="n">Queen</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Card</span> <span class="o">(</span><span class="n">Spade</span><span class="o">,</span><span class="n">King</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The <em>Cartesian Product</em> is also the idea how we view relational data. We could for example
+create two lists that refers to each other, with <code>apply</code> we then can easily create the
+<em>Cartesian Product</em> and filter those data.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Person</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Id</span><span class="o">:</span>   <span class="n">int</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Name</span><span class="o">:</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">create</span> <span class="n">id</span> <span class="n">name</span> <span class="o">=</span> <span class="o">{</span><span class="n">Id</span><span class="o">=</span><span class="n">id</span><span class="o">;</span> <span class="n">Name</span><span class="o">=</span><span class="n">name</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Like</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PersonId</span><span class="o">:</span> <span class="n">int</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Name</span><span class="o">:</span>     <span class="kt">string</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">create</span> <span class="n">pid</span> <span class="n">name</span> <span class="o">=</span> <span class="o">{</span><span class="n">PersonId</span><span class="o">=</span><span class="n">pid</span><span class="o">;</span> <span class="n">Name</span><span class="o">=</span><span class="n">name</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">persons</span> <span class="o">=</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Person</span><span class="p">.</span><span class="n">create</span> <span class="n">1</span> <span class="s">&#34;David&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Person</span><span class="p">.</span><span class="n">create</span> <span class="n">2</span> <span class="s">&#34;Markus&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Person</span><span class="p">.</span><span class="n">create</span> <span class="n">3</span> <span class="s">&#34;Björn&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">likes</span> <span class="o">=</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="n">1</span> <span class="s">&#34;Pizza&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="n">2</span> <span class="s">&#34;Pizza&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="n">3</span> <span class="s">&#34;Pizza&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="n">3</span> <span class="s">&#34;Coffee&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="n">1</span> <span class="s">&#34;Tea&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="n">2</span> <span class="s">&#34;Tea&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">(** We now can create the *Cartesian Product* of those Data. And afterwards filter it. *)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">likesTea</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">[</span><span class="k">fun</span> <span class="n">p</span> <span class="n">l</span> <span class="o">-&gt;</span> <span class="n">p</span><span class="o">,</span><span class="n">l</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="n">persons</span> <span class="o">&lt;*&gt;</span> <span class="n">likes</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="k">fun</span> <span class="o">(</span><span class="n">person</span><span class="o">,</span><span class="n">like</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">person</span><span class="o">.</span><span class="n">Id</span> <span class="o">=</span> <span class="n">like</span><span class="o">.</span><span class="n">PersonId</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="k">fun</span> <span class="o">(</span><span class="n">person</span><span class="o">,</span><span class="n">like</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">like</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&#34;Tea&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span>    <span class="o">(</span><span class="k">fun</span> <span class="o">(</span><span class="n">person</span><span class="o">,</span><span class="n">like</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">person</span><span class="o">.</span><span class="n">Name</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This will return: <code> [&quot;David&quot;; &quot;Markus&quot;]</code></p>
+<p>and resembles a SQL-Statement like:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">Name</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w">   </span><span class="n">person</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">likes</span><span class="w"> </span><span class="n">l</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w">  </span><span class="n">p</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="n">PersonId</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">AND</span><span class="w">    </span><span class="n">l</span><span class="p">.</span><span class="n">Name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&#34;Tea&#34;</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Sure, most stuff is basically <em>List-Processing</em> at this point, but <code>apply</code> is just another
+functions in a tool-set that opens up some possibilities. And at this point you probably
+even see the connection between functional list processing and SQL, or in general the
+C# LINQ Feature.</p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

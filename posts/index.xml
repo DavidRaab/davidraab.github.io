@@ -6,7 +6,17 @@
     <description>Recent content in Posts on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 11 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 13 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Applicative: Lists</title>
+      <link>https://davidraab.github.io/posts/applicative-list/</link>
+      <pubDate>Wed, 13 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/applicative-list/</guid>
+      <description>In Applicative Functors I primarily used the Option type to show how you implement and use an Applicative Functor. But the concept also works for any other type. This time I want to show you the idea of an Applicative with a list, what it means, what you can do with it and how apply works.
+Implementing apply Currently the List module don&amp;rsquo;t offer a apply function. So we must write it on our own.</description>
+    </item>
+    
     <item>
       <title>Optionals</title>
       <link>https://davidraab.github.io/posts/optionals-app/</link>

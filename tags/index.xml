@@ -6,13 +6,31 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 11 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 13 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>applicative</title>
+      <link>https://davidraab.github.io/tags/applicative/</link>
+      <pubDate>Wed, 13 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/applicative/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>FSharp</title>
       <link>https://davidraab.github.io/tags/fsharp/</link>
-      <pubDate>Mon, 11 Apr 2016 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 13 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/fsharp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>list</title>
+      <link>https://davidraab.github.io/tags/list/</link>
+      <pubDate>Wed, 13 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/list/</guid>
       <description></description>
     </item>
     
@@ -53,29 +71,11 @@
     </item>
     
     <item>
-      <title>list</title>
-      <link>https://davidraab.github.io/tags/list/</link>
-      <pubDate>Tue, 05 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/list/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>recursion</title>
       <link>https://davidraab.github.io/tags/recursion/</link>
       <pubDate>Tue, 05 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/recursion/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>applicative</title>
-      <link>https://davidraab.github.io/tags/applicative/</link>
-      <pubDate>Sun, 03 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/applicative/</guid>
       <description></description>
     </item>
     
