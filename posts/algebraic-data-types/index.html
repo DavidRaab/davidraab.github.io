@@ -985,8 +985,7 @@ or that every <code>string</code> is automatically a valid <code>Email</code>, a
 to compare those different types at all.</p>
 <p>Using primitive types like <code>string</code>, <code>float</code> throughout your code is also what we
 name <a href="http://enterprisecraftsmanship.com/2015/03/07/functional-c-primitive-obsession/">Primitive Obsession</a>.</p>
-<p>With DUs we can easily get rid of <em>Primitive Obsession</em> and
-<a href="http://reidev275.azurewebsites.net/eliminating-bugs-with-single-case-discriminated-unions/">eliminate a lot of bugs</a>.</p>
+<p>With DUs we can easily get rid of <em>Primitive Obsession</em> and eliminate a lot of bugs.</p>
 <p><a name="units-of-measure"></a></p>
 <h2 id="units-of-measure">Units of Measure</h2>
 <p>One feature that F# offers that is not directly related to <em>Algebraic-data types</em> is
@@ -1455,7 +1454,7 @@ compile-time safety that this requirement always holds true.</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Now Account always must have at least one single valid <code>PrimaryEmail</code>. This idea can be extended.
-In <a href="https://channel9.msdn.com/Events/FSharp-Events/fsharpConf-2016/Types-Properties-Software">Types + Properties = Software</a>
+In <a href="https://blog.ploeh.dk/2016/02/10/types-properties-software-designing-with-types/">Types + Properties = Software</a>
 Mark Seemann describes how we can embed the rules of Tennis in the Type System itself. For
 example in Tennis we have the Points <em>Love, 15, 30, 40</em>. You could go on and use just a
 <code>int</code> for that, and instead of <code>Love</code> you use <code>0</code>. But this is again error-prone. Because an
@@ -1497,15 +1496,11 @@ considers his code or his data structures more important.</p>
 <h2 id="further-reading">Further Reading</h2>
 <ol>
 <li><a href="https://vimeo.com/97507575">[Video] Domain modelling with the F# type system</a></li>
-<li><a href="https://channel9.msdn.com/Events/FSharp-Events/fsharpConf-2016/Types-Properties-Software">[Video] Types + Properties = Software</a></li>
 <li><a href="http://fsharpforfunandprofit.com/series/designing-with-types.html">The &ldquo;Designing with types&rdquo; series</a></li>
 <li><a href="http://blog.ploeh.dk/2016/02/10/types-properties-software-designing-with-types/">Types + Properties = Software</a></li>
-<li><a href="http://reidev275.azurewebsites.net/eliminating-bugs-with-single-case-discriminated-unions/">Eliminating Bugs with Single Case Discriminated Unions</a></li>
 <li><a href="http://www.markheath.net/post/avoid-silly-mistakes-fsharp-units-of-measure">Avoiding Silly Mistakes with F# Unit of Measure</a></li>
 <li><a href="http://tomasp.net/blog/types-and-math.aspx/">Power of mathematics: Reasoning about functional types</a></li>
-<li><a href="http://www.myeyeson.net/validation-by-types/">Validation by types</a></li>
 <li><a href="https://fsharpforfunandprofit.com/posts/units-of-measure/">Units of Measure</a></li>
-<li><a href="http://reidev275.azurewebsites.net/understainding-discriminated-unions-from-enums/">Understanding Discriminated Unions from Enums</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Cardinality">Cardinality</a></li>
 <li><a href="http://enterprisecraftsmanship.com/2015/03/07/functional-c-primitive-obsession/">[C#] Primitive Obsession</a></li>
 <li><a href="http://verraes.net/2016/02/type-safety-and-money/">[PHP] Type Safety and Money</a></li>
