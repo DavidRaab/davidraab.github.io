@@ -2,31 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://davidraab.github.io/tags/applicative/</loc>
-    <lastmod>2016-04-14T00:00:00+00:00</lastmod>
+    <loc>https://davidraab.github.io/posts/algebraic-data-types/</loc>
+    <lastmod>2016-04-26T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/data/</loc>
+    <lastmod>2016-04-26T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/</loc>
-    <lastmod>2016-04-14T00:00:00+00:00</lastmod>
+    <lastmod>2016-04-26T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/fsharp/</loc>
+    <lastmod>2016-04-26T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/posts/</loc>
+    <lastmod>2016-04-26T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/</loc>
+    <lastmod>2016-04-26T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/types/</loc>
+    <lastmod>2016-04-26T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/units-of-measure/</loc>
+    <lastmod>2016-04-26T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/posts/continuations-and-foldback/</loc>
+    <lastmod>2016-04-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/cps/</loc>
+    <lastmod>2016-04-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/fold/</loc>
+    <lastmod>2016-04-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/list/</loc>
+    <lastmod>2016-04-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/recursion/</loc>
+    <lastmod>2016-04-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/applicative/</loc>
     <lastmod>2016-04-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/functor/</loc>
     <lastmod>2016-04-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://davidraab.github.io/tags/list/</loc>
-    <lastmod>2016-04-14T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://davidraab.github.io/tags/option/</loc>
     <lastmod>2016-04-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://davidraab.github.io/posts/</loc>
-    <lastmod>2016-04-14T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://davidraab.github.io/posts/sequence-and-traverse/</loc>
-    <lastmod>2016-04-14T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/</loc>
     <lastmod>2016-04-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/applicative-list/</loc>
@@ -38,20 +62,11 @@
     <loc>https://davidraab.github.io/posts/optionals-app/</loc>
     <lastmod>2016-04-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://davidraab.github.io/tags/fold/</loc>
-    <lastmod>2016-04-05T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://davidraab.github.io/posts/loops-to-folds/</loc>
     <lastmod>2016-04-05T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/immutability/</loc>
     <lastmod>2016-04-05T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/recursion/</loc>
-    <lastmod>2016-04-05T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/cps/</loc>
-    <lastmod>2016-04-03T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/monad/</loc>
     <lastmod>2016-04-03T00:00:00+00:00</lastmod>

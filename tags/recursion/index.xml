@@ -6,7 +6,17 @@
     <description>Recent content in recursion on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 05 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/recursion/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 16 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/recursion/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Continuations and foldBack</title>
+      <link>https://davidraab.github.io/posts/continuations-and-foldback/</link>
+      <pubDate>Sat, 16 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/continuations-and-foldback/</guid>
+      <description>In From mutable loops to immutable folds we implemented foldBack through rev and fold. In this post I show you how you can implement foldBack by using a continuation function.
+Functions Before we see how to implement foldBack, I want to give you analogy first. This analogy helped me in a lot of cases. I hope that this analogy will also help you in better understanding the further post, or probably even in other areas in programming in general.</description>
+    </item>
+    
     <item>
       <title>From mutable loops to immutable folds</title>
       <link>https://davidraab.github.io/posts/loops-to-folds/</link>

@@ -1,0 +1,1542 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Algebraic Data-Types // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="David Raab" />
+    <meta name="description" content="An Introduction to algebraic data-types in F#" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.c5d0d3078a177d7cfb9aa69e4ac0843c2cef8c18ec3ed7421bb5e95b879ca2f7.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Algebraic Data-Types"/>
+<meta name="twitter:description" content="An Introduction to algebraic data-types in F#"/>
+
+    <meta property="og:title" content="Algebraic Data-Types" />
+<meta property="og:description" content="An Introduction to algebraic data-types in F#" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/algebraic-data-types/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-04-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-04-26T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>My personal Blog. Writing about programming and other stuff.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Algebraic Data-Types</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Apr 26, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          29 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/types/">types</a>
+              <a class="tag" href="https://davidraab.github.io/tags/data/">data</a>
+              <a class="tag" href="https://davidraab.github.io/tags/units-of-measure/">units-of-measure</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>When we work in a programming language we usually have some primitive data-types likes
+<code>int</code>, <code>float</code>, <code>string</code>, <code>bool</code> and so on. All of those are important, but when we
+need to create more advanced logic we usually want to create our own data-types
+and group/compose different types together to create new data-types.</p>
+<p>In an <em>algebraic type-system</em> there exists two different ways in how we can compose
+types. They are named <em>Product-types</em> and <em>Sum-type</em>. I often name them <em>AND-composition</em>
+and <em>OR-composition</em>. F# provides two <em>Product-types</em> and one <em>Sum-type</em>.</p>
+<p>Those compositions are immutable by default. Because of this, we already have default
+implementation for equality and comparison.</p>
+<h2 id="table-of-content">Table of Content</h2>
+<ul class="toc">
+  <li><a href="#tuples">Tuples</a></li>
+  <li><a href="#records">Records</a></li>
+  <li><a href="#discriminated-unions">Discriminated Unions</a></li>
+  <li><a href="#du-as-sum">Discriminated Unions as Sum-Types</a></li>
+  <li><a href="#single-du">Single-case Discriminated Unions</a></li>
+  <li><a href="#units-of-measure">Units of Measure</a></li>
+  <li><a href="#recursive-du">Recursive Discriminated Unions</a></li>
+    <ul>
+      <li><a href="#rdu-lists">Lists</a></li>
+      <li><a href="#rdu-btree">Binary Trees</a></li>
+      <li><a href="#rdu-ds">Hierarchical Data-Structures</a></li>
+    </ul>
+  <li><a href="#invalid-state">Make invalid states un-representable</a></li>
+  <li><a href="#summary">Summary</a></li>
+  <li><a href="#further">Further Reading</a></li>
+  <li><a href="#comments">Comments</a></li>
+</ul>
+<p><a name="tuples"></a></p>
+<h2 id="tuples">Tuples</h2>
+<p>A Tuple is a <em>Product-type</em>. The nice thing about Tuples is that we don&rsquo;t have to define
+a <em>type</em> before-hand. We can easily create any kind of tuple by just separating
+variables with a comma.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">foo</span> <span class="o">=</span> <span class="s">&#34;David&#34;</span><span class="o">,</span> <span class="n">123</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">bar</span> <span class="o">=</span> <span class="s">&#34;Foo&#34;</span><span class="o">,</span> <span class="s">&#34;Bar&#34;</span><span class="o">,</span> <span class="s">&#34;Baz&#34;</span><span class="o">,</span> <span class="n">55</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We can extract values from a tuple with <em>Pattern Matching</em>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">name</span><span class="o">,</span> <span class="n">nr</span> <span class="o">=</span> <span class="n">foo</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">str1</span><span class="o">,</span> <span class="n">str2</span><span class="o">,</span> <span class="n">str3</span><span class="o">,</span> <span class="n">nr</span> <span class="o">=</span> <span class="n">bar</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>When we look at the type-signature we see that <code>foo</code> has the type <code>string * int</code> and
+<code>bar</code> has the type <code>string * string * string * int</code>. Tuples only can be compared
+if they have the same amount of elements and the types are the same in the exact order.</p>
+<p>A Tuple <code>string * int</code> is something different as <code>int * string</code>. But why are they anyway
+named <em>Product type</em> and why do we <em>multiply</em> types? To understand this, let&rsquo;s look at
+a simple tuple consisting of two boolean values. It&rsquo;s type would be <code>bool * bool</code>.
+But how many possible values can we create with such a type? As <code>bool</code> only has two
+states, we only can create four different values.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">b1</span> <span class="o">=</span> <span class="k">true</span><span class="o">,</span> <span class="k">true</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">b2</span> <span class="o">=</span> <span class="k">true</span><span class="o">,</span> <span class="k">false</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">b3</span> <span class="o">=</span> <span class="k">false</span><span class="o">,</span> <span class="k">true</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">b4</span> <span class="o">=</span> <span class="k">false</span><span class="o">,</span> <span class="k">false</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Every <code>bool</code> has two different values. A tuple like <code>bool * bool</code> contains two <code>bool</code>
+at the same time. We can calculate the maximum amount of possible values by multiplying
+the amount of every single type. In this case <code>2 * 2</code>. That is why we name it a
+<em>Product-type</em>. We also could say a <code>bool * bool</code> is a <code>bool</code> <strong>AND</strong> another <code>bool</code>.</p>
+<p>We also can create a type-definition first. But it is important to note that those are
+not types on it&rsquo;s own, only <em>type-aliases</em>. For example we could define a <code>Point</code>
+and then define a <code>Line</code> and a <code>Rect</code> like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Point</span> <span class="o">=</span> <span class="kt">float</span> <span class="o">*</span> <span class="kt">float</span>
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Line</span>  <span class="o">=</span> <span class="n">Point</span> <span class="o">*</span> <span class="n">Point</span>
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Rect</span>  <span class="o">=</span> <span class="n">Point</span> <span class="o">*</span> <span class="n">Point</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>Point</code>, <code>Line</code> and <code>Rect</code> in this example are not types on there own. We can use the names
+as they are more declarative, but because their are just <em>aliases</em> we also can compare a
+<code>Line</code> with a <code>Rect</code>. This is usually not what we want, and later we see how we can fix this.</p>
+<p>But overall it is an advantage that we don&rsquo;t have to provide a type first. Tuples
+are used in a lot of places for some intermediate types where we don&rsquo;t care for a named type.
+For example if we have two lists and we want to zip them (1 element of 1.list, 1.element
+of second list, 2 element of 1 list, 2 element of 2 list, &hellip;) then we could just use
+<code>List.zip</code> and it just returns us a tuple with values from both lists.</p>
+<p>We also can use it to easily return multiple arguments from a function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">doSomething</span> <span class="bp">()</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">5</span><span class="o">,</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span><span class="o">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">doSomething</span> <span class="bp">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In those examples we don&rsquo;t want to define types all the time before-hand.</p>
+<p><a name="records"></a></p>
+<h2 id="records">Records</h2>
+<p>A <em>records</em> is also a <em>Product-type</em>. But we must define a type before-hand.
+<em>Records</em> are also often named <em>Named Tuples</em>.</p>
+<p>One advantage of a <em>Record-type</em> over a tuple is that we can use names to describe the
+different fields. We could for example create a Person with fields like <em>First-name</em>,
+<em>Last-Name</em>, <em>Hair-Color</em>, <em>Birthday</em> and <em>Size</em> with a tuple.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Person</span> <span class="o">=</span> <span class="kt">string</span> <span class="o">*</span> <span class="kt">string</span> <span class="o">*</span> <span class="kt">string</span> <span class="o">*</span> <span class="n">DateTime</span> <span class="o">*</span> <span class="kt">float</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But working with that is not really a pleasure, when we want to extract the birthday we
+could write a function like:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">birthday</span> <span class="o">(_,_,_,</span><span class="n">birthday</span><span class="o">,_)</span> <span class="o">=</span> <span class="n">birthday</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But that becomes really messy fast. On top, it is also is not clear what the first three
+<code>string</code> are. Actually i would say that using primitive types like <code>string</code>, <code>int</code>,
+<code>float</code> is in general a bad practice. I will later talk more about this topic, but for now,
+let&rsquo;s improve that example by just using a Record.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Person</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">FirstName</span><span class="o">:</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LastName</span><span class="o">:</span>  <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HairColor</span><span class="o">:</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Birthday</span><span class="o">:</span>  <span class="n">DateTime</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Size</span><span class="o">:</span>      <span class="kt">float</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>A Record type gives us a default constructor: <code>{ ... }</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">me</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">FirstName</span> <span class="o">=</span> <span class="s">&#34;David&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LastName</span>  <span class="o">=</span> <span class="s">&#34;Raab&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HairColor</span> <span class="o">=</span> <span class="s">&#34;Blond&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Birthday</span>  <span class="o">=</span> <span class="n">DateTime</span><span class="o">(</span><span class="n">1983</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">19</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Size</span>      <span class="o">=</span> <span class="n">100</span><span class="o">.</span><span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We always must provide all fields, and we can access a field by its name:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%s %s has %s hair&#34;</span> <span class="n">me</span><span class="o">.</span><span class="n">FirstName</span> <span class="n">me</span><span class="o">.</span><span class="n">LastName</span> <span class="n">me</span><span class="o">.</span><span class="n">HairColor</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// David Raab has Blond hair
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>A Record is immutable by default and has value semantic by default. That means we can compare those.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">otherMe</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">FirstName</span> <span class="o">=</span> <span class="s">&#34;David&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LastName</span>  <span class="o">=</span> <span class="s">&#34;Raab&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HairColor</span> <span class="o">=</span> <span class="s">&#34;Blond&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Birthday</span>  <span class="o">=</span> <span class="n">DateTime</span><span class="o">(</span><span class="n">1983</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">19</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Size</span>      <span class="o">=</span> <span class="n">100</span><span class="o">.</span><span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">markus</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">FirstName</span> <span class="o">=</span> <span class="s">&#34;Markus&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LastName</span>  <span class="o">=</span> <span class="s">&#34;Schwarz&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HairColor</span> <span class="o">=</span> <span class="s">&#34;Blond&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Birthday</span>  <span class="o">=</span> <span class="n">DateTime</span><span class="o">(</span><span class="n">1983</span><span class="o">,</span> <span class="n">6</span><span class="o">,</span> <span class="n">3</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Size</span>      <span class="o">=</span> <span class="n">160</span><span class="o">.</span><span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">me</span> <span class="o">=</span> <span class="n">otherMe</span> <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">me</span> <span class="o">=</span> <span class="n">markus</span>  <span class="c1">// false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">me</span> <span class="o">&lt;</span> <span class="n">markus</span> <span class="c1">// true
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>As we can see, as long all fields are the same we get a <code>true</code>. But how does <code>me &lt; markus</code> work?
+By default it uses the order of the fields. It starts comparing <code>FirstName</code>. Because &ldquo;D&rdquo; from
+&ldquo;David&rdquo; is smaller than &ldquo;M&rdquo; from &ldquo;Markus&rdquo; we get <code>true</code>. If <code>FirstName</code> would be the same,
+it would compare <code>LastName</code> and so on.</p>
+<p>Often we want to change a field, but because we have an immutable data-type the only thing
+we can do is to create a new record. F# provides a <em>Copy-and-update</em> syntax <code>{ source with ... }</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">me2</span>     <span class="o">=</span> <span class="o">{</span> <span class="n">me</span>     <span class="k">with</span> <span class="n">Size</span> <span class="o">=</span> <span class="n">173</span><span class="o">.</span><span class="n">0</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">markus2</span> <span class="o">=</span> <span class="o">{</span> <span class="n">markus</span> <span class="k">with</span> <span class="n">Birthday</span> <span class="o">=</span> <span class="n">DateTime</span><span class="o">(</span><span class="n">1983</span><span class="o">,</span><span class="n">6</span><span class="o">,</span><span class="n">4</span><span class="o">);</span> <span class="n">Size</span> <span class="o">=</span> <span class="n">173</span><span class="o">.</span><span class="n">0</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">me</span> <span class="o">&lt;</span> <span class="n">me2</span> <span class="c1">// true -- because me2 has a bigger size
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>We also can use tuples inside of records. For example in a game we could use a money
+field that uses three <code>int</code> to represent gold, silver and bronze.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Player</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Name</span><span class="o">:</span>  <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Money</span><span class="o">:</span> <span class="n">int</span> <span class="o">*</span> <span class="n">int</span> <span class="o">*</span> <span class="n">int</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">richPlayer</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Name</span>  <span class="o">=</span> <span class="s">&#34;Foo&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Money</span> <span class="o">=</span> <span class="o">(</span><span class="n">3000</span><span class="o">,</span> <span class="n">200</span><span class="o">,</span> <span class="n">100</span><span class="o">)</span> <span class="c1">// 3000 gold, 200 silver, 100 bronze
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Records also can contain other records.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Point</span> <span class="o">=</span> <span class="o">{</span> <span class="n">X</span><span class="o">:</span><span class="n">int</span><span class="o">;</span> <span class="n">Y</span><span class="o">:</span><span class="n">int</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Line</span>  <span class="o">=</span> <span class="o">{</span> <span class="n">Start</span><span class="o">:</span><span class="n">Point</span><span class="o">;</span> <span class="n">Stop</span><span class="o">:</span><span class="n">Point</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Rect</span>  <span class="o">=</span> <span class="o">{</span> <span class="n">TopLeft</span><span class="o">:</span><span class="n">Point</span><span class="o">;</span> <span class="n">BottomRight</span><span class="o">:</span><span class="n">Point</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">line</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   <span class="n">Start</span> <span class="o">=</span> <span class="o">{</span> <span class="n">X</span><span class="o">=</span><span class="n">0</span><span class="o">;</span> <span class="n">Y</span><span class="o">=</span><span class="n">0</span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">   <span class="n">Stop</span>  <span class="o">=</span> <span class="o">{</span> <span class="n">X</span><span class="o">=</span><span class="n">0</span><span class="o">;</span> <span class="n">Y</span><span class="o">=</span><span class="n">10</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rect</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   <span class="n">TopLeft</span>     <span class="o">=</span> <span class="o">{</span> <span class="n">X</span><span class="o">=</span><span class="n">0</span><span class="o">;</span>  <span class="n">Y</span><span class="o">=</span><span class="n">0</span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">   <span class="n">BottomRight</span> <span class="o">=</span> <span class="o">{</span> <span class="n">X</span><span class="o">=</span><span class="n">10</span><span class="o">;</span> <span class="n">Y</span><span class="o">=</span><span class="n">10</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Because records are comparable it also means a record that uses other records is also
+automatically comparable. But as records are distinct types we cannot compare records of
+different types. For example trying to compare <code>line</code> with <code>rect</code> will result
+in a compile-time error.</p>
+<p>If you know serialization formats like JSON you already can imagine that we can easily
+represent JSON Structures this way. But we get the benefit that we have a statically
+type-safe version of it, and those data-structures are immutable, and comparable!</p>
+<p>For example we could generate a type-definition from
+the <a href="https://en.wikipedia.org/wiki/JSON">JSON example on Wikipedia</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">Contact</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">Address</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">StreetAddress</span><span class="o">:</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">        <span class="n">City</span><span class="o">:</span>          <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">        <span class="n">State</span><span class="o">:</span>         <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">        <span class="n">PostalCode</span><span class="o">:</span>    <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">PhoneNumber</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Type</span><span class="o">:</span>   <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Number</span><span class="o">:</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">Contact</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">FirstName</span><span class="o">:</span>    <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">        <span class="n">LastName</span><span class="o">:</span>     <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">        <span class="n">IsAlive</span><span class="o">:</span>      <span class="kt">bool</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Age</span><span class="o">:</span>          <span class="n">int</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Address</span><span class="o">:</span>      <span class="n">Address</span>
+</span></span><span class="line"><span class="cl">        <span class="n">PhoneNumbers</span><span class="o">:</span> <span class="n">PhoneNumber</span> <span class="kt">list</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Children</span><span class="o">:</span>     <span class="n">Contact</span> <span class="kt">list</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Spouse</span><span class="o">:</span>       <span class="n">Contact</span> <span class="n">option</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And create a value like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">contact</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">FirstName</span> <span class="o">=</span> <span class="s">&#34;John&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LastName</span>  <span class="o">=</span> <span class="s">&#34;Smith&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">IsAlive</span>   <span class="o">=</span> <span class="k">true</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Age</span>       <span class="o">=</span> <span class="n">25</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Address</span>   <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">StreetAddress</span> <span class="o">=</span> <span class="s">&#34;21 2nd Street&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">City</span>          <span class="o">=</span> <span class="s">&#34;New York&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">State</span>         <span class="o">=</span> <span class="s">&#34;NY&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">PostalCode</span>    <span class="o">=</span> <span class="s">&#34;10021-3100&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PhoneNumbers</span> <span class="o">=</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Type</span>   <span class="o">=</span> <span class="s">&#34;Home&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Number</span> <span class="o">=</span> <span class="s">&#34;212 555-1234&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Type</span>   <span class="o">=</span> <span class="s">&#34;Office&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Number</span> <span class="o">=</span> <span class="s">&#34;646 555-4567&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Type</span>   <span class="o">=</span> <span class="s">&#34;Mobile&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Number</span> <span class="o">=</span> <span class="s">&#34;123 456-7890&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Children</span> <span class="o">=</span> <span class="bp">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Spouse</span>   <span class="o">=</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We can work with it like you would expect:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%s %s lives in %s&#34;</span> <span class="n">contact</span><span class="o">.</span><span class="n">FirstName</span> <span class="n">contact</span><span class="o">.</span><span class="n">LastName</span> <span class="n">contact</span><span class="o">.</span><span class="n">Address</span><span class="o">.</span><span class="n">City</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// John Smith lives in New York
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="n">contact</span><span class="o">.</span><span class="n">PhoneNumbers</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">phone</span> <span class="o">-&gt;</span> <span class="n">phone</span><span class="o">.</span><span class="n">Number</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;He has the following numbers: %A&#34;</span> <span class="n">numbers</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// He has the following numbers: [&#34;212 555-1234&#34;; &#34;646 555-4567&#34;; &#34;123 456-7890&#34;]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><a name="discriminated-unions"></a></p>
+<h2 id="discriminated-unions-du">Discriminated Unions (DU)</h2>
+<p>Up to that point, we only discussed two types: <em>Tuples</em> and <em>Records</em>. Both are <em>Product-types</em>
+or how I would name them <em>AND Composition</em>. Both data-types always contains all the specified
+fields. But a Discriminated Union is different. A Discriminated Union is a <em>Sum-Type</em> and
+gives us the Possibility of a choice, or how I would name it, an <em>OR Composition</em>.</p>
+<p>Let&rsquo;s review the JSON example above. What I dislike about it in general is that it just contains
+too much <code>string</code> types. For example the <code>PhoneNumbers</code> part has a <code>Type</code> field, in an application
+you usually expect that <code>Type</code> only can be specific <code>strings</code> but not all possible <code>string</code>
+values. A better approach would be if we can represent the different available choices in
+it&rsquo;s own type. With a DU we just can do that:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">PhoneNumberType</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Home</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Office</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Mobile</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>At this point you might probably compare it to an <em>enum</em> type as you know it from C# or Java.
+But as we see soon there are not really comparable at all. The first difference is. An <em>enum</em>
+usually is just a wrapper around an <code>int</code>, <code>byte</code> and so on. Usually in C# you could
+for example still save the number <code>10</code> in a <code>PhoneNumberType</code> even if you just defined
+three choices. But with a Discriminated Union that is not possible. There are concrete types
+not just a wrapper for other values. The names <code>Home</code>, <code>Office</code> and <code>Mobile</code> are
+basically constructors to create a <code>PhoneNumberType</code> and they are not just integers.</p>
+<p>The second important difference. Every Constructor can carry an additional value. This value
+can once again be a record, a tuple or another Discriminated Union. At this point we could
+change the representation of <code>PhoneNumber</code> completely to a Discriminated Union instead
+of a Record.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">ContactWithDU</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">Address</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">StreetAddress</span><span class="o">:</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">        <span class="n">City</span><span class="o">:</span>          <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">        <span class="n">State</span><span class="o">:</span>         <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">        <span class="n">PostalCode</span><span class="o">:</span>    <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">PhoneNumber</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Home</span>   <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Office</span> <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Mobile</span> <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">Contact</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">FirstName</span><span class="o">:</span>    <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">        <span class="n">LastName</span><span class="o">:</span>     <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">        <span class="n">IsAlive</span><span class="o">:</span>      <span class="kt">bool</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Age</span><span class="o">:</span>          <span class="n">int</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Address</span><span class="o">:</span>      <span class="n">Address</span>
+</span></span><span class="line"><span class="cl">        <span class="n">PhoneNumbers</span><span class="o">:</span> <span class="n">PhoneNumber</span> <span class="kt">list</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Children</span><span class="o">:</span>     <span class="n">Contact</span> <span class="kt">list</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Spouse</span><span class="o">:</span>       <span class="n">Contact</span> <span class="n">option</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now have a type that is either a <code>Home</code>, <code>Office</code> or <code>Mobile</code>. Every case
+contains an additional <code>string</code>. With that in place, we could change the above JSON
+construct to.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">contactWithDU</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">FirstName</span> <span class="o">=</span> <span class="s">&#34;John&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LastName</span>  <span class="o">=</span> <span class="s">&#34;Smith&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">IsAlive</span>   <span class="o">=</span> <span class="k">true</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Age</span>       <span class="o">=</span> <span class="n">25</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Address</span>   <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">StreetAddress</span> <span class="o">=</span> <span class="s">&#34;21 2nd Street&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">City</span>          <span class="o">=</span> <span class="s">&#34;New York&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">State</span>         <span class="o">=</span> <span class="s">&#34;NY&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">PostalCode</span>    <span class="o">=</span> <span class="s">&#34;10021-3100&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PhoneNumbers</span> <span class="o">=</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Home</span>   <span class="s">&#34;212 555-1234&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Office</span> <span class="s">&#34;646 555-4567&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Mobile</span> <span class="s">&#34;123 456-7890&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Children</span> <span class="o">=</span> <span class="bp">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Spouse</span>   <span class="o">=</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Not only is that shorter and more readable, it is also less error-prone because we cannot
+provide an arbitrary string for the phone type. On top we now must handle all different cases
+when we write code.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">printPhoneNumber</span> <span class="n">number</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">number</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Home</span> <span class="n">nr</span>   <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;Home Nr. %s&#34;</span> <span class="n">nr</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Office</span> <span class="n">nr</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;Office Nr. %s&#34;</span> <span class="n">nr</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Mobile</span> <span class="n">nr</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;Mobile Nr. %s&#34;</span> <span class="n">nr</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">printPhoneNumber</span> <span class="o">(</span><span class="n">Home</span>   <span class="s">&#34;123&#34;</span><span class="o">)</span> <span class="c1">// Home Nr. 123
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">printPhoneNumber</span> <span class="o">(</span><span class="n">Office</span> <span class="s">&#34;456&#34;</span><span class="o">)</span> <span class="c1">// Office Nr. 456
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">printPhoneNumber</span> <span class="o">(</span><span class="n">Mobile</span> <span class="s">&#34;789&#34;</span><span class="o">)</span> <span class="c1">// Mobile Nr. 789
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Not <em>Pattern Matching</em> all cases leads to an error. If we forgot to write Code for the
+<code>Mobile</code> case we get a compile-time <em>warning</em> that tells us that we forgot to
+handle this case.</p>
+<p>Imagine in the future you want to extend <code>PhoneNumber</code> and add additional types like
+<code>Private</code>, <code>Fax</code>, <code>Pager</code> and <code>Other</code>. With a <code>string</code> you will just end up with buggy
+code, as now you have to find all the places in your code where yo do decisions based on
+the phone number types. The language also don&rsquo;t help you to find all those spots.</p>
+<p>But with a DU instead the compiler will give you all places where you worked with
+the <code>PhoneNumber</code> type and you didn&rsquo;t handle the new cases.</p>
+<p><a name="du-as-sum"></a></p>
+<h2 id="discriminated-unions-as-sum-types">Discriminated Unions as Sum-Types</h2>
+<p>So far we talked about <em>Tuple</em> and <em>Records</em> as a <em>Product-type</em>. We name it <em>Product-type</em>
+because we get the amount of possible combinations by multiplying the types. A tuple with
+2, 3 or 4 <code>bool</code> can handle <code>2 * 2</code> (4), <code>2 * 2 * 2</code> (8) or <code>2 * 2 * 2 * 2</code> (16) different
+values. The same is true for a <em>Record type</em> as a record type only provides a name for the
+fields, but doesn&rsquo;t change the structure itself.</p>
+<p>But with a Discriminated Union the possible amount of values only adds up. For example
+a choice with four <code>bool</code> looks like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Choice</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Choice1</span> <span class="k">of</span> <span class="kt">bool</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Choice2</span> <span class="k">of</span> <span class="kt">bool</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Choice3</span> <span class="k">of</span> <span class="kt">bool</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Choice4</span> <span class="k">of</span> <span class="kt">bool</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But we only have <code>8</code> possible values. We have four possible choices, and each choice can contain
+two different states <code>true</code> or <code>false</code>. So we only have <code>8</code> possible values.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">Choice1</span> <span class="k">true</span>
+</span></span><span class="line"><span class="cl"><span class="n">Choice1</span> <span class="k">false</span>
+</span></span><span class="line"><span class="cl"><span class="n">Choice2</span> <span class="k">true</span>
+</span></span><span class="line"><span class="cl"><span class="n">Choice2</span> <span class="k">false</span>
+</span></span><span class="line"><span class="cl"><span class="n">Choice3</span> <span class="k">true</span>
+</span></span><span class="line"><span class="cl"><span class="n">Choice3</span> <span class="k">false</span>
+</span></span><span class="line"><span class="cl"><span class="n">Choice4</span> <span class="k">true</span>
+</span></span><span class="line"><span class="cl"><span class="n">Choice4</span> <span class="k">false</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We can calculate the amount of possible values by adding the types. <code>2 + 2 + 2 + 2</code>. That&rsquo;s why
+we call it a <em>Sum-Type</em>. But what is the point of calculating the amount of possible values?</p>
+<p>First, we usually don&rsquo;t care for the exact amount of values a type can represent. When we use
+four <code>int</code> we don&rsquo;t care how many billions of different values it can save. But we can use it in a
+mathematical way. For example we could use <code>i</code> that represents <code>int</code>. A Product type with
+four <code>int</code> can thus save <code>i*i*i*i</code> or <code>i ^ 4</code> possible values.</p>
+<p>A Discriminated Union like <code>Choice</code> with four cases and every case contains a single <code>int</code> can
+save <code>i + i + i + i</code> or in other words <code>4i</code> cases. Doing that kind of calculations is what
+we call the <a href="https://en.wikipedia.org/wiki/Cardinality">Cardinality</a>. The point of calculating
+the <a href="https://en.wikipedia.org/wiki/Cardinality">Cardinality</a> is that we can calculate if two
+different types can represent the same data.</p>
+<p>For example let&rsquo;s look at the following type definitions:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">Cardinality</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">Line</span>  <span class="o">=</span> <span class="o">(</span><span class="n">int</span> <span class="o">*</span> <span class="n">int</span><span class="o">)</span> <span class="o">*</span> <span class="o">(</span><span class="n">int</span> <span class="o">*</span> <span class="n">int</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">Line2</span> <span class="o">=</span> <span class="n">int</span> <span class="o">*</span> <span class="n">int</span> <span class="o">*</span> <span class="n">int</span> <span class="o">*</span> <span class="n">int</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">line</span>  <span class="o">=</span> <span class="o">(</span><span class="n">0</span><span class="o">,</span><span class="n">0</span><span class="o">),</span> <span class="o">(</span><span class="n">10</span><span class="o">,</span><span class="n">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">line2</span> <span class="o">=</span> <span class="n">0</span><span class="o">,</span><span class="n">0</span><span class="o">,</span><span class="n">10</span><span class="o">,</span><span class="n">10</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>Line</code> and <code>Line2</code> are two different types.</p>
+<ol>
+<li><code>Line</code> contains <strong>two Tuples</strong> and each of those Tuple contain two <code>int</code>.</li>
+<li><code>Line2</code> on the other hand is a single tuple with four <code>int</code>.</li>
+</ol>
+<p>Even if their are of different shapes, we can easily see that both types can save
+the same amount of data. We can easily proof that by calculating the Cardinality.</p>
+<ol>
+<li>For <code>Line</code> it looks like <code>(i * i) * (i * i)</code> that turns into <code>(i ^ 2) * (i ^ 2)</code> and this
+again turns into <code>i ^ 4</code>.</li>
+<li><code>Line2</code> is <code>i * i * i * i</code> and directly turns into <code>i ^ 4</code>.</li>
+</ol>
+<p>With this we now know that we can transform any <code>Line</code> into a <code>Line2</code> or vice-versa.
+This is important, because in programming it is important to choose the right data-format.
+Choosing the right format often means some task can either becomes more easier to solve,
+or we could come up with more efficient algorithms. By calculating the <em>Cardinality</em>
+we can be sure that we have different representation of the same data.</p>
+<p>Another way to use it is when we explicitly want to reduce the amount of possible values.
+We did that above with the <code>PhoneNumber</code> type. Having less possible values also means we
+need less code to check the edge-cases. Changing a <code>string</code> into a DU with just four cases
+makes the code simpler and less error-prone. Especially if the language forces you
+to check for all cases you could have, what F# does.</p>
+<p><a name="single-du"></a></p>
+<h2 id="single-case-discriminated-unions">Single-case Discriminated Unions</h2>
+<p>So far we only have seen Discriminated Unions that contain multiple choices, but we also
+can create a DU with just a single choice. You will probably wonder why that is useful in
+the first place.</p>
+<p>Do you remember the Problem with <code>Line</code> and <code>Rect</code> at the beginning and that we could
+compare <code>Line</code> and <code>Rect</code> because they were just type-aliases? By wrapping the
+tuples in a <em>Single-case Discriminated Union</em> we get distinct types.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">TupleWithDU</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">Point</span> <span class="o">=</span> <span class="n">Point</span> <span class="k">of</span> <span class="kt">float</span> <span class="o">*</span> <span class="kt">float</span>
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">Line</span>  <span class="o">=</span> <span class="n">Line</span>  <span class="k">of</span> <span class="n">Point</span> <span class="o">*</span> <span class="n">Point</span>
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">Rect</span>  <span class="o">=</span> <span class="n">Rect</span>  <span class="k">of</span> <span class="n">Point</span> <span class="o">*</span> <span class="n">Point</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">p1</span>   <span class="o">=</span> <span class="n">Point</span> <span class="o">(</span><span class="n">0</span><span class="o">.</span><span class="n">0</span><span class="o">,</span> <span class="n">5</span><span class="o">.</span><span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">p2</span>   <span class="o">=</span> <span class="n">Point</span> <span class="o">(</span><span class="n">5</span><span class="o">.</span><span class="n">5</span><span class="o">,</span> <span class="n">8</span><span class="o">.</span><span class="n">8</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">line</span> <span class="o">=</span> <span class="n">Line</span> <span class="o">(</span><span class="n">p1</span><span class="o">,</span><span class="n">p2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rect</span> <span class="o">=</span> <span class="n">Rect</span> <span class="o">(</span><span class="n">p1</span><span class="o">,</span><span class="n">p2</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we cannot do <code>line = rect</code> anymore. We also cannot pass a <code>Rect</code> to a function
+that expects a <code>Line</code>.</p>
+<p>But how do we work with those values? Do we always have to <em>Pattern Match</em> even that we know
+there only exists a single case? Yes we do, but every <code>let</code> expression is already <em>Pattern
+Matching</em>. So we also can write:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="o">(</span><span class="n">Rect</span> <span class="o">(</span><span class="n">tl</span><span class="o">,</span><span class="n">br</span><span class="o">))</span> <span class="o">=</span> <span class="n">rect</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This way we can extract a DU the same way we did with a Tuple. Not only that, we also can
+use <em>Pattern Matching</em> in a function definition, because a function definition is also just
+defined by <code>let</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">printRect</span> <span class="o">(</span><span class="n">Rect</span> <span class="o">(</span><span class="n">tl</span><span class="o">,</span><span class="n">br</span><span class="o">))</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="o">(</span><span class="n">Point</span> <span class="o">(</span><span class="n">x1</span><span class="o">,</span><span class="n">y1</span><span class="o">))</span> <span class="o">=</span> <span class="n">tl</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="o">(</span><span class="n">Point</span> <span class="o">(</span><span class="n">x2</span><span class="o">,</span><span class="n">y2</span><span class="o">))</span> <span class="o">=</span> <span class="n">br</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printfn</span> <span class="s">&#34;Top Left: %f,%f&#34;</span> <span class="n">x1</span> <span class="n">y1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printfn</span> <span class="s">&#34;Bottom Right: %f,%f&#34;</span> <span class="n">x2</span> <span class="n">y2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">printRect</span> <span class="n">rect</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Top Left: 0.000000,5.000000
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Bottom Right: 5.500000,8.800000
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>printRect</code> is now a function expecting <code>Rect</code> as it&rsquo;s input. We cannot pass <code>line</code> anymore
+to that function. Another important thing is that we also can nest <em>Pattern Matches</em> inside another.
+This way we also can extract <code>tl</code> and <code>br</code> inside the function definition instead of doing
+it in its own <code>let</code> bindings.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">printRect</span> <span class="o">(</span><span class="n">Rect</span> <span class="o">(</span><span class="n">Point</span> <span class="o">(</span><span class="n">x1</span><span class="o">,</span><span class="n">y1</span><span class="o">),</span> <span class="n">Point</span> <span class="o">(</span><span class="n">x2</span><span class="o">,</span><span class="n">y2</span><span class="o">)))</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printfn</span> <span class="s">&#34;Top Left: %f,%f&#34;</span> <span class="n">x1</span> <span class="n">y1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printfn</span> <span class="s">&#34;Bottom Right: %f,%f&#34;</span> <span class="n">x2</span> <span class="n">y2</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>A Single-case DU is not only useful for giving tuples a distinct type. We can generally wrap
+all types into a Single-Case DU and separate it in this way. For example at the beginning i
+created a <code>Person</code> tuple like that.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Person</span> <span class="o">=</span> <span class="kt">string</span> <span class="o">*</span> <span class="kt">string</span> <span class="o">*</span> <span class="kt">string</span> <span class="o">*</span> <span class="n">DateTime</span> <span class="o">*</span> <span class="kt">float</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Do you still remember what the different <code>string</code>, <code>DateTime</code> or <code>float</code> types represented?
+Me neither. So, why not wrap those Types in a Single-Case DU and give it more meaning?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">PersonDU</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">FirstName</span> <span class="o">=</span> <span class="n">FirstName</span> <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">LastName</span>  <span class="o">=</span> <span class="n">LastName</span>  <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">HairColor</span> <span class="o">=</span> <span class="n">HairColor</span> <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">Birthday</span>  <span class="o">=</span> <span class="n">Birthday</span>  <span class="k">of</span> <span class="n">DateTime</span>
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">Size</span>      <span class="o">=</span> <span class="n">Size</span>      <span class="k">of</span> <span class="kt">float</span>
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">Person</span>    <span class="o">=</span> <span class="n">Person</span>    <span class="k">of</span> <span class="n">FirstName</span> <span class="o">*</span> <span class="n">LastName</span> <span class="o">*</span> <span class="n">HairColor</span> <span class="o">*</span> <span class="n">Birthday</span> <span class="o">*</span> <span class="n">Size</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>I think a type like</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Person</span> <span class="o">=</span> <span class="n">Person</span> <span class="k">of</span> <span class="n">FirstName</span> <span class="o">*</span> <span class="n">LastName</span> <span class="o">*</span> <span class="n">HairColor</span> <span class="o">*</span> <span class="n">Birthday</span> <span class="o">*</span> <span class="n">Size</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>is by far more readable and understandable. A function like:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">getBirthday</span> <span class="o">(</span><span class="n">Person</span> <span class="o">(_,_,_,</span><span class="n">bd</span><span class="o">,_))</span> <span class="o">=</span> <span class="n">bd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now also has the Type Signature <code>Person -&gt; Birthday</code>. We would easily spot errors like this
+one.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">getBirthday</span> <span class="o">(</span><span class="n">Person</span> <span class="o">(_,_,</span><span class="n">bd</span><span class="o">,_,_))</span> <span class="o">=</span> <span class="n">bd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>A function named <code>getBirthday</code> with the signature <code>Person -&gt; HairColor</code> doesn&rsquo;t seems right!
+But it overall helps by eliminating a lot of mistakes. By wrapping types into a DU, we can
+enhance a type and make it more distinct to other type.</p>
+<p>For example instead of using <code>string</code> for an <code>Email</code>. We could generate a <code>Email</code> type on it&rsquo;s own.
+On top of it, we can create functions that take a <code>string</code> and return an <code>Email</code>, and we can add
+validation to it, so when we want an <code>Email</code> we always ensure we have a valid <code>Email</code>, not
+just some random <code>string</code>.</p>
+<p>That&rsquo;s why I mentioned at the beginning that using <code>string</code>, <code>float</code>, <code>int</code> and so on
+is bad practice. Because we hardly never expects that something can be any <code>string</code>, we
+always have some validation. A <code>Uri</code>, <code>Email</code>, <code>Title</code>, <code>Content</code>, <code>HairColor</code>, <code>Name</code> and
+so on might all be represented by a <code>string</code>. But that doesn&rsquo;t mean they are interchangeable,
+or that every <code>string</code> is automatically a valid <code>Email</code>, and it also doesn&rsquo;t makes sense
+to compare those different types at all.</p>
+<p>Using primitive types like <code>string</code>, <code>float</code> throughout your code is also what we
+name <a href="http://enterprisecraftsmanship.com/2015/03/07/functional-c-primitive-obsession/">Primitive Obsession</a>.</p>
+<p>With DUs we can easily get rid of <em>Primitive Obsession</em> and
+<a href="http://reidev275.azurewebsites.net/eliminating-bugs-with-single-case-discriminated-unions/">eliminate a lot of bugs</a>.</p>
+<p><a name="units-of-measure"></a></p>
+<h2 id="units-of-measure">Units of Measure</h2>
+<p>One feature that F# offers that is not directly related to <em>Algebraic-data types</em> is
+<em>Unit of Measures</em>. Before we go deeper into this topic, let&rsquo;s re-look at our latest
+<code>Person</code> definition. We created a <em>wrapper</em> called <code>Size</code>, a <code>Size</code> contains a <code>float</code>,
+but is that really a good definition? What means <code>Size 172.0</code> anyway? <code>172</code> of what?</p>
+<p><em>Meters</em>, <em>feets</em>, <em>miles</em> or <em>egg-sizes</em>? Working just with <code>int</code>, <code>float</code> and so
+on is probably one common source of errors. The most famous one is probably
+the <a href="https://en.wikipedia.org/wiki/Mars_Climate_Orbiter">Mars Climate Orbiter</a>. Because of
+two software-systems, one produced <em>newton-seconds</em>, and another one produced <em>pound-seconds</em>
+the calculation to enter the Mars atmosphere was wrong and it resulted in the destruction
+of the <em>Mars Orbiter</em>.</p>
+<p>A simple definition like:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Lbfs</span> <span class="o">=</span> <span class="n">Lbfs</span> <span class="k">of</span> <span class="kt">float</span>
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Ns</span>   <span class="o">=</span> <span class="n">Ns</span>   <span class="k">of</span> <span class="kt">float</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Could have eliminated that bug, because we were not able to use <em>Lbfs</em> and <em>Ns</em> interchangeable.</p>
+<p>In the same sense it usually makes sense to add unit of measures to types like <code>float</code>, to make
+it clear which unit we expect. We not only eliminate dozens of possible bugs, we also make
+the code more readable by having types like <code>meter</code>, <code>km</code>, <code>feet</code> and so on, instead of just
+<code>float</code> everywhere. We could for example upgrade <code>Size</code> like that.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Size</span> <span class="o">=</span> <span class="n">Cm</span> <span class="k">of</span> <span class="kt">float</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now a definition like <code>Cm 172.0</code> makes it clear that we have <code>172</code> <em>centimeter</em>. We also
+cannot easily add a float to a <code>Size</code> anymore. Because they are of different types.</p>
+<p>Specifying units for numeric values is quite common and can help a lot to make code less
+error-prone. But when we work with <code>Cm</code> we now always have to <em>unwrap</em> a <code>Cm</code> type
+to work with it. If we just want to add two <code>Cm</code> together we have to write a function
+that unwraps both add the <code>float</code> together and re-wrap it again in a <code>Cm</code> type.</p>
+<p>It has advantages, but it is annoying to do that all over again for every numeric type,
+because especially for numbers we always expect that we can add, subtract, multiply or divide
+numbers. Because wrapping of numbers is such a common task, F# provides a feature named
+<em>Units of Measure</em> that we can use instead.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span> <span class="k">type</span> <span class="nc">meter</span>
+</span></span><span class="line"><span class="cl"><span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span> <span class="k">type</span> <span class="nc">miles</span>
+</span></span><span class="line"><span class="cl"><span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span> <span class="k">type</span> <span class="nc">hour</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sizeA</span> <span class="o">=</span> <span class="n">10</span><span class="o">.</span><span class="n">0</span><span class="o">&lt;</span><span class="n">meter</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sizeB</span> <span class="o">=</span> <span class="n">10</span><span class="o">.</span><span class="n">0</span><span class="o">&lt;</span><span class="n">miles</span><span class="o">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>When we now do something like</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="n">sizeA</span> <span class="o">+</span> <span class="n">sizeB</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We get a compile-time error telling us that <em>meter</em> and <em>miles</em> doesn&rsquo;t match up. The benefit is
+that we can work with those numbers without unwrapping them.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">doubleSize</span>   <span class="o">=</span> <span class="n">sizeA</span> <span class="o">*</span> <span class="n">2</span><span class="o">.</span><span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">area</span>         <span class="o">=</span> <span class="n">sizeA</span> <span class="o">*</span> <span class="n">sizeA</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">meterPerHour</span> <span class="o">=</span> <span class="n">sizeA</span> <span class="o">/</span> <span class="n">3</span><span class="o">.</span><span class="n">0</span><span class="o">&lt;</span><span class="n">hour</span><span class="o">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It is quite interesting to look at the types we now get. <code>doubleSize</code> is <code>20.0&lt;meter&gt;</code>. But
+<code>area</code> is <code>100.0&lt;meter ^ 2&gt;</code>. So we get correctly <code>m²</code> not just <code>meter</code>. Trying to do
+<code>doubleSize + area</code> would lead to an error again, because the types don&rsquo;t match up.</p>
+<p><code>meterPerHour</code> is <code>3.333333333&lt;meter/hour&gt;</code>, once again a new unit. It is more common
+to use <code>kilometer</code> and <code>kmh</code> (kilometer per hour) and <code>mph</code> (miles per hour).</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span> <span class="k">type</span> <span class="nc">km</span>
+</span></span><span class="line"><span class="cl"><span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span> <span class="k">type</span> <span class="nc">kmh</span> <span class="o">=</span> <span class="n">km</span> <span class="o">/</span> <span class="n">hour</span>
+</span></span><span class="line"><span class="cl"><span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span> <span class="k">type</span> <span class="nc">mph</span> <span class="o">=</span> <span class="n">miles</span> <span class="o">/</span> <span class="n">hour</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">distance</span>  <span class="o">=</span> <span class="n">320</span><span class="o">.</span><span class="n">0</span><span class="o">&lt;</span><span class="n">km</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">timeTaken</span> <span class="o">=</span> <span class="n">4</span><span class="o">.</span><span class="n">5</span><span class="o">&lt;</span><span class="n">hour</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">speed</span>     <span class="o">=</span> <span class="n">distance</span> <span class="o">/</span> <span class="n">timeTaken</span>  <span class="c1">// 71.1111111&lt;kmh&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">newSpeed</span>     <span class="o">=</span> <span class="n">speed</span> <span class="o">+</span> <span class="n">30</span><span class="o">.</span><span class="n">0</span><span class="o">&lt;</span><span class="n">kmh</span><span class="o">&gt;</span>   <span class="c1">// 101.1111111&lt;kmh&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">newTimeTaken</span> <span class="o">=</span> <span class="n">distance</span> <span class="o">/</span> <span class="n">newSpeed</span> <span class="c1">// 3.164835165&lt;hour&gt;
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>With this example we not only can tag the different numbers with <code>km</code>, <code>hour</code> and so on.
+The types also correctly convert to other type. Dividing <code>distance</code> by <code>timeTaken</code> produces <code>kmh</code>.
+So we get the result that we travelled with an average speed of <code>71.11&lt;kmh&gt;</code>.</p>
+<p>When we drive <code>30&lt;kmh&gt;</code> faster, we will only need <code>3.16&lt;hour&gt;</code> instead of <code>4.5&lt;hour&gt;</code>. We can
+look at the types and see if we get our wanted result. For example when we write</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">newTimeTaken</span> <span class="o">=</span> <span class="n">distance</span> <span class="o">/</span> <span class="n">newSpeed</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>we divide a <code>&lt;km&gt;</code> by <code>&lt;km/hour&gt;</code> this result is just a <code>&lt;hour&gt;</code>. But when we do</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">newTimeTaken</span> <span class="o">=</span> <span class="n">distance</span> <span class="o">*</span> <span class="n">newSpeed</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>then we still get a result <code>32355.55556&lt;km ^ 2/hour&gt;</code>. But we probably didn&rsquo;t wanted
+to calculate the square kilometer per hour. Whatever that means. Trying to pass that value to
+a function that expects <code>&lt;hour&gt;</code> would fail at compile-time, because both are different types.</p>
+<p>From a theoretical standpoint <em>Units of Measure</em> are not directly related to <em>Algebraic Data-types</em>,
+but whenever you want to wrap a number in a Single-case DU, you should consider using
+<em>Units of Measure</em> instead.</p>
+<p>As a self-speaking example, let&rsquo;s reconsider the player example with money in a game.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">PlayerGame</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span> <span class="k">type</span> <span class="nc">Gold</span>
+</span></span><span class="line"><span class="cl">    <span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span> <span class="k">type</span> <span class="nc">Silver</span>
+</span></span><span class="line"><span class="cl">    <span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span> <span class="k">type</span> <span class="nc">Bronze</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">Player</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Name</span><span class="o">:</span>  <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Money</span><span class="o">:</span> <span class="n">int</span><span class="o">&lt;</span><span class="n">Gold</span><span class="o">&gt;</span> <span class="o">*</span> <span class="n">int</span><span class="o">&lt;</span><span class="n">Silver</span><span class="o">&gt;</span> <span class="o">*</span> <span class="n">int</span><span class="o">&lt;</span><span class="n">Bronze</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">richPlayer</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Name</span>  <span class="o">=</span> <span class="s">&#34;Me&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Money</span> <span class="o">=</span> <span class="n">3000</span><span class="o">&lt;</span><span class="n">Gold</span><span class="o">&gt;,</span> <span class="n">200</span><span class="o">&lt;</span><span class="n">Silver</span><span class="o">&gt;,</span> <span class="n">100</span><span class="o">&lt;</span><span class="n">Bronze</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><a name="recursive-du"></a></p>
+<h2 id="recursive-discriminated-unions">Recursive Discriminated Unions</h2>
+<p>The biggest advantage of Discriminated Unions is that the definition can be recursive. <em>Tuples</em>
+or <em>Records</em> cannot be recursive because F# is not lazy by default and we couldn&rsquo;t create
+an immutable recursive record. It would be infinite. But a Discriminated Union contains multiple
+different cases. So a DU can refer to itself, as long we have at least one non-recursive case.</p>
+<p><a name="rdu-lists"></a></p>
+<h3 id="lists">Lists</h3>
+<p>For example, we could create our own <code>MyList</code> type that way. An Immutable linked-list is just
+a DU with two cases. We either reached the end of a list or we have a single-element and another
+<code>MyList</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span> <span class="k">of</span> <span class="k">&#39;</span><span class="n">a</span> <span class="o">*</span> <span class="n">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now can create a <code>MyList</code> like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">nums</span> <span class="o">=</span> <span class="n">Cons</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">Cons</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="n">Cons</span><span class="o">(</span><span class="n">3</span><span class="o">,</span> <span class="n">Cons</span><span class="o">(</span><span class="n">4</span><span class="o">,</span> <span class="n">Cons</span><span class="o">(</span><span class="n">5</span><span class="o">,</span> <span class="n">Empty</span><span class="o">)))))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>When that looks impractical, actually the built-in F# list is exactly defined like this. The only
+difference is that instead of <code>Empty</code> we use <code>[]</code>, and <code>Cons</code> is <code>::</code>. Because it is written
+infix it looks a little bit nicer, but overall it is the same.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">numsl</span> <span class="o">=</span> <span class="n">1</span><span class="o">::</span><span class="n">2</span><span class="o">::</span><span class="n">3</span><span class="o">::</span><span class="n">4</span><span class="o">::</span><span class="n">5</span><span class="o">::</span><span class="bp">[]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We also can easily create a <code>fold</code> function, for further information on how fold works
+or how you can create your own list functions you can continue with:
+<a href="https://davidraab.github.io/posts/loops-to-folds/">From mutable loops to immutable folds</a>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">fold</span> <span class="n">folder</span> <span class="o">(</span><span class="n">acc</span><span class="o">:</span><span class="k">&#39;</span><span class="n">State</span><span class="o">)</span> <span class="kt">list</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="kt">list</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>        <span class="o">-&gt;</span> <span class="n">acc</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="kt">list</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">fold</span> <span class="n">folder</span> <span class="o">(</span><span class="n">folder</span> <span class="n">acc</span> <span class="n">x</span><span class="o">)</span> <span class="kt">list</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rev</span> <span class="kt">list</span>   <span class="o">=</span> <span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">Cons</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">acc</span><span class="o">))</span>   <span class="n">Empty</span> <span class="kt">list</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">map</span> <span class="n">f</span> <span class="kt">list</span> <span class="o">=</span> <span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">Cons</span><span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">,</span><span class="n">acc</span><span class="o">))</span> <span class="n">Empty</span> <span class="o">(</span><span class="n">rev</span> <span class="kt">list</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">)</span> <span class="n">nums</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Cons (1, Cons (4, Cons (9, Cons (16, Cons (25, Empty)))))
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><a name="rdu-btree"></a></p>
+<h3 id="binary-trees">Binary Trees</h3>
+<p>We also can generate any kind of Binary Trees easily. Or in general any kind of Tree type. A
+Binary Tree is either a <code>Leaf</code> an End-node without data. Or we have a <code>Node</code> that contains
+a single element and a Left and a Right Node.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Tree</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Leaf</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Node</span> <span class="k">of</span> <span class="k">&#39;</span><span class="n">a</span> <span class="o">*</span> <span class="n">Tree</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">*</span> <span class="n">Tree</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//    4
+</span></span></span><span class="line"><span class="cl"><span class="c1">//  2   6
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 1 3 5 7
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">tree</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span><span class="o">(</span><span class="n">4</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Node</span><span class="o">(</span><span class="n">2</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Node</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Node</span><span class="o">(</span><span class="n">3</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Node</span><span class="o">(</span><span class="n">6</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Node</span><span class="o">(</span><span class="n">5</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Node</span><span class="o">(</span><span class="n">7</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">fold</span> <span class="n">f</span> <span class="n">acc</span> <span class="n">tree</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">acc</span> <span class="n">tree</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">match</span> <span class="n">tree</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Leaf</span>        <span class="o">-&gt;</span> <span class="n">acc</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Node</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">r</span><span class="o">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">let</span> <span class="nv">acc</span> <span class="o">=</span> <span class="n">loop</span> <span class="n">acc</span> <span class="n">l</span>
+</span></span><span class="line"><span class="cl">            <span class="k">let</span> <span class="nv">acc</span> <span class="o">=</span> <span class="n">f</span> <span class="n">acc</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">            <span class="n">loop</span> <span class="n">acc</span> <span class="n">r</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="n">acc</span> <span class="n">tree</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="o">(</span><span class="kt">string</span> <span class="n">x</span><span class="o">))</span> <span class="s">&#34;&#34;</span> <span class="n">tree</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// &#34;1234567&#34;
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><a name="rdu-ds"></a></p>
+<h3 id="hierarchical-data-structures">Hierarchical Data-Structures</h3>
+<p>We not only can generate general Data-Structure like Lists or Trees, but in general any kind
+of hierarchical data-structures, for example we can use it in general to represent XML,
+HTML and so on. We could use it to represent a document in the Markdown Structure.
+(It doesn&rsquo;t contain all elements of Markdown)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Markdown</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">NewLine</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Literal</span>    <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Bold</span>       <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">InlineCode</span> <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Block</span>      <span class="k">of</span> <span class="n">Markdown</span> <span class="kt">list</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We then can generate a structure like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">document</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Block</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Literal</span> <span class="s">&#34;Hello&#34;</span><span class="o">;</span> <span class="n">Bold</span> <span class="s">&#34;World!&#34;</span><span class="o">;</span> <span class="n">NewLine</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Literal</span> <span class="s">&#34;InlineCode of&#34;</span><span class="o">;</span> <span class="n">InlineCode</span> <span class="s">&#34;let sum x y = x + y&#34;</span><span class="o">;</span> <span class="n">NewLine</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Block</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Literal</span> <span class="s">&#34;This is the end&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Usually we would write a parser that turns a string into such kind of structure.
+Once you have such a structure working with it becomes pretty easy. To turn
+any markdown document into HTML we just write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">produceHtml</span> <span class="n">markdown</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">sb</span>  <span class="o">=</span> <span class="n">StringBuilder</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">recurs</span> <span class="o">=</span> <span class="k">function</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">NewLine</span>         <span class="o">-&gt;</span> <span class="n">sb</span><span class="o">.</span><span class="n">Append</span><span class="o">(</span><span class="s">&#34;&lt;br/&gt;&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Literal</span>    <span class="n">str</span>  <span class="o">-&gt;</span> <span class="n">sb</span><span class="o">.</span><span class="n">Append</span><span class="o">(</span><span class="n">str</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Bold</span>       <span class="n">str</span>  <span class="o">-&gt;</span> <span class="n">sb</span><span class="o">.</span><span class="n">AppendFormat</span><span class="o">(</span><span class="s">&#34;&lt;strong&gt;{0}&lt;/strong&gt;&#34;</span><span class="o">,</span> <span class="n">str</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">InlineCode</span> <span class="n">code</span> <span class="o">-&gt;</span> <span class="n">sb</span><span class="o">.</span><span class="n">AppendFormat</span><span class="o">(</span><span class="s">&#34;&lt;code&gt;{0}&lt;/code&gt;&#34;</span><span class="o">,</span> <span class="n">code</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Block</span>  <span class="n">markdown</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">sb</span><span class="o">.</span><span class="n">Append</span><span class="o">(</span><span class="s">&#34;&lt;p&gt;&#34;</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="n">ignore</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="n">markdown</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">                <span class="n">recurs</span> <span class="n">x</span> <span class="o">|&gt;</span> <span class="n">ignore</span>
+</span></span><span class="line"><span class="cl">            <span class="n">sb</span><span class="o">.</span><span class="n">Append</span><span class="o">(</span><span class="s">&#34;&lt;/p&gt;&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">recurs</span> <span class="n">markdown</span> <span class="o">|&gt;</span> <span class="n">ignore</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sb</span><span class="o">.</span><span class="n">ToString</span><span class="bp">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We just handle every DU case. If we encounter a recursive case like <code>Block</code> we just recurs.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">produceHtml</span> <span class="n">document</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// &lt;p&gt;Hello&lt;strong&gt;World!&lt;/strong&gt;&lt;br/&gt;InlineCode of&lt;code&gt;let sum x y = x + y&lt;/code&gt;&lt;br/&gt;&lt;p&gt;This is the end&lt;/p&gt;&lt;/p&gt;
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><a name="invalid-state"></a></p>
+<h2 id="make-invalid-states-un-representable">Make invalid states un-representable</h2>
+<p>The general idea by designing data-types is to make illegal state un-representable. If invalid
+states are un-representable, bugs cannot happen in the first place. This topic alone is big enough
+of it&rsquo;s own and I will suggest to watch the videos in the <em>Further Reading</em> sections instead.</p>
+<p>But to give a quick overview of the idea. Let&rsquo;s imagine we design a system and a user
+could provide multiple e-mail addresses for his account. First, we want to make sure that
+all e-mails are valid, so instead of using a <code>string</code> we create an <code>Email</code> type and
+we ensure that we must go through validation. So instead of a list of strings we have
+a list of <code>Email</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Email</span> <span class="o">=</span> <span class="n">Email</span> <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Account</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Emails</span> <span class="o">=</span> <span class="n">Email</span> <span class="kt">list</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s now imagine we want to ensure that every account always have at least one valid e-mail.
+We could write code that always check if the list always at least contains one
+element. But we also could achieve the same by changing the data-type so we get
+compile-time safety that this requirement always holds true.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Account</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PrimaryEmail</span>    <span class="o">=</span> <span class="n">Email</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SecondaryEmails</span> <span class="o">=</span> <span class="n">Email</span> <span class="kt">list</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now Account always must have at least one single valid <code>PrimaryEmail</code>. This idea can be extended.
+In <a href="https://channel9.msdn.com/Events/FSharp-Events/fsharpConf-2016/Types-Properties-Software">Types + Properties = Software</a>
+Mark Seemann describes how we can embed the rules of Tennis in the Type System itself. For
+example in Tennis we have the Points <em>Love, 15, 30, 40</em>. You could go on and use just a
+<code>int</code> for that, and instead of <code>Love</code> you use <code>0</code>. But this is again error-prone. Because an
+<code>int</code> support far more values as we need. We also could set it to <code>-456</code> for example. So
+the natural idea is to use a DU for this case.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Points</span> <span class="o">=</span> <span class="n">Love</span> <span class="o">|</span> <span class="n">Fifteen</span> <span class="o">|</span> <span class="n">Thirty</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Why no <code>Forty</code>? Because if we define <code>Forty</code> it could happen that two players
+have <code>Forty</code>, but that is an invalid state. When both Players have <code>Forty</code> the game
+state is named <code>Deuce</code>. What we could do instead, we make <code>Forty</code> a whole new type
+that saves which Player has <code>Forty</code> and saves the Points of the other player. With this
+idea we cannot express the idea to have two Player with <code>Forty</code> because we designed
+the data from the ground-up in a way that we cannot express an invalid state. When you
+write the code around your data-structures you are forced to use the <code>Deuce</code>
+game state instead.</p>
+<p><a name="summary"></a></p>
+<h2 id="summary">Summary</h2>
+<p>An algebraic-type system is at some point simple. Because it just provides two ways in how
+we can compose types. We either can use an <em>AND composition</em> or we can use an <em>OR composition</em>.</p>
+<p>With this idea we can generate various data-structures on its own. We also can encode
+various rules into the type-system itself. By using rich types we can get away with a lot
+of common bugs and prevent errors from happening in the first place.</p>
+<p>Creating rich data-types can help in readability, and it also helps to write correct code.
+As Linus Torvalds once said, we should write our code around our data-structures.</p>
+<blockquote>
+<p>git actually has a simple design, with stable and reasonably well-documented data structures.
+In fact, I&rsquo;m a huge proponent of designing your code around the data, rather than the other
+way around, and I think it&rsquo;s one of the reasons git has been fairly successful [&hellip;] I will,
+in fact, claim that the difference between a bad programmer and a good one is whether he
+considers his code or his data structures more important.</p>
+</blockquote>
+<p><a name="further"></a></p>
+<h2 id="further-reading">Further Reading</h2>
+<ol>
+<li><a href="https://vimeo.com/97507575">[Video] Domain modelling with the F# type system</a></li>
+<li><a href="https://channel9.msdn.com/Events/FSharp-Events/fsharpConf-2016/Types-Properties-Software">[Video] Types + Properties = Software</a></li>
+<li><a href="http://fsharpforfunandprofit.com/series/designing-with-types.html">The &ldquo;Designing with types&rdquo; series</a></li>
+<li><a href="http://blog.ploeh.dk/2016/02/10/types-properties-software-designing-with-types/">Types + Properties = Software</a></li>
+<li><a href="http://reidev275.azurewebsites.net/eliminating-bugs-with-single-case-discriminated-unions/">Eliminating Bugs with Single Case Discriminated Unions</a></li>
+<li><a href="http://www.markheath.net/post/avoid-silly-mistakes-fsharp-units-of-measure">Avoiding Silly Mistakes with F# Unit of Measure</a></li>
+<li><a href="http://tomasp.net/blog/types-and-math.aspx/">Power of mathematics: Reasoning about functional types</a></li>
+<li><a href="http://www.myeyeson.net/validation-by-types/">Validation by types</a></li>
+<li><a href="https://fsharpforfunandprofit.com/posts/units-of-measure/">Units of Measure</a></li>
+<li><a href="http://reidev275.azurewebsites.net/understainding-discriminated-unions-from-enums/">Understanding Discriminated Unions from Enums</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Cardinality">Cardinality</a></li>
+<li><a href="http://enterprisecraftsmanship.com/2015/03/07/functional-c-primitive-obsession/">[C#] Primitive Obsession</a></li>
+<li><a href="http://verraes.net/2016/02/type-safety-and-money/">[PHP] Type Safety and Money</a></li>
+</ol>
+<p><a name="comments"></a></p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
