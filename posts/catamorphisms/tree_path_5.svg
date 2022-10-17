@@ -1,0 +1,76 @@
+<svg font-size="12px" text-rendering="auto" color-rendering="auto" shape-rendering="auto" stroke="black" stroke-linecap="square" viewBox="0 0 426 200" fill="black" font-family="&apos;Dialog&apos;" version="1.1" stroke-miterlimit="10" image-rendering="auto" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" color-interpolation="auto">
+<defs>
+<clipPath id="b" clipPathUnits="userSpaceOnUse">
+<path d="m0 0h426v200h-426v-200z"/>
+</clipPath>
+<clipPath id="a" clipPathUnits="userSpaceOnUse">
+<path d="m-15-15h426v200h-426v-200z"/>
+</clipPath>
+</defs>
+<g text-rendering="geometricPrecision" shape-rendering="geometricPrecision">
+<g stroke="gray" fill="gray">
+<line y2="-44" clip-path="url(#b)" y1="-46" x2="-45" x1="-45" fill="none"/>
+</g>
+<g transform="translate(15 15)" stroke="#fc0" fill="#fc0">
+<rect clip-path="url(#a)" height="30" width="152.09" stroke="none" y="0" x="122.25"/>
+</g>
+<g transform="translate(15 15)" stroke-linecap="butt" stroke-miterlimit="1.45" font-family="sans-serif">
+<text clip-path="url(#a)" xml:space="preserve" stroke="none" y="19.7139" x="129.2478">4 -&gt; (true, [&quot;Right&quot;; &quot;Left&quot;])</text>
+<rect clip-path="url(#a)" height="30" width="152.09" y="0" x="122.25" fill="none"/>
+</g>
+<g transform="translate(15 15)" stroke="#fc0" fill="#fc0">
+<rect clip-path="url(#a)" height="30" width="85.022" stroke="none" y="70" x="52.511"/>
+</g>
+<g transform="translate(15 15)" stroke-linecap="butt" stroke-miterlimit="1.45" font-family="sans-serif">
+<text clip-path="url(#a)" xml:space="preserve" stroke="none" y="89.7139" x="59.5107">2 -&gt; (false, [])</text>
+<rect clip-path="url(#a)" height="30" width="85.022" y="70" x="52.511" fill="none"/>
+</g>
+<g transform="translate(15 15)" stroke="#fc0" fill="#fc0">
+<rect clip-path="url(#a)" height="30" width="108.89" stroke="none" y="70" x="247.12"/>
+</g>
+<g transform="translate(15 15)" stroke-linecap="butt" stroke-miterlimit="1.45" font-family="sans-serif">
+<text clip-path="url(#a)" xml:space="preserve" stroke="none" y="89.7139" x="254.1187">6 -&gt; (true, [&quot;Left&quot;])</text>
+<rect clip-path="url(#a)" height="30" width="108.89" y="70" x="247.12" fill="none"/>
+</g>
+<g transform="translate(15 15)" stroke="#fc0" fill="#fc0">
+<rect clip-path="url(#a)" height="30" width="85.022" stroke="none" y="140" x="0"/>
+</g>
+<g transform="translate(15 15)" stroke-linecap="butt" stroke-miterlimit="1.45" font-family="sans-serif">
+<text clip-path="url(#a)" xml:space="preserve" stroke="none" y="159.7139" x="7">1 -&gt; (false, [])</text>
+<rect clip-path="url(#a)" height="30" width="85.022" y="140" x="0" fill="none"/>
+</g>
+<g transform="translate(15 15)" stroke="#fc0" fill="#fc0">
+<rect clip-path="url(#a)" height="30" width="85.022" stroke="none" y="140" x="105.02"/>
+</g>
+<g transform="translate(15 15)" stroke-linecap="butt" stroke-miterlimit="1.45" font-family="sans-serif">
+<text clip-path="url(#a)" xml:space="preserve" stroke="none" y="159.7139" x="112.0215">3 -&gt; (false, [])</text>
+<rect clip-path="url(#a)" height="30" width="85.022" y="140" x="105.02" fill="none"/>
+</g>
+<g transform="translate(15 15)" stroke="#fc0" fill="#fc0">
+<rect clip-path="url(#a)" height="30" width="80.352" stroke="none" y="140" x="210.04"/>
+</g>
+<g transform="translate(15 15)" stroke-linecap="butt" stroke-miterlimit="1.45" font-family="sans-serif">
+<text clip-path="url(#a)" xml:space="preserve" stroke="none" y="159.7139" x="217.043">5 -&gt; (true, [])</text>
+<rect clip-path="url(#a)" height="30" width="80.352" y="140" x="210.04" fill="none"/>
+</g>
+<g transform="translate(15 15)" stroke="#fc0" fill="#fc0">
+<rect clip-path="url(#a)" height="30" width="85.022" stroke="none" y="140" x="310.39"/>
+</g>
+<g transform="translate(15 15)" stroke-linecap="butt" stroke-miterlimit="1.45" font-family="sans-serif">
+<text clip-path="url(#a)" xml:space="preserve" stroke="none" y="159.7139" x="317.3945">7 -&gt; (false, [])</text>
+<rect clip-path="url(#a)" height="30" width="85.022" y="140" x="310.39" fill="none"/>
+<path clip-path="url(#a)" d="m176.16 30l-52.39 35.511" fill="none"/>
+<path stroke="none" d="m117.15 70l12.74-2.594-5.29-2.456-0.32-5.822z" clip-path="url(#a)"/>
+<path clip-path="url(#a)" d="m220.42 30l52.39 35.511" fill="none"/>
+<path stroke="none" d="m279.43 70l-7.13-10.872-0.32 5.822-5.29 2.456z" clip-path="url(#a)"/>
+<path clip-path="url(#a)" d="m83.769 100l-25.205 33.6" fill="none"/>
+<path stroke="none" d="m53.763 140l11.201-6.6-5.8-0.6-2.2-5.4z" clip-path="url(#a)"/>
+<path clip-path="url(#a)" d="m106.27 100l25.21 33.6" fill="none"/>
+<path stroke="none" d="m136.28 140l-3.2-12.6-2.2 5.4-5.8 0.6z" clip-path="url(#a)"/>
+<path clip-path="url(#a)" d="m290.56 100l-24.61 33.55" fill="none"/>
+<path stroke="none" d="m261.22 140l11.13-6.72-5.81-0.54-2.25-5.37z" clip-path="url(#a)"/>
+<path clip-path="url(#a)" d="m312.56 100l24.61 33.55" fill="none"/>
+<path stroke="none" d="m341.9 140l-3.06-12.63-2.26 5.37-5.81 0.54z" clip-path="url(#a)"/>
+</g>
+</g>
+</svg>

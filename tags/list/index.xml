@@ -6,7 +6,17 @@
     <description>Recent content in list on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 07 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/list/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 28 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/list/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Catamorphisms</title>
+      <link>https://davidraab.github.io/posts/catamorphisms/</link>
+      <pubDate>Sat, 28 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/catamorphisms/</guid>
+      <description>Up to this point I created various articles about fold, in my Series I also created a category named Fold (Catamorphisms) but up till now I didn&amp;rsquo;t explained how this articles related to each other, or what Catamorphisms mean. In this article I want to talk about the remaining parts.
+Table of Content The List Introducing Cata Tail Recursion with FoldBack Binary Trees Cata for Tree Fold vs. FoldBack FoldBack for Tree FoldBack examples Fold for Tree Some Benchmarking Markdown Summary Further Reading Comments The List Catamorphisms is a generalization that emerged from the list data-structure.</description>
+    </item>
+    
     <item>
       <title>CPS fold -- fold with early exit</title>
       <link>https://davidraab.github.io/posts/cps-fold/</link>

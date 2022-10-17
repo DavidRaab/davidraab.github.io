@@ -1,0 +1,67 @@
+<svg font-size="12px" text-rendering="auto" color-rendering="auto" shape-rendering="auto" stroke="black" stroke-linecap="square" viewBox="0 0 360 60" fill="black" font-family="&apos;Dialog&apos;" version="1.1" stroke-miterlimit="10" image-rendering="auto" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" color-interpolation="auto">
+<defs>
+<clipPath id="b" clipPathUnits="userSpaceOnUse">
+<path d="m0 0h360v60h-360v-60z"/>
+</clipPath>
+<clipPath id="a" clipPathUnits="userSpaceOnUse">
+<path d="m180 300h360v60h-360v-60z"/>
+</clipPath>
+</defs>
+<g text-rendering="geometricPrecision" shape-rendering="geometricPrecision">
+<g stroke="gray" fill="gray">
+<line y2="-29" clip-path="url(#b)" y1="-31" x2="-30" x1="-30" fill="none"/>
+</g>
+<g transform="translate(-180 -300)" stroke="#fc0" fill="#fc0">
+<rect clip-path="url(#a)" height="30" width="30" stroke="none" y="315" x="195"/>
+</g>
+<g transform="translate(-180 -300)" stroke-linecap="butt" stroke-miterlimit="1.45" font-family="sans-serif">
+<text clip-path="url(#a)" xml:space="preserve" stroke="none" y="334.7139" x="206.6631">1</text>
+<rect clip-path="url(#a)" height="30" width="30" y="315" x="195" fill="none"/>
+</g>
+<g transform="translate(-180 -300)" stroke="#fc0" fill="#fc0">
+<rect clip-path="url(#a)" height="30" width="30" stroke="none" y="315" x="255"/>
+</g>
+<g transform="translate(-180 -300)" stroke-linecap="butt" stroke-miterlimit="1.45" font-family="sans-serif">
+<text clip-path="url(#a)" xml:space="preserve" stroke="none" y="334.7139" x="266.6631">2</text>
+<rect clip-path="url(#a)" height="30" width="30" y="315" x="255" fill="none"/>
+</g>
+<g transform="translate(-180 -300)" stroke="#fc0" fill="#fc0">
+<rect clip-path="url(#a)" height="30" width="30" stroke="none" y="315" x="315"/>
+</g>
+<g transform="translate(-180 -300)" stroke-linecap="butt" stroke-miterlimit="1.45" font-family="sans-serif">
+<text clip-path="url(#a)" xml:space="preserve" stroke="none" y="334.7139" x="326.6631">3</text>
+<rect clip-path="url(#a)" height="30" width="30" y="315" x="315" fill="none"/>
+</g>
+<g transform="translate(-180 -300)" stroke="#fc0" fill="#fc0">
+<rect clip-path="url(#a)" height="30" width="30" stroke="none" y="315" x="375"/>
+</g>
+<g transform="translate(-180 -300)" stroke-linecap="butt" stroke-miterlimit="1.45" font-family="sans-serif">
+<text clip-path="url(#a)" xml:space="preserve" stroke="none" y="334.7139" x="386.6631">4</text>
+<rect clip-path="url(#a)" height="30" width="30" y="315" x="375" fill="none"/>
+</g>
+<g transform="translate(-180 -300)" stroke="#fc0" fill="#fc0">
+<rect clip-path="url(#a)" height="30" width="30" stroke="none" y="315" x="435"/>
+</g>
+<g transform="translate(-180 -300)" stroke-linecap="butt" stroke-miterlimit="1.45" font-family="sans-serif">
+<text clip-path="url(#a)" xml:space="preserve" stroke="none" y="334.7139" x="446.6631">5</text>
+<rect clip-path="url(#a)" height="30" width="30" y="315" x="435" fill="none"/>
+</g>
+<g transform="translate(-180 -300)" stroke="#fc0" fill="#fc0">
+<rect clip-path="url(#a)" height="30" width="30" stroke="none" y="315" x="495"/>
+</g>
+<g transform="translate(-180 -300)" stroke-linecap="butt" stroke-miterlimit="1.45" font-family="sans-serif">
+<text clip-path="url(#a)" xml:space="preserve" stroke="none" y="334.7139" x="508.333">/</text>
+<rect clip-path="url(#a)" height="30" width="30" y="315" x="495" fill="none"/>
+<path clip-path="url(#a)" d="m225 330h22" fill="none"/>
+<path stroke="none" d="m255 330l-12-5 3 5-3 5z" clip-path="url(#a)"/>
+<path clip-path="url(#a)" d="m285 330h22" fill="none"/>
+<path stroke="none" d="m315 330l-12-5 3 5-3 5z" clip-path="url(#a)"/>
+<path clip-path="url(#a)" d="m345 330h22" fill="none"/>
+<path stroke="none" d="m375 330l-12-5 3 5-3 5z" clip-path="url(#a)"/>
+<path clip-path="url(#a)" d="m405 330h22" fill="none"/>
+<path stroke="none" d="m435 330l-12-5 3 5-3 5z" clip-path="url(#a)"/>
+<path clip-path="url(#a)" d="m465 330h22" fill="none"/>
+<path stroke="none" d="m495 330l-12-5 3 5-3 5z" clip-path="url(#a)"/>
+</g>
+</g>
+</svg>

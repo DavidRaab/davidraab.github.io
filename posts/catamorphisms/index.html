@@ -1,0 +1,1762 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Catamorphisms // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="David Raab" />
+    <meta name="description" content="Explains Catamorphisms in F#. That means the purpose of fold and foldBack." />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.ed89a5cc0375fa7724cb6db743e67af2becc198df1d8801fbd90e68203117cd6.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Catamorphisms"/>
+<meta name="twitter:description" content="Explains Catamorphisms in F#. That means the purpose of fold and foldBack."/>
+
+    <meta property="og:title" content="Catamorphisms" />
+<meta property="og:description" content="Explains Catamorphisms in F#. That means the purpose of fold and foldBack." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/catamorphisms/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-05-28T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-05-28T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>My personal Blog. Writing about programming and other stuff.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Catamorphisms</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          May 28, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          3 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/fold/">fold</a>
+              <a class="tag" href="https://davidraab.github.io/tags/list/">list</a>
+              <a class="tag" href="https://davidraab.github.io/tags/data/">data</a>
+              <a class="tag" href="https://davidraab.github.io/tags/types/">types</a>
+              <a class="tag" href="https://davidraab.github.io/tags/recursion/">recursion</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>Up to this point I created various articles about <code>fold</code>, in my <a href="/Series">Series</a> I
+also created a category named <strong>Fold (Catamorphisms)</strong> but up till now I didn&rsquo;t explained
+how this articles related to each other, or what <em>Catamorphisms</em> mean. In this article
+I want to talk about the remaining parts.</p>
+<h2 id="table-of-content">Table of Content</h2>
+<ul class="toc">
+  <li><a href="#TheLists">The List</a></li>
+    <ul>
+      <li><a href="#cata">Introducing Cata</a></li>
+      <li><a href="#tail-recursion">Tail Recursion with FoldBack</a></li>
+    </ul>
+  <li><a href="#binary-trees">Binary Trees</a></li>
+    <ul>
+      <li><a href="#tree-cata">Cata for Tree</a></li>
+      <li><a href="#fold-vs-foldback">Fold vs. FoldBack</a></li>
+      <li><a href="#tree-foldback">FoldBack for Tree</a></li>
+      <li><a href="#tree-foldback-examples">FoldBack examples</a></li>
+      <li><a href="#tree-fold">Fold for Tree</a></li>
+      <li><a href="#benchmarking">Some Benchmarking</a></li>
+    </ul>
+  <li><a href="#markdown">Markdown</a></li>
+  <li><a href="#summary">Summary</a></li>
+  <li><a href="#further">Further Reading</a></li>
+  <li><a href="#comments">Comments</a></li>
+</ul>
+<p><a name="TheLists"></a></p>
+<h2 id="the-list">The List</h2>
+<p>Catamorphisms is a generalization that emerged from the list data-structure. The list
+data-structure, how it is found in functional programming, is usually build as a single
+linked list. Or to be more precise, it is build as a recursive data type expressed
+as a Discriminated Union. That is the reason why
+<a href="https://davidraab.github.io/posts/algebraic-data-types/">Algebraic Data-Types</a> is the very first
+entry.</p>
+<p>Catamorphisms is the idea that we also implement <code>fold</code> and <code>foldBack</code> functions for
+other discriminated unions besides list. Because of this it is important to first
+understand how to define data-types, especially recursive discriminated unions.</p>
+<p>To get a better understanding of the concept, this time we implement our own
+list type.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">List</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span> <span class="k">of</span> <span class="n">head</span><span class="o">:</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">*</span> <span class="n">tail</span><span class="o">:</span><span class="n">List</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>I also create additionally constructor functions for each case:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">empty</span>    <span class="o">=</span> <span class="n">Empty</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cons</span> <span class="n">h</span> <span class="n">t</span> <span class="o">=</span> <span class="n">Cons</span><span class="o">(</span><span class="n">h</span><span class="o">,</span><span class="n">t</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="info">
+When you wonder about the name <code>Cons</code> this dates back to Lisp. For example
+in <a href="http://www.racket-lang.org/">Racket</a> (a Lisp dialect) you can
+build a list in such way.
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">xs</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">2</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">3</span> <span class="nb">empty</span><span class="p">))))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>with the helper functions we defined in F# it almost looks the same.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">xs</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="n">1</span> <span class="o">(</span><span class="n">cons</span> <span class="n">2</span> <span class="o">(</span><span class="n">cons</span> <span class="n">3</span> <span class="n">empty</span><span class="o">)))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<p>As soon we have any kind of discriminated union, working with such a type follows
+a straight pattern. Usually we create a function that matches on our type, and
+we must provide code for every case we have. In our list case that means
+we must match on the <code>Empty</code> case and on the <code>Cons(h,t)</code> case and do something
+with every case.</p>
+<p>But the <code>Cons</code> case is special, because it is recursive. So how do we work
+with it? We just write a recursive function that recurs! Once you notice
+this pattern, writing any kind of function for a recursive discriminated union
+becomes easy. First, let&rsquo;s define some example data that we will use from now on:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">l1</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="n">1</span> <span class="o">(</span><span class="n">cons</span> <span class="n">2</span> <span class="o">(</span><span class="n">cons</span> <span class="n">3</span> <span class="n">empty</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">l2</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="n">1</span> <span class="o">(</span><span class="n">cons</span> <span class="n">2</span> <span class="o">(</span><span class="n">cons</span> <span class="n">3</span> <span class="o">(</span><span class="n">cons</span> <span class="n">4</span> <span class="o">(</span><span class="n">cons</span> <span class="n">5</span> <span class="n">empty</span><span class="o">)))))</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">l3</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="s">&#34;Hello&#34;</span> <span class="o">(</span><span class="n">cons</span> <span class="s">&#34; &#34;</span> <span class="o">(</span><span class="n">cons</span> <span class="s">&#34;World!&#34;</span> <span class="n">empty</span><span class="o">)))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And our first example function <code>listLength'</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">listLength&#39;</span> <span class="kt">list</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="kt">list</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>     <span class="o">-&gt;</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">h</span><span class="o">,</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">1</span> <span class="o">+</span> <span class="o">(</span><span class="n">listLength&#39;</span> <span class="n">t</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">listLength&#39;</span> <span class="n">l1</span> <span class="c1">// 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listLength&#39;</span> <span class="n">l2</span> <span class="c1">// 5
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listLength&#39;</span> <span class="n">l3</span> <span class="c1">// 3
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>listLength'</code> returns the amount of elements in our list. We just need to handle
+both cases to achieve that. If we have an <code>Empty</code> case, the length is obvious,
+then we have zero elements. If we have <code>Cons</code> then we have one element plus
+the amount of elements of the remaining list. So we call <code>listLength' t</code> to
+get it.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">listSum&#39;</span> <span class="o">=</span> <span class="k">function</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>     <span class="o">-&gt;</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">h</span><span class="o">,</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">h</span> <span class="o">+</span> <span class="o">(</span><span class="n">listSum&#39;</span> <span class="n">t</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">listSum&#39;</span> <span class="n">l1</span> <span class="c1">// 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listSum&#39;</span> <span class="n">l2</span> <span class="c1">// 15
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="info">
+The keyword <code>function</code> is a shortcut. Instead of defining the last argument
+and Pattern Match on it. We can directly use <code>function</code> that does the same.
+This way we can omit the argument, and the <code>match</code> line.
+</div
+<p><code>listSum'</code> is just a simple <em>sum</em> function that adds a list of <code>int</code> together.
+Probably at this time you start to see that <code>listLength'</code> and <code>listSum'</code> are
+very similar. But let&rsquo;s create some more examples.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">listMap&#39;</span> <span class="n">f</span> <span class="o">=</span> <span class="k">function</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>     <span class="o">-&gt;</span> <span class="n">empty</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">h</span><span class="o">,</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">cons</span> <span class="o">(</span><span class="n">f</span> <span class="n">h</span><span class="o">)</span> <span class="o">(</span><span class="n">listMap&#39;</span> <span class="n">f</span> <span class="n">t</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">listMap&#39;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">)</span> <span class="n">l1</span> <span class="c1">// Cons (1,Cons (4,Cons (9,Empty)))
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listMap&#39;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">)</span> <span class="n">l2</span> <span class="c1">// Cons (1,Cons (4,Cons (9,Cons (16,Cons (25,Empty)))))
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listMap&#39;</span> <span class="nn">String</span><span class="p">.</span><span class="n">length</span> <span class="n">l3</span>    <span class="c1">// Cons (5,Cons (1,Cons (6,Empty)))
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>If you are not used to recursion then this looks a little bit more complicated, but it
+is still the same. We expect that <code>map</code> runs a function on every element. So what do
+we do we do with an empty list? We just return empty. Otherwise we have a single
+element <code>h</code> and another list <code>t</code>. In that case we just call <code>(f h)</code> to transform
+our <code>h</code> element, and how do we transform the remaining list <code>t</code>? With <code>listMap'</code>,
+we only need to <code>cons</code> the result of both function calls.</p>
+<p>In the next function we want to append an element to a list. Just think for a
+moment for yourself how you achieve that. The answer: In the <code>Cons</code> case we do nothing, as
+this is not the end of the list. Instead we transform an <code>Empty</code> with our element
+appended.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">listSnoc&#39;</span> <span class="n">x</span> <span class="o">=</span> <span class="k">function</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>     <span class="o">-&gt;</span> <span class="o">(</span><span class="n">cons</span> <span class="n">x</span> <span class="n">empty</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">h</span><span class="o">,</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">cons</span> <span class="n">h</span> <span class="o">(</span><span class="n">listSnoc&#39;</span> <span class="n">x</span> <span class="n">t</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">listSnoc&#39;</span> <span class="n">4</span> <span class="n">l1</span>        <span class="c1">// Cons (1,Cons (2,Cons (3,Cons (4,Empty))))
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listSnoc&#39;</span> <span class="s">&#34;Kazom!&#34;</span> <span class="n">l3</span> <span class="c1">// Cons (&#34;Hello&#34;,Cons (&#34; &#34;,Cons (&#34;World!&#34;,Cons (&#34;Kazom!&#34;,Empty))))
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Okay, at this point we have enough examples. When we look at our examples, how do we work
+with a discriminated union in general? All examples have one recurring pattern that we
+do all over again.</p>
+<ol>
+<li>We must pattern match on every case of the discriminated union.</li>
+<li>In a non-recursive case we just do whatever needs to be done.</li>
+<li>In a recursive case like <code>Cons</code> we have two data-fields. <code>h</code> and <code>t</code>. We just work
+with <code>h</code> however we need, exactly like a non-recursive case. For the recursive datum
+<code>t</code> we just call our function again and recurs.</li>
+</ol>
+<p>This is a general pattern how we can work with any discriminated union and provide any
+kind of transformation for it. But there can be two problems with this approach:</p>
+<ol>
+<li>The function feels repetitive, or more important, always rewriting the whole recursion logic
+feels not like Don&rsquo;t-Repeat-Yourself.</li>
+<li>None of the functions we have, are tail-recursive.</li>
+</ol>
+<p>Let&rsquo;s address those problems separately.</p>
+<p><a name="cata"></a></p>
+<h2 id="introducing-cata">Introducing Cata</h2>
+<p>We already identified our Pattern, so what we usually do is to create a <code>cata</code> function
+that abstract those repetition. To describe the repetition in one sentence: <em>A <code>cata</code>
+function abstracts the recursion over a data-structure.</em></p>
+<p>We handle the recursion inside of <code>cata</code>. <code>cata</code> then expects a function to handle
+every case. New functions can then be created out of <code>cata</code>.</p>
+<div class="info">
+Abstraction is probably the most important thing in programming. Abstraction is the idea
+to see recurring patterns. That means in order to do abstraction we need at least
+two things that are very similar (lets name them A and B). We then create a new function
+(we name it C) that contains all the similar things between A and B. To handle the differences
+we expect the differences to be passed as arguments to C (Often in the form of functions).
+After we have C, we rewrite A and B by using C.
+</div>
+<p>Our first version of <code>cata</code> could look like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">listCata&#39;</span> <span class="n">fEmpty</span> <span class="n">fCons</span> <span class="o">=</span> <span class="k">function</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>     <span class="o">-&gt;</span> <span class="n">fEmpty</span> <span class="bp">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">h</span><span class="o">,</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">fCons</span> <span class="n">h</span> <span class="o">(</span><span class="n">listCata&#39;</span> <span class="n">fEmpty</span> <span class="n">fCons</span> <span class="n">t</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Before we look closer in how it works, let&rsquo;s see how we can create a new length function
+defined with <code>cata</code> instead.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listLength</span><span class="k">&#39;&#39;</span> <span class="kt">list</span> <span class="o">=</span> <span class="n">listCata&#39;</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">(</span><span class="k">fun</span> <span class="n">h</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="n">1</span> <span class="o">+</span> <span class="n">t</span><span class="o">)</span> <span class="kt">list</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">listLength&#39;&#39;</span> <span class="n">l1</span> <span class="c1">// 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listLength&#39;&#39;</span> <span class="n">l2</span> <span class="c1">// 5
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listLength&#39;&#39;</span> <span class="n">l3</span> <span class="c1">// 3
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>listCata'</code> just expects two functions. The first functions handles the <code>Empty</code> case,
+and the second functions handles the <code>Cons</code> case. But which arguments do we pass those function
+exactly?</p>
+<p>We pass the data that is attached to every case to the provided function. As the <code>Empty</code> case
+don&rsquo;t contain any data, we just call <code>fEmpty ()</code> and pass it the <strong>unit</strong> value.</p>
+<p>The <code>Cons</code> case contains two datums. It contains the <em>head</em> and the <em>tail</em> element. But we
+do not pass the <em>tail</em> element directly. Just think about it for a minute. The purpose of
+the <code>cata</code> function is to abstract the recursion, so the function passed to <code>cata</code>
+don&rsquo;t need to handle the recursion. If we would pass <code>t</code> directly to <code>fCons</code> then
+<code>fCons</code> again would need to handle the recursion. Instead of passing <code>t</code>, we pass the
+result of the recursive call.</p>
+<p>If this transformation looks strange. Actually we have written this kind of code multiple
+times already. Let&rsquo;s look again at the first <code>listLength'</code> and lets think how we could
+transform <code>listLength'</code> to the more abstract <code>listCata'</code>. When we look at the <code>Cons</code> line
+It looked like this:</p>
+<pre><code>| Cons(h,t) -&gt; 1 + (listLength' t)
+</code></pre>
+<p>At first we can treat <code>+</code> just as a function. Instead of writing it infix between two arguments
+we also can write it prefix before its arguments. Then it looks like a normal function call.</p>
+<pre><code>|Cons(h,t) -&gt; (+) 1 (listLength' t)
+</code></pre>
+<p>But in our <code>listCata'</code> function we don&rsquo;t want to calculate <code>(+)</code>, a hard-coded function, we
+want to execute the function the user provided, so we write:</p>
+<pre><code>|Cons(h,t) -&gt; fCons 1 (listLength' t)
+</code></pre>
+<p>Additionally, we don&rsquo;t want to pass <code>1</code>. <code>1</code> was the replacement for <code>h</code> for the length function.
+In the abstracted version we just pass <code>h</code> to <code>fCons</code> and <code>fCons</code> decide what to do
+with <code>h</code>. And the last thing, our function is named <code>listCata'</code> so we need to recurs on
+<code>listCata'</code> not <code>listLength'</code>. So we end with:</p>
+<pre><code>|Cons(h,t) -&gt; fCons h (listCata' fEmpty fCons t)
+</code></pre>
+<p>Now let&rsquo;s improve <code>listCata'</code> step by step. In the list example this isn&rsquo;t so obvious,
+but as we see later when we have other discriminated unions with much more cases and a lot
+more recursive cases, then calling a <code>cata</code> function can become annoying. We can fix that by
+creating a partial applied function before we <code>match</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">listCata&#39;&#39;</span> <span class="n">fEmpty</span> <span class="n">fCons</span> <span class="kt">list</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">recurs</span> <span class="o">=</span> <span class="n">listCata&#39;&#39;</span> <span class="n">fEmpty</span> <span class="n">fCons</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="kt">list</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>     <span class="o">-&gt;</span> <span class="n">fEmpty</span> <span class="bp">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">h</span><span class="o">,</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">fCons</span> <span class="n">h</span> <span class="o">(</span><span class="n">recurs</span> <span class="n">t</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In the case of a list this isn&rsquo;t a big improvement, we also cannot use the <code>function</code> keyword anymore.
+But usually it is a good idea and it makes the code a little bit cleaner, especially when we create
+a <code>cata</code> function for more complicated discriminated unions.</p>
+<p>A second improvement. Actually functions that take <code>unit</code> as a value are bad! A pure function that
+expects <code>unit</code> always only can return the exact same value when it is called. F# is not a
+pure-functional language, so theoretically <code>fEmpty</code> could do some kind of side-effects and always
+return something different. But, I don&rsquo;t encourage such things. A <code>cata</code> function is really
+the idea to transform a data-structure, there shouldn&rsquo;t be side-effects in it. So instead
+of a function, we just expect a direct value that should be used for the <code>Empty</code> case. On top,
+I name the return type <code>'State</code>. This is just a <em>generic-type</em>, but by having a more descriptive
+name as <code>'a</code>, <code>'b</code> and so on, it can help in understanding the function signatures. Now our
+third <code>listCata'''</code> version looks like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">listCata&#39;&#39;&#39;</span> <span class="n">empty</span> <span class="n">fCons</span> <span class="kt">list</span> <span class="o">:</span> <span class="k">&#39;</span><span class="n">State</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">recurs</span> <span class="o">=</span> <span class="n">listCata&#39;&#39;&#39;</span> <span class="n">empty</span> <span class="n">fCons</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="kt">list</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>     <span class="o">-&gt;</span> <span class="n">empty</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">h</span><span class="o">,</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">fCons</span> <span class="n">h</span> <span class="o">(</span><span class="n">recurs</span> <span class="n">t</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>When we look at the type-signature of our function the type-signature should look familiar!</p>
+<pre><code>empty:'State -&gt; fCons:('a -&gt; 'State -&gt; 'State) -&gt; list:List&lt;'a&gt; -&gt; 'State
+</code></pre>
+<p>It is nearly the same as <code>foldBack</code>! The only difference is that the arguments are in another
+order. Let&rsquo;s compare it with the signature of <code>List.foldBack</code>:</p>
+<pre><code>folder:('T -&gt; 'State -&gt; 'State) -&gt; list:list&lt;'a&gt; -&gt; state:'State -&gt; 'State
+</code></pre>
+<p>It just expects the <code>fCons</code> function first, here named <code>folder</code>, then the list to operator
+on, and finally the value for the empty case, here just named <code>state</code>. So let&rsquo;s also
+do this kind of re-order, and finally we end up with our final <code>listCata</code> function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">listCata</span> <span class="n">fCons</span> <span class="kt">list</span> <span class="n">state</span> <span class="o">:</span> <span class="k">&#39;</span><span class="n">State</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="kt">list</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>     <span class="o">-&gt;</span> <span class="n">state</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">h</span><span class="o">,</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">fCons</span> <span class="n">h</span> <span class="o">(</span><span class="n">listCata</span> <span class="n">fCons</span> <span class="n">t</span> <span class="n">state</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Usually, i wouldn&rsquo;t do such a re-order for a <code>cata</code> function. We also lost the ability
+to use partial application with the <code>recurs</code> function. But because our list type is anyway
+so small, the re-order doesn&rsquo;t hurt much. Here, it is more an example to show more clearly
+the relation that <code>cata</code> always has the same behaviour as <code>foldBack</code>.</p>
+<div class="info">
+It is important to understand that it behaves like <code>foldBack</code> not like
+<code>fold</code>! I will later go more deeply into this topic and show how <code>fold</code>
+and <code>foldBack</code> differ, and why that difference is important.
+</div>
+<p>Our goal why we created a <code>cata</code> function was that we have an abstraction, instead of writing
+functions that do the recursion all over by themselves, we now can use <code>listCata</code> that abstract
+this kind of thing for us. Now, we also should use <code>listCata</code> and rewrite all our functions
+we created so far by using our abstraction. Here are the final list functions re-written with
+<code>listCata</code> instead.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listLength</span> <span class="kt">list</span> <span class="o">=</span> <span class="n">listCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">1</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listSum</span>    <span class="kt">list</span> <span class="o">=</span> <span class="n">listCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listMap</span> <span class="n">f</span>  <span class="kt">list</span> <span class="o">=</span> <span class="n">listCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">cons</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="n">empty</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listSnoc</span> <span class="n">x</span> <span class="kt">list</span> <span class="o">=</span> <span class="n">listCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">cons</span> <span class="n">x</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="o">(</span><span class="n">cons</span> <span class="n">x</span> <span class="n">empty</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And some examples to see that they work like expected:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">listLength</span> <span class="n">l1</span> <span class="c1">// 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listLength</span> <span class="n">l2</span> <span class="c1">// 5
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listLength</span> <span class="n">l3</span> <span class="c1">// 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listSum</span> <span class="n">l1</span>    <span class="c1">// 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listSum</span> <span class="n">l2</span>    <span class="c1">// 15
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listMap</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">)</span> <span class="n">l1</span> <span class="c1">// Cons (1,Cons (4,Cons (9,Empty)))
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listMap</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">)</span> <span class="n">l2</span> <span class="c1">// Cons (1,Cons (4,Cons (9,Cons (16,Cons (25,Empty)))))
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listSnoc</span> <span class="n">4</span> <span class="n">l1</span>        <span class="c1">// Cons (1,Cons (2,Cons (3,Cons (4,Empty))))
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listSnoc</span> <span class="s">&#34;Kazoom&#34;</span> <span class="n">l3</span> <span class="c1">// Cons (&#34;Hello&#34;,Cons (&#34; &#34;,Cons (&#34;World!&#34;,Cons (&#34;Kazoom&#34;,Empty))))
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s summarize what we have done so far:</p>
+<ol>
+<li>We usually start with a recursively defined discriminated union.</li>
+<li>When we work with such a type, we need to write recursive functions.</li>
+<li>Instead of writing functions with recursion directly, we create a <code>cata</code> function
+that abstracts the recursion for us.</li>
+<li>The <code>cata</code> function expects a function for every case.</li>
+<li>Cases without data can be simple values instead of functions.</li>
+<li>We just pass all data associated with that case to the correct function.</li>
+<li>We don&rsquo;t pass a datum that is recursive to the functions. Those datum must be
+first passed to <code>cata</code> itself.</li>
+<li>The behaviour of <code>cata</code> is the same as <code>foldBack</code>.</li>
+<li><code>cata</code> is not tail-recursive.</li>
+</ol>
+<p><a name="tail-recursion"></a></p>
+<h2 id="tail-recursion-with-foldback">Tail Recursion with FoldBack</h2>
+<p>At this point we should ask ourselves if we really need tail-recursion. The answer is
+not always <strong>yes</strong>. We really should think of the use-cases we have, and what kind
+of data-structure we defined. And in the most cases, the answer is <strong>No</strong>.</p>
+<p>It is important to understand that we only run into problems with recursion when we
+have a data-structure with a linear depth. In our list example, this is the case.
+What does it mean exactly? It means that it is pretty normal to have very deep
+recursion, usually a case where every additional element increases the depth by one.</p>
+<p>For a single linked list this is the case. A list with 10,000 elements will also
+create a stack depth of 10,000. So it is important to create tail-recursive
+functions. But does that mean all the work on <code>cata</code> was wasted?</p>
+<p>Absolutely not. We just take <code>cata</code> as the starting point and we just try to make
+<code>cata</code> tail-recursive. The tail recursive version then is what we call <code>foldBack</code>.</p>
+<p>And this leads to the next articles in my series. Converting functions into
+tail-recursive functions is a task on its own that needs proper explanation.</p>
+<p>One technique that is most often used is the idea of an accumulator. Instead of
+doing a calculation once a function finished, we do the calculations immediately and
+pass the result to the next function call. I explain this conept in more detail
+in: <a href="https://davidraab.github.io/posts/loops-to-folds/">From mutable loops to immutability</a></p>
+<p>Another idea is to use a continuation function, I already provide two articles explaining
+the ideas behind this technique. In <a href="https://davidraab.github.io/posts/continuations-and-foldback/">Continuations and foldBack</a>
+I explain in deep how a tail-recursive <code>foldBack</code> works. And in my article
+<a href="https://davidraab.github.io/posts/cps-fold/">CPS fold &ndash; fold with early exit</a> I explain
+the idea of a continuation function a second time with <code>fold</code>.</p>
+<p>But it doesn&rsquo;t mean both ideas are interchangeable. When we directly want to create
+a tail-recursive <code>foldBack</code> function then we need to use the continuation-function
+approach. We cannot create a tail-recursive <code>foldBack</code> with an accumulator approach.</p>
+<p>As I already have three articles on those topics I don&rsquo;t go into much further
+detail, so I just provide a quick explanation. We just start with the <code>cata</code> function.
+In <code>cata</code> we see something like this:</p>
+<pre><code>| Cons(h,t) -&gt; fCons h (listCata fCons t state)
+</code></pre>
+<p>So, the second argument to <code>fCons</code> is a recursive call. Let&rsquo;s shortly rethink what it does.
+It calls the function and it will return some kind of data, this data is then passed to
+the <code>fCons</code> function as the second argument. With the continuation approach we just assume
+we already have that data. So we just replace every recursive call with some variable
+we don&rsquo;t have yet.</p>
+<pre><code>| Cons(h,t) -&gt; fCons h racc
+</code></pre>
+<p>Sure, that wouldn&rsquo;t compile now, because we didn&rsquo;t define <code>racc</code> anywhere, so we wrap it
+inside a function, that functions then becomes <code>racc</code> somewhere in the future.</p>
+<pre><code>| Cons(h,t) -&gt; (fun racc -&gt; fCons h racc)
+</code></pre>
+<p>But that isn&rsquo;t anything, we still need to somehow traverse our list, and call that function.
+In short, we change our previously defined <code>cata</code> all in all to something like that.
+Let&rsquo;s see the <code>cata</code> and <code>foldBack</code> directly to each other.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">listCata</span> <span class="n">fCons</span> <span class="kt">list</span> <span class="n">state</span> <span class="o">:</span> <span class="k">&#39;</span><span class="n">State</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="kt">list</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>     <span class="o">-&gt;</span> <span class="n">state</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">h</span><span class="o">,</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">fCons</span> <span class="n">h</span> <span class="o">(</span><span class="n">listCata</span> <span class="n">fCons</span> <span class="n">t</span> <span class="n">state</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listFoldBack</span> <span class="n">fCons</span> <span class="kt">list</span> <span class="n">state</span> <span class="o">:</span> <span class="k">&#39;</span><span class="n">State</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="kt">list</span> <span class="n">cont</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">match</span> <span class="kt">list</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Empty</span>     <span class="o">-&gt;</span> <span class="n">cont</span> <span class="n">state</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">h</span><span class="o">,</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">loop</span> <span class="n">t</span> <span class="o">(</span><span class="k">fun</span> <span class="n">racc</span> <span class="o">-&gt;</span> <span class="n">cont</span> <span class="o">(</span><span class="n">fCons</span> <span class="n">h</span> <span class="n">racc</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="kt">list</span> <span class="n">id</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The implementation of our list functions also didn&rsquo;t change at all. Instead of
+<code>listCata</code> they just use <code>listFoldBack</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listLength</span> <span class="kt">list</span> <span class="o">=</span> <span class="n">listFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">1</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listSum</span>    <span class="kt">list</span> <span class="o">=</span> <span class="n">listFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listMap</span> <span class="n">f</span>  <span class="kt">list</span> <span class="o">=</span> <span class="n">listFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">cons</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="n">empty</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listSnoc</span> <span class="n">x</span> <span class="kt">list</span> <span class="o">=</span> <span class="n">listFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">cons</span> <span class="n">x</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="o">(</span><span class="n">cons</span> <span class="n">x</span> <span class="n">empty</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><a name="binary-trees"></a></p>
+<h2 id="binary-trees">Binary Trees</h2>
+<p>Up so far we explored the concept of the <code>cata</code> function only with the list and when we make that
+function tail-recursive we call it <code>foldBack</code>. But as said before, Catamorphisms are a generalization.
+That means, the concept of writing a <code>cata</code> function and creating tail-recursive version out of it
+should also be done for other discriminated unions, not just for a list.</p>
+<p>For the next example we will look at a binary tree. A binary tree is quite interesting
+because it is very similar to a list. But let&rsquo;s see that in more detail:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Tree</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Leaf</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Node</span> <span class="k">of</span> <span class="k">&#39;</span><span class="n">a</span> <span class="o">*</span> <span class="n">Tree</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">*</span> <span class="n">Tree</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Once again I also introduce some helper functions to create the cases.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">node</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">=</span> <span class="n">Node</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">r</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">endNode</span> <span class="n">x</span>  <span class="o">=</span> <span class="n">node</span> <span class="n">x</span> <span class="n">Leaf</span> <span class="n">Leaf</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And a simple tree that contains the numbers 1 to 7 ordered.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">tree</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">(</span><span class="n">node</span> <span class="n">4</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">node</span> <span class="n">2</span> <span class="o">(</span><span class="n">endNode</span> <span class="n">1</span><span class="o">)</span> <span class="o">(</span><span class="n">endNode</span> <span class="n">3</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">node</span> <span class="n">6</span> <span class="o">(</span><span class="n">endNode</span> <span class="n">5</span><span class="o">)</span> <span class="o">(</span><span class="n">endNode</span> <span class="n">7</span><span class="o">)))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So, why is a Tree similar to a list? Because the definition is nearly the same. If you look closer
+you see that a tree has two cases exactly like a list has. <code>Leaf</code> marks the end exactly like
+<code>Empty</code> did for the list. Instead of <code>Cons</code> with two datums, we have <code>Node</code> with three datums.</p>
+<p>The only difference between a list and a binary tree is that every element in a list only has one
+child, while a binary tree has two child&rsquo;s. Those child&rsquo;s are often named <em>Left</em> and <em>Right</em>.
+That&rsquo;s also the reason why I named the variables <code>l</code> and <code>r</code> in the functions.</p>
+<p><a name="tree-cata"></a></p>
+<h2 id="cata-for-tree">Cata for Tree</h2>
+<p>So, let&rsquo;s start by creating a <code>cata</code> function for our tree.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">treeCata&#39;</span> <span class="n">fLeaf</span> <span class="n">fNode</span> <span class="n">tree</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">tree</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Leaf</span>        <span class="o">-&gt;</span> <span class="n">fLeaf</span> <span class="bp">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Node</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">r</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">fNode</span> <span class="n">x</span> <span class="o">(</span><span class="n">treeCata&#39;</span> <span class="n">fLeaf</span> <span class="n">fNode</span> <span class="n">l</span><span class="o">)</span> <span class="o">(</span><span class="n">treeCata&#39;</span> <span class="n">fLeaf</span> <span class="n">fNode</span> <span class="n">r</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We started by just turning every case into a function. This time we name them <code>fLeaf</code>
+and <code>fNode</code>, after the cases. The pattern is the same. The <code>Leaf</code> case has no data, so
+we just call <code>fLeaf</code> with the unit value <code>()</code>. We should remember that we can eliminate
+the function in a next version.</p>
+<p>The difference in the <code>Node</code> case to the previous <code>Cons</code> case in the list is, that we have
+three datums. So <code>fNode</code> will also receive three arguments. But the second and third
+argument is a tree again. So before we pass those, we need to recursively call <code>treeCata'</code>
+on those trees again.</p>
+<p>The two recursive calls looks quite long, so we first create a partial applied <code>recurs</code>
+function. Now we have:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">treeCata&#39;&#39;</span> <span class="n">fLeaf</span> <span class="n">fNode</span> <span class="n">tree</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">recurs</span> <span class="o">=</span> <span class="n">treeCata&#39;&#39;</span> <span class="n">fLeaf</span> <span class="n">fNode</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">tree</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Leaf</span>        <span class="o">-&gt;</span> <span class="n">fLeaf</span> <span class="bp">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Node</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">r</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">fNode</span> <span class="n">x</span> <span class="o">(</span><span class="n">recurs</span> <span class="n">l</span><span class="o">)</span> <span class="o">(</span><span class="n">recurs</span> <span class="n">r</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Next, we eliminate the function for the leaf case.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">treeCata&#39;&#39;&#39;</span> <span class="n">leaf</span> <span class="n">fNode</span> <span class="n">tree</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">recurs</span> <span class="o">=</span> <span class="n">treeCata&#39;&#39;&#39;</span> <span class="n">leaf</span> <span class="n">fNode</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">tree</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Leaf</span>        <span class="o">-&gt;</span> <span class="n">leaf</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Node</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">r</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">fNode</span> <span class="n">x</span> <span class="o">(</span><span class="n">recurs</span> <span class="n">l</span><span class="o">)</span> <span class="o">(</span><span class="n">recurs</span> <span class="n">r</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As a tree also only has two cases, and one of them is not a function, we already see that
+we already have a signature like <code>foldBack</code>. So let&rsquo;s re-order the function arguments.
+Previously I said we loose the ability for the partial applied <code>recurs</code> function. But
+we still can write a <code>recurs</code> function. We only need to know which argument changes.</p>
+<p>In the code above you see that we call <code>(recurs l)</code> and <code>(recurs r)</code>. So we only want
+to pass the next tree it should work on. So we create a <code>recurs</code> function that only
+expects the remaining tree. All in one, we now end with:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">treeCata</span> <span class="n">folder</span> <span class="n">tree</span> <span class="n">acc</span> <span class="o">:</span> <span class="k">&#39;</span><span class="n">State</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">recurs</span> <span class="n">t</span> <span class="o">=</span> <span class="n">treeCata</span> <span class="n">folder</span> <span class="n">t</span> <span class="n">acc</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">tree</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Leaf</span>        <span class="o">-&gt;</span> <span class="n">acc</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Node</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">r</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">folder</span> <span class="n">x</span> <span class="o">(</span><span class="n">recurs</span> <span class="n">l</span><span class="o">)</span> <span class="o">(</span><span class="n">recurs</span> <span class="n">r</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s create a <code>length</code>, <code>sum</code> and a <code>map</code> function with our <code>cata</code> function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">treeLength</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">treeCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">1</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="o">)</span> <span class="n">tree</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">treeSum</span>    <span class="n">tree</span> <span class="o">=</span> <span class="n">treeCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="o">)</span> <span class="n">tree</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">treeMap</span> <span class="n">f</span>  <span class="n">tree</span> <span class="o">=</span> <span class="n">treeCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">node</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span> <span class="n">l</span> <span class="n">r</span><span class="o">)</span> <span class="n">tree</span> <span class="n">Leaf</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// tree was:
+</span></span></span><span class="line"><span class="cl"><span class="c1">// (node 4
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   (node 2 (endNode 1) (endNode 3))
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   (node 6 (endNode 5) (endNode 7)))
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">treeLength</span> <span class="n">tree</span> <span class="c1">// 7
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">treeSum</span> <span class="n">tree</span>    <span class="c1">// 28
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">treeMap</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">)</span> <span class="n">tree</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// (node 16
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   (node 4  (endNode 1)  (endNode 9))
+</span></span></span><span class="line"><span class="cl"><span class="c1">//   (node 36 (endNode 25) (endNode 49)))
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><a name="fold-vs-foldback"></a></p>
+<h2 id="fold-vs-foldback">Fold vs. FoldBack</h2>
+<p>Before we talk about how to turn <code>cata</code> into a tail-recursive function we should talk
+about the difference between <code>fold</code> and <code>foldBack</code>. I explained that if we turn <code>cata</code>
+into a tail-recursive function we get back <code>foldBack</code>. If I mention <code>cata</code> or <code>foldBack</code>
+i use the terms interchangeable. The fact that one is tail-recursive and the other not,
+is not important right now, it is more important how they behave.</p>
+<p>But it opens up an important question. When we forget for a moment the mechanical
+implementation to create the <code>cata</code> function. How do we know how to implement <code>fold</code> and
+<code>foldBack</code> and how do we know how they should behave? Or what is anyway the exact
+behaviour of <code>fold</code> and <code>foldBack</code>?</p>
+<p>If the question is unclear, let&rsquo;s look again at a list and lets see how <code>fold</code>
+and <code>foldBack</code> behaves.</p>
+<p><img src="list.svg" alt="Single-Linked list"></p>
+<p>We can visualize a single-linked list like boxes, and every box points to the next element
+in the list. Until the last element points to the end <code>Empty</code>. In the visualization above
+represented as <code>/</code>.</p>
+<p>The functions <code>fold</code> and <code>foldBack</code> are also often named <code>foldLeft</code> and <code>foldRight</code> in
+other languages. They are named like this, because they describe how a list will be
+traversed. <code>fold</code> (or <code>foldLeft</code>) traverses a list from left-to-right, while <code>foldBack</code>
+(or <code>foldRight</code>) traverses the list from right-to-left.</p>
+<p>So when we use <code>fold</code> the function we provide <code>fold</code> first sees <code>1</code>, then <code>2</code>, then <code>3</code>
+and so on. While when using <code>foldBack</code> we first encounter <code>5</code>, then <code>4</code>, then <code>3</code> and so
+on. This is easy to understand.</p>
+<p>But how do they anyway translate to something like a binary tree? Our <code>tree</code> that we used
+so far looks like this:</p>
+<div style="width:50%;margin: 0 auto">
+<img src="tree.svg" alt="Binary Tree" />
+</div>
+<p>When we think of <code>fold</code> as left-to-right and <code>foldBack</code> as right-to-left, how do we translate
+that to a tree? The problem we have, there doesn&rsquo;t exists only one way to traverse a tree.
+<a href="https://en.wikipedia.org/wiki/Tree_traversal">There are many way to traverse a tree</a>, and even then the question
+is which traversal we identify as <em>left</em> or <em>right</em>.</p>
+<p>Up so far I made it easy, as I just said that <code>cata</code> is <code>foldBack</code> without further describing
+the idea behind it why that is so. So let&rsquo;s re-look at <code>fold</code> and <code>foldBack</code> for the list
+and let&rsquo;s see if we can describe the operation slightly different.</p>
+<p>Previously we already noticed that a list and a binary tree are very similar. We can think of
+a list that contains one-element and a one recursive argument, or one-child. A binary
+tree on the other hand is one-element and two-child&rsquo;s. When we visualize a tree we usually
+show the deeper (recursive) layers underneath an element. In the above visualization we
+have <code>4</code> and underneath it <code>2</code> and <code>6</code>. But we also can think of a list in such a way.</p>
+<div style="width:25%;margin:0 auto">
+<img src="list_as_tree.svg" alt="List as Tree" />
+</div>
+<p>We have <code>1</code> and we have the recursive child <code>2</code>. Instead of thinking of traversing a list
+from left-to-right or right-to-left, we look at the <strong>folder-function</strong>, and we describe
+what the <strong>folder-function</strong> sees. So when we sum all elements in a list like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span> <span class="n">0</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>What does the <strong>folder-function</strong> <code>(fun acc x -&gt; acc + x)</code> sees exactly? Let&rsquo;s say <code>fold</code>
+is at the element <code>1</code>, which values do we have?</p>
+<p>We have <code>0</code> and <code>1</code>. Or more precisely, we get the accumulator so-far, and one-element
+of our data-structure. What do we see when <code>fold</code> is at element <code>2</code>? We get <code>1</code> and <code>2</code>.
+Once again we get the accumulator so far, and the current element.</p>
+<p>Generally speaking, with <code>fold</code> we get the current element and an accumulator that
+is the combination of all the things we already have seen. When <code>fold</code> hits <code>3</code>,
+then we get <code>3</code> and <code>3</code>. The first <code>3</code> the <em>accumulator</em> was computed by the already seen
+elements <code>1</code> and <code>2</code> (1 + 2).</p>
+<p>We also can think of <code>fold</code> as looping. Because in looping we usually start with some
+mutable initial value, and when we loop over a data-structure we combine the current element
+with some outer element.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">mutable</span> <span class="n">acc</span> <span class="o">=</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">4</span><span class="o">]</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="n">acc</span> <span class="o">&lt;-</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">x</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But when we look at <code>foldBack</code> it behaves differently. When we write:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span> <span class="n">0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We get the same result, because the order of <code>+</code> operation doesn&rsquo;t matter. But the behaviour
+is different. When our <strong>folder-function</strong> hits the element <code>1</code>, which data, do we get?</p>
+<p>We get <code>1</code> and <code>9</code>. <code>1</code> is the current element. But what is <code>9</code>? <code>9</code> is the result of the combination
+of the child we have at this point. In <code>foldBack</code> we don&rsquo;t get an accumulation of the things
+we already have seen, we get the combination of the things we didn&rsquo;t have seen so far!</p>
+<p>With <code>foldBack</code> we get the current element, and the combination of all its child elements. When
+we hit <code>2</code> for example, then we just see <code>2</code> and <code>7</code>. Because the child of <code>2</code> is <code>3 + 4</code>. But
+we didn&rsquo;t see <code>1</code>, because <code>1</code> is on top of <code>2</code>.</p>
+<p>All in one we can say that <code>foldBack</code> is a <em>structure-preserving</em> function. We not get
+the current element and an accumulation so far, we get the current element including one
+value for each child. And with a tree this distinction becomes more clear. When we look again
+at our tree.</p>
+<div style="width:50%;margin: 0 auto">
+<img src="tree.svg" alt="Binary Tree" />
+</div>
+<p>Which arguments does the <em>folder-functions</em> sees when we are at the top element <code>4</code>? We see
+<code>4</code> the current element, <code>6</code> for the left child (1 + 2 + 3) and <code>18</code> (5 + 6 + 7) for the
+<em>right-child</em>. In <code>foldBack</code> we always get the exact same amount of arguments a case has.</p>
+<p>The definition of <code>Node</code> was <code>Node of 'a * Tree&lt;'a&gt; * Tree&lt;'a&gt;</code> so we also get three
+arguments in the folder function. But instead of two trees, we already get the result
+of them. That means, while <code>fold</code> is like iteration/looping, <code>foldBack</code> is like recursion.</p>
+<p>Consider how we would write a recursive <code>sum</code> function without <code>cata</code>, the <code>Node</code> case
+would look something like that.</p>
+<pre><code>| Node(x,l,r) -&gt; x + (sum l) + (sum r)
+</code></pre>
+<p>As <code>(sum l)</code> is a function call it just starts calculating a value, but when it returns
+it contains the sum of the left child. So once <code>(sum l)</code> and <code>(sum r)</code> completes we have
+a line like <code>x + y + z</code>. We just add three values together. <code>foldBack</code> is exactly that
+behaviour. <code>foldBack</code> always works like recursion. That is why <code>cata</code> is always
+like <code>foldBack</code>. <code>foldBack</code> only ensures that we have tail-recursion.</p>
+<p>So how does <code>fold</code> for a tree look like? In fact the <em>folder-function</em> only sees <strong>two</strong>
+arguments not <strong>three</strong>. Why is that so? Because <code>fold</code> only sees the things it already
+have seen.</p>
+<p>The <code>Node</code> case only contains a single non-recursive datum. That means the <code>fold</code> function only
+sees an accumulator so far and all the current non-recursive elements. For our specified binary
+tree that are only two arguments.</p>
+<p>But how does <code>fold</code> traverse a tree? The answer is, it doesn&rsquo;t matter. The purpose
+of <code>fold</code> is not to provide a specific order. The purpose of <code>fold</code> is just to visit
+every element. <code>fold</code> is ideal for things that behave like <a href="https://davidraab.github.io/posts/monoids/">Monoids</a>. <code>fold</code>
+is in general a good choice if the operation you have doesn&rsquo;t depend on the structure
+itself only on the elements itself.</p>
+<p>You also can compare <code>fold</code> with <code>foreach</code> in C#. With <code>foreach</code> in C#, you just iterate
+through a data-structure. You also can iterate through a dictionary, and you get the
+<em>key</em> and <em>value</em> of every element, but you don&rsquo;t get any information of the structure
+of the Dictionary itself. When you loop over a dictionary with foreach you just expect
+to somehow get all the values, but you don&rsquo;t expect a particular order.</p>
+<p>But if you need the additional information of the structure and somehow work with the
+full tree, then you must use <code>foldBack</code>. Because of that, <code>foldBack</code> is more powerful than
+<code>fold</code> as you always can use <code>foldBack</code> instead of <code>fold</code>. But the reverse is not true.</p>
+<p><a name="tree-foldback"></a></p>
+<h2 id="foldback-for-tree">FoldBack for Tree</h2>
+<p>I will implement <code>foldBack</code> with the Continuation approach, but I don&rsquo;t go into
+much detail how the implementation works exactly, you can read more of those
+details here:</p>
+<ul>
+<li><a href="https://davidraab.github.io/posts/continuations-and-foldback/">Continuations and foldBack</a></li>
+<li><a href="https://davidraab.github.io/posts/cps-fold/">CPS Fold &ndash; fold with early exit</a></li>
+</ul>
+<p>First, we look again at <code>cata</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">treeCata</span> <span class="n">folder</span> <span class="n">tree</span> <span class="n">acc</span> <span class="o">:</span> <span class="k">&#39;</span><span class="n">State</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">recurs</span> <span class="n">t</span> <span class="o">=</span> <span class="n">treeCata</span> <span class="n">folder</span> <span class="n">t</span> <span class="n">acc</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">tree</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Leaf</span>        <span class="o">-&gt;</span> <span class="n">acc</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Node</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">r</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">folder</span> <span class="n">x</span> <span class="o">(</span><span class="n">recurs</span> <span class="n">l</span><span class="o">)</span> <span class="o">(</span><span class="n">recurs</span> <span class="n">r</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Instead of a recursive <code>treeCata</code> we will create an inner <code>loop</code> function that
+is used for recursion.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">treeCata</span> <span class="n">folder</span> <span class="n">tree</span> <span class="n">acc</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">t</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">match</span> <span class="n">t</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Leaf</span>        <span class="o">-&gt;</span> <span class="n">acc</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Node</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">r</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">folder</span> <span class="n">x</span> <span class="o">(</span><span class="n">loop</span> <span class="n">l</span><span class="o">)</span> <span class="o">(</span><span class="n">loop</span> <span class="n">r</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="n">tree</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As we now have an inner recursive loop we also need to explicitly
+start the recursion with <code>loop tree</code>. In the next step we expand the
+<code>Node</code> case and remove the nested <code>loop</code> calls and put each on its own line.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">treeCata</span> <span class="n">folder</span> <span class="n">tree</span> <span class="n">acc</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">t</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">match</span> <span class="n">t</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Leaf</span>        <span class="o">-&gt;</span> <span class="n">acc</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Node</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">r</span><span class="o">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">let</span> <span class="nv">lacc</span> <span class="o">=</span> <span class="n">loop</span> <span class="n">l</span>
+</span></span><span class="line"><span class="cl">            <span class="k">let</span> <span class="nv">racc</span> <span class="o">=</span> <span class="n">loop</span> <span class="n">r</span>
+</span></span><span class="line"><span class="cl">            <span class="n">folder</span> <span class="n">x</span> <span class="n">lacc</span> <span class="n">racc</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="n">tree</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Finally, we add <code>cont</code> (the continuation) to the <code>loop</code> function and
+rename the function to <code>treeFoldBack</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">treeFoldBack</span> <span class="n">folder</span> <span class="n">tree</span> <span class="n">acc</span> <span class="o">:</span> <span class="k">&#39;</span><span class="n">State</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">t</span> <span class="n">cont</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">match</span> <span class="n">t</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Leaf</span>        <span class="o">-&gt;</span> <span class="n">cont</span> <span class="n">acc</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Node</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">r</span><span class="o">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">loop</span> <span class="n">l</span> <span class="o">(</span><span class="k">fun</span> <span class="n">lacc</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">loop</span> <span class="n">r</span> <span class="o">(</span><span class="k">fun</span> <span class="n">racc</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">cont</span> <span class="o">(</span><span class="n">folder</span> <span class="n">x</span> <span class="n">lacc</span> <span class="n">racc</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="n">tree</span> <span class="n">id</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Before, we had code like:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">lacc</span> <span class="o">=</span> <span class="n">loop</span> <span class="n">l</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>it was recursive and it meant: Recurse on <code>loop l</code>. Somewhere in the future
+(after many more recursive calls) it will return a result that we save in <code>lacc</code>.</p>
+<p>Then we executed:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">racc</span> <span class="o">=</span> <span class="n">loop</span> <span class="n">r</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It was recursive again and after many more recursive calls we got the result
+and saved it in <code>racc</code>. But all of this is not tail-recursive. The new
+<code>treeFoldBack</code> function really only has one function call.</p>
+<pre><code>loop l (fun ...)
+</code></pre>
+<p>The idea of continuations is like this: Please execute <code>loop l callback</code>. When
+you finished calculating the result, please call the <code>callback</code> function
+and pass it the result. <em>Callback</em> or <em>Continuation</em> really means the same.</p>
+<p>But in this case we call <code>loop</code> that is in tail position. So we end up with a
+tail-recursive function.</p>
+<p><a name="tree-foldback-examples"></a></p>
+<h2 id="foldback-examples">FoldBack examples</h2>
+<p>Instead let&rsquo;s focus on things we can do with <code>foldBack</code> but not with <code>fold</code>. As <code>foldBack</code>
+preserves the structure, we can actually very easily convert a Tree into a string representation.</p>
+<p>We just convert a <code>Leaf</code> node into the String <code>&quot;Leaf&quot;</code>, and a <code>Node</code> will be converted with
+<code>Node(%d, %s, %s)</code> into a string. Because we get the string results instead of the recursive
+values, this kind of task is pretty easy.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">treeCata</span>     <span class="o">(</span><span class="n">sprintf</span> <span class="s">&#34;Node(%d, %s, %s)&#34;</span><span class="o">)</span> <span class="n">tree</span> <span class="s">&#34;Leaf&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">treeFoldBack</span> <span class="o">(</span><span class="n">sprintf</span> <span class="s">&#34;Node(%d, %s, %s)&#34;</span><span class="o">)</span> <span class="n">tree</span> <span class="s">&#34;Leaf&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>treeCata</code> and <code>foldBack</code> both return the same string:
+<code>&quot;Node(4, Node(2, Node(1, Leaf, Leaf), Node(3, Leaf, Leaf)), Node(6, Node(5, Leaf, Leaf), Node(7, Leaf, Leaf)))&quot;</code></p>
+<p>I used the <code>tree</code> variable so far as a binary search tree. That means it is ordered. The left child&rsquo;s are
+smaller, the right child&rsquo;s are bigger then the current element. We also can create an ordered list from
+our tree. A Leaf node must be converted into an empty list. Otherwise we just need to concat the left,
+current and the right node.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">ordered</span> <span class="o">=</span> <span class="n">treeFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">l</span> <span class="o">@</span> <span class="o">[</span><span class="n">x</span><span class="o">]</span> <span class="o">@</span> <span class="n">r</span><span class="o">)</span> <span class="n">tree</span> <span class="bp">[]</span> <span class="c1">// [1;2;3;4;5;6;7]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>or any other order we like:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">reversed</span>  <span class="o">=</span> <span class="n">treeFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">r</span> <span class="o">@</span> <span class="o">[</span><span class="n">x</span><span class="o">]</span> <span class="o">@</span> <span class="n">l</span><span class="o">)</span> <span class="n">tree</span> <span class="bp">[]</span> <span class="c1">// [7;6;5;4;3;2;1]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">preOrder</span>  <span class="o">=</span> <span class="n">treeFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="o">[</span><span class="n">x</span><span class="o">]</span> <span class="o">@</span> <span class="n">l</span> <span class="o">@</span> <span class="n">r</span><span class="o">)</span> <span class="n">tree</span> <span class="bp">[]</span> <span class="c1">// [4;2;1;3;6;5;7]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">postOrder</span> <span class="o">=</span> <span class="n">treeFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">l</span> <span class="o">@</span> <span class="n">r</span> <span class="o">@</span> <span class="o">[</span><span class="n">x</span><span class="o">])</span> <span class="n">tree</span> <span class="bp">[]</span> <span class="c1">// [1;3;2;5;7;6;4]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s turn the Tree into Lisp code. In Lisp a tree is just represented as a list with
+tree elements. The first element is the current node, the second and third element represent
+the left and right node, and are just lists themselves. The Leaf node is represented as the
+empty list.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="s">&#34;(quote &#34;</span> <span class="o">+</span> <span class="n">treeFoldBack</span> <span class="o">(</span><span class="n">sprintf</span> <span class="s">&#34;(%d %s %s)&#34;</span><span class="o">)</span> <span class="n">tree</span> <span class="s">&#34;empty&#34;</span> <span class="o">+</span> <span class="s">&#34;)&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// &#34;(quote (4 (2 (1 empty empty) (3 empty empty)) (6 (5 empty empty) (7 empty empty))))&#34;
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s test it in Racket.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">tree</span> <span class="p">(</span><span class="k">quote</span> <span class="p">(</span><span class="mi">4</span> <span class="p">(</span><span class="mi">2</span> <span class="p">(</span><span class="mi">1</span> <span class="ss">empty</span> <span class="ss">empty</span><span class="p">)</span> <span class="p">(</span><span class="mi">3</span> <span class="ss">empty</span> <span class="ss">empty</span><span class="p">))</span> <span class="p">(</span><span class="mi">6</span> <span class="p">(</span><span class="mi">5</span> <span class="ss">empty</span> <span class="ss">empty</span><span class="p">)</span> <span class="p">(</span><span class="mi">7</span> <span class="ss">empty</span> <span class="ss">empty</span><span class="p">)))))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">left</span> <span class="n">tree</span><span class="p">)</span>  <span class="p">(</span><span class="nb">car</span> <span class="p">(</span><span class="nb">cdr</span> <span class="n">tree</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">right</span> <span class="n">tree</span><span class="p">)</span> <span class="p">(</span><span class="nb">car</span> <span class="p">(</span><span class="nb">cdr</span> <span class="p">(</span><span class="nb">cdr</span> <span class="n">tree</span><span class="p">))))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">datum</span> <span class="n">tree</span><span class="p">)</span> <span class="p">(</span><span class="nb">car</span> <span class="n">tree</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and in the REPL:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="n">datum</span> <span class="p">(</span><span class="n">left</span> <span class="p">(</span><span class="n">left</span> <span class="n">tree</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"><span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="n">datum</span> <span class="p">(</span><span class="n">left</span> <span class="p">(</span><span class="n">right</span> <span class="n">tree</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"><span class="mi">5</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Nice, this is correct. For the last example let&rsquo;s look again at our example tree:</p>
+<div style="width:50%;margin: 0 auto">
+<img src="tree.svg" alt="Binary Tree" />
+</div>
+<p>Let&rsquo;s say we want to create a path to a specific element. For example when we search for <code>5</code>, we want
+the steps to find <code>5</code>. When we start at <code>4</code> we first must go right, and then Left. So we want &ldquo;Right Left&rdquo;
+as a result. When we search for <code>1</code> we get &ldquo;Left Left&rdquo; and so on.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">path</span> <span class="n">search</span> <span class="n">tree</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">leaf</span> <span class="o">=</span> <span class="o">(</span><span class="k">false</span><span class="o">,</span> <span class="bp">[]</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">node</span> <span class="n">x</span> <span class="o">(</span><span class="n">lb</span><span class="o">,</span><span class="n">lp</span><span class="o">)</span> <span class="o">(</span><span class="n">rb</span><span class="o">,</span><span class="n">rp</span><span class="o">)</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">x</span> <span class="o">=</span> <span class="n">search</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="k">true</span><span class="o">,</span> <span class="bp">[]</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">lb</span> <span class="o">=</span> <span class="k">true</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="k">true</span><span class="o">,</span> <span class="s">&#34;Left&#34;</span> <span class="o">::</span> <span class="n">lp</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">rb</span> <span class="o">=</span> <span class="k">true</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="k">true</span><span class="o">,</span> <span class="s">&#34;Right&#34;</span> <span class="o">::</span> <span class="n">rp</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="k">false</span><span class="o">,</span> <span class="bp">[]</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">path</span> <span class="o">=</span> <span class="n">treeFoldBack</span> <span class="n">node</span> <span class="n">tree</span> <span class="n">leaf</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">path</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="o">(</span><span class="k">true</span><span class="o">,</span> <span class="bp">[]</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="s">&#34;First element&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="o">(</span><span class="k">true</span><span class="o">,</span> <span class="n">p</span><span class="o">)</span>  <span class="o">-&gt;</span> <span class="nn">String</span><span class="p">.</span><span class="n">concat</span> <span class="s">&#34; &#34;</span> <span class="n">p</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="o">(</span><span class="k">false</span><span class="o">,</span> <span class="o">_)</span> <span class="o">-&gt;</span> <span class="s">&#34;Not in Tree&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">path</span> <span class="n">1</span> <span class="n">tree</span> <span class="c1">// &#34;Left Left&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">path</span> <span class="n">2</span> <span class="n">tree</span> <span class="c1">// &#34;Left&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">path</span> <span class="n">3</span> <span class="n">tree</span> <span class="c1">// &#34;Left Right&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">path</span> <span class="n">4</span> <span class="n">tree</span> <span class="c1">// &#34;First Element&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">path</span> <span class="n">5</span> <span class="n">tree</span> <span class="c1">// &#34;Right Left&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">path</span> <span class="n">9</span> <span class="n">tree</span> <span class="c1">// &#34;Not in Tree&#34;
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>In the solution I just transform every node into a tuple that contains two informations. A boolean that
+contains the information if the child contains the searched element. And when it is <code>true</code> the
+node above prepend either <code>&quot;Left&quot;</code> or <code>&quot;Right&quot;</code> to the list. As an example, when we search for
+<code>5</code> we get the following transformations:</p>
+<p><img src="tree_path_5.svg" alt="Tree with path to 5"></p>
+<p><a name="tree-fold"></a></p>
+<h2 id="fold-for-tree">Fold for Tree</h2>
+<p>At last we want to look at <code>fold</code>. As we learned so far, we don&rsquo;t need to implement a particular
+tree traversal order. For <code>fold</code> it is only important that we visit every node and we treat an
+accumulator through the calculation. For implementing <code>fold</code> we should just pick the easiest
+or fastest way we can come up with.</p>
+<p>Up so far, including the other blog posts, I showed two ways how to achieve tail-recursion. Either
+way through an accumulator or through a continuation function. But both ideas don&rsquo;t work
+with our tree. The problem is that we don&rsquo;t just have a simple calculation that we can forward
+as an accumulator, we always must traverse two child&rsquo;s for every node.</p>
+<p>The solution to fix that is that we manage the stack ourselves. This is the typical solution
+how languages without proper tail-call-optimization handles recursion. But in the F#
+case we don&rsquo;t need to switch completely to looping. We just make the stack part as an additional
+value on the recursive inner loop function. We also could say, we use two accumulators. One
+for the value we computed so far, and another that keeps track of task we still need to do later.</p>
+<p>So here is the idea. At first we identify what we actually need to do in the <code>Node</code> case.
+And they are three things we need to do:</p>
+<ol>
+<li>Process the current element</li>
+<li>Recurs on the left child</li>
+<li>Recurs on the right child</li>
+</ol>
+<p>We should pick a order of the operation so that only one task remains open. And this task is pushed
+onto a stack that can be later processed. One way to achieve that is.</p>
+<ol>
+<li>We process the current element</li>
+<li>We put the right child onto the stack</li>
+<li>We loop on the left child</li>
+</ol>
+<p>Let&rsquo;s give it a first try:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">treeFold</span><span class="k">&#39;</span> <span class="n">folder</span> <span class="n">acc</span> <span class="n">tree</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">acc</span> <span class="n">stack</span> <span class="n">tree</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">match</span> <span class="n">tree</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Leaf</span>        <span class="o">-&gt;</span> <span class="n">acc</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Node</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">r</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">loop</span> <span class="o">(</span><span class="n">folder</span> <span class="n">acc</span> <span class="n">x</span><span class="o">)</span> <span class="o">(</span><span class="n">r</span> <span class="o">::</span> <span class="n">stack</span><span class="o">)</span> <span class="n">l</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="n">acc</span> <span class="bp">[]</span> <span class="n">tree</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s test it:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">treeFold&#39;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">printf</span> <span class="s">&#34;%d &#34;</span> <span class="n">x</span><span class="o">)</span> <span class="bp">()</span> <span class="n">tree</span> <span class="c1">// 4 2 1
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Okay, that&rsquo;s not quite right, but I wrote it in this way so we can discuss what happens. This makes it
+easier to understand the full solution. At first, if you find the short <code>Node</code> case hard to understand,
+you can expand it. The line:</p>
+<pre><code>loop (folder acc x) (r :: stack) l
+</code></pre>
+<p>is the same as:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">newAcc</span>   <span class="o">=</span> <span class="n">folder</span> <span class="n">acc</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">newStack</span> <span class="o">=</span> <span class="n">r</span> <span class="o">::</span> <span class="n">stack</span>
+</span></span><span class="line"><span class="cl"><span class="n">loop</span> <span class="n">newAcc</span> <span class="n">newStack</span> <span class="n">l</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But all in one, here are the things that are happening:</p>
+<ol>
+<li>We enter the tree.</li>
+<li>We process element <code>4</code>, by printing it <code>(folder acc x)</code></li>
+<li>The right child of <code>4</code> is added to the stack <code>r :: stack</code></li>
+<li>We loop on the left-child</li>
+<li>We process element <code>2</code>, by printing it</li>
+<li>The right child of <code>2</code> is added to the stack</li>
+<li>We loop on the left-child</li>
+<li>We process element <code>1</code>, by printing it</li>
+<li>The right child of <code>1</code> is added to the stack (a Leaf)</li>
+<li>We loop on the left-child</li>
+<li>We hit a Leaf, and we return <code>acc</code>.</li>
+</ol>
+<p>So what are we missing? Sure, we forgot to process the <em>right-child&rsquo;s</em>. We put them all
+onto the stack, but we never look at them. So what we need to do is to extend the <code>Leaf</code> case.
+Instead of immediately returning <code>acc</code>, we first need to check if there are pending
+trees in the <code>stack</code>. If yes, we need to loop on those. Only if the <code>stack</code> is empty
+we can return <code>acc</code>. So our final <code>treeFold</code> looks like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">treeFold</span> <span class="n">folder</span> <span class="n">acc</span> <span class="n">tree</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">acc</span> <span class="n">stack</span> <span class="n">tree</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">match</span> <span class="n">tree</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Leaf</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">match</span> <span class="n">stack</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">            <span class="o">|</span> <span class="bp">[]</span>          <span class="o">-&gt;</span> <span class="n">acc</span>
+</span></span><span class="line"><span class="cl">            <span class="o">|</span> <span class="n">tree</span><span class="o">::</span><span class="n">stack</span> <span class="o">-&gt;</span> <span class="n">loop</span> <span class="n">acc</span> <span class="n">stack</span> <span class="n">tree</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Node</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">r</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">loop</span> <span class="o">(</span><span class="n">folder</span> <span class="n">acc</span> <span class="n">x</span><span class="o">)</span> <span class="o">(</span><span class="n">r</span> <span class="o">::</span> <span class="n">stack</span><span class="o">)</span> <span class="n">l</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="n">acc</span> <span class="bp">[]</span> <span class="n">tree</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we get all numbers printed.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">treeFold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">printf</span> <span class="s">&#34;%d &#34;</span> <span class="n">x</span><span class="o">)</span> <span class="bp">()</span> <span class="n">tree</span> <span class="c1">// 4 2 1 3 6 5 7
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>And if you noticed, this kind of tree-traversal is a pre-order tree traversal. But it is only pre-order
+traversal by accident. I just thought of an easy way to traverse so we need to put as few things as possible
+onto the <code>stack</code> variable. Someone should not expect a specific tree traversal order for <code>fold</code>.</p>
+<p><a name="benchmarking"></a></p>
+<h2 id="some-benchmarking">Some Benchmarking</h2>
+<p>I think some simple benchmarks are quite good. At first, we always talk about tail-recursion and
+I provided ways to achieve it, but never looked at performance. And there are two things to say here.</p>
+<p>First, tail-recursion is not about performance. Yes, sometimes it also improves performance, but the
+main point of tail-recursion is that we don&rsquo;t end up with stack overflows. We first care for
+correctness, only then comes speed. If you think otherwise, then answer me the following question:
+What exactly do we get out of a function that is theoretically fast, but practically we cannot
+execute it because it crashes with a stack overflow? So the main point of tail-recursion is
+Correctness, that it is <em>sometimes</em> faster is more an additional benefit.</p>
+<p>Second, tail-recursion with a continuation approach how i used it with <code>foldBack</code> is usually
+<strong>slower</strong> than pure recursion!</p>
+<p>All of those are important. At first, you shouldn&rsquo;t implement tail-recursion just because someone
+told you it is better or faster. It not only can be slower, it also can be harder to understand
+and to maintain. So you really should ask yourself if you really need tail-recursion. And
+for a binary tree this question is already legit. If you create a binary tree that always balance
+itself, then you will less likely run into any kind of problems with a non tail-recursive <code>cata</code>
+function.</p>
+<p>With a stack depth of 1 you can handle two values (empty and one value), with a stack depth
+of 2 you can handle 4 values. 3 is already 8 values. So the amount of values doubles by just
+increasing the depth by one. With a stack depth of 32, what is just peanuts, you already
+can handle 4.294.967.296 values. Before you run into problems with the stack depth you run
+into completely other problems! Even if you just save 32-bit integers just the integers alone
+already need 16 GiB of memory, and that does not include the <code>Node(x,l,r)</code> objects that also
+consumes memory. So you should ask yourself if you really need a <code>fold</code> or <code>foldback</code> function
+that are harder to develop and probably even can be slower!</p>
+<p>But let&rsquo;s see some benchmarks. First I create some helper functions for the creation of some trees.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">createTree</span> <span class="n">builder</span> <span class="n">init</span> <span class="n">depth</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">count</span> <span class="n">tree</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span>   <span class="n">count</span> <span class="o">&lt;</span> <span class="n">depth</span>
+</span></span><span class="line"><span class="cl">        <span class="k">then</span> <span class="n">loop</span> <span class="o">(</span><span class="n">count</span><span class="o">+</span><span class="n">1</span><span class="o">)</span> <span class="o">(</span><span class="n">builder</span> <span class="n">tree</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="n">tree</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="n">1</span> <span class="n">init</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">createLeftTree</span>  <span class="o">=</span> <span class="n">createTree</span> <span class="o">(</span><span class="k">fun</span> <span class="n">tree</span> <span class="o">-&gt;</span> <span class="n">node</span> <span class="n">1</span> <span class="n">tree</span> <span class="n">Leaf</span><span class="o">)</span> <span class="o">(</span><span class="n">endNode</span> <span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">createRightTree</span> <span class="o">=</span> <span class="n">createTree</span> <span class="o">(</span><span class="k">fun</span> <span class="n">tree</span> <span class="o">-&gt;</span> <span class="n">node</span> <span class="n">1</span> <span class="n">Leaf</span> <span class="n">tree</span><span class="o">)</span> <span class="o">(</span><span class="n">endNode</span> <span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">createBalanced</span>  <span class="o">=</span> <span class="n">createTree</span> <span class="o">(</span><span class="k">fun</span> <span class="n">tree</span> <span class="o">-&gt;</span> <span class="n">node</span> <span class="n">1</span> <span class="n">tree</span> <span class="n">tree</span><span class="o">)</span> <span class="o">(</span><span class="n">endNode</span> <span class="n">1</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So let&rsquo;s create some small trees with 10K nodes.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">smallL</span> <span class="o">=</span> <span class="n">createLeftTree</span>  <span class="n">10000</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">smallR</span> <span class="o">=</span> <span class="n">createRightTree</span> <span class="n">10000</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Those trees are not balanced, but they can still be handled by <code>cata</code> on my machine. But just benchmarking
+one call is still too fast, so I create a <code>bench</code> function that calls some code a specific amount of time.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">bench</span> <span class="n">times</span> <span class="n">f</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">sw</span> <span class="o">=</span> <span class="nn">Stopwatch</span><span class="p">.</span><span class="n">StartNew</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">1</span> <span class="o">..</span> <span class="n">times</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">        <span class="n">f</span> <span class="bp">()</span> <span class="o">|&gt;</span> <span class="n">ignore</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sw</span><span class="o">.</span><span class="n">Stop</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printfn</span> <span class="s">&#34;Timing: %O&#34;</span> <span class="n">sw</span><span class="o">.</span><span class="n">Elapsed</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So, when we sum up every 10.000 nodes with <code>treeCata</code> and do that 10.000 times, which timings do we
+get for <code>treeCata</code> and <code>foldBack</code>? I run every <code>bench</code> line twice.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">bench</span> <span class="n">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="o">)</span> <span class="n">smallL</span> <span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:04.290, CPU: 00:00:04.296, GC gen0: 0, gen1: 0, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:04.292, CPU: 00:00:04.265, GC gen0: 0, gen1: 0, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">bench</span> <span class="n">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="o">)</span> <span class="n">smallR</span> <span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:04.145, CPU: 00:00:04.140, GC gen0: 0, gen1: 0, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:04.144, CPU: 00:00:04.140, GC gen0: 0, gen1: 0, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">bench</span> <span class="n">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="o">)</span> <span class="n">smallL</span> <span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:07.518, CPU: 00:00:07.546, GC gen0: 1617, gen1: 1616, gen2: 1
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:07.448, CPU: 00:00:07.437, GC gen0: 1621, gen1: 1621, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">bench</span> <span class="n">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="o">)</span> <span class="n">smallR</span> <span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:08.076, CPU: 00:00:08.078, GC gen0: 1628, gen1: 1628, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:08.146, CPU: 00:00:08.140, GC gen0: 1625, gen1: 1625, gen2: 0
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>So overall, the <code>foldBack</code> result are disastrous. At first, creating a lot of continuation
+functions creates a lot of garbage, all those closure functions needs to be managed on
+the heap. As a result the garbage collector runs quite often. 1600 gen0 and 1600 gen1 clean-ups!
+Overall <code>foldBack</code> is tail-recursive, but takes the double of time to finish compared
+to the <code>cata</code> functions. On top, the <code>cata</code> functions trigger not a single garbage collection
+clean-up, that is probably also the reason why they are faster.</p>
+<p>But we also should consider <code>treeFold</code>. Actually just summing up the nodes is also a task
+that can be done by <code>treeFold</code>, so how fast is <code>treeFold</code>?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">bench</span> <span class="n">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeFold</span> <span class="o">(+)</span> <span class="n">0</span> <span class="n">smallL</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:02.882, CPU: 00:00:02.890, GC gen0: 508, gen1: 508, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:02.864, CPU: 00:00:02.859, GC gen0: 508, gen1: 508, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">bench</span> <span class="n">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeFold</span> <span class="o">(+)</span> <span class="n">0</span> <span class="n">smallR</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:02.830, CPU: 00:00:02.812, GC gen0: 508, gen1: 508, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:02.824, CPU: 00:00:02.828, GC gen0: 509, gen1: 509, gen2: 0
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Those results are quite interesting. They are faster as <code>treeCata</code> and <code>treeFoldback</code>. I
+expected that it is faster as <code>foldBack</code>, because just handling a stack of trees should
+be way more efficient as handling a lot of closure functions. But even the fact that
+they still trigger quite a lot of garbage clean-ups, it is still nearly twice as fast
+as the <code>cata</code> function! By the way, we can even get the amount of GCs down. Actually
+there is no point in using an immutable stack. We also can use an mutable stack
+in <code>fold</code>. This makes the implementation a little bit harder again.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">treeFoldStack</span> <span class="n">folder</span> <span class="n">acc</span> <span class="n">tree</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">stack</span> <span class="o">=</span> <span class="nn">System</span><span class="p">.</span><span class="nn">Collections</span><span class="p">.</span><span class="nn">Generic</span><span class="p">.</span><span class="n">Stack</span><span class="o">&lt;_&gt;</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">acc</span> <span class="n">tree</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">match</span> <span class="n">tree</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Leaf</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span>   <span class="n">stack</span><span class="o">.</span><span class="n">Count</span> <span class="o">&gt;</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">            <span class="k">then</span> <span class="n">loop</span> <span class="n">acc</span> <span class="o">(</span><span class="n">stack</span><span class="o">.</span><span class="n">Pop</span><span class="bp">()</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span> <span class="n">acc</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Node</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">r</span><span class="o">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">stack</span><span class="o">.</span><span class="n">Push</span> <span class="n">r</span>
+</span></span><span class="line"><span class="cl">            <span class="n">loop</span> <span class="o">(</span><span class="n">folder</span> <span class="n">acc</span> <span class="n">x</span><span class="o">)</span> <span class="n">l</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="n">acc</span> <span class="n">tree</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s see how it compares to <code>treeFold</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">bench</span> <span class="n">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeFoldStack</span> <span class="o">(+)</span> <span class="n">0</span> <span class="n">smallL</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:04.018, CPU: 00:00:04.015, GC gen0: 416, gen1: 416, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:04.029, CPU: 00:00:04.015, GC gen0: 416, gen1: 416, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">bench</span> <span class="n">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeFoldStack</span> <span class="o">(+)</span> <span class="n">0</span> <span class="n">smallR</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:04.000, CPU: 00:00:03.984, GC gen0: 0, gen1: 0, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:03.994, CPU: 00:00:03.953, GC gen0: 0, gen1: 0, gen2: 0
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Also, this is not what I expected, it becomes slower to the speed of the <code>cata</code> function. And
+in the <code>smallL</code> case it still triggers a lot of GC clean-ups. On a tree only with right nodes
+we don&rsquo;t have any clean-ups because we don&rsquo;t save anything in the stack. It is still quite interesting
+to see that the timing with and without GC clean-ups are the same. So it seems the GC clean-ups are
+so fast that they overall don&rsquo;t matter at all for the overall timing. At least on my machine.</p>
+<p>So, how are the timings for really big but balanced trees? A balanced tree with a depth
+of 25 contains 33.554.431 entries. How are the timings here?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">balanced25</span> <span class="o">=</span> <span class="n">createBalanced</span> <span class="n">25</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">treeCata</span> <span class="n">sum</span> <span class="n">balanced25</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:01.242, CPU: 00:00:01.234, GC gen0: 0, gen1: 0, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:01.239, CPU: 00:00:01.218, GC gen0: 0, gen1: 0, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">treeFoldBack</span> <span class="n">sum</span> <span class="n">balanced25</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:02.501, CPU: 00:00:02.500, GC gen0: 556, gen1: 555, gen2: 1
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:02.451, CPU: 00:00:02.453, GC gen0: 555, gen1: 555, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">treeFold</span> <span class="o">(+)</span> <span class="n">0</span> <span class="n">balanced25</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:01.000, CPU: 00:00:00.968, GC gen0: 171, gen1: 171, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:01.000, CPU: 00:00:01.000, GC gen0: 171, gen1: 171, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">treeFoldStack</span> <span class="o">(+)</span> <span class="n">0</span> <span class="n">balanced25</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:01.418, CPU: 00:00:01.421, GC gen0: 0, gen1: 0, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:01.412, CPU: 00:00:01.406, GC gen0: 0, gen1: 0, gen2: 0
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>All in one, the <code>cata</code> function overall is usually the easiest to implement, in its performance it is
+also quite good, at least better as a naive implementation with continuation functions. Because
+most memory get handled by the stack, it also don&rsquo;t causes garbage collection.</p>
+<p>An implementation with a mutable stack also can be efficient in terms of garbage collection, but at least
+on my machine it is still slower compared to the pure recursive version.</p>
+<p>As an overall result you shouldn&rsquo;t abandon the <code>cata</code> function, just because you fear that
+non tail-recursive functions are automatically slower. Usually they are very easy to implement
+and the speed is quite good. Instead you should consider if you expect problems with the stack depth.
+When you create balanced trees this is quite uncommon that you run into problems with the stack depth.</p>
+<p>But with a type like a list that has linear recursion, where every element increases the stack depth
+by one, you should consider more time in writing tail-recursive functions.</p>
+<p><a name="markdown"></a></p>
+<h2 id="markdown">Markdown</h2>
+<p>Up so far I only talked about lists and binary trees, but both types basically contain everything
+you need to know. Any other type is basically just repetition of what was said so far. As a last
+example I want to show the small Markdown example that I created in the
+<a href="https://davidraab.github.io/posts/algebraic-data-types/">Algebraic-Data Types</a> article. It is not a full description of the Markdown definition,
+but is good enough as an example.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Markdown</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">NewLine</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Literal</span>    <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Bold</span>       <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">InlineCode</span> <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Block</span>      <span class="k">of</span> <span class="n">Markdown</span> <span class="kt">list</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Our Markdown definition contains 4 non-recursive cases and one recursive case. We just did what we did
+so far. We create a <code>cata</code> function that expects a function for every case. As <code>NewLine</code> contains no
+data, we can just expect a plain value.</p>
+<p>The recursive element is quite different from what we have seen so far. Instead of a single recursive
+element we have a list of recursive elements. But that shouldn&rsquo;t be much of a difference. We just
+call the <code>recurs</code> function for every element in the list with <code>List.map</code>. Overall we end up
+with the following <code>cata</code> function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">markCata</span> <span class="n">newline</span> <span class="n">literal</span> <span class="n">bold</span> <span class="n">code</span> <span class="n">block</span> <span class="n">doc</span> <span class="o">:</span> <span class="k">&#39;</span><span class="n">r</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">recurs</span> <span class="o">=</span> <span class="n">markCata</span> <span class="n">newline</span> <span class="n">literal</span> <span class="n">bold</span> <span class="n">code</span> <span class="n">block</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">doc</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">NewLine</span>        <span class="o">-&gt;</span> <span class="n">newline</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Literal</span>    <span class="n">str</span> <span class="o">-&gt;</span> <span class="n">literal</span> <span class="n">str</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Bold</span>       <span class="n">str</span> <span class="o">-&gt;</span> <span class="n">bold</span> <span class="n">str</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">InlineCode</span> <span class="n">str</span> <span class="o">-&gt;</span> <span class="n">code</span> <span class="n">str</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Block</span>      <span class="n">doc</span> <span class="o">-&gt;</span> <span class="n">block</span> <span class="o">(</span><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">recurs</span> <span class="n">doc</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Do we need a <code>fold</code> or <code>foldBack</code>? Well, I don&rsquo;t know you, but I don&rsquo;t think we ever see a markdown
+document that has some ten thousand of nested blocks so recursion becomes a problem. Probably even
+a nesting more than 5 is already rare. So overall I think writing <code>fold</code> and <code>foldBack</code> is probably
+just a waste of time. So let&rsquo;s once again write a function that turns a markdown document into
+HTML.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">produceHtml</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">escape</span>         <span class="o">=</span> <span class="nn">System</span><span class="p">.</span><span class="nn">Web</span><span class="p">.</span><span class="nn">HttpUtility</span><span class="p">.</span><span class="n">HtmlEncode</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">wrap</span> <span class="n">tag</span> <span class="n">str</span>   <span class="o">=</span> <span class="n">sprintf</span> <span class="s">&#34;&lt;%s&gt;%s&lt;/%s&gt;&#34;</span> <span class="n">tag</span> <span class="n">str</span> <span class="n">tag</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">wrapEscape</span> <span class="n">tag</span> <span class="o">=</span> <span class="n">wrap</span> <span class="n">tag</span> <span class="o">&lt;&lt;</span> <span class="n">escape</span>
+</span></span><span class="line"><span class="cl">    <span class="n">markCata</span> <span class="s">&#34;&lt;br/&gt;&#34;</span> <span class="n">escape</span> <span class="o">(</span><span class="n">wrapEscape</span> <span class="s">&#34;strong&#34;</span><span class="o">)</span> <span class="o">(</span><span class="n">wrapEscape</span> <span class="s">&#34;code&#34;</span><span class="o">)</span> <span class="o">(</span><span class="n">wrap</span> <span class="s">&#34;p&#34;</span> <span class="o">&lt;&lt;</span> <span class="nn">String</span><span class="p">.</span><span class="n">concat</span> <span class="s">&#34;&#34;</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Probably there isn&rsquo;t much to say here. The <code>escape</code> function correctly escapes HTML characters.
+As I always need to wrap string into tags I just created a <code>wrap</code> function that I can pass a
+<em>tag</em> and a <em>string</em> that does that. But I need a version that escapes the string, and one that
+doesn&rsquo;t. The last one is important for a recursive case. Because we don&rsquo;t want to escape the HTML
+tags itself. The arguments of the <code>wrap</code> and <code>wrapEscape</code> function are chosen in a way so I can
+use currying, so I don&rsquo;t need to create a lot of lambda expressions.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">document</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Block</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Literal</span> <span class="s">&#34;Hello&#34;</span><span class="o">;</span> <span class="n">Bold</span> <span class="s">&#34;World!&#34;</span><span class="o">;</span> <span class="n">NewLine</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Literal</span> <span class="s">&#34;InlineCode of&#34;</span><span class="o">;</span> <span class="n">InlineCode</span> <span class="s">&#34;let sum x y = x + y&#34;</span><span class="o">;</span> <span class="n">NewLine</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Block</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Literal</span> <span class="s">&#34;This is the end with some &lt;html&gt;that should be escaped&lt;/html&gt;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">produceHtml</span> <span class="n">document</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// &#34;&lt;p&gt;Hello&lt;strong&gt;World!&lt;/strong&gt;&lt;br/&gt;InlineCode of&lt;code&gt;let sum x y = x + y&lt;/code&gt;&lt;br/&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1">//  &lt;p&gt;This is the end with some &amp;lt;html&amp;gt;that should be escaped&amp;lt;/html&amp;gt;&lt;/p&gt;&lt;/p&gt;&#34;
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><a name="summary"></a></p>
+<h2 id="summary">Summary</h2>
+<p>We have seen how to create a <code>cata</code> function, and we learned that <code>foldBack</code> is just <code>cata</code>
+written tail-recursive. For the <code>fold</code> implementation of the tree, i choosed another way to
+create a tail-recursive function that manages the stack directly.</p>
+<p>In benchmarking we also saw that the last way is also quite better in terms of speed and
+garbage collection compared to a continuation approach. With a mutable stack we can even further
+eliminate garbage collection cleanup.</p>
+<p>But overall we have seen that <code>cata</code> is very fast and it doesn&rsquo;t mean that tail-recursion
+is automatically better or faster.</p>
+<p><a name="further"></a></p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://fsharpforfunandprofit.com/series/recursive-types-and-folds.html">Recursive types and folds</a></li>
+<li><a href="https://lorgonblog.wordpress.com/2008/04/05/catamorphisms-part-one/">Catamorphisms, part one</a></li>
+</ul>
+<p><a name="comments"></a></p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

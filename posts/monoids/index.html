@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Monoids // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="David Raab" />
+    <meta name="description" content="Describes Monoids in F#" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.ed89a5cc0375fa7724cb6db743e67af2becc198df1d8801fbd90e68203117cd6.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Monoids"/>
+<meta name="twitter:description" content="Describes Monoids in F#"/>
+
+    <meta property="og:title" content="Monoids" />
+<meta property="og:description" content="Describes Monoids in F#" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/monoids/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-05-24T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-05-24T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>My personal Blog. Writing about programming and other stuff.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Monoids</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          May 24, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          13 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/monoids/">monoids</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>A monoid is a simple concept. It is a generalization of some patterns that you
+very likely already have seen. Being aware of those can help in designing some
+operations and can simplify things. Without much further ado let us look at
+three simple math equations.</p>
+<pre tabindex="0"><code>1 + 2       = 3
+(1 + 2) + 3 = 1 + (2 + 3)
+1 + 0       = 0 + 1
+</code></pre><h2 id="table-of-content">Table of Content</h2>
+<ul class="toc">
+  <li><a href="#binary">Binary Operations</a></li>
+  <li><a href="#assoc">Associativity</a></li>
+  <li><a href="#identity">Identity</a></li>
+  <li><a href="#monoids">Monoids</a></li>
+    <ul>
+      <li><a href="#example-sub">Subtraction</a></li>
+      <li><a href="#example-mul">Multiplication</a></li>
+      <li><a href="#example-div">Division</a></li>
+    </ul>
+  <li><a href="#purpose">What is the purpose of all of this?</a></li>
+    <ul>
+      <li><a href="#pur-bin">Binary Operations</a></li>
+      <li><a href="#pur-assoc">Associativity</a></li>
+      <li><a href="#pur-identity">Identity</a></li>
+    </ul>
+  <li><a href="#mono">Monoids Examples</a></li>
+    <ul>
+      <li><a href="#mono-str-concat">String concatenation</a></li>
+      <li><a href="#mono-list-appending">List appending</a></li>
+      <li><a href="#mono-max-value">Maximum value</a></li>
+      <li><a href="#mono-sets">Combining Sets</a></li>
+    </ul>
+  <li><a href="#comm-monoids">Commutative Monoids</a></li>
+  <li><a href="#type">Creating Monoids Types</a></li>
+    <ul>
+      <li><a href="#type-sum">Sum Monoid</a></li>
+      <li><a href="#type-product">Product Monoid</a></li>
+      <li><a href="#type-ordering">Ordering Monoid</a></li>
+    </ul>
+  <li><a href="#summary">Summary</a></li>
+  <li><a href="#further">Further Reading</a></li>
+  <li><a href="#comments">Comments</a></li>
+</ul>
+<p><a name="binary"></a></p>
+<h2 id="binary-operations">Binary Operations</h2>
+<p>When we look at the first equation we just see the following: There exists some kind
+of binary operation that takes two things of the same type, and somehow <em>combines</em>
+those two things into one result of the same type. When we look at the type-signature
+of our <code>+</code> operation we see something like</p>
+<pre><code>int -&gt; int -&gt; int
+</code></pre>
+<p>or when we generalize the idea, we expect any type. So we think of functions with
+the signature</p>
+<pre><code>'a -&gt; 'a -&gt; 'a
+</code></pre>
+<p><a name="assoc"></a></p>
+<h2 id="associativity">Associativity</h2>
+<p>The second equation tells us that our binary operation <code>+</code> has another property. The
+order in which we do the calculation don&rsquo;t change the end result. We can first
+calculate <code>1 + 2</code> and then add <code>3</code> or we can first calculate <code>2 + 3</code> and then
+add <code>1</code>. Both result in <code>6</code>.</p>
+<p><a name="identity"></a></p>
+<h2 id="identity">Identity</h2>
+<p>The last equation tells us that there exists some kind of <em>zero-element</em> or in mathematics
+named <em>identity</em> that don&rsquo;t effect the result of the operation. It works as some
+kind of <em>noop-operation</em>.</p>
+<p>For the binary operation <code>+</code> this kind of element is <code>0</code>. No matter which number we have,
+when we add zero to it, it doesn&rsquo;t change the number at all.</p>
+<p><a name="monoids"></a></p>
+<h2 id="monoids">Monoids</h2>
+<p>Whenever all three properties are fulfilled, we name it a monoid. The question is probably
+how such kind of simple generalization is even helpful. But before we look into this, let&rsquo;s
+look at some other example first, to get a better hang of the three rules. First all three rules again.</p>
+<ol>
+<li>There exists a binary operation that combines two things, and returns something of the same type.</li>
+<li>The binary operation is associative.</li>
+<li>There is some kind of <em>Zero/Identity/Noop-element</em> for the binary operation.</li>
+</ol>
+<p>To understand the rules better let&rsquo;s look at <code>-</code>, <code>*</code> and <code>/</code>. As all of those are binary
+operations all of them already fulfil the first rule, but do they also fulfil the
+second and third rule?</p>
+<p><a name="example-sub"></a></p>
+<h3 id="subtraction">Subtraction</h3>
+<p>Subtraction is not associative. <code>(1 - 2) - 3</code> gives us <code>-1 - 3</code> that result in <code>-4</code>. But
+<code>1 - (2 - 3)</code> gives us <code>1 - (-1)</code> and this returns <code>2</code>.</p>
+<p>There also does not exists an identity element. We could think once again of <code>0</code>. As <code>1 - 0</code>
+return once again <code>1</code> unchanged. But when we do <code>0 - 1</code> we get <code>-1</code>.</p>
+<p><a name="example-mul"></a></p>
+<h3 id="multiplication">Multiplication</h3>
+<p>Multiplication is a monoid as both rules are fulfilled. We can do multiplication in any order
+and it always yield the same result. But what is our identity element? This time it is <code>1</code>
+not <code>0</code>. Multiplying a number with <code>1</code> never changes the number itself.</p>
+<pre><code>(1 * 2) * 3 = 6
+1 * (2 * 3) = 6
+6 * 1 = 6
+1 * 6 = 6
+</code></pre>
+<p><a name="example-div"></a></p>
+<h3 id="division">Division</h3>
+<p>Division is not associative:</p>
+<pre><code>(100.0 / 2.0) / 5.0 =  50.0 / 5.0 = 10.0
+100.0 / (2.0 / 5.0) = 100.0 / 0.4 = 250.0
+</code></pre>
+<p>and we also don&rsquo;t have an identity element. We could once again think of <code>1</code>. As <code>3.0 / 1.0</code>
+don&rsquo;t change <code>3.0</code>, but the reverse <code>1.0 / 3.0</code> is once again something different.</p>
+<p><a name="purpose"></a></p>
+<h2 id="what-is-the-purpose-of-all-of-this">What is the purpose of all of this?</h2>
+<p>Now that we have seen more examples we should get familiar with the concept. But why are those
+rules anyway useful? Actually, all three rules gives us an ability that we can use in programming.</p>
+<p><a name="pur-bin"></a></p>
+<h3 id="binary-operations-1">Binary Operations</h3>
+<p>When we have a binary operation that combines two things that returns another new thing of the same
+type. It simply means we always can combine a whole list of elements with <code>List.reduce</code>. Let&rsquo;s
+assume we have a list of numbers and we just want to add, subtract, multiply or divide all numbers.
+Then we just can write:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">xs</span> <span class="o">=</span> <span class="o">[</span><span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">..</span> <span class="n">10</span><span class="o">.</span><span class="n">0</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">reduce</span> <span class="o">(+)</span> <span class="n">xs</span> <span class="c1">// 55.0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">reduce</span> <span class="o">(-)</span> <span class="n">xs</span> <span class="c1">// -53.0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">reduce</span> <span class="o">(*)</span> <span class="n">xs</span> <span class="c1">// 3628800.0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">reduce</span> <span class="o">(/)</span> <span class="n">xs</span> <span class="c1">// 2.755731922e-07
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>If you are unfamiliar with <code>List.reduce</code>. You can think of it as a way to always combines the first two
+elements of a list, until you only have a single element left. When we use <code>List.reduce</code> on</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>it basically combines the first two elements. <code>1 + 2</code> and replaces it with <code>3</code>. So what happens is
+just:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">3</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">6</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">10</span><span class="o">;</span><span class="n">5</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">15</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Once there is only a single result, it returns it.</p>
+<div class="info">
+This is not how it exactly works, but this is one way how you can think of it.
+</div>
+<p>But think about it why it makes in general sense that we can reduce a list of something to
+a single value. When we can combine two things into one thing, we always can keep
+going combining two things until we end up with a single element. A <code>reduce</code> operation
+just does that repetitive combining for us.</p>
+<p><a name="pur-assoc"></a></p>
+<h3 id="associativity-1">Associativity</h3>
+<p>Associativity can enhance the reduce operation. If the exact order doesn&rsquo;t play a role. It means
+the combining can be done in Parallel on multiple CPUs. As a simple example let&rsquo;s look at a list
+with four elements.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>CPU1 could start combining <code>1 + 2</code> while CPU2 starts combining <code>3 + 4</code>. Once both are finished
+CPU1 could combine the result <code>3 + 7</code>.</p>
+<p>But note that this is a naive approach, when we just combine numbers and always split every addition
+on it&rsquo;s own CPU the whole combining process would be probably slower and not faster as before. To
+be more efficient we need to better divide the input. For example combine the first 1000 elements
+of a list on CPU1, and the elements 1001-2000 on CPU2 and so on. To get a fast operation it is a
+little bit more complicated. But there usually already exists libraries that addresses those
+problems. We could for example use <a href="http://fsprojects.github.io/FSharp.Collections.ParallelSeq/">FSharp.Collections.ParallelSeq</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// Sequence of all number from 1 to 10.000.000
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">nums</span> <span class="o">=</span> <span class="o">[|</span> <span class="n">1L</span> <span class="o">..</span> <span class="n">10000000L</span> <span class="o">|]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Reduce just with one CPU
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Seq</span><span class="p">.</span><span class="n">reduce</span> <span class="o">(+)</span> <span class="n">nums</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//Real: 00:00:00.103, CPU: 00:00:00.093, GC gen0: 0, gen1: 0, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">//val it : int64 = 50000005000000L
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Reduce with multiple CPUs
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">PSeq</span><span class="p">.</span><span class="n">reduce</span> <span class="o">(+)</span> <span class="n">nums</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//Real: 00:00:00.107, CPU: 00:00:00.390, GC gen0: 0, gen1: 0, gen2: 0
+</span></span></span><span class="line"><span class="cl"><span class="c1">//val it : int64 = 50000005000000L
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>And as you see, even then you have no guarantee that it is faster (I use a quad-core machine).
+The problem is that the combine operation itself is already fast, or probably the reduce algorithm
+in <code>PSeq</code> is not good enough. But still general speaking. Associativity opens up Parallelism, in the
+case of using multiple CPUs or using multiple computers (distributed computing).</p>
+<p>But it also allows you to divide an operations into chunks so you can save intermediate result
+or calculate a result incrementally. In a reporting system you could for example aggregate all
+data for one day, and save the result. If you want to create a month report, you always just
+need to combine the results of let&rsquo;s say the last 30 days. You don&rsquo;t need to rerun the combine
+operation completely from the start.</p>
+<p><a name="pur-identity"></a></p>
+<h3 id="identity-1">Identity</h3>
+<p>There is one problem with <code>reduce</code> or in general we have one problem. Our binary operations
+always expect to combine two things. But what happens if we have zero or only one element? You
+probably ask why we then even want to run a <code>reduce</code> operation. But in normal circumstances
+we don&rsquo;t want to check the amount of elements in a list. But this leads to a problem.</p>
+<p>A <code>reduce</code> operation with a single element just returns the single element, as there is nothing
+to combine. But with an empty list it just throws an exception as it don&rsquo;t know what
+it should return.</p>
+<p>In such a case, the identity element is helpful, as we just can return the identity element.
+But it is also useful in other cases. We just have some kind of starting value that we can
+begin with. To solve the problem with <code>reduce</code> we can use <code>fold</code> instead of <code>reduce</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(+)</span> <span class="n">0</span> <span class="bp">[]</span>          <span class="c1">// 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(+)</span> <span class="n">0</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">]</span> <span class="c1">// 15
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(*)</span> <span class="n">1</span> <span class="bp">[]</span>          <span class="c1">// 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(*)</span> <span class="n">1</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">]</span> <span class="c1">// 120
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>The additional value we pass to <code>fold</code> acts in this case as the identity element.</p>
+<p><a name="mono"></a></p>
+<h2 id="monoids-examples">Monoids examples</h2>
+<p>As we now have a rough view what an monoid is, and what it allows us to do, let&rsquo;s look at some
+more simple monoids.</p>
+<p><a name="mono-str-concat"></a></p>
+<h3 id="string-concatenation">String concatenation</h3>
+<p>String concatenation is a monoid, the identity element is just the empty string.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(+)</span> <span class="s">&#34;&#34;</span> <span class="o">[</span><span class="s">&#34;Hello&#34;</span><span class="o">;</span> <span class="s">&#34; &#34;</span><span class="o">;</span> <span class="s">&#34;World!&#34;</span><span class="o">]</span> <span class="c1">// &#34;Hello World!&#34;
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><a name="mono-list-appending"></a></p>
+<h3 id="list-appending">List appending</h3>
+<p>Appending lists is a monoid. The identity element is just the empty list.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="nn">List</span><span class="p">.</span><span class="n">append</span> <span class="bp">[]</span> <span class="o">[[</span><span class="s">&#34;foo&#34;</span><span class="o">];</span> <span class="o">[</span><span class="s">&#34;bar&#34;</span><span class="o">;</span> <span class="s">&#34;baz&#34;</span><span class="o">]]</span>   <span class="c1">// [&#34;foo&#34;; &#34;bar&#34;; &#34;baz&#34;]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="nn">List</span><span class="p">.</span><span class="n">append</span> <span class="bp">[]</span> <span class="o">[[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">];</span> <span class="o">[</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">;</span><span class="n">6</span><span class="o">];</span> <span class="o">[</span><span class="n">7</span><span class="o">;</span><span class="n">8</span><span class="o">;</span><span class="n">9</span><span class="o">]]</span> <span class="c1">// [1;2;3;4;5;6;7;8;9]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><a name="mono-max-value"></a></p>
+<h3 id="maximum-value">Maximum value</h3>
+<p>We can threat the <code>max</code> operation as a monoid. It just takes two values, and returns
+the one which is greater. Notice that combining doesn&rsquo;t literally mean we really have
+to work with both values and <em>combine</em> them. A function that just throws away one
+value is still valid.</p>
+<p>If you wonder why. The only thing we must ensure is that we can combine two things into
+one result. There is no restriction on the result itself. It only matters that we
+get the same result.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="n">max</span> <span class="o">(</span><span class="n">max</span> <span class="n">1</span> <span class="n">2</span><span class="o">)</span> <span class="n">3</span><span class="o">)</span> <span class="c1">// 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">max</span> <span class="n">1</span> <span class="o">(</span><span class="n">max</span> <span class="n">2</span> <span class="n">3</span><span class="o">))</span> <span class="c1">// 3
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>or with reduce.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">reduce</span> <span class="n">max</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">;</span><span class="n">6</span><span class="o">]</span>         <span class="c1">// 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">reduce</span> <span class="n">max</span> <span class="o">[</span><span class="s">&#34;foo&#34;</span><span class="o">;</span> <span class="s">&#34;abc&#34;</span><span class="o">;</span> <span class="s">&#34;zoo&#34;</span><span class="o">]</span> <span class="c1">// &#34;zoo&#34;
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>But what is the identity element? Well it depends on the type we use. Just consider what
+the purpose of the identity element is. It acts as a noop-operation. When we have one value
+and use it with the identity element, we always must get the input value back.</p>
+<p>When we use <code>max</code> with <code>int</code>, we must find an <code>int</code> that always makes sure we get our input
+value unchanged back, no matter what our input is. That means the identity element
+for <code>max</code> with the <code>int</code> type is <code>Int32.MinValue</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">max</span> <span class="nn">Int32</span><span class="p">.</span><span class="n">MinValue</span> <span class="o">-</span><span class="n">2147483648</span>    <span class="c1">// -2147483648
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">max</span> <span class="nn">Int32</span><span class="p">.</span><span class="n">MinValue</span> <span class="n">0</span>              <span class="c1">// 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">max</span> <span class="nn">Int32</span><span class="p">.</span><span class="n">MinValue</span> <span class="n">12345</span>          <span class="c1">// 12345
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">max</span> <span class="nn">Int32</span><span class="p">.</span><span class="n">MinValue</span> <span class="nn">Int32</span><span class="p">.</span><span class="n">MaxValue</span> <span class="c1">// 2147483647
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>The identity element for string is just the empty string</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">max</span> <span class="s">&#34;&#34;</span> <span class="s">&#34;&#34;</span>    <span class="c1">// &#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">max</span> <span class="s">&#34;&#34;</span> <span class="s">&#34;Foo&#34;</span> <span class="c1">// &#34;Foo&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">max</span> <span class="s">&#34;&#34;</span> <span class="s">&#34;Bar&#34;</span> <span class="c1">// &#34;Bar&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">max</span> <span class="s">&#34;&#34;</span> <span class="s">&#34;Baz&#34;</span> <span class="c1">// &#34;Baz&#34;
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><a name="mono-sets"></a></p>
+<h3 id="combining-sets">Combining Sets</h3>
+<p>Also combining two Sets is a monoid, once again with just the empty set as the identity element.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sa</span> <span class="o">=</span> <span class="n">set</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sb</span> <span class="o">=</span> <span class="n">set</span> <span class="o">[</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sc</span> <span class="o">=</span> <span class="n">set</span> <span class="o">[</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="nn">Set</span><span class="p">.</span><span class="n">union</span> <span class="o">(</span><span class="nn">Set</span><span class="p">.</span><span class="n">union</span> <span class="n">sa</span> <span class="n">sb</span><span class="o">)</span> <span class="n">sc</span><span class="o">)</span> <span class="c1">// set [1;2;3;4]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="nn">Set</span><span class="p">.</span><span class="n">union</span> <span class="n">sa</span> <span class="o">(</span><span class="nn">Set</span><span class="p">.</span><span class="n">union</span> <span class="n">sb</span> <span class="n">sc</span><span class="o">))</span> <span class="c1">// set [1;2;3;4]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="nn">Set</span><span class="p">.</span><span class="n">union</span> <span class="nn">Set</span><span class="p">.</span><span class="n">empty</span> <span class="o">[</span><span class="n">sa</span><span class="o">;</span> <span class="n">sb</span><span class="o">;</span> <span class="n">sc</span><span class="o">]</span> <span class="c1">// [1;2;3;4]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="nn">Set</span><span class="p">.</span><span class="n">union</span> <span class="nn">Set</span><span class="p">.</span><span class="n">empty</span> <span class="o">[</span><span class="n">sc</span><span class="o">;</span> <span class="n">sb</span><span class="o">;</span> <span class="n">sa</span><span class="o">]</span> <span class="c1">// [1;2;3;4]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><a name="comm-monoids"></a></p>
+<h2 id="commutative-monoids">Commutative Monoids</h2>
+<p>Up so far you probably noticed one additional variation. For some combine operations
+the whole order on how we combine them don&rsquo;t play a role. Actually <code>+</code> for
+numbers and the <code>Set.union</code> fall into this category. But other operation are
+<em>just</em> associative, for example List or String concatenation. When we concatenate
+three strings, it doesn&rsquo;t matter if we do <code>(a + b) + c</code> or <code>a + (b + c)</code>. But
+we cannot do <code>(a + c) + b</code>. This will give us a completely different string.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="s">&#34;foo&#34;</span> <span class="o">+</span> <span class="s">&#34;bar&#34;</span><span class="o">)</span> <span class="o">+</span> <span class="s">&#34;baz&#34;</span> <span class="c1">// &#34;foobarbaz&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="s">&#34;foo&#34;</span> <span class="o">+</span> <span class="o">(</span><span class="s">&#34;bar&#34;</span> <span class="o">+</span> <span class="s">&#34;baz&#34;</span><span class="o">)</span> <span class="c1">// &#34;foobarbaz&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="s">&#34;foo&#34;</span> <span class="o">+</span> <span class="s">&#34;baz&#34;</span><span class="o">)</span> <span class="o">+</span> <span class="s">&#34;bar&#34;</span> <span class="c1">// &#34;foobazbar&#34;
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>But for other operations, the whole order doesn&rsquo;t matter</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="n">1</span> <span class="o">+</span> <span class="n">2</span><span class="o">)</span> <span class="o">+</span> <span class="n">3</span> <span class="c1">// 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">1</span> <span class="o">+</span> <span class="o">(</span><span class="n">2</span> <span class="o">+</span> <span class="n">3</span><span class="o">)</span> <span class="c1">// 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">1</span> <span class="o">+</span> <span class="n">3</span><span class="o">)</span> <span class="o">+</span> <span class="n">2</span> <span class="c1">// 6
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>We can even shuffle an array before summing it, it will always give us the same sum.
+But shuffling an array of strings, will return another string. When we have a monoid
+where the whole order doesn&rsquo;t play a role. then we have a <em>Commutative Monoid</em>.</p>
+<p>For example adding numbers or multiplying them, combining sets with <code>Set.union</code> or
+getting the <code>max</code> value are <em>Commutative Monoids</em>.</p>
+<p><a name="type"></a></p>
+<h2 id="creating-monoids-types">Creating Monoids Types</h2>
+<p>Up so far we always used <code>List.fold</code> or <code>List.reduce</code> directly and provided the identity
+element directly. But overall it can help to create a type that combines the binary
+operation with the identity element in its own type.</p>
+<p>We can overload the <code>+</code> and the <code>Zero</code> operator to get some nice behaviour. We treat
+<code>+</code> just as our <em>combine</em> operation. And <code>Zero</code> is our <em>identity</em> element.</p>
+<p><a name="type-sum"></a></p>
+<h3 id="sum-monoid">Sum Monoid</h3>
+<p>As a simple example let&rsquo;s create a <code>Sum</code> type.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Sum</span> <span class="o">=</span> <span class="n">Sum</span> <span class="k">of</span> <span class="n">int</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="o">(+)</span> <span class="o">(</span><span class="n">Sum</span> <span class="n">x</span><span class="o">,</span> <span class="n">Sum</span> <span class="n">y</span><span class="o">)</span> <span class="o">=</span> <span class="n">Sum</span> <span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">Zero</span> <span class="o">=</span> <span class="n">Sum</span> <span class="n">0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The advantage is that we can use <code>List.sum</code> with such a type. <code>List.sum</code> adds all elements
+together with the <code>+</code> operator. So it is like <code>reduce</code>, but in the case of an empty list,
+it returns the <code>Zero</code> element.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">sum</span> <span class="o">[</span><span class="n">Sum</span> <span class="n">1</span><span class="o">;</span> <span class="n">Sum</span> <span class="n">2</span><span class="o">;</span> <span class="n">Sum</span> <span class="n">3</span><span class="o">]</span>  <span class="c1">// Sum 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">sum</span> <span class="o">[</span><span class="n">Sum</span> <span class="n">5</span><span class="o">;</span> <span class="n">Sum</span> <span class="n">10</span><span class="o">;</span> <span class="n">Sum</span> <span class="n">5</span><span class="o">]</span> <span class="c1">// Sum 20
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Defining a Sum type for <code>int</code> and <code>+</code> doesn&rsquo;t seems like much value, and it isn&rsquo;t. But it
+is only one example to understand the concept. A Product for example seems much more usable.</p>
+<p><a name="type-product"></a></p>
+<h3 id="product-monoid">Product Monoid</h3>
+<p>The product Monoid just multiplies the numbers and we use <code>1</code> as Zero.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Product</span> <span class="o">=</span> <span class="n">Product</span> <span class="k">of</span> <span class="n">int</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="o">(+)</span> <span class="o">(</span><span class="n">Product</span> <span class="n">x</span><span class="o">,</span> <span class="n">Product</span> <span class="n">y</span><span class="o">)</span> <span class="o">=</span> <span class="n">Product</span> <span class="o">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">Zero</span> <span class="o">=</span> <span class="n">Product</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">sum</span> <span class="o">[</span><span class="n">Product</span> <span class="n">5</span><span class="o">;</span> <span class="n">Product</span> <span class="n">10</span><span class="o">;</span> <span class="n">Product</span> <span class="n">3</span><span class="o">]</span> <span class="c1">// Product 150
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">sum</span> <span class="o">[</span><span class="n">Product</span> <span class="n">3</span><span class="o">;</span> <span class="n">Product</span> <span class="n">2</span><span class="o">]</span>             <span class="c1">// Product 6
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><a name="type-ordering"></a></p>
+<h3 id="ordering-monoid">Ordering Monoid</h3>
+<p>Let&rsquo;s create a Monoid that adds two list together and sorts the list while doing it.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Order</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span> <span class="k">when</span> <span class="k">&#39;</span><span class="n">a</span> <span class="o">:</span> <span class="n">comparison</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">Order</span> <span class="k">of</span> <span class="k">&#39;</span><span class="n">a</span> <span class="kt">list</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="o">(+)</span> <span class="o">(</span><span class="n">Order</span> <span class="n">xs</span> <span class="o">:</span> <span class="n">Order</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;,</span> <span class="n">Order</span> <span class="n">ys</span><span class="o">)</span> <span class="o">=</span> <span class="n">Order</span> <span class="o">(</span><span class="nn">List</span><span class="p">.</span><span class="n">sort</span> <span class="o">(</span><span class="nn">List</span><span class="p">.</span><span class="n">append</span> <span class="n">xs</span> <span class="n">ys</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">Zero</span> <span class="o">:</span> <span class="n">Order</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">Order</span> <span class="bp">[]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Order</span> <span class="o">[</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span> <span class="o">+</span> <span class="n">Order</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">]</span> <span class="o">+</span> <span class="n">Order</span> <span class="o">[</span><span class="n">6</span><span class="o">;</span><span class="n">6</span><span class="o">;</span><span class="n">10</span><span class="o">]</span> <span class="c1">// [1;2;3;4;6;6;10]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">Order</span> <span class="o">[</span><span class="s">&#34;foo&#34;</span><span class="o">;</span><span class="s">&#34;bar&#34;</span><span class="o">]</span> <span class="o">+</span> <span class="n">Order</span> <span class="o">[</span><span class="s">&#34;zoo&#34;</span><span class="o">]</span>        <span class="c1">// [&#34;bar&#34;; &#34;foo&#34;; &#34;zoo&#34;]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">sum</span> <span class="o">[</span><span class="n">Order</span> <span class="o">[</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">];</span> <span class="n">Order</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">]]</span>           <span class="c1">// [1;2;3;4]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">sum</span> <span class="o">[</span><span class="n">Order</span> <span class="o">[</span><span class="s">&#34;foo&#34;</span><span class="o">;</span><span class="s">&#34;bar&#34;</span><span class="o">];</span> <span class="n">Order</span> <span class="o">[</span><span class="s">&#34;zoo&#34;</span><span class="o">]]</span> <span class="c1">// [&#34;bar&#34;; &#34;foo&#34;; &#34;zoo&#34;]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><a name="summary"></a></p>
+<h2 id="summary">Summary</h2>
+<p>A Monoid is a simple way to aggregate data. When you design functions consider if there exists
+binary operations to somehow combine types. If you can implement them you get the ability
+to combine a list of types for free.</p>
+<p>Additionally it opens up the possibility to allow combining data in parallel or build data
+incrementally.</p>
+<p><a name="further"></a></p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="https://fsharpforfunandprofit.com/posts/monoids-without-tears/">Monoid without Tears</a></li>
+<li><a href="http://gettingsharper.de/2015/03/03/understanding-monoids-using-f/">Understanding Monoids using F#</a></li>
+<li><a href="http://learnyouahaskell.com/functors-applicative-functors-and-monoids#monoids">[Haskell] Learn You a Haskell</a></li>
+<li><a href="https://en.wikibooks.org/wiki/Haskell/Monoids">[Haskell] Monoids</a></li>
+</ul>
+<p><a name="comments"></a></p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

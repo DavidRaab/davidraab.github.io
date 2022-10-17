@@ -1,0 +1,40 @@
+<svg font-size="12px" text-rendering="auto" color-rendering="auto" shape-rendering="auto" stroke="black" stroke-linecap="square" viewBox="0 0 360 620" fill="black" font-family="&apos;Dialog&apos;" version="1.1" stroke-miterlimit="10" image-rendering="auto" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" color-interpolation="auto">
+<defs>
+<clipPath id="b" clipPathUnits="userSpaceOnUse">
+<path d="m0 0h360v620h-360v-620z"/>
+</clipPath>
+<clipPath id="a" clipPathUnits="userSpaceOnUse">
+<path d="m13-15h116v199.78h-116v-199.78z"/>
+</clipPath>
+</defs>
+<g text-rendering="geometricPrecision" shape-rendering="geometricPrecision">
+<g stroke="gray" fill="gray">
+<line y2="-138" clip-path="url(#b)" y1="-140" x2="-133" x1="-133" fill="none"/>
+</g>
+<g transform="matrix(3.1034 0 0 3.1034 -40.345 46.552)" stroke="#fc0" fill="#fc0">
+<rect clip-path="url(#a)" height="30" width="30" stroke="none" y="0" x="28.233"/>
+</g>
+<g transform="matrix(3.1034 0 0 3.1034 -40.345 46.552)" stroke-linecap="butt" stroke-miterlimit="1.45" font-family="sans-serif">
+<text clip-path="url(#a)" xml:space="preserve" stroke="none" y="19.7139" x="39.8965">1</text>
+<rect clip-path="url(#a)" height="30" width="30" y="0" x="28.233" fill="none"/>
+</g>
+<g transform="matrix(3.1034 0 0 3.1034 -40.345 46.552)" stroke="#fc0" fill="#fc0">
+<rect clip-path="url(#a)" height="30" width="30" stroke="none" y="70" x="56.467"/>
+</g>
+<g transform="matrix(3.1034 0 0 3.1034 -40.345 46.552)" stroke-linecap="butt" stroke-miterlimit="1.45" font-family="sans-serif">
+<text clip-path="url(#a)" xml:space="preserve" stroke="none" y="89.7139" x="68.1299">2</text>
+<rect clip-path="url(#a)" height="30" width="30" y="70" x="56.467" fill="none"/>
+</g>
+<g transform="matrix(3.1034 0 0 3.1034 -40.345 46.552)" stroke="#fc0" fill="#fc0">
+<rect clip-path="url(#a)" height="30" width="30" stroke="none" y="140" x="83.788"/>
+</g>
+<g transform="matrix(3.1034 0 0 3.1034 -40.345 46.552)" stroke-linecap="butt" stroke-miterlimit="1.45" font-family="sans-serif">
+<text clip-path="url(#a)" xml:space="preserve" stroke="none" y="159.7139" x="95.4514">3</text>
+<rect clip-path="url(#a)" height="30" width="30" y="140" x="83.788" fill="none"/>
+<path clip-path="url(#a)" d="m49.283 30l13.141 32.581" fill="none"/>
+<path stroke="none" d="m65.417 70l0.148-12.999-3.515 4.652-5.759-0.912z" clip-path="url(#a)"/>
+<path clip-path="url(#a)" d="m77.321 100l12.704 32.55" fill="none"/>
+<path stroke="none" d="m92.934 140l0.294-13-3.567 4.62-5.748-0.98z" clip-path="url(#a)"/>
+</g>
+</g>
+</svg>
