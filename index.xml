@@ -8,6 +8,16 @@
     <language>en-us</language>
     <lastBuildDate>Wed, 11 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Introduction to Functional Programming</title>
+      <link>https://davidraab.github.io/posts/introduction-to-functional-programming/</link>
+      <pubDate>Wed, 11 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/introduction-to-functional-programming/</guid>
+      <description>In this article I want to give a general introduction to some of the fundamental ideas of functional programming. I just start with the idea of function as data, and explain why functions are viewed as data and why it makes sense to pass functions as arguments.
+When we understand this concept, I start explaining lambda expression, currying, partial application and closures. All of this ideas built on each other.</description>
+    </item>
+    
+    <item>
       <title>The Option Module</title>
       <link>https://davidraab.github.io/posts/option-module/</link>
       <pubDate>Wed, 11 May 2016 00:00:00 +0000</pubDate>

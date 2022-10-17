@@ -1,0 +1,1781 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Introduction to Functional Programming // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="David Raab" />
+    <meta name="description" content="Gives an introduction to functional programming and shows how the ideas relates to object-oriented programming" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.ed89a5cc0375fa7724cb6db743e67af2becc198df1d8801fbd90e68203117cd6.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Introduction to Functional Programming"/>
+<meta name="twitter:description" content="Gives an introduction to functional programming and shows how the ideas relates to object-oriented programming"/>
+
+    <meta property="og:title" content="Introduction to Functional Programming" />
+<meta property="og:description" content="Gives an introduction to functional programming and shows how the ideas relates to object-oriented programming" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/introduction-to-functional-programming/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-05-11T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-05-11T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>My personal Blog. Writing about programming and other stuff.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Introduction to Functional Programming</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          May 11, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          40 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/csharp/">CSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/intro/">intro</a>
+              <a class="tag" href="https://davidraab.github.io/tags/data/">data</a>
+              <a class="tag" href="https://davidraab.github.io/tags/oop/">oop</a>
+              <a class="tag" href="https://davidraab.github.io/tags/currying/">currying</a>
+              <a class="tag" href="https://davidraab.github.io/tags/closure/">closure</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>In this article I want to give a general introduction to some of the fundamental ideas of
+functional programming. I just start with the idea of function as data, and explain
+why functions are viewed as data and why it makes sense to pass functions as arguments.</p>
+<p>When we understand this concept, I start explaining lambda expression,
+currying, partial application and closures. All of this ideas built on each other.</p>
+<p>But I don&rsquo;t stop at functional programming. Instead I will go back to OO programming
+and show you, how you can translate all of these ideas into OO code. Probably
+you will be surprised how similar functional and OO code is, and that most ideas
+are things you already know.</p>
+<p>Overall I show why functional programming and object-oriented programming are
+orthogonal. I hope that by the end of the article you learned something about
+functional programming, but also widen your view on object-oriented programming.</p>
+<h2 id="table-of-content">Table of Content</h2>
+<ul class="toc">
+  <li>Functional Programming</li>
+  <ul>
+    <li><a href="#fp-data">Functions as Data</a></li>
+    <li><a href="#fp-function">What is a function?</a></li>
+    <li><a href="#fp-exp-functions">Exploiting Functions</a></li>
+    <li><a href="#fp-retn-functions">Functions as return values</a></li>
+    <li><a href="#fp-lambda">There is only lambda</a></li>
+    <li><a href="#fp-currying">Currying</a></li>
+    <li><a href="#fp-closures">Closures</a></li>
+    <li><a href="#fp-example">Example: Currying and Closures</a></li>
+  </ul>
+  <li><a href="#oo">Object-Oriented Programming</a></li>
+  <ul>
+    <li><a href="#oo-class">What is a Class?</a></li>
+    <li><a href="#oo-function">Functions as Data</a></li>
+    <li><a href="#oo-curry-partial-closure">Currying, Partial Application and Closures</a></li>
+    <li><a href="#oo-currying">Currying</a></li>
+    <li><a href="#oo-exercise">Exercise</a></li>
+  </ul>
+  <li><a href="#summary">Summary</a></li>
+  <li><a href="#reading">Further Reading</a></li>
+  <li><a href="#comments">Comments</a></li>
+</ul>
+<p><a name="fp-data"></a></p>
+<h2 id="functions-as-data">Functions as data</h2>
+<p>One important concept in functional programming is the ability to use functions just
+as data. This means you can create functions and store them in variables.
+But that also means you can pass those functions to other functions as arguments
+or retrieve a function from a function.</p>
+<p>Sometimes people new to functional programming have some problems to understand
+this idea and how it is useful, but in fact, when you do OO programming
+you do that kind of idea basically all over the place. You do it even more
+often as in a functional language.</p>
+<p>But even if you don&rsquo;t see the connection at the moment, you still could ask
+yourself if that idea really makes sense, or what useful thinks you can
+do with that idea.</p>
+<p><a name="fp-function"></a></p>
+<h2 id="what-is-a-function">What is a function?</h2>
+<p>Before we go deeper we have to ask ourself: What is a function anyway? Depending
+on the language there are also multiple terms for the word function. Terms
+like procedures, static methods or subroutines.</p>
+<p>When I talk about functions I just mean the concept that you have some kind
+of thing that you can pass some arguments, and it returns a result. As a simple
+example we can think of a <code>square</code> function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">square</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We can pass it several different values, and it will return a result.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">square</span> <span class="n">0</span>  <span class="c1">// 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">square</span> <span class="n">1</span>  <span class="c1">// 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">square</span> <span class="n">2</span>  <span class="c1">// 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">square</span> <span class="n">3</span>  <span class="c1">// 9
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Despite its simpleness. There are two ways how we can interpret <code>square</code>.</p>
+<ul>
+<li>A function is a series of commands that executes one by one returning some value.</li>
+<li>A function is a transformation of values. We pass some value in, and we get some value out.</li>
+</ul>
+<p>Even if those definitions seems similar, the focus is different. The first definition is
+often used by imperative languages. Functions are <em>just</em> a tool to get rid of
+code-duplication. You have a series of commands? Put them in a function and you later
+can call it again. What do you do if you want to understand
+what a function does? Just explore the commands it executes step-by-step.</p>
+<p>The second definition is how functional languages interpret functions. The focus lies on the
+input and the output. A function is not just a series of commands, it transforms an
+input to an output. You want to know what a function does? Examine the input and output
+of a function. The best would be if the types of a function is already self-speaking enough.
+Otherwise the function name itself should give us enough information what it does.</p>
+<p>But we don&rsquo;t really care how a function work or how it exactly achieve the output
+it returns. South Park teaches this thinking already:</p>
+<p><img src="south_park_profit.png" alt="Underpants and Profit"></p>
+<p>A function is just something that takes some underpants, then do something, and
+we get some profit out of it. We just have:</p>
+<pre><code>Underpants -&gt; Profit
+</code></pre>
+<p>What happens between those steps? We don&rsquo;t know, but we also don&rsquo;t care. The only
+thing that matters is that we can somehow turn underpants into profit.</p>
+<p><a name="fp-exp-functions"></a></p>
+<h2 id="exploiting-functions">Exploiting functions</h2>
+<p>The idea that only the input and output of a function matters is quite interesting.
+We could take that idea further and for example rewrite our <code>square</code> function
+into the following way:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">squareM</span> <span class="n">x</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">output</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="nn">Map</span><span class="p">.</span><span class="n">ofList</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="n">4</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="n">3</span><span class="o">,</span> <span class="n">9</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="n">4</span><span class="o">,</span> <span class="n">16</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">defaultArg</span> <span class="o">(</span><span class="nn">Map</span><span class="p">.</span><span class="n">tryFind</span> <span class="n">x</span> <span class="n">output</span><span class="o">)</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">squareM</span> <span class="n">1</span>  <span class="c1">// 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">squareM</span> <span class="n">2</span>  <span class="c1">// 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">squareM</span> <span class="n">3</span>  <span class="c1">// 9
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">squareM</span> <span class="n">4</span>  <span class="c1">// 16
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">squareM</span> <span class="n">5</span>  <span class="c1">// 0
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Okay, now you are probably saying that this is cheating and not the same. We also get
+a wrong output when we pass it <code>5</code>. We only get correct output for the numbers one
+to four. But actually the previous version was also not <em>correct</em>. When we do:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">square</span> <span class="n">100000</span> <span class="c1">// 1410065408
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>we also get a wrong result. The problem is that we have an integer overflow here.
+<code>square</code> is also not correct, it only happens that our first <code>square</code> function returns
+right result for a lot more arguments, but still not for all inputs.</p>
+<p>But the more important idea is that we could replace a function just with a data-structure.
+A functions just maps some input to its output. That is exactly what the <code>Map</code> data-structure
+does.</p>
+<div class="info">
+A <code>Map</code> is basically a key/value store. In F# it is immutable. In other
+languages a <code>Map</code> is a Dictionary, Hash or Associative Array. In
+non-functional languages they are most often mutable. Another example:
+In JavaScript it is also called an object.
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">squares</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="mi">1</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="mi">2</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="mi">3</span><span class="o">:</span> <span class="mi">9</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="mi">4</span><span class="o">:</span> <span class="mi">16</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">squares</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="c1">// 9
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<p>We could spent a lot of time filling out the remaining inputs in <code>squareM</code> to get it
+<em>more correct</em>, but doing a task like this feels a little bit silly. But wait.</p>
+<ol>
+<li>A function and a map data-structure are equivalent</li>
+<li>It makes sense to pass a data-structure as an argument</li>
+<li>Then it also must make sense to pass a function instead</li>
+<li>If it feels silly to create all possible input/output combinations in
+a map data-structure to emulate a function, then passing a function
+makes more sense as passing a data-structure.</li>
+</ol>
+<p>When you look at it then it indeed makes more sense. We actually can think
+of a function just as a lazy-data-structure. Instead of generating all
+possible input/output values that could exists and save them into a
+data-structure. We just describe how every element can be computed, and
+pass this description instead.</p>
+<p>But lets at least once imagine our language don&rsquo;t support passing functions
+as values. How could we create something similar to the <code>List.map</code> function?
+This is the <code>List.map</code> function:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span> <span class="c1">// [1;4;9;16]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Without the ability to pass functions as values we just expect a <code>Map</code>
+data-structure as the first argument instead.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// The map function with a `Map` data-structure
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">rec</span> <span class="n">map</span> <span class="n">data</span> <span class="kt">list</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="kt">list</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="bp">[]</span>      <span class="o">-&gt;</span> <span class="bp">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">x</span><span class="o">::</span><span class="kt">list</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="nn">Map</span><span class="p">.</span><span class="n">find</span> <span class="n">x</span> <span class="n">data</span><span class="o">)</span> <span class="o">::</span> <span class="o">(</span><span class="n">map</span> <span class="n">data</span> <span class="kt">list</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// We pre-compute the squares from 1 to 10000
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">squares</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Map</span><span class="p">.</span><span class="n">ofList</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="n">1</span><span class="o">..</span><span class="n">10000</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">            <span class="k">yield</span> <span class="n">x</span><span class="o">,</span> <span class="o">(</span><span class="n">square</span> <span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Now we call map with our pre-computed values
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">map</span> <span class="n">squares</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">20</span><span class="o">]</span> <span class="c1">// [1;16;400]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Instead of writing all possible value combinations ourself we even could use the <code>square</code>
+function to create the needed data-structure. This even shows more clearly why a function
+and a <code>Map</code> data-structure is basically the same. Our own <code>map</code> function with a
+data-structure is basically the same as the built-in <code>List.map</code>.</p>
+<div class="info">
+The fact that our own <code>map</code> is not tail-recursive and fails with big input lists is not important
+for this article. We could spent some more time in optimizing our own <code>map</code> and make it tail-recursive,
+but the focus is not tail-recursion or performance, the focus is to understand that we can substitute
+a function with a <code>Map</code> data-structure.
+</div>
+<p>It is even interesting to see how similar both <code>map</code> functions are. When we look at both
+definitions we see:</p>
+<pre><code>List.map : ('a -&gt; 'b) -&gt; 'a list -&gt; 'b list
+map      : Map&lt;'a,'b&gt; -&gt; 'a list -&gt; 'b list
+</code></pre>
+<p><code>List.map</code> expects a function that maps <code>'a</code> values to <code>'b</code> values, while our own <code>map</code> expects
+a <code>Map</code> data-structure that maps <code>'a</code> to <code>'b</code> values.</p>
+<p>But once again, generating all possible input values before-hand feels a little bit silly.
+We need to create a lot of possible values that we probably never need. It also costs more
+memory as we need to save all possible combinations. That is why we pass a function instead.
+We just pass the description how to compute the values instead.</p>
+<div class="info">
+<p>
+It is quite important to understand that passing a data-structure instead of a function is only
+<em>theoretically</em> possible. <em>Practically</em> there exists a lot of cases where
+such an approach will not work. When we for example try to create a data-structure that
+maps any string to the length of a string, then it is practically impossible to create
+a data-structure.
+</p>
+<p>We actually would need to create a data-structure that contains any possible input string and returns
+the length of it. Even when we just consider the stone-age view that they are only 128 characters
+(aka ASCII) and we restrict us on a maximum length of 10 characters there already exists
+1.180.591.620.717.411.303.424 possible input strings we need to handle.</p>
+<p>Creating a data-structure that contains all possible input strings that maps it to the
+length is theoretically possible. But already for 10 characters and just considering ASCII
+we have such a large amount of possible input strings that it just exceeds the amount of memory
+a single computer could have.</p>
+<p>That doesn&rsquo;t mean passing functions doesn&rsquo;t make sense. It is quite the opposite, because the needed
+data to represent a function is so huge, it is even more important that we can pass a function
+that only calculates those things we truly need.</p>
+</div>
+<p><a name="fp-retn-functions"></a></p>
+<h2 id="functions-as-return-values">Functions as return values</h2>
+<p>Let&rsquo;s consider the following function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">generateAdd</span> <span class="n">x</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Map</span><span class="p">.</span><span class="n">ofList</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">1</span><span class="o">..</span><span class="n">5</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">            <span class="k">yield</span> <span class="n">i</span><span class="o">,</span> <span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span> <span class="o">=</span> <span class="n">generateAdd</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">add10</span><span class="o">.[</span><span class="n">1</span><span class="o">]</span> <span class="c1">// 11
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add10</span><span class="o">.[</span><span class="n">2</span><span class="o">]</span> <span class="c1">// 12
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add10</span><span class="o">.[</span><span class="n">3</span><span class="o">]</span> <span class="c1">// 13
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>We have a function that returns a new Map structure. When we call <code>generateAdd 10</code> we get
+the following Map data-structure back.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[(</span><span class="n">1</span><span class="o">,</span><span class="n">11</span><span class="o">);</span> <span class="o">(</span><span class="n">2</span><span class="o">,</span><span class="n">12</span><span class="o">);</span> <span class="o">(</span><span class="n">3</span><span class="o">,</span><span class="n">13</span><span class="o">);</span> <span class="o">(</span><span class="n">4</span><span class="o">,</span><span class="n">14</span><span class="o">);</span> <span class="o">(</span><span class="n">5</span><span class="o">,</span><span class="n">15</span><span class="o">)]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But we already have seen this kind of code before. This was the way how we turned
+our <code>square</code> function into a data-structure, so we could pass it to our own <code>map</code> function. But
+this time we create a <code>Map</code> data-structure inside a function and return it from a function.
+This is the same as creating a function inside a function and returning it.</p>
+<p>When we look at <code>generateAdd</code> then we see the following. We loop over the number from <code>1</code> to <code>5</code>.
+Those represents the inputs of a function we pre-calculate. With <code>yield</code> we return the mapping
+<code>i</code> to <code>(i + x)</code>.</p>
+<p>When we want to turn it into a function we just need to return the code <code>(i + x)</code> somehow.
+So how do we return a function with that code? That is the purpose of <em>lambda</em>. <em>lambda</em>
+is the idea of a function as a value. In F# we just use the <code>fun</code> keyword to create
+a function/lambda.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">generateAdd</span> <span class="n">x</span> <span class="o">=</span> <span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">+</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span>         <span class="o">=</span> <span class="n">generateAdd</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">add10</span> <span class="n">1</span>   <span class="c1">// 11
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add10</span> <span class="n">2</span>   <span class="c1">// 12
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add10</span> <span class="n">5</span>   <span class="c1">// 15
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add10</span> <span class="n">100</span> <span class="c1">// 120
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Instead of pre-calculating <code>i + x</code> for a dozen of numbers, now we just return the whole
+computation itself. When we call <code>generateAdd 10</code> we now get a new function back that
+can turn any input <code>int</code> into an output <code>int</code> where we added <code>10</code> to it.</p>
+<p>As you can see, both versions with a data-structure or the functions are quite similar.
+But the last version still contains some interesting things that are worth to talk about.</p>
+<p><a name="fp-lambda"></a></p>
+<h2 id="there-is-only-lambda">There is only lambda</h2>
+<p>When we want to create an <code>int</code>. How do we do that? Well we just write it. For example <code>5</code> is
+just <code>5</code>. We can work with <code>5</code> however we want. We can pass it to a function, use it in
+calculations and so on.</p>
+<p>This works with any number, but when we for example want to work with <code>587452198</code> then
+always rewriting this number can become annoying and tedious. Instead of working with numbers
+directly we can bind a number to a symbol and give it a name. We bind something to
+a name with <code>let</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">587452198</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Once we have written this kind of thing, we now can use <code>bigNumber</code>. But what happens exactly
+when we write something like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">bigNumber</span> <span class="o">+</span> <span class="n">bigNumber</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>A process named <em>Substitution</em> starts. The language cannot do anything with <code>bigNumber</code> but
+<code>bigNumber</code> was anyway just a name for something different. The language just replaces <code>bigNumber</code>
+with the number it stands for. And now we see something like:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">587452198</span> <span class="o">+</span> <span class="n">587452198</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>After the <em>substitution</em> we can calculate the result <code>1174904396</code> and bind the result to <code>y</code>.
+Now also <code>y</code> can be used in other calculations. This substitution process is quite
+important. It is basically the foundation of a function. Previously we defined <code>square</code>
+like that.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">square</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In fact, the language cannot execute anything in this example, as there is nothing to
+execute. <code>x</code> has no meaning at this point. To really calculate something we must substitute <code>x</code> with
+something different. How do we substitute it? We do it when we write:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">square</span> <span class="n">10</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We then say that <code>x</code> in <code>square</code> should be substituted with <code>10</code>. Instead of <code>x * x</code> it
+substitutes <code>x</code> with <code>10</code> and it calculates <code>10 * 10</code>. What we see here are three things:</p>
+<ol>
+<li>We have a concrete value like <code>10</code></li>
+<li>We can bind a concrete value to a symbol with <code>let</code></li>
+<li>Symbols get substituted with a concrete value</li>
+</ol>
+<p>The interesting part is. Technically a function definition does not exists. The only
+way to create a function is through the <code>fun</code> keyword (also named: lambda expression). So when
+we want to write a calculation with a symbol. We just write.</p>
+<pre><code>(fun x -&gt; x * x)
+</code></pre>
+<p>How do we execute the lambda? We just provide a value that should be substituted for <code>x</code>
+after the lambda expression.</p>
+<pre><code>(fun x -&gt; x * x) 2 //  4
+(fun x -&gt; x * x) 3 //  9
+(fun x -&gt; x * x) 5 // 25
+</code></pre>
+<p>But this overall makes less sense. We also could have written <code>2 * 2</code> or <code>4 * 4</code> directly. And
+overall we don&rsquo;t want to rewrite the function all over again and again because that is annoying.
+But we already have seen what we do in such a case. We just bind it to a symbol with <code>let</code>!</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">square</span> <span class="o">=</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>How do we work with <code>square</code>? You already have done it before.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">square</span> <span class="n">5</span>  <span class="c1">//  25
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">square</span> <span class="n">10</span> <span class="c1">// 100
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">square</span> <span class="n">25</span> <span class="c1">// 625
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Actually what really happens. <code>square</code> is just a symbol and it is once again substituted by
+<code>(fun x -&gt; x * x)</code>. When we write <code>5</code> after it, then <code>x</code> in our function gets substituted by <code>5</code>.
+But creating functions and binding it to a symbol happens so often that we just have a shortcut
+for that.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">square</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This definition is the exact same as the <code>square</code> definition with an explicit <code>fun</code>. That is also
+the reason why calling <code>square</code> looks exactly the same. We have two different ways to define
+a function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">squareA</span>   <span class="o">=</span> <span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">squareB</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But there is no difference in calling both functions.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">squareA</span> <span class="n">5</span> <span class="c1">// 25
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">squareB</span> <span class="n">5</span> <span class="c1">// 25
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>It just shows that the second <code>let</code> definition that already includes the function arguments
+is only a shortcut to the more explicit lambda expression.</p>
+<p><a name="fp-currying"></a></p>
+<h2 id="currying">Currying</h2>
+<p>In fact the simplification don&rsquo;t stop here. We don&rsquo;t even have functions with more than one
+argument. There only exists functions with one arguments. So what do you do when you for
+example want to add two numbers?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">fun</span> <span class="n">y</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">add</span> <span class="n">10</span> <span class="n">20</span> <span class="c1">// 30
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add</span> <span class="n">50</span> <span class="n">50</span> <span class="c1">// 100
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>But creating such kind of nested functions is quite annoying. So there is a shortcut. You just can
+use <code>fun</code> with multiple arguments and it creates the nesting for you.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span><span class="k">&#39;</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">fun</span> <span class="n">x</span> <span class="n">y</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">add&#39;</span> <span class="n">10</span> <span class="n">20</span> <span class="c1">// 30
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add&#39;</span> <span class="n">50</span> <span class="n">50</span> <span class="c1">// 100
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>And there is once again a shortcut by just using <code>let</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span><span class="k">&#39;&#39;</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">add&#39;&#39;</span> <span class="n">10</span> <span class="n">20</span> <span class="c1">// 30
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add&#39;&#39;</span> <span class="n">50</span> <span class="n">50</span> <span class="c1">// 100
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>In practice you will usually only use the last way of defining a function. But it is quite
+important to understand that all three ways of writing a function are interchangeable
+and mean the exact same.</p>
+<p>How does those information help us? We can rewrite our <code>add10</code> function that we created
+previously. Previously we wrote <code>add10</code> like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">generateAdd</span> <span class="n">x</span> <span class="o">=</span> <span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">+</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span>         <span class="o">=</span> <span class="n">generateAdd</span> <span class="n">10</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But this is the same as:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span>   <span class="o">=</span> <span class="n">add</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">add10</span> <span class="n">5</span>  <span class="c1">// 15
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add10</span> <span class="n">10</span> <span class="c1">// 20
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>It is quite important to understand what happens here. We start with <code>add</code>, but this is
+a function that expects a single value <code>x</code>. That is the reason why we just can call <code>add 10</code> with
+one argument. This then returns a lambda like <code>(fun y -&gt; 10 + y)</code>. That means
+we substituted <code>x</code> with <code>10</code> and then returned a new function.</p>
+<p>This new function is then bounded to the symbol <code>add10</code>. When we finally call <code>add10 5</code> then
+we also substitute <code>y</code> and we get <code>10 + 5</code> and this evaluates to <code>15</code>.</p>
+<p>Only passing some arguments is what we call <em>Partial Application</em>. But it is more important
+to understand that we get <em>Partial Application</em> for free because we have Currying and all
+functions are one-argument functions that return new functions.</p>
+<div class="info">
+<p>
+If you wonder about the apostrophes in <code>add'</code> or <code>add''</code>. They are
+not special and just part of the function name. This is usual the way how
+functional programmers say: This is another version/implementation of a function.
+</p>
+<p>I also could just numbered the functions with <code>add2</code>, <code>add3</code> and so on.
+But this creates conflict with Partial Applied functions. When i write <code>add3</code> i
+would expect that it is a partial applied function with the first argument set to <code>3</code>.</p>
+</div>
+<p><a name="fp-closures"></a></p>
+<h2 id="closures">Closures</h2>
+<p>Previously I said that when you call a function then some kind of substitution happens.
+When you call <code>add 10</code> in the last example then <code>x</code> gets substituted by <code>10</code> and it returns
+a function <code>10 + y</code>. But this is not quite correct. What really happens is that the actual
+variable <code>x</code> is just <em>remembered</em>.</p>
+<p>It seems not like a big distinction, but the difference becomes more obvious when we use
+a mutable variable.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span>       <span class="o">=</span> <span class="n">ref</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="o">!</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span>   <span class="o">=</span> <span class="n">add</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">add10</span> <span class="n">5</span> <span class="c1">// 15
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="o">:=</span> <span class="n">5</span>
+</span></span><span class="line"><span class="cl"><span class="n">add10</span> <span class="n">5</span> <span class="c1">// 10
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Because the value of <code>x</code> changes between both calls we now get <code>15</code> and <code>10</code>. The
+reason why we anyway get different values is because the returned function only refers
+to <code>x</code> and does not do a real substitution of the value.</p>
+<div class="info">
+<p>
+Usually the difference between referring and substitution only becomes a problem with
+mutable variables. Something we anyway avoid in functional programming. When we think
+of referential transparency (this is how functional programming is usually defined)
+we could even say that this code is not functional at all.
+</p>
+<p>But i don&rsquo;t go further into this topic. Usually we don&rsquo;t use mutable variables, but
+as F# is not a pure-functional language and it supports mutation, i still think it
+is important to mention.</p>
+</div>
+<p>But there is an even more fundamental idea that emerges from that example. How long do
+we need to keep <code>x</code> in memory? The answer is, as long we have some code that still refers
+to it. In our case <code>add10</code> refers to <code>x</code>, we always must keep <code>x</code> in memory, as long
+we have access to <code>add10</code>.</p>
+<p>This is also the reason why the first Lisp compiler already provided automatic memory
+management with garbage collection (invented 1962). More precisely I don&rsquo;t even know
+of any functional language that don&rsquo;t provide automatic memory management. While it
+might be theoretically possible to not provide automatic memory management. It
+is probably not a good practical decision.</p>
+<p>Whenever we <em>remember</em> a variable or refer to a variable from a lambda expression,
+we call it a <em>Closure</em>.</p>
+<p><a name="fp-example"></a></p>
+<h2 id="example-currying-and-closures">Example: Currying and Closures</h2>
+<p>I want to give a small example that shows functions as value and return values,
+currying and closures all in action. In F# we have an option type. An option type can have
+two states, <code>Some</code> or <code>None</code>. The <code>Some</code> state can carry an additional value with it.
+Usually the option type is used for the idea of <em>No Value</em>, but it also can be used as
+the idea of a <em>Success</em> or <em>Failure</em>, or how I use it as <em>Valid</em> or <em>Invalid</em>.</p>
+<p>We could for example write two functions that check if a number is greater or smaller
+than a limit. If the number is valid (smaller or greater) then we just return the number
+unchanged, otherwise we return <code>None</code>. But it also could be that we already get a <code>None</code> as
+input. In this case we just return <code>None</code>. We could write <code>smaller</code> and <code>greater</code> like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">smaller</span> <span class="n">min</span> <span class="n">x</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">x</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">None</span>        <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Some</span> <span class="n">number</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span>   <span class="n">number</span> <span class="o">&lt;</span> <span class="n">min</span>
+</span></span><span class="line"><span class="cl">        <span class="k">then</span> <span class="n">Some</span> <span class="n">number</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">greater</span> <span class="n">max</span> <span class="n">x</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">x</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">None</span>        <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Some</span> <span class="n">number</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span>   <span class="n">number</span> <span class="o">&gt;</span> <span class="n">max</span>
+</span></span><span class="line"><span class="cl">        <span class="k">then</span> <span class="n">Some</span> <span class="n">number</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">smaller</span> <span class="n">10</span> <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>  <span class="c1">// Some 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">smaller</span> <span class="n">10</span> <span class="o">(</span><span class="n">Some</span> <span class="n">11</span><span class="o">)</span> <span class="c1">// None
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">greater</span> <span class="n">10</span> <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>  <span class="c1">// None
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">greater</span> <span class="n">10</span> <span class="o">(</span><span class="n">Some</span> <span class="n">11</span><span class="o">)</span> <span class="c1">// Some 11
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>But when we look closer, <code>smaller</code> and <code>greater</code> are nearly identical functions. The only
+difference is the <code>if</code> check itself. But what does the <code>if</code> anyway? The <code>if</code> itself
+just turns a <code>number</code> somehow into a boolean value.</p>
+<p>Instead of hard-coding the <code>if</code> behaviour we also could call a function that we give the number
+and returns us a boolean. This way we could get rid of the whole code-duplication. We just
+abstract both functions into a new function that expects a function for the transformation
+of <code>number -&gt; Bool</code>.</p>
+<p>With such a new function we then could easily rewrite <code>smaller</code> and <code>greater</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">is</span> <span class="n">predicate</span> <span class="n">x</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">x</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">None</span>        <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Some</span> <span class="n">number</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span>   <span class="n">predicate</span> <span class="n">number</span>
+</span></span><span class="line"><span class="cl">        <span class="k">then</span> <span class="n">Some</span> <span class="n">number</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">smaller</span> <span class="n">min</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">min</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">greater</span> <span class="n">max</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">max</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">is</span> <span class="o">(</span><span class="n">smaller</span> <span class="n">10</span><span class="o">)</span> <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>  <span class="c1">// Some 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">is</span> <span class="o">(</span><span class="n">smaller</span> <span class="n">10</span><span class="o">)</span> <span class="o">(</span><span class="n">Some</span> <span class="n">11</span><span class="o">)</span> <span class="c1">// None
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">is</span> <span class="o">(</span><span class="n">greater</span> <span class="n">10</span><span class="o">)</span> <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>  <span class="c1">// None
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">is</span> <span class="o">(</span><span class="n">greater</span> <span class="n">10</span><span class="o">)</span> <span class="o">(</span><span class="n">Some</span> <span class="n">11</span><span class="o">)</span> <span class="c1">// Some 11
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now the whole code is written with currying in mind. <code>is</code> expects a function that turns
+a number into a <code>bool</code>. When we write <code>(smaller 10)</code> we just get back such a function.
+We get back a new function that contains <code>10</code> as a closure. This function is then passed
+as a value to the <code>is</code> function.</p>
+<p>We also could nest the calls, for example when we want to do two checks at once. The second
+argument to <code>is</code> must be an option value. But this is also what <code>is</code> returns. So we could
+use the output of another <code>is</code> as the input for the first <code>is</code>. What we then get is very
+Lisp-like code.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="n">is</span> <span class="o">(</span><span class="n">greater</span> <span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span><span class="n">is</span> <span class="o">(</span><span class="n">smaller</span> <span class="n">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)))</span> <span class="c1">// Some 3
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>At least in F# most people would prefer the piping idiom. With pipe we can write
+the last argument of a function in front of the function. With this idea we end up with a
+more sequential way.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">greater</span> <span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">smaller</span> <span class="n">10</span><span class="o">)</span> <span class="c1">// Some 3
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>(Some 3)</code> is now the input to <code>is (greater 0)</code> the return value of this is then the input value
+to <code>is (smaller 10)</code> and so on. But checking if a number is between some values is quite common.
+Why not combine both things into a single function?</p>
+<p>We already have <code>is</code> that does the handling of the option for us. But it only works
+with a single predicate function. This is okay, but to be more flexible we should write
+a way to combine two predicate functions into a single new predicate function.</p>
+<div class="info">
+A predicate is a function that always returns a <code>bool</code>. Predicates are often used for
+validation or filtering. For example:
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">;</span><span class="n">6</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span><span class="o">)</span> <span class="c1">// [2;4;6]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">combine</span> <span class="n">f</span> <span class="n">g</span> <span class="n">x</span> <span class="o">=</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">g</span> <span class="n">x</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The idea is simple, we have two functions, and both functions must return <code>true</code> for the given
+input <code>x</code>. Only when both return <code>true</code> our <code>combine</code> function also returns <code>true</code>. Now we can
+easily combine two predicates into a single new predicate.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">between</span> <span class="n">min</span> <span class="n">max</span> <span class="o">=</span> <span class="o">(</span><span class="n">combine</span> <span class="o">(</span><span class="n">smaller</span> <span class="n">max</span><span class="o">)</span> <span class="o">(</span><span class="n">greater</span> <span class="n">min</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="n">Some</span> <span class="n">0</span><span class="o">)</span>  <span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="n">0</span> <span class="n">10</span><span class="o">)</span> <span class="c1">// None
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>  <span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="n">0</span> <span class="n">10</span><span class="o">)</span> <span class="c1">// Some 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">Some</span> <span class="n">11</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="n">0</span> <span class="n">10</span><span class="o">)</span> <span class="c1">// None
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Once again you can see how we use currying. We don&rsquo;t provide the second argument to <code>smaller</code> or
+<code>greater</code>. That means both calls return predicates. And those two predicates are then provided
+to <code>combine</code>.</p>
+<p>But we also don&rsquo;t provide the third argument to <code>combine</code>. That means once again we get another
+new predicate function back. This way we can create the <code>between</code> predicate. It doesn&rsquo;t look like
+it, but <code>between</code> is a function that takes three arguments. <code>min</code> and <code>max</code> are the visible
+arguments. But we only called <code>combine</code> with two arguments. That means it returns a lambda,
+that makes <code>between</code> a three argument function (or a chain of three functions taking one-argument).</p>
+<p>What do we do if we want to combine three, four or more predicate functions? <code>combine</code> currently
+can turn two predicates into a single predicate. So we only need to <code>combine</code> all our predicates until
+we end up with a single predicate. This task is already written for us and named <code>reduce</code>.
+Let&rsquo;s create a <code>check</code> function that we can pass a list of predicates that combines it
+into a single predicate.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">check</span> <span class="n">predicates</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">reduce</span> <span class="n">combine</span> <span class="n">predicates</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now let&rsquo;s combine three predicates at once to create a new predicate.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">isEven</span> <span class="n">x</span>    <span class="o">=</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">evenAnd1To9</span> <span class="o">=</span> <span class="n">check</span> <span class="o">[</span><span class="n">greater</span> <span class="n">0</span><span class="o">;</span> <span class="n">smaller</span> <span class="n">10</span><span class="o">;</span> <span class="n">isEven</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="n">Some</span> <span class="n">0</span><span class="o">)</span>  <span class="o">|&gt;</span> <span class="n">is</span> <span class="n">evenAnd1To9</span> <span class="c1">// None
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>  <span class="o">|&gt;</span> <span class="n">is</span> <span class="n">evenAnd1To9</span> <span class="c1">// None
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">Some</span> <span class="n">4</span><span class="o">)</span>  <span class="o">|&gt;</span> <span class="n">is</span> <span class="n">evenAnd1To9</span> <span class="c1">// Some 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">Some</span> <span class="n">6</span><span class="o">)</span>  <span class="o">|&gt;</span> <span class="n">is</span> <span class="n">evenAnd1To9</span> <span class="c1">// Some 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">Some</span> <span class="n">11</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="n">is</span> <span class="n">evenAnd1To9</span> <span class="c1">// None
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>This idea of writing small functions, or basically decomposing a task into small functions and
+then composing them into bigger functions is the heart of functional programming. In functional
+programming we directly work with functions and we even write our own combinators
+to compose functions.</p>
+<p><a name="oo"></a></p>
+<h2 id="object-oriented-programming">Object-Oriented programming</h2>
+<p>At the start of the article i said we can achieve the same ideas in Object-Oriented programming
+or that you probably already know these things. I want to show you some C# code to achieve the
+same things. C# already has some functional features like lambda-expressions. But there is
+really no point in showing C# code that uses functional features as an example that OO
+and functional programming are orthogonal. Because of this i will only use classes.</p>
+<p><a name="oo-class"></a></p>
+<h2 id="what-is-a-class">What is a class?</h2>
+<p>We start with the same idea. What is actually a class anyway? A class is actually some
+kind of compose-able type. It always has at least one constructor, beyond that it can contain
+multiple data in the form of public and private fields, additional it can contain multiple
+functions operating on those data, often named <em>methods</em>. I make no distinction between
+functions and methods.</p>
+<p>But one important aspect is that there is no technical restriction to create classes with no
+data or no functions. There is also no restriction that tells you how many data fields or
+functions you must implement.</p>
+<p><a name="oo-function"></a></p>
+<h2 id="function-as-data">Function as data</h2>
+<p>I started with the idea of functions as data. I created a <code>square</code> function and passed the function
+around. We wrote our own <code>map</code> function that showed that we could replace a function by data.
+But also the opposite that we could pass a function instead of a data-structure. Re-doing that
+proof makes less sense as this idea doesn&rsquo;t invalidate just because we now use classes. But
+you probably wonder how we pass a function.</p>
+<p>In fact, when you do OO programming you pass functions all over the place in your code. You do
+it even more often as in a functional language. Every object is a container for functions. So
+when you pass an object you also pass functions around. In fact you not only pass a single
+function, you usually pass dozens of functions including data as a single object around.</p>
+<p>And because you usually return objects that include functions, you also return functions. In fact
+in OO it is even hard to find a place where you don&rsquo;t do that. Functional programming
+is more a simplification. We only pass a single function. And on top, we have lambda expression
+to easily create a single function directly where we need it. That is why it looks different
+but actually passing a single function or returning it shouldn&rsquo;t be hard to understand. You
+already do that all over the place in an OO language.</p>
+<div class="info">
+Some languages also have the ability to create whole classes/objects inline like you do
+with a lambda expression. In fact F# is such a language and supports
+<a href="https://msdn.microsoft.com/visualfsharpdocs/conceptual/object-expressions-%5bfsharp%5d">Object expressions</a>
+C# also supports <a href="https://msdn.microsoft.com/en-us/library/bb397696.aspx">Anonymous Types</a>,
+but they are more limited. Java supports <a href="https://docs.oracle.com/javase/tutorial/java/javaOO/anonymousclasses.html">Anonymous classes</a>.
+</div>
+<p>So, how do we create a <code>List.map</code> function in C# just with classes and how do we pass it
+a function like <code>square</code>?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">interface</span> <span class="nc">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">B</span> <span class="n">Call</span><span class="p">(</span><span class="n">A</span> <span class="n">a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Square</span> <span class="p">:</span> <span class="n">IFunction</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">Call</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">x</span> <span class="p">*</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">List</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">B</span><span class="p">&gt;</span> <span class="n">map</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">&gt;(</span><span class="n">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">&gt;</span> <span class="n">func</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">A</span><span class="p">&gt;</span> <span class="n">values</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">newList</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">B</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">x</span> <span class="k">in</span> <span class="n">values</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">var</span> <span class="n">mapping</span> <span class="p">=</span> <span class="n">func</span><span class="p">.</span><span class="n">Call</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">newList</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">mapping</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">newList</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>At first, we need to create a <code>IFunction</code> interface. This interface just tells us that we have
+a single method that takes some input and produces some output. We don&rsquo;t even care how that method
+is named. I use <code>Call</code>, but we also could use <code>Run</code>, <code>Execute</code> or whatever you like.</p>
+<p>Because we want to pass the square function as a value, we now must write a whole class and wrap
+our function inside a class. Now we are able to create an object and pass that function around.</p>
+<p>Our <code>List.map</code> just expects such a one-method interface (functional interface) and executes the
+function for every element. We now can write something like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">ints</span>    <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span> <span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">5</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">squared</span> <span class="p">=</span> <span class="n">List</span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="k">new</span> <span class="n">Square</span><span class="p">(),</span> <span class="n">ints</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And <code>squared</code> is a new list with all elements squared. The <code>IFunction</code> interface is sure a thing
+you only need to write once. Because we don&rsquo;t have currying in C#, we probably also want to
+write a version with two or three arguments, but overall you only need to define those once.</p>
+<p>Writing everything this way feels a little bit dumb. Mainly because most often the time there is a
+(IMHO: dumb) rule that tells you to put every class into its own file. The above code leads to
+an explosion of classes/files. But instead of criticizing the code, you should probably criticize
+your rules and OO on why such a simple example is already so complex.</p>
+<div class="info">
+Once again I want to highlight the importance that i ignore the functional features. You
+sure could easily achieve the same with just static methods (functions). Using <code>Func<int,int></code>
+in <code>List.map</code> and using a lambda <code>x => x * x</code> to call <code>List.map</code>.
+But those are the functional features that were added with C# 3. There is no point in showing
+functional concepts with functional features in an OO language to prove that they are orthogonal.
+</div>
+<p><a name="oo-curry-partial-closure"></a></p>
+<h2 id="currying-partial-application-and-closures">Currying, Partial Application and Closures</h2>
+<p>All three things are somehow connected to each other. In the functional code I first introduced
+currying, but I primarily used it to show Partial Application (only providing some arguments
+to a function, not all) and explained why this needs the concept of a closure. I will first ignore
+currying and only talk about the later two. So how can we create a function like <code>add</code> and partial apply
+the first argument?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Add</span> <span class="p">:</span> <span class="n">IFunction</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">int</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Add</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">x</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">Call</span><span class="p">(</span><span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">x</span> <span class="p">+</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now can use it like that:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">add10</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Add</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">add10</span><span class="p">.</span><span class="n">Call</span><span class="p">(</span><span class="m">5</span><span class="p">);</span> <span class="c1">// 15</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>What is Partial Application in OO really? It is just an argument to a constructor that is saved in
+a private field. All other methods in your class then have access to this private field. The value
+that was passed to the constructor is <em>remembered</em>.</p>
+<p>This shows what a closure is. Our <code>add10</code> object just have some internal private fields and
+all of those fields must remain in memory as long we have access to <code>add10</code>. This shows one
+fundamental idea. A closure and an object is the same.</p>
+<p>Whenever you create an object in OO programming. It is the same as calling a function that returns
+a function. The returned function then has access to the input through a closure. In the functional
+code I only returned a single function, but you also can return multiple functions or data-structure
+like a <em>Tuple</em> or <em>Record</em> that contains those functions.</p>
+<p>In C# we could for example create a class like:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Counter</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">int</span> <span class="n">counter</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Counter</span><span class="p">(</span><span class="kt">int</span> <span class="k">init</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">counter</span> <span class="p">=</span> <span class="k">init</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">Current</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="n">counter</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">Increment</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">counter</span> <span class="p">+=</span> <span class="m">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">Decrement</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">counter</span> <span class="p">-=</span> <span class="m">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and use it like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">counter</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Counter</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">counter</span><span class="p">.</span><span class="n">Increment</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">counter</span><span class="p">.</span><span class="n">Increment</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">counter</span><span class="p">.</span><span class="n">Decrement</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="n">Current</span><span class="p">());</span> <span class="c1">// 11</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In F# (without using classes in F#) we could achieve the same just with a closure</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// A Record describing three functions
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">type</span> <span class="nc">Counter</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Current</span><span class="o">:</span>   <span class="kt">unit</span> <span class="o">-&gt;</span> <span class="n">int</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Increment</span><span class="o">:</span> <span class="kt">unit</span> <span class="o">-&gt;</span> <span class="kt">unit</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Decrement</span><span class="o">:</span> <span class="kt">unit</span> <span class="o">-&gt;</span> <span class="kt">unit</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// A function that has `counter` as a closure and returns a Counter Record
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">counter</span> <span class="n">init</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">counter</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">init</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Current</span>   <span class="o">=</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="o">!</span><span class="n">counter</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Increment</span> <span class="o">=</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">counter</span> <span class="o">:=</span> <span class="o">!</span><span class="n">counter</span> <span class="o">+</span> <span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Decrement</span> <span class="o">=</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">counter</span> <span class="o">:=</span> <span class="o">!</span><span class="n">counter</span> <span class="o">-</span> <span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And you use it like that:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">count</span> <span class="o">=</span> <span class="n">counter</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl"><span class="n">count</span><span class="o">.</span><span class="n">Increment</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">count</span><span class="o">.</span><span class="n">Increment</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">count</span><span class="o">.</span><span class="n">Decrement</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="o">(</span><span class="n">count</span><span class="o">.</span><span class="n">Current</span><span class="bp">()</span><span class="o">)</span> <span class="c1">// 11
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>An object is just a collection of functions that still has access to some hidden fields.
+Objects and closures are the same. Probably you have heard that &ldquo;Objects are poor man closures&rdquo;,
+now you know why. But it is also the same reversed. &ldquo;Closures are poor man objects&rdquo;. Why? A
+class is basically an <em>optimization</em> of this use-case.</p>
+<p>A class contains the definition, fields and so on in one unit. Instead of creating a record
+definition, using <code>counter</code> as a closure and return a record, I also could just define
+a class with the members (methods) and a private field. Defining a class is shorter.</p>
+<p>So a class is a poor man closures because it did not add anything more useful as what a
+function with closure already gives you (functional languages, lambdas, closures and so
+on already existed before OO). But on the other hand, OO optimized this use-case in such
+a way that Closures are really &ldquo;poor man objects&rdquo;.</p>
+<p>As F# also supports classes, if you really want to write something like this i would suggest you
+also should create a class, and not use a record with functions and a closure. A class is just
+much shorter.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">CounterClass</span><span class="o">(</span><span class="n">init</span><span class="o">:</span><span class="n">int</span><span class="o">)</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">mutable</span> <span class="n">counter</span> <span class="o">=</span> <span class="n">init</span>
+</span></span><span class="line"><span class="cl">    <span class="k">member</span> <span class="n">this</span><span class="p">.</span><span class="nf">Current</span>     <span class="o">=</span> <span class="n">counter</span>
+</span></span><span class="line"><span class="cl">    <span class="k">member</span> <span class="n">this</span><span class="p">.</span><span class="nf">Increment</span><span class="bp">()</span> <span class="o">=</span> <span class="n">counter</span> <span class="o">&lt;-</span> <span class="n">counter</span> <span class="o">+</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">member</span> <span class="n">this</span><span class="p">.</span><span class="nf">Decrement</span><span class="bp">()</span> <span class="o">=</span> <span class="n">counter</span> <span class="o">&lt;-</span> <span class="n">counter</span> <span class="o">-</span> <span class="n">1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The usage of a class in F# is actually nearly the same as the code with the record:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">count</span> <span class="o">=</span> <span class="n">CounterClass</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl"><span class="n">count</span><span class="o">.</span><span class="n">Increment</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">count</span><span class="o">.</span><span class="n">Increment</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">count</span><span class="o">.</span><span class="n">Decrement</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">count</span><span class="o">.</span><span class="n">Current</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But as a final note. Writing things like this is anyway not idiomatic functional code. Functional
+code uses immutability. With immutable data you don&rsquo;t really need a class at all. A class gives you
+the ability to hide <em>mutable data</em> so you only have specific functions that can manipulate those.</p>
+<p><a name="oo-currying"></a></p>
+<h2 id="currying-1">Currying</h2>
+<p>F# does automatic currying by default, but it doesn&rsquo;t mean just because your language doesn&rsquo;t do
+currying you can&rsquo;t have it. While most modern functional languages usually do it by default some
+older languages especially those based on Lisp also don&rsquo;t do it by default.</p>
+<p>I give a short recap on what currying is, because it is still often miss-interpreted as
+partial application.</p>
+<p>Currying is the idea that every function only has one input and one output argument. A function
+with multiple input arguments must then be converted into a function that returns another
+function. This transformation process is what we name currying. Once a function is in curried
+form we don&rsquo;t have to specify all arguments at once. Not providing all arguments at once is
+partial application. But you don&rsquo;t need currying to use partial application.</p>
+<p>Often beginners have a problem to differentiate both. We also can write a curry
+function in F#. And probably that can help to demonstrate the distinction. First
+we create a function that expects two arguments in tupled form.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">)</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now <code>add</code> expects a single argument, a tuple that contains two variables. You can use it like that:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">add</span><span class="o">(</span><span class="n">3</span><span class="o">,</span><span class="n">10</span><span class="o">)</span>  <span class="c1">// 13
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add</span><span class="o">(</span><span class="n">10</span><span class="o">,</span><span class="n">10</span><span class="o">)</span> <span class="c1">// 20
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Probably at this point you will notice how similar this is to a function in a C-style language.
+It is probably not an accident that we use <code>,</code> for the creation of a tuple. The disadvantage
+of a tuple is that we now must provide both values at once. We now could write a <code>curry</code>
+function to turn a function expecting a tuple into a chain of functions.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// Extended version
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">curry</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">  <span class="k">fun</span> <span class="n">f</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">fun</span> <span class="n">y</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">f</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Short version
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">curry</span> <span class="n">f</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">f</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Using <code>curry</code> only with the first argument returns a curried version of <code>add</code>. After we have
+a curried function we can partial apply it.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">addC</span>   <span class="o">=</span> <span class="n">curry</span> <span class="n">add</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">addC10</span> <span class="o">=</span> <span class="n">addC</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl"><span class="n">addC10</span> <span class="n">5</span> <span class="c1">// 15
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>To be more formal. We started with a function signature that looked like this:</p>
+<pre><code>(A,B) -&gt; C
+</code></pre>
+<p>and <code>curry</code> turned it into a chain of functions</p>
+<pre><code>A -&gt; B -&gt; C
+</code></pre>
+<p>When you are not used to reading functional signatures. The <code>-&gt;</code> stands for a function. The left
+is the input and the right is the output. <code>-&gt; </code> is left-associative. So you can read it like</p>
+<pre><code>A -&gt; (B -&gt; C)
+</code></pre>
+<p>A function that takes <code>A</code> and returns a new function that takes a <code>B</code> and returns <code>C</code>. When we
+now go back to the OO world. We already defined a generic interface with one argument and output.</p>
+<pre><code>IFunction&lt;A,B&gt;
+</code></pre>
+<p>How could the interface for a function with two arguments, without currying, look like?</p>
+<pre><code>IFunction&lt;A,B,C&gt;
+</code></pre>
+<p>How does it look with currying?</p>
+<pre><code>IFunction&lt;A,IFunction&lt;B,C&gt;&gt;
+</code></pre>
+<p>A <code>curry</code> function would take a <code>IFunction&lt;A,B,C&gt;</code> and return a <code>IFunction&lt;A,IFunction&lt;B,C&gt;&gt;</code>.
+The problem is, without the ability to create a lambda or anonymous classes such a task is hard
+up to impossible.</p>
+<p>Instead of focusing on currying, we could focus on partial application instead. We already
+have seen what partial application means in OO. It just means we already provide the arguments
+to the constructor when we create a class. But it is really bad that we have to do that kind
+of thing explicitly and manually.</p>
+<p>Instead of creating classes that expects its value explicitly in the constructor, we should
+write a generic version that can partial apply any two argument IFunction instead. We
+could write it like that:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">interface</span> <span class="nc">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">B</span> <span class="n">Call</span><span class="p">(</span><span class="n">A</span> <span class="n">a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">interface</span> <span class="nc">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">C</span> <span class="n">Call</span><span class="p">(</span><span class="n">A</span> <span class="n">a</span><span class="p">,</span> <span class="n">B</span> <span class="n">b</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Partial</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="p">:</span> <span class="n">IFunction</span><span class="p">&lt;</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">A</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="n">func</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Partial</span><span class="p">(</span><span class="n">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="n">func</span><span class="p">,</span> <span class="n">A</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">a</span> <span class="p">=</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">func</span> <span class="p">=</span> <span class="n">func</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">C</span> <span class="n">Call</span><span class="p">(</span><span class="n">B</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="n">func</span><span class="p">.</span><span class="n">Call</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">Func</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="n">IFunction</span><span class="p">&lt;</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="k">partial</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;(</span><span class="n">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="n">func</span><span class="p">,</span> <span class="n">A</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">Partial</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;(</span><span class="n">func</span><span class="p">,</span> <span class="n">a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We don&rsquo;t need the static <code>Func</code> class, but without this helper function and by directly
+using <code>new Partial()</code> we need to specify the generic values like <code>new Partial&lt;int,int,int&gt;()</code>
+as otherwise the C# compiler cannot infer the types. The helper functions helps us here.
+With such a setup we now can write our <code>Add</code> function like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Add</span> <span class="p">:</span> <span class="n">IFunction</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">Call</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">x</span> <span class="p">+</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And now we are able to partial apply the first argument. We can work with it like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="k">add</span>   <span class="p">=</span> <span class="k">new</span> <span class="n">Add</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">add10</span> <span class="p">=</span> <span class="n">Func</span><span class="p">.</span><span class="k">partial</span><span class="p">(</span><span class="k">add</span><span class="p">,</span> <span class="m">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">add10</span><span class="p">.</span><span class="n">Call</span><span class="p">(</span><span class="m">5</span><span class="p">));</span> <span class="c1">// 15</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It is a little bit boiler-plate to define everything, but we only need to define it once,
+now we are able to partial apply any two argument function without that we explicitly
+need to create a private field or think about which or how many arguments we want
+to partial apply.</p>
+<div class="info">
+When we don't restrict ourself and use all functional features of C#, that means lambdas,
+and static methods (that we then can pass as arguments) then all of the examples become easier.
+We also can easily define <code>curry</code> functions.
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">Lambda</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 2-args</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="n">Func</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;&gt;</span> <span class="n">Curry</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;(</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="n">func</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">a</span> <span class="p">=&gt;</span> <span class="n">b</span> <span class="p">=&gt;</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 3-args</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="n">Func</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">B</span><span class="p">,</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">C</span><span class="p">,</span><span class="n">D</span><span class="p">&gt;&gt;&gt;</span> <span class="n">Curry</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">D</span><span class="p">&gt;(</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">D</span><span class="p">&gt;</span> <span class="n">func</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">a</span> <span class="p">=&gt;</span> <span class="n">b</span> <span class="p">=&gt;</span> <span class="n">c</span> <span class="p">=&gt;</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MainClass</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="n">Add</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">x</span> <span class="p">+</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// We must specify the generic-types when we pass a static method</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// to the Curry() function as an argument</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="k">add</span> <span class="p">=</span> <span class="n">Lambda</span><span class="p">.</span><span class="n">Curry</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">&gt;(</span><span class="n">Add</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">x</span> <span class="p">=</span> <span class="k">add</span><span class="p">(</span><span class="m">10</span><span class="p">)(</span><span class="m">5</span><span class="p">);</span>   <span class="c1">// It is now a chained function</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="c1">// 15</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">add10</span> <span class="p">=</span> <span class="k">add</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>  <span class="c1">// Easily Partial Application</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">y</span>     <span class="p">=</span> <span class="n">add10</span><span class="p">(</span><span class="m">5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">y</span><span class="p">);</span> <span class="c1">// 15</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<p><a name="oo-exercise"></a></p>
+<h2 id="exercise">Exercise</h2>
+<p>Previously I provided a small exercise with validation, but I leave the task to implement it
+in your favourite language. Up to this point you should know enough about currying and
+partial application. Most languages today also support lambda statements. Not every language
+has automatic currying, but I showed how to create a curry function in F# and C#.</p>
+<p>Otherwise you still can use partial application instead of currying. The example is still
+small and still heavily rely on currying or in general the ability to take functions as
+arguments and return new functions from other functions. When you want a better understanding
+of the concepts then there is no better way to somehow rewrite the given example.</p>
+<p>As a full overview, here is the full F# code.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// Takes a predicate and a value and returns a valid/invalid value
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">is</span> <span class="n">f</span> <span class="n">x</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">x</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">None</span>        <span class="o">-&gt;</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Some</span> <span class="n">number</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span>   <span class="n">f</span> <span class="n">number</span>
+</span></span><span class="line"><span class="cl">        <span class="k">then</span> <span class="n">Some</span> <span class="n">number</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="n">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Combinator
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">combine</span> <span class="n">f</span> <span class="n">g</span> <span class="n">x</span> <span class="o">=</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">g</span> <span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Predicates
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">smaller</span> <span class="n">min</span> <span class="n">x</span>   <span class="o">=</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">min</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">greater</span> <span class="n">max</span> <span class="n">x</span>   <span class="o">=</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">max</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">even</span> <span class="n">x</span>          <span class="o">=</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">between</span> <span class="n">min</span> <span class="n">max</span> <span class="o">=</span> <span class="o">(</span><span class="n">combine</span> <span class="o">(</span><span class="n">smaller</span> <span class="n">max</span><span class="o">)</span> <span class="o">(</span><span class="n">greater</span> <span class="n">min</span><span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Some notes on the implementation. <code>Some</code> and <code>None</code> is an option type. In a language without
+<a href="https://davidraab.github.io/posts/algebraic-data-types/">Algebraic Data-Types</a> you have some problems to
+build this. But you can create a class that contains a bool and a data field. The bool contains
+the information if the data-field is valid or not. In the case it is invalid, the data-field
+is empty/null.</p>
+<p><code>combine</code> is a combinator, it expects two predicate functions as an argument and returns
+a new predicate that applies both checks on a value. In a language without automatic
+currying this should be a two-argument function (returning a function).</p>
+<p>You can use the functions above like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="n">0</span> <span class="n">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">is</span> <span class="n">even</span> <span class="c1">// None
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="n">Some</span> <span class="n">4</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="n">0</span> <span class="n">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">is</span> <span class="n">even</span> <span class="c1">// Some 4
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>When you get stuck writing it in such a sequential way, first try to write it in a nested style.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="n">0</span> <span class="n">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span><span class="n">is</span> <span class="n">even</span>
+</span></span><span class="line"><span class="cl">    <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)))</span> <span class="c1">// None
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="n">0</span> <span class="n">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span><span class="n">is</span> <span class="n">even</span>
+</span></span><span class="line"><span class="cl">    <span class="o">(</span><span class="n">Some</span> <span class="n">4</span><span class="o">)))</span> <span class="c1">// Some 4
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>When you have problems to understand the nested-style. The only difference in C-Style code is
+the position of the open-parenthesis. It is placed after the function name instead before.
+And often <code>,</code> is used to separate the arguments.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">is</span><span class="p">(</span><span class="n">between</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">10</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="k">is</span><span class="p">(</span><span class="n">even</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Some</span><span class="p">(</span><span class="m">4</span><span class="p">)))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Writing it in a sequential style is possible in every language that also supports lambdas. In C#
+you want to look at <em>Extension Methods</em>, in Java look at <em>Default Methods</em>. In a language without
+such features. The <code>is</code> function will be part of your validation class. Your final code should
+then look similar to this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">x</span> <span class="p">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="n">Validate</span><span class="p">(</span><span class="m">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="k">is</span><span class="p">(</span><span class="n">between</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">10</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="k">is</span><span class="p">(</span><span class="n">even</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span><span class="p">.</span><span class="n">IsValid</span><span class="p">()</span> <span class="c1">// False</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But first try to write it only with functions/static methods. The predicates itself
+like <code>smaller</code>, <code>greater</code> and so on should never be part of the validation class you create.</p>
+<p>When you create a solution in your favourite language, you can leave a message in the Disqus
+chat, or sent me a notification via Twitter, I add a link to your solution here.</p>
+<p><a name="summary"></a></p>
+<h2 id="summary">Summary</h2>
+<p>I started with the idea of functions as data and why it makes sense that we can pass functions
+as arguments or return functions from other functions. A lambda expression is a way to
+create a function on-the-fly, so we can easily pass functions as arguments or return them from
+functions without explicitly defining them. Then we learned that a language like F# basically
+treats all functions just as lambdas. We also have seen that multi-arguments functions didn&rsquo;t
+exists, they are just a chain of one argument functions. This on the other hand means we can easily
+partial apply any function. But not only that, it means every multi argument function is automatically
+a function that can generate other functions.</p>
+<p>When we looked at C# we basically re-implemented all the ideas and we have seen how those
+ideas translate to OO. You also should now know why Functional Programming is Orthogonal
+to Object-Oriented programming and why closures and objects are the same.</p>
+<p>I overall hope that this introduction helped you not only in understanding functional programming
+better, but also widen your view on object-oriented programming.</p>
+<p><a name="reading"></a></p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="http://www.lihaoyi.com/post/WhatsFunctionalProgrammingAllAbout.html">What&rsquo;s Functional Programming All About?</a></li>
+<li><a href="https://medium.com/@cscalfani/so-you-want-to-be-a-functional-programmer-part-1-1f15e387e536">So You Want to be a Functional Programmer (Part 1)</a></li>
+</ul>
+<p><a name="comments"></a></p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
