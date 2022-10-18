@@ -1,0 +1,39 @@
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352.29464 216.24358" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<g transform="translate(-354.88 -553.77)">
+<flowRoot style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" font-size="15px" transform="translate(-35.127 -6.7989)" line-height="100%" font-family="Calibri" fill="#af75c1"><flowRegion><rect height="307.52" width="376" y="314.64" x="616.85" fill="#af75c1"/></flowRegion><flowPara/></flowRoot>
+<g transform="translate(327.73 -260.85)">
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" font-size="20.183px" line-height="50%" y="831.56818" x="166.19783" font-family="Calibri" fill="#ffffff"><tspan x="166.19783" y="831.56818"><tspan fill="#6699ff">let</tspan><tspan fill="#af75c1"> blub</tspan> x = <tspan fill="#af75c1">square</tspan> (<tspan fill="#af75c1">add10</tspan> (<tspan fill="#af75c1">sqrt</tspan> x))</tspan></text>
+<rect style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="5.0096" ry="2.9589" height="22.533" width="33.332" stroke="#ff8000" y="815.1" x="248.57" stroke-width=".96956" fill="none"/>
+<rect style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="5.0096" ry="2.9589" height="22.533" width="9.6991" stroke="#69f" y="815.1" x="285.24" stroke-width=".96956" fill="none"/>
+<g transform="translate(-258.68 25.439)">
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" font-size="20.183px" line-height="50%" y="834.70074" x="436.84457" font-family="Calibri" xml:space="preserve" fill="#ffffff"><tspan y="834.70074" x="436.84457"><tspan fill="#6699ff">let</tspan><tspan fill="#af75c1"> blub</tspan> x = <tspan fill="#af75c1">square</tspan> (<tspan fill="#af75c1">add10</tspan> (x |&gt; <tspan fill="#af75c1">sqrt</tspan>))</tspan></text>
+<rect style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="5.0096" ry="2.9589" height="22.533" width="10.088" stroke="#69f" y="818.17" x="507.01" stroke-width=".96956" fill="none"/>
+<rect style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="5.0096" ry="2.9589" height="22.533" width="33.013" stroke="#ff8000" y="818.17" x="544.61" stroke-width=".96956" fill="none"/>
+</g>
+<path d="m290.31 837.87c0 7.2161-37.037 1.4078-36.942 5.7362" stroke="#69f" stroke-width="1px" fill="none"/>
+<path d="m265.23 837.64c0 5.176 37.201-1.0128 37.201 5.9697" stroke="#ff8000" stroke-width="1px" fill="none"/>
+<g transform="translate(-256.03 12.592)">
+<g transform="translate(.0001 -8.2884)">
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" font-size="20.183px" line-height="50%" y="909.3396" x="434.18802" font-family="Calibri" fill="#ffffff"><tspan x="434.18802" y="909.3396"><tspan fill="#6699ff">let</tspan><tspan fill="#af75c1"> blub</tspan> x = <tspan fill="#af75c1">square</tspan> (<tspan fill="#af75c1">add10</tspan> (x |&gt; <tspan fill="#af75c1">sqrt</tspan>))</tspan></text>
+<rect style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="5.0096" ry="2.9589" height="22.533" width="52.26" stroke="#ff8000" y="892.81" x="442.68" stroke-width=".96956" fill="none"/>
+<rect style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="5.0096" ry="2.9589" height="22.533" width="81.628" stroke="#69f" y="892.81" x="498.86" stroke-width=".96956" fill="none"/>
+</g>
+<g transform="translate(7.7709 -19.888)">
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" font-size="20.183px" line-height="50%" y="949.44244" x="438.3812" font-family="Calibri" fill="#ffffff"><tspan x="438.3812" y="949.44244"><tspan fill="#6699ff">let</tspan><tspan fill="#af75c1"> blub</tspan> x = <tspan fill="#af75c1">square</tspan> ((x |&gt; <tspan fill="#af75c1">sqrt</tspan>) |&gt; <tspan fill="#af75c1">add10</tspan>)</tspan></text>
+<rect style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="5.0096" ry="2.9589" height="22.533" width="81.403" stroke="#69f" y="932.91" x="435.18" stroke-width=".96956" fill="none"/>
+<rect style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="5.0096" ry="2.9589" height="22.533" width="51.729" stroke="#ff8000" y="932.91" x="545.29" stroke-width=".96956" fill="none"/>
+</g>
+</g>
+<path d="m283.65 919.64c0 7.5544-56.025 0.4862-56.025 5.9696" stroke="#69f" stroke-width="1px" fill="none"/>
+<path d="m212.78 919.64c0 4.8026 110.18-1.4825 110.12 5.9696" stroke="#ff8000" stroke-width="1px" fill="none"/>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" font-size="20.183px" line-height="50%" y="995.64832" x="190.12579" font-family="Calibri" fill="#ffffff"><tspan x="190.12579" y="995.64832"><tspan fill="#6699ff">let</tspan><tspan fill="#af75c1"> blub</tspan> x = <tspan fill="#af75c1">square</tspan> ((x |&gt; <tspan fill="#af75c1">sqrt</tspan>) |&gt; <tspan fill="#af75c1">add10</tspan>)</tspan></text>
+<rect id="b" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="5.0096" ry="2.9589" height="22.533" width="174.45" stroke="#69f" y="979.11" x="180.54" stroke-width=".96956" fill="none"/>
+<rect id="a" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="5.0096" ry="2.9589" height="22.533" width="56.546" stroke="#ff8000" y="979.11" x="120.02" stroke-width=".96956" fill="none"/>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" font-size="20.183px" line-height="50%" y="1024.1511" x="202.08977" font-family="Calibri" xml:space="preserve" fill="#ffffff"><tspan y="1024.1511" x="202.08977"><tspan fill="#6699ff">let</tspan><tspan fill="#af75c1"> blub</tspan> x = ((x |&gt; <tspan fill="#af75c1">sqrt</tspan>) |&gt; <tspan fill="#af75c1">add10<tspan fill="#ffffff">) |&gt;</tspan> square</tspan></tspan></text>
+<use xlink:href="#a" transform="translate(202.4 28.73)" height="100%" width="100%" y="0" x="0"/>
+<use xlink:href="#b" transform="translate(-60.323 28.73)" height="100%" width="100%" y="0" x="0"/>
+<path d="m267.77 1001.6c0 5.0779-60.323-1.0326-60.323 6.1965" stroke="#69f" stroke-width="1px" fill="none"/>
+<path d="m148.29 979.11c0-8.7074 149.34-7.48 211.03-2.65 20.598 1.6126-8.6314 31.38-8.6314 31.38" stroke="#ff8000" stroke-width="1px" fill="none"/>
+</g>
+</g>
+</svg>

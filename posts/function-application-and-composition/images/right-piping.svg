@@ -1,0 +1,42 @@
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 176.36576 120.69909" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<g transform="translate(-437.24 -637.77)">
+<g transform="translate(-344.26 68.435)">
+<text style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" font-size="15px" line-height="100%" y="594.36719" x="780.82581" font-family="Calibri" fill="#ffffff"><tspan x="780.82581" y="594.36719"><tspan fill="#af75c1">add</tspan> (1 + 1) (2 + 2) (3 + 3)</tspan></text>
+<ellipse id="a" stroke-linejoin="round" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="19.91" ry="16.454" stroke="#ff8000" cy="590.45" cx="826.34" fill="none"/>
+<use xlink:href="#a" transform="translate(42.044)" height="100%" width="100%" y="0" x="0"/>
+<use xlink:href="#a" transform="translate(84.07)" height="100%" width="100%" y="0" x="0"/>
+<g stroke="#ff8000" stroke-width="1px" fill="none">
+<path d="m826.34 606.91s-17.542 16.562-34.104-0.00023"/>
+<path d="m868.38 606.91s-46.475 29.673-76.148-0.00023"/>
+<path d="m910.41 606.91s-67.441 50.733-118.17-0.00023"/>
+</g>
+<g fill="#ff8000">
+<path d="m792.72 610.83-1.3316-4.7129 4.7624 1.21z" fill-rule="evenodd" stroke="#ff8000" stroke-width="1px"/>
+<g font-size="4.3067px" font-family="Calibri">
+<text style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="100%" y="572.09735" x="815.3623"><tspan x="815.3623" y="572.09735">1. Argument</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px" line-height="100%" y="572.09735" x="857.40662" xml:space="preserve"><tspan y="572.09735" x="857.40662">2. Argument</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="100%" y="572.09735" x="899.43268"><tspan x="899.43268" y="572.09735">3. Argument</tspan></text>
+</g>
+</g>
+<g transform="translate(3.6038 -43.872)">
+<text style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" font-size="15px" line-height="100%" y="704.94824" x="777.22198" font-family="Calibri" fill="#ffffff"><tspan x="777.22198" y="704.94824"><tspan fill="#af75c1">add</tspan> &lt;| 1 + 1 &lt;| 2 + 2 &lt;| 3 + 3</tspan></text>
+<g font-size="4.3067px" font-family="Calibri" fill="#ff8000">
+<text style="word-spacing:0px;letter-spacing:0px" line-height="100%" y="686.81812" x="825.27283" xml:space="preserve"><tspan y="686.81812" x="825.27283">1. Argument</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="100%" y="686.81812" x="875.63885"><tspan x="875.63885" y="686.81812">2. Argument</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px" line-height="100%" y="686.81812" x="926.25378" xml:space="preserve"><tspan y="686.81812" x="926.25378">3. Argument</tspan></text>
+</g>
+<g stroke-linejoin="round" stroke="#ff8000" fill="none">
+<ellipse style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="16.606" ry="11.95" cy="700.88" cx="836.25"/>
+<ellipse style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="16.606" ry="11.95" cy="700.88" cx="886.55"/>
+<ellipse style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="16.606" ry="11.95" cy="700.73" cx="937.16"/>
+</g>
+<g stroke="#ff8000" stroke-width="1px" fill="none">
+<path d="m836.25 712.83s-32.474 13.723-46.171 0.0255"/>
+<path d="m886.55 712.83s-69.434 27.066-96.474 0.0255"/>
+<path d="m937.16 712.68s-100.75 46.505-147.08 0.17563"/>
+</g>
+<path d="m789.5 715.77-1.3316-4.7129 4.7624 1.21z" fill-rule="evenodd" stroke="#ff8000" stroke-width="1px" fill="#ff8000"/>
+</g>
+</g>
+</g>
+</svg>

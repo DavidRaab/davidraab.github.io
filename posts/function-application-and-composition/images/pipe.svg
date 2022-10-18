@@ -1,0 +1,19 @@
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 109.65023 78.73353" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<g transform="translate(-480.57 -626.56)">
+<flowRoot style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" font-size="15px" transform="translate(-35.127 -6.7989)" line-height="100%" font-family="Calibri" fill="#af75c1"><flowRegion><rect height="307.52" width="376" y="314.64" x="616.85" fill="#af75c1"/></flowRegion><flowPara/></flowRoot>
+<g transform="translate(189.5 -28.983)">
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" transform="scale(.99820 1.0018)" line-height="50%" font-size="30.388px" y="675.08893" x="344.94281" font-family="Calibri" fill="#ffffff"><tspan x="344.94281" y="675.08893"><tspan fill="#af75c1">sqrt</tspan> x</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" transform="scale(.99820 1.0018)" line-height="50%" font-size="30.388px" y="724.90881" x="347.18942" font-family="Calibri" fill="#ffffff"><tspan x="347.18942" y="724.90881">x |&gt; <tspan fill="#af75c1">sqrt</tspan></tspan></text>
+<g fill="none">
+<rect style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="5.0096" ry="2.9589" height="28.178" width="51.344" stroke="#ff8000" y="656.03" x="309.14" stroke-width="0.97"/>
+<g stroke-width=".96956">
+<rect style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="5.0096" ry="2.9589" height="28.178" width="17.868" stroke="#69f" y="656.03" x="363.39"/>
+<rect style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="5.0096" ry="2.9589" height="28.178" width="51.344" stroke="#ff8000" y="705.61" x="348.88"/>
+<rect style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="5.0096" ry="2.9589" height="28.178" width="17.868" stroke="#69f" y="705.61" x="291.55"/>
+</g>
+</g>
+<path d="m372.56 684.13c0 17.535-71.834 2.4112-71.834 21.363" stroke="#69f" stroke-width="1px" fill="none"/>
+<path d="m334.38 684.48c0 17.956 40.437 7.1117 40.437 21.304" stroke="#ff8000" stroke-width="1px" fill="none"/>
+</g>
+</g>
+</svg>

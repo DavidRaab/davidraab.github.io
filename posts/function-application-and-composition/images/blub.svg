@@ -1,0 +1,44 @@
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 199.20601 132.96091" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<defs>
+<marker id="a" refY="0" refX="0" overflow="visible" orient="auto">
+<path stroke-linejoin="round" d="m8.7186 4.0337-10.926-4.0177 10.926-4.0177c-1.7455 2.3721-1.7354 5.6175-6e-7 8.0354z" fill-rule="evenodd" transform="scale(.6)" stroke="#ff8000" stroke-width=".625" fill="#ff8000"/>
+</marker>
+<marker id="b" refY="0" refX="0" orient="auto" overflow="visible">
+<path stroke-linejoin="round" d="m8.7186 4.0337-10.926-4.0177 10.926-4.0177c-1.7455 2.3721-1.7354 5.6175-6e-7 8.0354z" fill-rule="evenodd" transform="scale(.6)" stroke="#ff8000" stroke-width=".625" fill="#ff8000"/>
+</marker>
+<marker id="c" refY="0" refX="0" overflow="visible" orient="auto">
+<path stroke-linejoin="round" d="m8.7186 4.0337-10.926-4.0177 10.926-4.0177c-1.7455 2.3721-1.7354 5.6175-6e-7 8.0354z" fill-rule="evenodd" transform="scale(-.6)" stroke="#ff8000" stroke-width=".625" fill="#ff8000"/>
+</marker>
+<marker id="d" refY="0" refX="0" overflow="visible" orient="auto">
+<path stroke-linejoin="round" d="m8.7186 4.0337-10.926-4.0177 10.926-4.0177c-1.7455 2.3721-1.7354 5.6175-6e-7 8.0354z" fill-rule="evenodd" transform="scale(-.6)" stroke="#ff8000" stroke-width=".625" fill="#ff8000"/>
+</marker>
+<marker id="g" refY="0" refX="0" orient="auto" overflow="visible">
+<path stroke-linejoin="round" d="m8.7186 4.0337-10.926-4.0177 10.926-4.0177c-1.7455 2.3721-1.7354 5.6175-6e-7 8.0354z" fill-rule="evenodd" transform="scale(.6)" stroke="#ff8000" stroke-width=".625" fill="#ff8000"/>
+</marker>
+<marker id="e" refY="0" refX="0" orient="auto" overflow="visible">
+<path stroke-linejoin="round" d="m8.7186 4.0337-10.926-4.0177 10.926-4.0177c-1.7455 2.3721-1.7354 5.6175-6e-7 8.0354z" fill-rule="evenodd" transform="scale(-.6)" stroke="#000" stroke-width=".625" fill="#ff8000"/>
+</marker>
+<marker id="f" refY="0" refX="0" orient="auto" overflow="visible">
+<path stroke-linejoin="round" d="m8.7186 4.0337-10.926-4.0177 10.926-4.0177c-1.7455 2.3721-1.7354 5.6175-6e-7 8.0354z" fill-rule="evenodd" transform="scale(-.6)" stroke="#ff8000" stroke-width=".625" fill="#ff8000"/>
+</marker>
+</defs>
+<g transform="translate(-14.985 -643.03)">
+<g transform="matrix(1.4177 0 0 1.4177 -6.2585 -268.57)">
+<text style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" font-size="20px" line-height="100%" y="656.63007" x="14.984604" font-family="Calibri" fill="#000000"><tspan y="656.63007" x="14.984604"><tspan line-height="100%" fill="#6699ff">let</tspan><tspan line-height="100%" fill="#af75c1"> blub</tspan><tspan line-height="100%" fill="#ffffff"> x =</tspan></tspan><tspan y="676.63007" x="14.984604"><tspan line-height="100%" fill="#6699ff">    let</tspan><tspan line-height="100%" fill="#ffffff"> a =</tspan><tspan line-height="100%" fill="#af75c1"> sqrt</tspan><tspan line-height="100%" fill="#ffffff"> x</tspan></tspan><tspan y="696.63007" x="14.984604"><tspan line-height="100%" fill="#6699ff">    let</tspan><tspan line-height="100%" fill="#ffffff"> b =</tspan><tspan line-height="100%" fill="#af75c1"> add10</tspan><tspan line-height="100%" fill="#ffffff"> a</tspan></tspan><tspan y="716.63007" x="14.984604"><tspan line-height="100%" fill="#6699ff">    let</tspan><tspan line-height="100%" fill="#ffffff"> c =</tspan><tspan line-height="100%" fill="#af75c1"> square</tspan><tspan line-height="100%" fill="#ffffff"> b</tspan></tspan><tspan line-height="100%" y="736.63007" x="14.984604" fill="#ffffff">    c</tspan></text>
+<path marker-end="url(#f)" d="m89.68 657.29c7.5934 7.5934 25.976 1.4692 33.894 9.0793" stroke="#ff8000" stroke-width="0.3" fill="none"/>
+<path marker-end="url(#e)" d="m67.968 677.17c26.238 7.9839 65.713-.4381 76.268 9.7998" stroke="#ff8000" stroke-width="0.3" fill="none"/>
+<path marker-end="url(#d)" d="m67.841 696.85c25 7 54.247 1.4115 78.302 8.508" stroke="#ff8000" stroke-width="0.3" fill="none"/>
+<path marker-end="url(#c)" d="m60.397 716.56-18.893 10.898" fill-rule="evenodd" stroke="#ff8000" stroke-width="0.3" fill="#ff8000"/>
+<path d="m67.363 666.57c6.2203-2.8158 14.549-3.0818 20.482.29745" marker-start="url(#g)" stroke="#ff8000" stroke-width="0.3" fill="none"/>
+<path d="m68.309 687.21c6.2203-2.8158 14.549-3.0818 20.482.29745" marker-start="url(#b)" stroke="#ff8000" stroke-width="0.3" fill="none"/>
+<path d="m67.007 706.94c6.2203-2.8158 14.549-3.0818 20.482.29745" marker-start="url(#a)" stroke="#ff8000" stroke-width="0.3" fill="none"/>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" font-size="5px" line-height="50%" y="661.11829" x="106.13329" font-family="Calibri" fill="#ff8000"><tspan x="106.13329" y="661.11829">1.</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" font-size="5px" line-height="50%" y="663.64325" x="78.23291" font-family="Calibri" fill="#ff8000"><tspan x="78.23291" y="663.64325">2.</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" font-size="5px" line-height="50%" y="680.54822" x="108.08705" font-family="Calibri" fill="#ff8000"><tspan x="108.08705" y="680.54822">3.</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" font-size="5px" line-height="50%" y="684.46155" x="78.823402" font-family="Calibri" fill="#ff8000"><tspan x="78.823402" y="684.46155">4.</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" font-size="5px" line-height="50%" y="700.66364" x="105.22841" font-family="Calibri" fill="#ff8000"><tspan x="105.22841" y="700.66364">5.</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" font-size="5px" line-height="50%" y="704.09583" x="77.642387" font-family="Calibri" fill="#ff8000"><tspan x="77.642387" y="704.09583">6.</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" font-size="5px" line-height="50%" y="721.99945" x="48.471283" font-family="Calibri" fill="#ff8000"><tspan x="48.471283" y="721.99945">7.</tspan></text>
+</g>
+</g>
+</svg>

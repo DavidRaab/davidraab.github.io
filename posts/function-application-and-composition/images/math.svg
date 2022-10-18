@@ -1,0 +1,50 @@
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 176.58272 211.92988" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<defs>
+<marker id="a" refY="0" refX="0" overflow="visible" orient="auto">
+<path d="m-2.5-1c0 2.76-2.24 5-5 5s-5-2.24-5-5 2.24-5 5-5 5 2.24 5 5z" fill-rule="evenodd" transform="matrix(.8 0 0 .8 5.92 .8)" stroke="#69f" stroke-width="1pt" fill="#69f"/>
+</marker>
+<marker id="b" refY="0" refX="0" orient="auto" overflow="visible">
+<path d="m-2.5-1c0 2.76-2.24 5-5 5s-5-2.24-5-5 2.24-5 5-5 5 2.24 5 5z" fill-rule="evenodd" transform="matrix(.8 0 0 .8 5.92 .8)" stroke="#69f" stroke-width="1pt" fill="#69f"/>
+</marker>
+<marker id="c" refY="0" refX="0" orient="auto" overflow="visible">
+<path d="m-2.5-1c0 2.76-2.24 5-5 5s-5-2.24-5-5 2.24-5 5-5 5 2.24 5 5z" fill-rule="evenodd" transform="matrix(.8 0 0 .8 5.92 .8)" stroke="#69f" stroke-width="1pt" fill="#69f"/>
+</marker>
+<marker id="d" refY="0" refX="0" orient="auto" overflow="visible">
+<path d="m-2.5-1c0 2.76-2.24 5-5 5s-5-2.24-5-5 2.24-5 5-5 5 2.24 5 5z" fill-rule="evenodd" transform="matrix(.8 0 0 .8 5.92 .8)" stroke="#69f" stroke-width="1pt" fill="#69f"/>
+</marker>
+<marker id="e" refY="0" refX="0" orient="auto" overflow="visible">
+<path d="m-2.5-1c0 2.76-2.24 5-5 5s-5-2.24-5-5 2.24-5 5-5 5 2.24 5 5z" fill-rule="evenodd" transform="matrix(.8 0 0 .8 5.92 .8)" stroke="#69f" stroke-width="1pt" fill="#69f"/>
+</marker>
+<marker id="f" refY="0" refX="0" orient="auto" overflow="visible">
+<path d="m-2.5-1c0 2.76-2.24 5-5 5s-5-2.24-5-5 2.24-5 5-5 5 2.24 5 5z" fill-rule="evenodd" transform="matrix(.8 0 0 .8 5.92 .8)" stroke="#69f" stroke-width="1pt" fill="#69f"/>
+</marker>
+<marker id="g" refY="0" refX="0" orient="auto" overflow="visible">
+<path d="m-2.5-1c0 2.76-2.24 5-5 5s-5-2.24-5-5 2.24-5 5-5 5 2.24 5 5z" fill-rule="evenodd" transform="matrix(.8 0 0 .8 5.92 .8)" stroke="#69f" stroke-width="1pt" fill="#69f"/>
+</marker>
+<marker id="h" refY="0" refX="0" orient="auto" overflow="visible">
+<path d="m-2.5-1c0 2.76-2.24 5-5 5s-5-2.24-5-5 2.24-5 5-5 5 2.24 5 5z" fill-rule="evenodd" transform="matrix(.8 0 0 .8 5.92 .8)" stroke="#69f" stroke-width="1pt" fill="#69f"/>
+</marker>
+</defs>
+<g transform="translate(-438.99 -577.96)">
+<g transform="matrix(.73004 0 0 .73013 169.45 336.66)">
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" font-size="29.521px" line-height="50%" y="620.46869" x="489.28275" font-family="Calibri" fill="#ffffff"><tspan x="489.28275" y="620.46869">150</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" font-size="29.521px" line-height="50%" y="355.63474" x="492.5708" font-family="Calibri" fill="#ffffff"><tspan y="355.63474" x="492.5708" dy="0 0 0 0 0 0 0 0 6.730639 -6.730639 0 0 0 0 0 0 0 0 6.1187625 -6.1187625">(5 + 5) * (3 + (6 * 2))</tspan></text>
+<rect stroke-linejoin="round" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="4.7943" ry="4.7936" height="33.457" width="80.69" stroke="#ff8000" y="331.17" x="369.9" stroke-width="1.3697" fill="none"/>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" font-size="29.521px" line-height="50%" y="423.47488" x="489.71518" font-family="Calibri" xml:space="preserve" fill="#ffffff"><tspan y="423.47488" x="489.71518" dy="0 0 0 6.2089205 -6.2089205 0 0 0 0 0 0 0 0 6.1187625 -6.1187625">10 * (3 + (6 * 2))</tspan></text>
+<rect stroke-linejoin="round" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="4.7943" ry="4.7936" height="33.507" width="76.487" stroke="#ff8000" y="398.98" x="502.02" stroke-width="1.3697" fill="none"/>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" font-size="29.521px" line-height="50%" y="491.31512" x="487.07773" font-family="Calibri" xml:space="preserve" fill="#ffffff"><tspan x="487.07773" y="491.31512" dy="0 0 0 6.5019488 -6.5019488">10 * (3 + 12)</tspan></text>
+<rect stroke-linejoin="round" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" rx="4.7943" ry="4.7936" height="33.293" width="95.14" stroke="#ff8000" y="466.93" x="468.72" stroke-width="1.3697" fill="none"/>
+<path marker-end="url(#g)" d="m407.21 401.47 3.0769-30.319" fill-rule="evenodd" marker-start="url(#h)" stroke="#69f" stroke-width=".68485" fill="#69f"/>
+<g transform="matrix(1.968 0 0 1.968 -717.44 -460.05)">
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" font-size="15px" line-height="50%" y="519.05725" x="613.33545" font-family="Calibri" xml:space="preserve" fill="#000000"><tspan dy="0 0 0 2.6582427 -2.6582427" y="519.05725" x="613.33545" fill="#ffffff">10 * 15</tspan></text>
+<rect stroke-linejoin="round" rx="3.0989" ry="3.0985" height="16.917" width="48.342" stroke="#ff8000" y="505.48" x="589.35" stroke-width=".69597" fill="none"/>
+</g>
+<g fill-rule="evenodd" stroke="#69f" stroke-width=".68485" fill="#69f">
+<path marker-end="url(#e)" d="m537.03 469.38 5.2804-32.125" marker-start="url(#f)"/>
+<path marker-end="url(#c)" d="m518.97 538.93-2.7409-33.959" marker-start="url(#d)"/>
+<path marker-end="url(#a)" d="m489.88 596.76-0.13996-23.158" marker-start="url(#b)"/>
+</g>
+</g>
+<flowRoot style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" font-size="15px" transform="translate(-35.127 -6.7989)" line-height="100%" font-family="Calibri" fill="#af75c1"><flowRegion><rect height="307.52" width="376" y="314.64" x="616.85" fill="#af75c1"/></flowRegion><flowPara/></flowRoot>
+</g>
+</svg>

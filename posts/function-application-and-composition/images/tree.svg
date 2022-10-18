@@ -1,0 +1,32 @@
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 254.99059 112.15454" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<g transform="translate(-402.73 -614.24)">
+<flowRoot style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" font-size="15px" transform="translate(-35.127 -6.7989)" line-height="100%" font-family="Calibri" fill="#af75c1"><flowRegion><rect height="307.52" width="376" y="314.64" x="616.85" fill="#af75c1"/></flowRegion><flowPara/></flowRoot>
+<g transform="translate(-186.05 -19.189)">
+<g font-size="15px" font-family="Calibri" fill="#af75c1">
+<text style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="100%" y="643.59973" x="680.99078"><tspan x="680.99078" y="643.59973"><tspan fill="#ff8000">List</tspan><tspan fill="#ffffff">.</tspan>append</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="100%" y="697.65668" x="587.5238"><tspan x="587.5238" y="697.65668"><tspan fill="#ff8000">List</tspan><tspan fill="#ffffff">.</tspan>map square</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px" line-height="100%" y="695.25415" x="748.49341" xml:space="preserve"><tspan y="695.25415" x="748.49341"><tspan fill="#ff8000">List</tspan><tspan fill="#ffffff">.</tspan>map square</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="100%" y="740.51239" x="587.5238"><tspan x="587.5238" y="740.51239"><tspan fill="#ff8000">List</tspan><tspan fill="#ffffff">.</tspan>map add1</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="100%" y="742.91492" x="748.49341"><tspan x="748.49341" y="742.91492"><tspan fill="#ff8000">List</tspan><tspan fill="#ffffff">.</tspan>map sub1</tspan></text>
+</g>
+<g transform="translate(-91.792 -44.581)" stroke="#ff8000">
+<path d="m727.37 775.17v-24.626" stroke-width="1px" fill="none"/>
+<path stroke-width="3.1599px" fill="#ff8000" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" fill-rule="evenodd" transform="matrix(.31483 .00064022 -.0078334 .31809 482.02 527.55)" d="m805.65 702.69h-18.566l9.2831-16.079z"/>
+</g>
+<g transform="translate(-91.792 -44.581)" stroke="#ff8000">
+<path style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" d="m888.94 778.17v-28.83" stroke-width="1px" fill="none"/>
+<path stroke-width="3.1599px" fill="#ff8000" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" d="m805.65 702.69h-18.566l9.2831-16.079z" fill-rule="evenodd" transform="matrix(.31483 .00064022 -.0078334 .31809 643.59 527.55)"/>
+</g>
+<g transform="translate(-91.792 -46.581)">
+<path id="b" d="m731.57 730.72 64.268-33.635" stroke="#ff8000" stroke-width="1px" fill="none"/>
+<path stroke="#ff8000" stroke-width="3.1599px" fill="#ff8000" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" d="m805.65 702.69h-18.566l9.2831-16.079z" fill-rule="evenodd" transform="matrix(.15081 .27636 -.28268 .14607 873.15 375.05)"/>
+</g>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" transform="translate(-96.157 -48.281)" line-height="100%" font-size="7.5px" x="-2" font-family="Calibri" fill="#ff8000"><textPath xlink:href="#b" startOffset="50%"><tspan style="text-anchor:middle;text-align:center" font-size="7.5px" line-height="100%" font-family="Calibri">1. Argument</tspan></textPath></text>
+<g transform="translate(-91.792 -46.581)">
+<path id="a" d="m822.27 697.09 64.268 33.635" stroke="#ff8000" stroke-width="1px" fill="none"/>
+<path stroke="#ff8000" stroke-width="3.1599px" fill="#ff8000" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" fill-rule="evenodd" transform="matrix(-.15081 .27636 .28268 .14607 745.17 375.05)" d="m805.65 702.69h-18.566l9.2831-16.079z"/>
+</g>
+<text font-size="7.5px" xml:space="preserve" style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" transform="translate(-91.107 -50.006)" line-height="100%" font-family="Calibri" fill="#ff8000"><textPath xlink:href="#a" startOffset="50%"><tspan style="text-anchor:middle;text-align:center" font-size="7.5px" line-height="100%" font-family="Calibri">2. Argument</tspan></textPath></text>
+</g>
+</g>
+</svg>

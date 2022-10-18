@@ -1,0 +1,36 @@
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 194.62491 144.15206" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<g transform="translate(-432.75 -602.58)">
+<g transform="translate(-374.55 4.4589)">
+<text style="word-spacing:0px;letter-spacing:0px" font-size="19.201px" line-height="100%" y="652.01837" x="878.67993" font-family="Calibri" xml:space="preserve" fill="#000000"><tspan y="652.01837" x="878.67993" fill="#af75c1">concat</tspan></text>
+<g font-size="22.154px" transform="matrix(.86670 0 0 .86670 36.115 122.65)" font-family="Calibri" fill="#000000">
+<text style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="100%" y="658.60559" x="889.42877"><tspan y="658.60559" x="889.42877" fill="#af75c1">toBinary</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="100%" y="658.60559" x="1043.5421"><tspan y="658.60559" x="1043.5421" fill="#af75c1">toString</tspan></text>
+</g>
+<g font-size="22.154px" transform="matrix(.86670 0 0 .86670 36.115 122.13)" font-family="Calibri" fill="#000000">
+<text style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="100%" y="711.56702" x="888.13068"><tspan y="711.56702" x="888.13068" fill="#af75c1">rightShift</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="100%" y="711.56702" x="1042.8931"><tspan y="711.56702" x="1042.8931" fill="#af75c1">extract</tspan></text>
+</g>
+<g transform="matrix(.86670 0 0 .86670 36.115 123.09)" stroke="#ff8000">
+<path style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" d="m927.68 694.21v-28.83" stroke-width="1.1538px" fill="none"/>
+<path stroke-width="3.6459px" fill="#ff8000" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" d="m805.65 702.69h-18.566l9.2831-16.079z" fill-rule="evenodd" transform="matrix(.31483 .00064022 -.0078334 .31809 682.33 443.58)"/>
+</g>
+<g transform="matrix(.86670 0 0 .86670 167.5 123.58)" stroke="#ff8000">
+<path style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" d="m927.68 694.21v-28.83" stroke-width="1.1538px" fill="none"/>
+<path stroke-width="3.6459px" fill="#ff8000" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" fill-rule="evenodd" transform="matrix(.31483 .00064022 -.0078334 .31809 682.33 443.58)" d="m805.65 702.69h-18.566l9.2831-16.079z"/>
+</g>
+<g transform="matrix(.86670 0 0 .86670 31.674 122.13)" stroke="#ff8000">
+<path d="m933.47 645.29 54.475-28.439" stroke-width="1.1538px" fill="none"/>
+<path stroke-width="4.3067px" fill="#ff8000" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" d="m805.65 702.69h-18.566l9.2831-16.079z" fill-rule="evenodd" transform="matrix(.12783 .23367 -.23960 .12350 1053.5 344.56)"/>
+</g>
+<g transform="matrix(-.86670 0 0 .86670 1780.3 122.13)" stroke="#ff8000">
+<path d="m933.47 645.29 54.475-28.439" stroke-width="1.1538px" fill="none"/>
+<path stroke-width="4.3067px" fill="#ff8000" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" fill-rule="evenodd" transform="matrix(.12783 .23367 -.23960 .12350 1053.5 344.56)" d="m805.65 702.69h-18.566l9.2831-16.079z"/>
+</g>
+<text style="word-spacing:0px;letter-spacing:0px" font-size="19.201px" line-height="100%" y="610.55829" x="871.5827" font-family="Calibri" xml:space="preserve" fill="#000000"><tspan y="610.55829" x="871.5827" fill="#af75c1">toBinary</tspan></text>
+<g transform="matrix(.86670 0 0 .86670 100.71 39.49)" stroke="#ff8000">
+<path style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" d="m927.68 694.21v-28.83" stroke-width="1.1538px" fill="none"/>
+<path stroke-width="3.6459px" fill="#ff8000" style="color-rendering:auto;color:#000000;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000;image-rendering:auto" fill-rule="evenodd" transform="matrix(.31483 .00064022 -.0078334 .31809 682.33 443.58)" d="m805.65 702.69h-18.566l9.2831-16.079z"/>
+</g>
+</g>
+</g>
+</svg>

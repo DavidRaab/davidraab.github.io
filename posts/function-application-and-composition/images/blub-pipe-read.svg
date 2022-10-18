@@ -1,0 +1,37 @@
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 370.35301 85.255608" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<defs>
+<marker id="a" refY="0" refX="0" overflow="visible" orient="auto">
+<path d="m-2.5-1c0 2.76-2.24 5-5 5s-5-2.24-5-5 2.24-5 5-5 5 2.24 5 5z" fill-rule="evenodd" transform="matrix(.8 0 0 .8 5.92 .8)" stroke="#fff" stroke-width="1pt" fill="#fff"/>
+</marker>
+<marker id="b" refY="0" refX="0" orient="auto" overflow="visible">
+<path d="m-2.5-1c0 2.76-2.24 5-5 5s-5-2.24-5-5 2.24-5 5-5 5 2.24 5 5z" fill-rule="evenodd" transform="matrix(.8 0 0 .8 5.92 .8)" stroke="#fff" stroke-width="1pt" fill="#fff"/>
+</marker>
+<marker id="c" refY="0" refX="0" orient="auto" overflow="visible">
+<path d="m-2.5-1c0 2.76-2.24 5-5 5s-5-2.24-5-5 2.24-5 5-5 5 2.24 5 5z" fill-rule="evenodd" transform="matrix(.8 0 0 .8 5.92 .8)" stroke="#fff" stroke-width="1pt" fill="#fff"/>
+</marker>
+<marker id="d" refY="0" refX="0" orient="auto" overflow="visible">
+<path d="m5.77 0-8.65 5v-10l8.65 5z" fill-rule="evenodd" transform="matrix(.8 0 0 .8 -4.8 0)" stroke="#fff" stroke-width="1pt" fill="#fff"/>
+</marker>
+</defs>
+<g transform="translate(-318.12 -649.67)">
+<flowRoot style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" font-size="15px" transform="translate(-35.127 -6.7989)" line-height="100%" font-family="Calibri" fill="#af75c1"><flowRegion><rect height="307.52" width="376" y="314.64" x="616.85" fill="#af75c1"/></flowRegion><flowPara/></flowRoot>
+<g transform="translate(-321.04 329.96)">
+<g transform="translate(221.6 -51.36)">
+<path marker-end="url(#d)" d="m417.55 392.36h340.39" stroke="#fff" stroke-width="3" fill="none"/>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" font-size="18.868px" line-height="50%" y="383.96573" x="575.927" font-family="Calibri" fill="#ffffff"><tspan x="575.927" y="383.96573">Read from left-to-right</tspan></text>
+</g>
+<g transform="translate(25.483 -128.42)">
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" font-size="21.217px" line-height="50%" y="503.70401" x="784.72479" font-family="Calibri" fill="#ffffff"><tspan x="784.72479" y="503.70401"><tspan fill="#6699ff">let</tspan><tspan fill="#af75c1"> blub</tspan> x = x |&gt; <tspan fill="#af75c1">sqrt</tspan> |&gt; <tspan fill="#af75c1">add10</tspan> |&gt; <tspan fill="#af75c1">square</tspan></tspan></text>
+<path marker-end="url(#a)" d="m980.79 515.76h-50.567-85.596-74.772-53.214" marker-start="url(#c)" marker-mid="url(#b)" stroke="#fff" stroke-width=".70722" fill="none"/>
+<g font-family="Calibri" fill="#ffffff">
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" font-size="14.248px" line-height="50%" y="533.25061" x="743.76245" xml:space="preserve"><tspan y="533.25061" x="743.76245">2.0</tspan></text>
+<g font-size="14.248px">
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" line-height="50%" y="533.25061" x="807.27814"><tspan x="807.27814" y="533.25061">1.41</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" line-height="50%" y="533.25061" x="887.91376" xml:space="preserve"><tspan x="887.91376" y="533.25061">11.41</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" line-height="50%" y="533.25061" x="956.14026"><tspan x="956.14026" y="533.25061">130.28</tspan></text>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>

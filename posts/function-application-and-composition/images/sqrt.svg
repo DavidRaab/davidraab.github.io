@@ -1,0 +1,44 @@
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 237.98201 138.33808">
+<defs>
+<marker id="j" refY="0" refX="0" orient="auto" overflow="visible">
+<path d="m-2.5-1c0 2.76-2.24 5-5 5s-5-2.24-5-5 2.24-5 5-5 5 2.24 5 5z" fill-rule="evenodd" transform="matrix(.8 0 0 .8 5.92 .8)" stroke="#fff" stroke-width="1pt" fill="#fff"/>
+</marker>
+<marker id="i" refY="0" refX="0" orient="auto" overflow="visible">
+<path d="m-2.5-1c0 2.76-2.24 5-5 5s-5-2.24-5-5 2.24-5 5-5 5 2.24 5 5z" fill-rule="evenodd" transform="matrix(.8 0 0 .8 5.92 .8)" stroke="#fff" stroke-width="1pt" fill="#fff"/>
+</marker>
+<marker id="h" refY="0" refX="0" orient="auto" overflow="visible">
+<path d="m-2.5-1c0 2.76-2.24 5-5 5s-5-2.24-5-5 2.24-5 5-5 5 2.24 5 5z" fill-rule="evenodd" transform="matrix(.8 0 0 .8 5.92 .8)" stroke="#fff" stroke-width="1pt" fill="#fff"/>
+</marker>
+<marker id="g" refY="0" refX="0" orient="auto" overflow="visible">
+<path d="m-2.5-1c0 2.76-2.24 5-5 5s-5-2.24-5-5 2.24-5 5-5 5 2.24 5 5z" fill-rule="evenodd" transform="matrix(.8 0 0 .8 5.92 .8)" stroke="#fff" stroke-width="1pt" fill="#fff"/>
+</marker>
+<marker id="f" refY="0" refX="0" orient="auto" overflow="visible">
+<path d="m5.77 0-8.65 5v-10l8.65 5z" fill-rule="evenodd" transform="matrix(.8 0 0 .8 -4.8 0)" stroke="#fff" stroke-width="1pt" fill="#fff"/>
+</marker>
+</defs>
+<g transform="translate(-364.91 -551.25)">
+<g transform="translate(343.34,225.18)">
+<g transform="translate(-400,-45)">
+<path marker-end="url(#f)" d="m647.91 392.36h-223.89" stroke="#fff" stroke-width="3" fill="none"/>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" font-size="18.868px" y="383.96573" x="546.78931" font-family="Calibri" line-height="50%" fill="#ffffff"><tspan y="383.96573" x="546.78931">Read from right-to-left</tspan></text>
+</g>
+<g transform="translate(0,8.2444)">
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" font-size="40px" y="389.54376" x="133.90039" font-family="Calibri" line-height="50%" fill="#000000"><tspan y="389.54376" x="133.90039"><tspan fill="#6699ff">let</tspan><tspan fill="#ffffff"> x =</tspan><tspan fill="#af75c1"> sqrt</tspan><tspan fill="#ffffff"> 2.0</tspan></tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" font-size="15px" y="421.09021" x="195.71613" font-family="Calibri" line-height="50%" fill="#ffffff"><tspan y="421.09021" x="195.71613">2.0</tspan></text>
+<path marker-end="url(#h)" d="m160 406.36h-80" fill-rule="evenodd" marker-start="url(#g)" stroke="#fff" stroke-width="1px" fill="#fff"/>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" font-size="15px" y="421.93982" x="119.05695" font-family="Calibri" line-height="50%" fill="#ffffff"><tspan y="421.93982" x="119.05695">1.41</tspan></text>
+<g stroke-width="1px" stroke="#fff">
+<path marker-end="url(#j)" d="m225 406.36h-65" fill-rule="evenodd" marker-start="url(#i)" fill="#fff"/>
+<path fill-rule="evenodd" fill="#fff" d="m160 413.16v29.3"/>
+<path fill="none" d="m119 423.56s-.0941 24.939-30 25"/>
+<path fill="none" d="m195.8 423.96s.0941 24.939 30 25"/>
+</g>
+<g font-size="15px" font-family="Calibri" fill="#fff">
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" y="453.22644" x="159.22139" line-height="50%"><tspan y="453.22644" x="159.22139">function call</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" y="453.49536" x="243.97807" line-height="50%"><tspan y="453.49536" x="243.97807">input</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px;text-anchor:middle;text-align:center" xml:space="preserve" y="453.01929" x="66.223671" line-height="50%"><tspan y="453.01929" x="66.223671">output</tspan></text>
+</g>
+</g>
+</g>
+</g>
+</svg>

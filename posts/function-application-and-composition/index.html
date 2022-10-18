@@ -1,0 +1,1164 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Function Application and Composition // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="David Raab" />
+    <meta name="description" content="Describes the various ways on how to call a function and how to use function composition" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.5b95e5703c636a661c78d0a65d9fb441fa1595585b1c45a66948462e80dcb924.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Function Application and Composition"/>
+<meta name="twitter:description" content="Describes the various ways on how to call a function and how to use function composition"/>
+
+    <meta property="og:title" content="Function Application and Composition" />
+<meta property="og:description" content="Describes the various ways on how to call a function and how to use function composition" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/function-application-and-composition/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-09-25T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-09-25T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>My personal Blog. Writing about programming and other stuff.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Function Application and Composition</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Sep 25, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          30 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/composition/">composition</a>
+              <a class="tag" href="https://davidraab.github.io/tags/piping/">piping</a>
+              <a class="tag" href="https://davidraab.github.io/tags/recursion/">recursion</a>
+              <a class="tag" href="https://davidraab.github.io/tags/immutability/">immutability</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>Function application is probably one of those terms in functional programming that sounds more
+scarier as the topic really is. The idea behind functional application just means that we execute
+a function to get the result. Let&rsquo;s take the example of calculating the square root of
+<code>2.0</code>. We can write the following in F# to do that:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">sqrt</span> <span class="n">2</span><span class="o">.</span><span class="n">0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The interesting part is how we read this example. We read it from right-to-left.
+<code>2.0</code> is the input to <code>sqrt</code>, <code>sqrt</code> returns the value <code>1.41</code> this is then stored in <code>x</code>.</p>
+<div class="svg-code" style="width:50%; margin: 30px auto">
+<img src="images/sqrt.svg" alt="sqrt example that shows how we read a function from right-to-left" />
+</div>
+<p>Usually we just say that we <em>execute</em> or <em>run</em> the <code>sqrt</code> function. But in functional
+programming the correct term is that we apply the value <code>2.0</code> to the function <code>sqrt</code>. Probably
+you will ask how I can write a whole article about this topic, but there are some topics
+associated with it.</p>
+<h2 id="partial-application">Partial Application</h2>
+<p>Partial application is one of those topics. If we pass all arguments to a function we name it
+<em>function application</em>. But if we only pass some arguments to a function we name it
+<em>partial application</em>.</p>
+<p>In some programming languages it is an error if we don&rsquo;t pass all arguments to a function, but
+in some functional languages, including F#, this is an explicit feature. The result of
+partial application is a new function that accepts/waits for the remaining arguments. For
+example: If we have a function <code>add</code> that expects two integers:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But we only pass one argument to that function:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add1</span> <span class="o">=</span> <span class="n">add</span> <span class="n">1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Then partial application returns a new functions that expects the remaining argument. In the
+above case we could say that we baked in <code>1</code> as <code>x</code> and <code>add1</code> expects the remaining
+argument <code>y</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">add1</span> <span class="n">1</span>  <span class="c1">// 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add1</span> <span class="n">10</span> <span class="c1">// 11
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="immutability">Immutability</h2>
+<p>Another big topic in functional programming is immutability. Immutability is a fairly easy
+concept. It just means data cannot be changed after creation. If you are new to functional
+programming or in general to this concept, this sound a little bit strange. How
+can we do anything useful if we cannot change anything?</p>
+<p>The answer is simple. Instead of changing any kind of data, we just generate new data.
+Probably you wonder how this concept is associated with function application. While immutability
+has no direct effect on function application, it changes the way how we think about
+functions. With immutability in-place every functions must return a new value.</p>
+<p>Let&rsquo;s look at some example code to understand why this kind of idea is important. Besides
+<code>sqrt</code> we first create two new functions:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">square</span> <span class="n">x</span> <span class="o">=</span> <span class="n">pown</span> <span class="n">x</span> <span class="n">2</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">10</span><span class="o">.</span><span class="n">0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now create a new function that first calculates the square root of a number, add 10 to the
+result of it, and finally squares the result. That function is pretty artificial so we just
+name it <code>blub</code>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">blub</span> <span class="n">x</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">a</span> <span class="o">=</span> <span class="n">sqrt</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="n">add10</span> <span class="n">a</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">c</span> <span class="o">=</span> <span class="n">square</span> <span class="n">b</span>
+</span></span><span class="line"><span class="cl">    <span class="n">c</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">blub</span> <span class="n">2</span><span class="o">.</span><span class="n">0</span> <span class="c1">// 130.28
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>The above code I wrote probably resembles the way how you write functions in a non-functional
+language that also don&rsquo;t use immutability. But in this case every function returns a new value
+and this style is a little bit verbose. But first lets look how we read this code:</p>
+<div class="svg-code" style="width:50%; margin: 30px auto">
+<img src="images/blub.svg" alt="visualization how we read the blub function" />
+</div>
+<p>I don&rsquo;t know you, but I think reading it is pretty horrible. The amount of <em>jumping around</em>
+is quite high. If you don&rsquo;t think it is horrible then it just shows how much you are used
+to this kind of writing. But lets examine the example a little bit further.</p>
+<p>If you look at the visualization we can see some kind of pattern. We actually can
+see two properties:</p>
+<ol>
+<li>Every value is only used once.</li>
+<li>The input of the next function is the output of the previous function.</li>
+</ol>
+<p>The first property allows us to just embed or <strong>nest</strong> the function calls. There is no
+reason why we store the result of a function explicitly in a variable if we anyway just use
+the result once. We just can nest the code:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">blub</span> <span class="n">x</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="n">add10</span> <span class="o">(</span><span class="n">sqrt</span> <span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">c</span> <span class="o">=</span> <span class="n">square</span> <span class="n">b</span>
+</span></span><span class="line"><span class="cl">    <span class="n">c</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We can repeat this step again. Also <code>b</code> is only used once, so we nest <code>b</code> again.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">blub</span> <span class="n">x</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">c</span> <span class="o">=</span> <span class="n">square</span> <span class="o">(</span><span class="n">add10</span> <span class="o">(</span><span class="n">sqrt</span> <span class="n">x</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">c</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>we also don&rsquo;t need <code>c</code>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">blub</span> <span class="n">x</span> <span class="o">=</span> <span class="n">square</span> <span class="o">(</span><span class="n">add10</span> <span class="o">(</span><span class="n">sqrt</span> <span class="n">x</span><span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The final result is quite a lot shorter, but how do we read this code?</p>
+<div class="svg-code" style="width:75%; margin: 30px auto">
+<img src="images/blub-nested.svg" alt="visualization how we read the nested blub function" />
+</div>
+<p>The final result resembles a normal function call. We just can read it straight from
+right to left. Every function call returns a new result that is directly used as the
+input of another function. With nesting we have once again a simple chain of execution.
+No <em>jumping around</em> anymore to understand the code.</p>
+<h2 id="piping-with-">Piping with |&gt;</h2>
+<p>Up so far I only discussed the first property that a variable was only used once. But we
+also had another property that the output of one function is the input of the
+next function. We also could say, we have a chain of execution. The last visualization
+already showed that chain as you could start on the right side and read the code to the left
+until you are done.</p>
+<p>But we also can reverse that chain so we can read it from left-to-right. We achieve that
+style with the <code>|&gt;</code> operator. The <code>|&gt;</code> operator allows us to write the input of a function
+on the left side and the function to execute on the right side.</p>
+<div class="svg-code" style="width:25%; margin: 30px auto">
+<img src="images/pipe.svg" alt="Example of a single function with piping" />
+</div>
+<p>With this idea we can reverse the input step by step like this:</p>
+<div class="svg-code" style="width:75%; margin: 30px auto">
+<img src="images/blub-pipe.svg" alt="blub function with piping" />
+</div>
+<p>The advantage is that <code>|&gt;</code> is left-associative and has low precedence. In overall that means
+when we see code like this:</p>
+<pre><code>(.....) |&gt; function
+</code></pre>
+<p>we can remove the parenthesis from the left-side of <code>|&gt;</code> so we just end up with:</p>
+<pre><code>..... |&gt; function
+</code></pre>
+<p>This means the last version:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">blub</span> <span class="n">x</span> <span class="o">=</span> <span class="o">((</span><span class="n">x</span> <span class="o">|&gt;</span> <span class="n">sqrt</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="n">add10</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="n">square</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>also can be written without any parenthesis:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">blub</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">|&gt;</span> <span class="n">sqrt</span> <span class="o">|&gt;</span> <span class="n">add10</span> <span class="o">|&gt;</span> <span class="n">square</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This kind of style is often preferred in the F# community and can be read from left-to-right.</p>
+<div class="svg-code" style="width:75%; margin: 30px auto">
+<img src="images/blub-pipe-read.svg" alt="Shows that blub can be read from left-to-right" />
+</div>
+<p>You often see this style in List manipulations:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">.</span><span class="n">0</span><span class="o">;</span> <span class="n">3</span><span class="o">.</span><span class="n">0</span><span class="o">;</span> <span class="n">5</span><span class="o">.</span><span class="n">0</span><span class="o">;</span> <span class="n">7</span><span class="o">.</span><span class="n">0</span><span class="o">;</span> <span class="n">11</span><span class="o">.</span><span class="n">0</span><span class="o">;</span> <span class="n">13</span><span class="o">.</span><span class="n">0</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">sqrt</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">add10</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// [121.0; 137.64; 149.72; 159.91; 177.33; 185.11]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>We start with the data, and every new command is put on a new line. This way we easily
+can create longer chains that are still readable and extensible.</p>
+<h2 id="never-use-">Never use &lt;|</h2>
+<p>We can summarize <code>|&gt;</code> as an operator that swaps the function and the input of a function. Usually
+the input is on the right and the function on the left, and we say we read it from right-to-left.</p>
+<p>With <code>|&gt;</code> we swap the function and the input. The input is now on the left, and we read the code
+from left to right. That&rsquo;s why I name it just left-piping.</p>
+<p>F# also provides another operator <code>&lt;|</code>. Before we look into what it really does, the question
+is: What do you <strong>expect</strong> it should do?</p>
+<p>Lets think about it. <code>|&gt;</code> allows us to have the input on the left side of the function. We can
+think of it that we pipe the input from left into the function on the right. So when we see <code>&lt;|</code>
+we just expect the opposite. We could say, the input on the right is piped to the function on
+the left side. This opens up a new question: What is the difference between <code>&lt;|</code> and
+normal function application?</p>
+<p>So let us explore <code>&lt;|</code> step-by-step, and to understand why you never ever should use this
+operator. We start with a simple case:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">sqrt</span> <span class="n">2</span><span class="o">.</span><span class="n">0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We can insert <code>&lt;|</code> in this term. But <code>&lt;|</code> does not change the order of anything, we still
+write the input on the right side. So we end up with:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">sqrt</span> <span class="o">&lt;|</span> <span class="n">2</span><span class="o">.</span><span class="n">0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Seems pretty useless at this point. But if you remember, one advantage of <code>|&gt;</code> was
+that we also could eliminate some parenthesis. So lets create a small example where the
+input is a more complex term that needs to be calculated:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">sqrt</span> <span class="o">(</span><span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">+</span> <span class="n">1</span><span class="o">.</span><span class="n">0</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>At this point it is also helpful to understand what happens if we don&rsquo;t write the parenthesis.
+The code above means. First calculate <code>(1.0 + 1.0)</code> and use the result <code>2.0</code> as the input
+to <code>sqrt</code>. When we write:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">sqrt</span> <span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">+</span> <span class="n">1</span><span class="o">.</span><span class="n">0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>it basically means:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="n">sqrt</span> <span class="n">1</span><span class="o">.</span><span class="n">0</span><span class="o">)</span> <span class="o">+</span> <span class="n">1</span><span class="o">.</span><span class="n">0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>that means, first calculate <code>sqrt 1</code> and then add <code>1</code> to the result. If we use <code>&lt;|</code>,
+we can get rid of the parenthesis and still maintain the same behaviour.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">sqrt</span> <span class="o">&lt;|</span> <span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">+</span> <span class="n">1</span><span class="o">.</span><span class="n">0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Believe me or not, but I don&rsquo;t see any improvement so far. I have seen a lot of people arguing
+that the last version is better as the version with parenthesis. I don&rsquo;t think so. Reading
+parenthesis and the idea that everything inside of parenthesis is calculated first is something
+that we already learn in elementary school:</p>
+<div class="svg-code" style="width:50%; margin: 30px auto">
+<img src="images/math.svg" alt="A Math example with parenthesis" />
+</div>
+<p>Now instead of a clearly visible grouping with characters that human mankind already use
+for centuries, now you just use two different characters instead. It could be that you have
+another opinion on this, this is okay, but let&rsquo;s continue to see more problems of <code>&lt;|</code>.</p>
+<p>The problem of <code>&lt;|</code> is, we just think of it as right-piping. We <strong>expect</strong> that <code>&lt;|</code> is
+the reverse of <code>|&gt;</code>. With a single function and a single argument, it also seems to work
+this way. But this breaks as soon we try to extend the code. For example, when we now want
+to add 10 to the result with our <code>add10</code> function.</p>
+<p>With nesting we just write:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">add10</span> <span class="o">(</span><span class="n">sqrt</span> <span class="o">(</span><span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">+</span> <span class="n">1</span><span class="o">.</span><span class="n">0</span><span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>with left-piping we write:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">+</span> <span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">|&gt;</span> <span class="n">sqrt</span> <span class="o">|&gt;</span> <span class="n">add10</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>with right-piping you probably assume to write something like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// This code does not work
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add10</span> <span class="o">&lt;|</span> <span class="n">sqrt</span> <span class="o">&lt;|</span> <span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">+</span> <span class="n">1</span><span class="o">.</span><span class="n">0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Probably that is what you <strong>expect</strong>. But this <strong>isn&rsquo;t</strong> how <code>&lt;|</code> works! In fact, the above code
+will just give you a compile-time error. Because of this, piping with <code>&lt;|</code> is just an exceptional
+bad idea. If you see code like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">blub</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">|&gt;</span> <span class="n">sqrt</span> <span class="o">|&gt;</span> <span class="n">add10</span> <span class="o">|&gt;</span> <span class="n">square</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>you would probably assume that <code>&lt;|</code> just reverse the pipe:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// This code does not work
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">blub</span> <span class="n">x</span> <span class="o">=</span> <span class="n">square</span> <span class="o">&lt;|</span> <span class="n">add10</span> <span class="o">&lt;|</span> <span class="n">sqrt</span> <span class="o">&lt;|</span> <span class="n">x</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>but this isn&rsquo;t at all how it works. So how does <code>&lt;|</code> work instead? Probably at this point it
+makes sense to add explicit parenthesis to understand how it works. And if you think
+<code>&lt;|</code> is better because of the elimination of parenthesis. Isn&rsquo;t it funny that I need to
+add parenthesis so you are able to understand how <code>&lt;|</code> actually works?</p>
+<p>We actually <strong>expect</strong> that <code>&lt;|</code> works in this way.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">blub</span> <span class="n">x</span> <span class="o">=</span> <span class="n">square</span> <span class="o">&lt;|</span> <span class="o">(</span><span class="n">add10</span> <span class="o">&lt;|</span> <span class="o">(</span><span class="n">sqrt</span> <span class="o">&lt;|</span> <span class="n">x</span><span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The above code is valid and will compile. But it is no improvement over:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">blub</span> <span class="n">x</span> <span class="o">=</span> <span class="n">square</span> <span class="o">(</span><span class="n">add10</span> <span class="o">(</span><span class="n">sqrt</span> <span class="n">x</span><span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But when we remove the explicit parenthesis in the first example. The code is interpreted like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">blub</span> <span class="n">x</span> <span class="o">=</span> <span class="o">((</span><span class="n">square</span> <span class="o">&lt;|</span> <span class="n">add10</span><span class="o">)</span> <span class="o">&lt;|</span> <span class="n">sqrt</span><span class="o">)</span> <span class="o">&lt;|</span> <span class="n">x</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And this is a truly exceptional bad idea. The problem of <code>&lt;|</code> is that it is still
+left-associative. That means, the thing on the left side is executed first. In the above case it
+means. First <code>square</code> is executed and we pass it <code>add10</code> a function as the first argument
+to <code>square</code>. This is a compile-time error because <code>square</code> expects a float, not a function.</p>
+<p>But if we still continue to interpret this code, and ignore this error, we then expect that
+<code>square &lt;| add10</code> returns a new function as a result. We then execute that function by passing
+<code>sqrt</code> as an argument. Well, <code>square</code> does not return a function, so this also cannot work.</p>
+<p>And if we still ignore this error, we once again assume that this will return another new function
+as a result that we then finally pass <code>x</code> as a value.</p>
+<p>Already confused? And that&rsquo;s why <code>&lt;|</code> is just an exceptional bad idea, and you never ever
+should use <code>&lt;|</code>. <code>&lt;|</code> is just broken, it isn&rsquo;t at all how someone thinks it works or should work.</p>
+<p>At least let me give you a quick example that shows how <code>&lt;|</code> works and in which situation
+it would <em>theoretically</em> make sense. First you need a function that expects at least two arguments:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now imagine all arguments are some more complex terms that you compute, usually you have to
+put parenthesis around every term to group them:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">add</span> <span class="o">(</span><span class="n">1</span> <span class="o">+</span> <span class="n">1</span><span class="o">)</span> <span class="o">(</span><span class="n">2</span> <span class="o">+</span> <span class="n">2</span><span class="o">)</span> <span class="o">(</span><span class="n">3</span> <span class="o">+</span> <span class="n">3</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This is just a function call with three arguments. But every arguments is calculated before
+<code>add</code> is called. In such a case, you could use <code>&lt;|</code> instead of parenthesis:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">add</span> <span class="o">&lt;|</span> <span class="n">1</span> <span class="o">+</span> <span class="n">1</span> <span class="o">&lt;|</span> <span class="n">2</span> <span class="o">+</span> <span class="n">2</span> <span class="o">&lt;|</span> <span class="n">3</span> <span class="o">+</span> <span class="n">3</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The whole example is read like this:</p>
+<div class="svg-code" style="width:50%; margin: 30px auto">
+<img src="images/right-piping.svg" alt="How you read right-piping" />
+</div>
+<p>Overall <code>&lt;|</code> is just another delimiter that you could use instead of parenthesis. But
+this kind of behaviour is not really how you would expect it to work. As left-piping with
+<code>|&gt;</code> is used a lot, you would think <code>&lt;|</code> just does the reverse. So in general right-piping
+only adds more confusion and it is better to not use it at all.</p>
+<div class="info">
+If it is unclear why `<|` works in this way. Lets add the parenthesis back in the last example.
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">((</span><span class="n">add</span> <span class="o">&lt;|</span> <span class="n">1</span> <span class="o">+</span> <span class="n">1</span><span class="o">)</span> <span class="o">&lt;|</span> <span class="n">2</span> <span class="o">+</span> <span class="n">2</span><span class="o">)</span> <span class="o">&lt;|</span> <span class="n">3</span> <span class="o">+</span> <span class="n">3</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The first thing that is executed is <code>(add &lt;| 1 + 1)</code>. This means first <code>1 + 1</code> is calculated and
+the result <code>2</code> is passed to the <code>add</code> function as the first argument. But the parenthesis around
+this term end this term. So what do we really do? We basically <em>partial apply</em> <code>add</code> with a single
+argument. This then returns a new anonymous function that expects the remaining arguments
+<code>y</code> and <code>z</code> of <code>add</code>.</p>
+<p>Then <code>2 + 2</code> is calculated and this is once again <em>partial applied</em> to that anonymous function. This
+then returns another new anonymous function that expects the last argument <code>z</code>. And to this function
+we finally apply <code>3 + 3</code> to it what then executes everything.</p>
+</div>
+<h2 id="nesting-again">Nesting again</h2>
+<p>Writing code in a piping style with left-piping is probably the most common and most used
+way you see in F#. Its not that this is in general a bad idea, but it can be bad if people
+try to solve everything this way. It is important to understand when it is a good idea
+and when not.</p>
+<p>Piping is only a good idea if:</p>
+<ol>
+<li>The last argument of a function is a more complex computation</li>
+<li>A function only has a single argument that is the result of another function</li>
+<li>You need to chain multiple of those functions in one explicit order</li>
+</ol>
+<p>To understand those restriction better, let&rsquo;s talk about the List module. Why can we usually
+chain most of the List functions? For example we can create something like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">100</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span><span class="o">)</span>   <span class="c1">// [2; 4; 6; 8; ...]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span><span class="o">)</span>          <span class="c1">// [4; 8; 12, 16; ...]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span> <span class="n">0</span> <span class="c1">// 5100
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>The first reason is the order of the arguments. All of those functions expects the list as the
+last argument:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">filter</span> <span class="n">predicate</span> <span class="kt">list</span>
+</span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">mapper</span> <span class="kt">list</span>
+</span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="n">folder</span> <span class="n">state</span> <span class="kt">list</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But even if we switch the order of the arguments we always can use piping, but it probably isn&rsquo;t
+more readable anymore. If we for example assume the <code>List.map</code> functions first expects a list
+and then the <em>mapper</em> function, we would write something like this with piping:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="kt">list</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s consider we had the same swapping in List.filter</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">filter</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">100</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As <code>List.map</code> used the result of <code>List.filter</code> in our first example we would end with something
+like this if <em>map</em> and <em>filter</em> had swapped arguments:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="o">((</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">filter</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">100</span><span class="o">])</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But this kind of code is not readable or understandable at all. So a good choice for the
+last argument is usually some kind of immutable data-type. But that is not everything. In
+<code>List.fold</code> we have two immutable data-types. The <code>state</code> and the <code>list</code>. So why is <code>list</code>
+the better choice? Because a list is very likely the result of a more complex computation.
+The <code>state</code> is almost always just a plain direct value like <code>0</code> or an empty list and so on.
+Very unlikely will you have a complex computation that computes the <code>state</code>.</p>
+<p>As a thumb of rule we can say: It is a good idea if the output type of a function and the type of the
+last argument is the same. Most of the functions from the List module are build that way. Most of those
+functions return a new list, and most of them also expect a list as the last argument. It is in some
+sense only natural that if you have dozens of functions that operate, transforms or create list that
+you want to compose these functions together.</p>
+<p>Picking the correct last argument of a function is important, but that is not everything. The
+problem is, sometimes you don&rsquo;t have one clear value to put as the last argument, sometimes more
+than the last value gets computed, and so on. Whether or not piping is a good case also depends
+on the argument itself. Let&rsquo;s pick another function to explore this behaviour: <code>List.append</code></p>
+<p>The purpose of <code>List.append</code> is to append two lists together into one list. Whether or not piping is a
+good choice now depends on the arguments itself. If only one argument is computed, it still works
+fine with piping.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">100</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span><span class="o">)</span>   <span class="c1">// [2; 4; 6; 8; ...]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span><span class="o">)</span>          <span class="c1">// [4; 8; 12, 16; ...]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">append</span> <span class="o">[</span><span class="n">100</span><span class="o">;</span><span class="n">50</span><span class="o">]</span>               <span class="c1">// [100; 50; 4; 8; 12; ...]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>But if both lists are the result of a computation, then nesting is a much better choice.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add1</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">1</span><span class="o">.</span><span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sub1</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">1</span><span class="o">.</span><span class="n">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Using Nesting
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">append</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">(</span><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">add1</span> <span class="o">[</span><span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">..</span> <span class="n">5</span><span class="o">.</span><span class="n">0</span><span class="o">]))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">(</span><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">sub1</span> <span class="o">[</span><span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">..</span> <span class="n">5</span><span class="o">.</span><span class="n">0</span><span class="o">]))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// The same as above with partial piping...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">..</span> <span class="n">5</span><span class="o">.</span><span class="n">0</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">sub1</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">append</span> <span class="o">(</span><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">(</span><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">add1</span> <span class="o">[</span><span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">..</span> <span class="n">5</span><span class="o">.</span><span class="n">0</span><span class="o">]))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// ...with even more piping
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">..</span> <span class="n">5</span><span class="o">.</span><span class="n">0</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">sub1</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">append</span> <span class="o">([</span><span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">..</span> <span class="n">5</span><span class="o">.</span><span class="n">0</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">add1</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// ...full piping including the evil &lt;|
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">..</span> <span class="n">5</span><span class="o">.</span><span class="n">0</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">add1</span>   <span class="c1">// &lt;-- add1 instead of sub1!!!
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">append</span> <span class="o">&lt;|</span> <span class="o">([</span><span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">..</span> <span class="n">5</span><span class="o">.</span><span class="n">0</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">sub1</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Also notice that in the last version, the parenthesis at the right of <code>&lt;|</code> are still important
+and the whole order of <code>List.map add1</code> and <code>List.map sub1</code> changed!</p>
+<div class="info">
+Do you understand why <code>add1</code> and <code>sub1</code> needs to be swapped in the last example?
+Consider the following function:
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sub</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now look at those three definitions and their results:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">sub</span> <span class="n">5</span> <span class="n">3</span>       <span class="c1">// 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">3</span> <span class="o">|&gt;</span> <span class="n">sub</span> <span class="n">5</span>    <span class="c1">// 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">3</span> <span class="o">|&gt;</span> <span class="n">sub</span> <span class="o">&lt;|</span> <span class="n">5</span> <span class="c1">// -2
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>In the first and second example <code>5</code> is the first argument to <code>sub</code>. It is also the
+first argument in the second example because function application has a higher precedence
+as <code>|&gt;</code>. In the last example there is no direct function application anymore and <code>3 |&gt; sub</code>
+is executed first and <code>3</code> becomes the first argument of <code>sub</code>. With explicit parenthesis, the code
+is interpreted like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">sub</span> <span class="n">5</span> <span class="n">3</span>         <span class="c1">// 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">3</span> <span class="o">|&gt;</span> <span class="o">(</span><span class="n">sub</span> <span class="n">5</span><span class="o">)</span>    <span class="c1">// 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">3</span> <span class="o">|&gt;</span> <span class="n">sub</span><span class="o">)</span> <span class="o">&lt;|</span> <span class="n">5</span> <span class="c1">// -2
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+<p>Before we go further lets formalize why this kind of code is so hard to write with piping.
+We have this problem because we don&rsquo;t have a single chain of computations anymore. We have two paths
+of computation that are different. When we call <code>List.append</code> it is just a way to combine
+those two computations. In other words, our computation resembles a tree.</p>
+<div class="svg-code" style="width:50%; margin: 30px auto">
+<img src="images/tree.svg" alt="Shows the computation as a tree" />
+</div>
+<p>Piping is not a good tool for those kind of trees. Piping is only a good option for
+computations that works in a linear/sequential way. Nesting on the other hand don&rsquo;t have
+this problem. If some argument is a more complex computation we always can surround the term
+with parenthesis and embed the term where we need it. Look once again at the math example
+to understand this:</p>
+<div class="svg-code" style="width:50%; margin: 30px auto">
+<img src="images/math.svg" alt="A Math example" />
+</div>
+<p>If you don&rsquo;t see the tree in it. First consider that operators like <code>+</code>, <code>-</code> or <code>*</code> are just
+binary operators that expects two arguments. So a term like <code>5 + 5</code> also could be represented
+as a tree. <code>+</code> is the node with two arguments.</p>
+<div class="svg-code" style="width:25%; margin: 30px auto">
+<img src="images/add5-tree.svg" alt="Shows how 5 + 5 can be read as a tree" />
+</div>
+<p>You can apply this idea to the whole math formula <code>(5 + 5) * (3 + (6 * 2))</code>:</p>
+<div class="svg-code" style="width:100%; margin: 30px auto">
+<img src="images/math-tree.svg" alt="Visualize the math formula as a tree" />
+</div>
+<p>The only problem we have is to properly write those nesting so it is still readable. It isn&rsquo;t
+useful if a line expand further and further. We need to properly format the code so we can
+better understand it. And there is an easy way to format code with nesting. If things starts
+to get too long we just can put every argument on a new line and indent it. We already have
+seen this in the nested <code>List.append</code> example.</p>
+<div class="svg-code" style="width:100%; margin: 30px auto">
+<img src="images/append.svg" alt="List.append example" />
+</div>
+<p>In fact these kind of formatting works with any kind of tree like structure no matter how
+complicated it seems. Here you can see a visualization of a tree and how you represent
+it with indentation.</p>
+<div class="svg-code" style="width:100%; margin: 30px auto">
+<img src="images/tree2.svg" alt="More complex example of a tree structure" />
+</div>
+<p>In fact, if you ever have written HTML or XML you should be comfortable with this. Both document
+formats are tree structures. You have a starting and an end-tag. Inside of a tag you can nest
+other tags to create hierachical structures. The rules you already use to properly indent
+and format HTML also can be used to format and indent nested code with parenthesis.</p>
+<p>Up so far we have seen two kinds of code. One kind is sequential. With sequential code we can
+use piping for a better representation. But if we have tree like structures just normal
+nesting is quite better. The question we should ask is: Should we try to represent
+anything as a sequence?</p>
+<p>The answer is actually, no. Not everything can be written in a linear way. I would even argue
+that representing things as trees is easier. Trying to fit everything into a piping style just
+can limit the view in how to solve problems in general. This is best described with
+an example.</p>
+<h2 id="binary-converter">Binary Converter</h2>
+<p>In our example we want to write a function that can convert any number into a binary string
+representation. Before we start coding we actually need to know an algorithm that
+solves our problem.</p>
+<p>The algorithm I describe does not only work for converting numbers to binary, we also can
+convert numbers to other bases like octal, hexadecimal and so on. For demonstrating the
+algorithm I first show how we convert a number into decimal because it is a lot easier to follow.</p>
+<p>In general the algorithm works by removing one digit from a number, convert it into a string
+and repeat that process for the remaining number. That description also already tell us that we
+have a recursive algorithm.</p>
+<p>The first step is to remove one digit from a number. We achieve this by using the modulo operation.
+When we calculate <code>x % 10</code> we always get the right most digit of a number. This is just
+a single digit between zero and nine. This allows us to create a function that just can convert
+any digit to its string representation.</p>
+<p>For example when we start with the number <code>225</code> we calculate <code>225 % 10</code> and get <code>5</code> out of it.
+This <code>5</code> then can be passed to a function that knows how to transform the numbers zero to nine
+to a string.</p>
+<p>But we are not finished after this step. We only transformed the <code>5</code> from <code>225</code> into a string.
+But we still need to transform the remaining digits <code>22</code>. So we actually need a way to <em>remove</em>
+<code>5</code> from <code>225</code>.</p>
+<p>We achieve that by dividing by the base. First we subtract <code>5</code> from <code>225</code>. So we get <code>220</code>.
+Then we divide by ten to get <code>22</code>. In general dividing or multiplying a number by its base means
+we can shift the value. Multiplying by the base means we add zeros at the right of a number. Dividing
+by the base means we remove zeros.</p>
+<p>So the step to transform 225 into a string are:</p>
+<div class="svg-code" style="width:25%; margin: 0 0 1rem 30px">
+<img src="images/algorithm-decimal.svg" alt="Shows the steps to transform 255 into a decimal string" />
+</div>
+<p>As you can see. Every modulo operation returns the right most digit of a number. By subtracting that
+digit and dividing by 10. We get a new number. We just repeat that process until we end up at zero.</p>
+<p>As said at the beginning. This algorithm works for any base. If we want to convert a number into a
+binary representation we just do modulo 2 and divide by 2.</p>
+<div class="svg-code" style="width:25%; margin: 0 0 1rem 30px">
+<img src="images/algorithm-binary.svg" alt="Shows the steps to transform 255 into a binary string" />
+</div>
+<p>If we concatenate the modulo operation we get &ldquo;1110 0001&rdquo; as the result. So, how do we transform
+this algorithm into code? We could write the whole computations directly. But it is usually
+easier to decompose the problem into smaller parts, or functions in our case. So lets split the
+various steps into functions with meaningful names.</p>
+<p>First we need a way to extract the right most digit from a number. So we just create a function
+<code>extract</code> that does this step.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">extract</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Once we have such a function, we actually need a way to transform the digits
+returned by <code>extract</code> to a string.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">toString</span> <span class="n">x</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">x</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">0</span> <span class="o">-&gt;</span> <span class="s">&#34;0&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">1</span> <span class="o">-&gt;</span> <span class="s">&#34;1&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">failwith</span> <span class="s">&#34;This should not happen&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Another function we need is the idea of right-shift a number. With a decimal number we turn the
+number <code>225</code> to <code>22</code>, with binary we turn <code>225</code> into <code>112</code> ((225 - 1) / 2) *)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rightShift</span> <span class="n">x</span> <span class="o">=</span> <span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="o">(</span><span class="n">extract</span> <span class="n">x</span><span class="o">))</span> <span class="o">/</span> <span class="n">2</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Are we done? Well, let&rsquo;s try to create a binary convert at this point. We could come up with
+code like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">toBinary</span> <span class="n">x</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rightEnd</span> <span class="o">=</span> <span class="n">toString</span> <span class="o">(</span><span class="n">extract</span> <span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rest</span>     <span class="o">=</span> <span class="n">toBinary</span> <span class="o">(</span><span class="n">rightShift</span> <span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So we calculate two values. First we extract the right most digit and convert it into a string.
+If we have <code>225</code> as input this would be the first step in our calculation and the string <code>&quot;1&quot;</code>
+is stored in <code>rightEnd</code>.</p>
+<p>When we call <code>rightShift x</code> the result is <code>112</code>. But what do we do with that? Well, this is the
+reason why it is a recursive function. We need to repeat the calculation until we end up
+with zero. That&rsquo;s why we pass the result to <code>toBinary</code> immediately.</p>
+<p>If you are not used to recursion it can probably be hard to understand what this will return.
+In recursion you just make the assumption the the recursive call just somehow works. So what is
+the result of <code>toBinary (rightShift 112)</code>? It is the string representation of the number <code>112</code>.</p>
+<p>So what do we have exactly? We have the first right most bit. It is stored inside <code>rightEnd</code>,
+and in <code>rest</code> the rest of the transformation is saved. In our example this means:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">rightEnd</span> <span class="o">=</span> <span class="s">&#34;1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">rest</span>     <span class="o">=</span> <span class="s">&#34;1110000&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The &ldquo;missing&rdquo; part we currently have is, that we need to combine those two strings into a single
+string. So we need another function that can concatenate two strings:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">concat</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="nn">String</span><span class="p">.</span><span class="n">concat</span> <span class="s">&#34;&#34;</span> <span class="o">[|</span><span class="n">x</span><span class="o">;</span><span class="n">y</span><span class="o">|]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we have two computations that we merge together, we write:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">toBinary</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">concat</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">toBinary</span> <span class="o">(</span><span class="n">rightShift</span> <span class="n">x</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">toString</span> <span class="o">(</span><span class="n">extract</span> <span class="n">x</span><span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But we are still not done. We need a way to abort the recursion. Currently the function
+would loop forever (Theoretically, practically it blows up with a stack overflow exception).</p>
+<p>So we need to check if <code>rightShift x</code> reached zero. If it reached zero we just use an empty
+string for the string concatenation, otherwise we use the result of the recursive call
+for the string concatenation.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">toBinary</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">concat</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="k">if</span> <span class="o">(</span><span class="n">rightShift</span> <span class="n">x</span><span class="o">)</span> <span class="o">=</span> <span class="n">0</span> <span class="k">then</span> <span class="s">&#34;&#34;</span> <span class="k">else</span> <span class="n">toBinary</span> <span class="o">(</span><span class="n">rightShift</span> <span class="n">x</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">toString</span> <span class="o">(</span><span class="n">extract</span> <span class="n">x</span><span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>All functions we created are only useful for the <code>toBinary</code> function, we also can embed
+all functions inside <code>toBinary</code> in this case. So our final solution looks like:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">toBinary</span> <span class="n">x</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Helper functions
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">let</span> <span class="nv">extract</span> <span class="n">x</span>    <span class="o">=</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rightShift</span> <span class="n">x</span> <span class="o">=</span> <span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="o">(</span><span class="n">extract</span> <span class="n">x</span><span class="o">))</span> <span class="o">/</span> <span class="n">2</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">toString</span>     <span class="o">=</span> <span class="k">function</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">0</span> <span class="o">-&gt;</span> <span class="s">&#34;0&#34;</span> <span class="o">|</span> <span class="n">1</span> <span class="o">-&gt;</span> <span class="s">&#34;1&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">failwith</span> <span class="s">&#34;This should not happen&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">concat</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="nn">String</span><span class="p">.</span><span class="n">concat</span> <span class="s">&#34;&#34;</span> <span class="o">[|</span><span class="n">x</span><span class="o">;</span><span class="n">y</span><span class="o">|]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Main algorithm
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">concat</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="k">if</span> <span class="o">(</span><span class="n">rightShift</span> <span class="n">x</span><span class="o">)</span> <span class="o">=</span> <span class="n">0</span> <span class="k">then</span> <span class="s">&#34;&#34;</span> <span class="k">else</span> <span class="n">toBinary</span> <span class="o">(</span><span class="n">rightShift</span> <span class="n">x</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">toString</span> <span class="o">(</span><span class="n">extract</span> <span class="n">x</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">toBinary</span> <span class="n">0</span>   <span class="c1">// &#34;0&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">toBinary</span> <span class="n">178</span> <span class="c1">// &#34;10110010&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">toBinary</span> <span class="n">225</span> <span class="c1">// &#34;11100001&#34;
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>As a summary, what did we learn so far? I hoped to show, that working with a nesting style
+of functions is actually more easier to work with, and also a lot more natural in some cases. In
+the case of a binary converter we really have two computations or a tree of computations. Not trying
+to think with piping in mind actually makes a lot of stuff easier.</p>
+<p>When we face a problem we just decompose a problem into solvable small functions. Once we decomposed
+a problem we need to compose the small parts back together. The problem is, sometimes that problem
+can be naturally represented as a sequence of operations, but most of the time it can&rsquo;t. In our
+case we also don&rsquo;t have a single sequence of computation. On every recursive step we really
+have two computations.</p>
+<p>One computation determines the next character for our result. And another computation calculates
+the next number we need to recurs on. We end up with two computations, two strings that
+in the end need to put together into a single result. This algorithm is best visualized by a tree.</p>
+<div class="svg-code" style="width:50%; margin: 30px auto">
+<img src="images/tree-tobinary.svg" alt="Shows the toBinary function as a Tree" />
+</div>
+<p>And the classical way to represent trees with code is by nesting and indentions. Piping is
+not a good approach to represent tree structures. If you want to try to solve everything by
+some kind of piping even before you determined if the problem is even solvable in a sequential
+manner, you will only run into problems and will have a hard time to solve these kind of problems.</p>
+<h2 id="composition">Composition</h2>
+<p>What we have seen so far is function application. Function application means to apply a value to
+a function, or in other words. Execute a function to get the result of a function. Function
+composition on the other hand is completely different. It means, combine two or more functions
+together to create a new function. Even if it seems like two different tasks in theory, in practice
+the difference isn&rsquo;t too big.</p>
+<p>Let&rsquo;s go back to our <code>blub</code> function. We started with:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">blub</span> <span class="n">x</span> <span class="o">=</span> <span class="n">square</span> <span class="o">(</span><span class="n">add10</span> <span class="o">(</span><span class="n">sqrt</span> <span class="n">x</span><span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This code is written with nesting. But as you can see, the real goal was not to execute
+the chain of functions we have. The goal was to create a new function. In such a case, we also
+can use function composition instead.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">blub</span> <span class="o">=</span> <span class="n">square</span> <span class="o">&lt;&lt;</span> <span class="n">add10</span> <span class="o">&lt;&lt;</span> <span class="n">sqrt</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In this example you can see that the most natural way to write nesting as function composition
+is to use <code>&lt;&lt;</code>. With nesting we read the code from right to left. On the right is the input of
+a function, on its left the output. The <code>&lt;&lt;</code> operator preserves this structure. The input of
+<code>square</code> is the result of <code>add10</code>. The input of <code>add10</code> is the result of <code>sqrt</code>. And the input
+of <code>sqrt</code> becomes the input of the <code>blub</code> function.</p>
+<p>The advantage of function composition is that we can omit parenthesis and variables even further.
+We also don&rsquo;t need explicit function arguments. If we use <code>&gt;&gt;</code> instead of <code>&lt;&lt;</code> we just can
+reverse the whole chain this time.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">blub</span> <span class="o">=</span> <span class="n">sqrt</span> <span class="o">&gt;&gt;</span> <span class="n">add10</span> <span class="o">&gt;&gt;</span> <span class="n">square</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This is also an even further example why <code>&lt;|</code> is bad. It is only natural to think that <code>&lt;&lt;</code> and
+<code>&gt;&gt;</code> are somewhat the same only in reverse order, and sure they are. But this is not the case
+for the combination <code>&lt;|</code> and <code>|&gt;</code>. The piping operators are really two completely distinct operators
+that work differently.</p>
+<p>While function composition is a little bit shorter compared to piping, the difference isn&rsquo;t that much.
+Because of some problems in F# with the type-inference it also can be that this approach sometimes
+creates a <strong>Value restriction</strong> error. If you encounter such an error, the best fix to those kind
+of error is just to create a function with explicit arguments instead of function composition.
+As the difference is anyway not too big, you also always can use nesting or piping instead of
+function composition.</p>
+<p>One place where function composition is a better choice is if you want to pass a function
+as an argument to another function. Let&rsquo;s look at our <code>blub</code> function again. We first can
+create the <code>blub</code> function and then use it in <code>List.map</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">blub</span> <span class="o">=</span> <span class="n">square</span> <span class="o">&lt;&lt;</span> <span class="n">add10</span> <span class="o">&lt;&lt;</span> <span class="n">sqrt</span>
+</span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">blub</span> <span class="o">[</span><span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">..</span> <span class="n">100</span><span class="o">.</span><span class="n">0</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But if you need <code>blub</code> only in a single place, it is a little bit annoying to explicitly create and
+name a function. It is just better to inline the whole function. Without function composition we need
+to write something like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">square</span> <span class="o">(</span><span class="n">add10</span> <span class="o">(</span><span class="n">sqrt</span> <span class="n">x</span><span class="o">)))</span> <span class="o">[</span><span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">..</span> <span class="n">100</span><span class="o">.</span><span class="n">0</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>With function composition on the other hand we can shorten this example to:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="o">(</span><span class="n">square</span> <span class="o">&lt;&lt;</span> <span class="n">add10</span> <span class="o">&lt;&lt;</span> <span class="n">sqrt</span><span class="o">)</span> <span class="o">[</span><span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">..</span> <span class="n">100</span><span class="o">.</span><span class="n">0</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="best-practices">Best Practices</h2>
+<p>At the end I just want to gather some best practices. Those are best practices from me and
+like always, every person usually disagree with another 10%.</p>
+<ol>
+<li>Never use <code>&lt;|</code>. People think of it as the reverse of <code>|&gt;</code> but it isn&rsquo;t.</li>
+<li>If you disagree with 1. then at least never mix <code>|&gt;</code> and <code>&lt;|</code> in a single statement.</li>
+<li>Never mix <code>&lt;&lt;</code> and <code>&gt;&gt;</code> in a single-statement. <code>f &gt;&gt; g &gt;&gt; h &gt;&gt; i</code> or <code>f &lt;&lt; g &lt;&lt; h &lt;&lt; i</code> is
+easy to understand. <code>f &lt;&lt; g &gt;&gt; h &lt;&lt; i</code> isn&rsquo;t.</li>
+<li>Don&rsquo;t favour piping over nesting. Piping is only good for strict sequential code. Favour piping
+over nesting means you limit the way you think.</li>
+<li>If you create new functions. Don&rsquo;t think of piping too much. It is good if you can pipe
+functions, but it is not bad if you cannot do that. Not every function works good with piping.</li>
+<li>Try to <strong>solve your problem first</strong>. Because nesting is good for any kind of tree structure and
+thus more powerful. Try to use nesting by default.</li>
+<li><strong>After</strong> you solved a problem and realized that the code can be represented by a sequence with
+piping. Refactor the code with piping.</li>
+<li>If possible, use function composition if you pass functions as arguments instead of lambda functions.</li>
+</ol>
+<h2 id="summary">Summary</h2>
+<p>Overall we covered function application and composition. We saw function application with nesting
+or piping with operators like <code>|&gt;</code> or <code>&lt;|</code>. We also can use function composition with <code>&lt;&lt;</code> or
+<code>&gt;&gt;</code> in certain situation.</p>
+<p>I hope in this article you learned how all of those operators work, and more important, when you should
+use which kind of style. Nesting, piping and function composition are three ways to either execute
+or compose functions. But not any of those are good in any situation.</p>
+<p>Especially piping is overused in F# in my opinion. Not every problem can be expressed naturally
+in a sequential way of piping. So don&rsquo;t view any problem as a nail that you solve with a hammer.</p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
