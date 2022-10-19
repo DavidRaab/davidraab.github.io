@@ -6,7 +6,18 @@
     <description>Recent content in CSharp on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 11 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/csharp/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 27 Feb 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/csharp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mutability vs. Immutability: Valid objects</title>
+      <link>https://davidraab.github.io/posts/mutabaility-vs-immutability-validation/</link>
+      <pubDate>Mon, 27 Feb 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/mutabaility-vs-immutability-validation/</guid>
+      <description>I already wrote an article that explains immutability, but one thing I hand-waved was the benefits of immutability and why you should program with immutable values.
+In this article I talk about those benefits by trying to maintaining valid objects at all time and show how we can achieve it with mutability and immutability.
+One question might be why I&amp;rsquo;m not just showing the immutable part. I could do this, but the problem I see is that it isn&amp;rsquo;t so obvious how hard the mutable part really is.</description>
+    </item>
+    
     <item>
       <title>Introduction to Functional Programming</title>
       <link>https://davidraab.github.io/posts/introduction-to-functional-programming/</link>

@@ -1,0 +1,1190 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Mutability vs. Immutability: Valid objects // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="David Raab" />
+    <meta name="description" content="At any time we want to maintain valid objects. In this article we compare how hard/easy it is with mutability and immutability." />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.5b95e5703c636a661c78d0a65d9fb441fa1595585b1c45a66948462e80dcb924.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Mutability vs. Immutability: Valid objects"/>
+<meta name="twitter:description" content="At any time we want to maintain valid objects. In this article we compare how hard/easy it is with mutability and immutability."/>
+
+    <meta property="og:title" content="Mutability vs. Immutability: Valid objects" />
+<meta property="og:description" content="At any time we want to maintain valid objects. In this article we compare how hard/easy it is with mutability and immutability." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/mutabaility-vs-immutability-validation/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-02-27T00:00:00+00:00" />
+<meta property="article:modified_time" content="2017-02-27T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>My personal Blog. Writing about programming and other stuff.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+          <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Mutability vs. Immutability: Valid objects</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Feb 27, 2017
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          26 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/csharp/">CSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/immutability/">immutability</a>
+              <a class="tag" href="https://davidraab.github.io/tags/comparison/">comparison</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>I already wrote <a href="https://davidraab.github.io/posts/immutability-and-functions/">an article that explains immutability</a>,
+but one thing I hand-waved was the benefits of immutability and why you should
+program with immutable values.</p>
+<p>In this article I talk about those benefits by trying to maintaining valid
+objects at all time and show how we can achieve it with mutability and
+immutability.</p>
+<p>One question might be why I&rsquo;m not just showing the immutable part. I could do
+this, but the problem I see is that it isn&rsquo;t so obvious how hard the mutable
+part really is.</p>
+<p>Because of this, first I show all the things you have to keep in mind if you work
+with mutability. Then we see how immutability helps us.</p>
+<h2 id="about-this-article">About this article</h2>
+<p>Throughout this article I will use C# and F#. I use C# for the mutable examples
+and F# for the immutable example. There are multiple reasons for this decision:</p>
+<ol>
+<li>Mutability is best handled by classes and C# is built around that concepts
+and everything by default is mutable.</li>
+<li>Immutability is best handled by immutable data-types and functions that
+operate on them. In F# everything is immutable by default.</li>
+<li>If you are new to F#, probably this article can help a little bit if
+you see how C# code translates to F#.</li>
+</ol>
+<p>Throughout this article I use some words, and you should know my definition
+of those words to avoid confusion:</p>
+<ol>
+<li><strong>State</strong>: State, mutable objects or mutability is just used interchangeable.</li>
+<li><strong>Object</strong>: The word <em>object</em> is not limited to OOP. In general it just means
+<strong>a thing</strong>. Also F# data-types like records, unions or tuples are just objects.</li>
+<li><strong>Function</strong>: Anything that you somehow execute is a function. This includes
+class constructors, methods, static methods, F# functions and so on.</li>
+<li><strong>Constructors</strong>: A <em>constructor</em> is any <em>function</em> that creates a new
+<em>object</em> if you don&rsquo;t already have one.</li>
+</ol>
+<p>With immutability a constructor might seems a little blurry because every function
+returns a new object. The important detail is <strong>if you don&rsquo;t already have one</strong>.
+As an example <code>List.map</code>, <code>List.filter</code> or <code>List.fold</code> are not considered as
+constructors. All those functions already expect a List that they operator on.
+If you don&rsquo;t already have a list, you cannot use those functions.</p>
+<p>In F# there are multiple ways to create a list, like the special List syntax
+<code>[1;2;3]</code> or the cons operator <code>1 :: 2</code> or functions like <code>List.unfold</code>. All
+of those things create a list without that you need one beforehand and
+thus are considered <em>constructors</em>.</p>
+<p>This article is not a C# vs. F# or OO vs. FP comparison. You also can create
+immutable object in C# and get the same benefits as in the F# examples. Or
+you can create mutable classes in F# and get the same disadvantages as in
+the C# examples.</p>
+<h2 id="mutability-the-minmax-example">Mutability: The MinMax example</h2>
+<p>We start with a really small and simple example. A <code>MinMax</code> class that only has
+the purpose to keep a <em>current</em> value between a defined <em>minimum</em> and <em>maximum</em>.
+A C# class could look like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">MinMax</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">Minimum</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">Maximum</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">Current</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">MinMax</span><span class="p">(</span><span class="kt">int</span> <span class="n">minimum</span><span class="p">,</span> <span class="kt">int</span> <span class="n">maximum</span><span class="p">,</span> <span class="kt">int</span> <span class="n">current</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">Minimum</span> <span class="p">=</span> <span class="n">minimum</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">Maximum</span> <span class="p">=</span> <span class="n">maximum</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">Current</span> <span class="p">=</span> <span class="n">current</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">CheckMinMax</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">CheckCurrent</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">CheckMinMax</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="n">Minimum</span> <span class="p">&gt;</span> <span class="k">this</span><span class="p">.</span><span class="n">Maximum</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">throw</span> <span class="k">new</span> <span class="n">Exception</span><span class="p">(</span><span class="s">&#34;Minimum greater than Maximum&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">CheckCurrent</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="n">Current</span> <span class="p">&gt;</span> <span class="k">this</span><span class="p">.</span><span class="n">Maximum</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="n">Current</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">Maximum</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="n">Current</span> <span class="p">&lt;</span> <span class="k">this</span><span class="p">.</span><span class="n">Minimum</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="n">Current</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">Minimum</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">Add</span><span class="p">(</span><span class="kt">int</span> <span class="n">amount</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">Current</span> <span class="p">+=</span> <span class="n">amount</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">CheckCurrent</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">Subtract</span><span class="p">(</span><span class="kt">int</span> <span class="n">amount</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">Current</span> <span class="p">-=</span> <span class="n">amount</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">CheckCurrent</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We start by only providing methods to change the <em>current</em> value. When we
+look closer we also could define our <code>MinMax</code> class as two distinct rules.</p>
+<ol>
+<li>The minimum value must be smaller or equal to maximum. <code>CheckMinMax()</code></li>
+<li>The current value must be between minimum and maximum. <code>CheckCurrent()</code></li>
+</ol>
+<p>Often people argue that we don&rsquo;t need to re-check all rules, only those that
+are somehow affected. As an example the <code>Add</code> and <code>Subtract</code> functions
+only call <code>CheckCurrent()</code>. Obviously, we don&rsquo;t need to call <code>CheckMinMax()</code>
+if we don&rsquo;t change those values.</p>
+<p>While this is true, for more complex objects it can be hard to determine
+what is affected and what&rsquo;s not. Imagine we add a <code>SetMaximum</code> function to
+mutate the maximum. Would it be enough to just call <code>CheckMinMax()</code>
+because only maximum changed?</p>
+<p>Well no, otherwise this code would create an invalid state:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">v</span> <span class="p">=</span> <span class="k">new</span> <span class="n">MinMax</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">100</span><span class="p">,</span> <span class="m">80</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">v</span><span class="p">.</span><span class="n">SetMaximum</span><span class="p">(</span><span class="m">50</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Minimum=0; Maximum=50; Current=80</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In a very easy example like this it might be obvious that you must re-check
+both rules and call <code>CheckMinMax()</code> <strong>and</strong> <code>CheckCurrent()</code>. In a more complex
+class determining what needs to be called can be a lot harder.</p>
+<p>As our goal is to always maintain valid objects, why not make up some rules like
+a coding-standard that when we strictly follow it, we can be sure objects always
+are valid?</p>
+<p>We just define our first rule as:</p>
+<blockquote>
+<p>First Rule: Always re-validate every rule to ensure the correctness of an object.</p>
+</blockquote>
+<p>As a conclusion of the first rule we could create a single function like <code>IsValid()</code>
+instead of multiple functions like <code>CheckMinMax()</code> and <code>CheckCurrent()</code>. But
+in this example, lets just call both. Following our rule, now imagine we
+implement <code>SetMaximum()</code> in this way:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">SetMaximum</span><span class="p">(</span><span class="kt">int</span> <span class="n">max</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="n">Maximum</span> <span class="p">=</span> <span class="n">max</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="n">CheckMinMax</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="n">CheckCurrent</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>Question:</strong> Is this implementation correct, or not? What is the state of <code>v</code> at the end of
+this code example?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">v</span> <span class="p">=</span> <span class="k">new</span> <span class="n">MinMax</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">100</span><span class="p">,</span> <span class="m">80</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">v</span><span class="p">.</span><span class="n">SetMaximum</span><span class="p">(-</span><span class="m">100</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">catch</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">v</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>Answer:</strong> <code>SetMaximum</code> is not correct and the state of <code>v</code> will be:
+<code>Minimum=0; Maximum=-100; Current=-100</code>. Mutating a field before we know
+a change is valid is a problem. Our next rule:</p>
+<blockquote>
+<p>Second Rule: You always must validate before mutating.</p>
+</blockquote>
+<p>The interesting part is. Before we implemented <code>SetMaximum()</code> this was not
+a problem! <code>Add</code> and <code>Subtract</code> both check after we mutate the <code>Current</code>
+value. So what is the difference? Why does it work with <code>Add</code> and <code>Subtract</code>
+but not with <code>SetMaximum</code>?</p>
+<p>One reason is that we only called <code>CheckMinMax</code> from the constructor. The
+exception in <code>CheckMinMax</code> aborts the whole creation of an object. But when
+we already have an object and call it from a method that isn&rsquo;t enough.</p>
+<p>We can create another rule to describe that this is okay.</p>
+<blockquote>
+<p>Third Rule: The second rule don&rsquo;t need to be followed in a constructor. In
+a constructor you always are allowed to mutate and validate afterwards.</p>
+</blockquote>
+<p>But this still doesn&rsquo;t explain why first mutating and the checking is no
+problem in <code>Add</code> and <code>Subtract</code>. With our current rules so far we are not
+allowed to write <code>Add</code> and <code>Subtract</code> in the way it is currently written.</p>
+<p>The reason why we can validate afterwards is because our <code>CheckCurrent()</code> not
+just validates and throws an error in the case there is something invalid.
+It actually <strong>fixes</strong> the problem.</p>
+<p>If <code>Current</code> gets bigger than <code>Maximum</code>, and thus invalidates the object,
+it fixes the problem by setting <code>Current</code> to the <code>Maximum</code> value. So whenever
+we can <strong>fix</strong> an invalid object and there is a way to turn it back into
+a valid object, we actually are allowed to mutate and check afterwards.</p>
+<blockquote>
+<p>Fourth Rule: If there is a way to <em>fix</em> an invalid object, you
+are allowed to mutate and validate even outside of an constructor.</p>
+</blockquote>
+<p>We also could apply this kind of <strong>fixing</strong> to <code>Minimum</code> and <code>Maximum</code>.
+For example I could add the following logic to the <code>SetMinimum</code> and
+<code>SetMaximum</code> methods.</p>
+<ul>
+<li>If Minimum is bigger than Maximum, then set Maximum to the same value.</li>
+<li>If Maximum is smaller than Minimum, then set Minimum to the same value.</li>
+</ul>
+<p>Every method (or say at least &ldquo;a lot&rdquo;) could somehow fix an object.
+If a string is restricted to 80 characters you could reset a string to
+the empty string, or maybe cut everything off after 80 characters. The
+problem with logic like these are they are very hard to remember.</p>
+<p>There isn&rsquo;t a right or wrong approach. But depending which
+approach you pick you have other rules you must follow. If you pick the approach
+to throw/return errors then you should validate before mutating. If you fix
+invalid objects you are allowed to mutate and call your <strong>fix</strong> function afterwards.</p>
+<div class="info">
+It might be true that we cannot label one as <strong>right</strong> or <strong>wrong</strong>,
+nevertheless I suggest we should avoid a solution that fixes something automatically
+most of the time as they are hard to remember. Returning an error, no matter how
+you do it exactly (null / Options / Results / Exceptions), is most of the time
+more flexible and easier to comprehend.
+</div>
+<p>If we now decide for one way and follow the rules, is it then impossible
+that an object will never be in an invalid state? The answer is no. But
+we need another example to demonstrate this.</p>
+<p>The <code>MinMax</code> class uses three mutable fields. While the fields itself are mutable
+this is not true for the <code>int</code> itself. An <code>int</code> is an immutable type. So we also
+must consider an example where the objects themselves are mutable.</p>
+<p>For the next example let&rsquo;s consider a <code>Product</code> class with two fields <code>Name</code>
+and <code>Price</code>. To make it easy, we just assume every <code>Name</code> and <code>Price</code> is valid.
+Instead we focus on a <code>ProductsPriceOver</code> class. The purpose of this class
+is to maintain a list of <code>Product</code>s with only one rule. Every <code>Product</code> must
+be more expensive then a defined minimum.</p>
+<p>The final usage of those two classes could look like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">a</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Product</span><span class="p">(</span><span class="s">&#34;A&#34;</span><span class="p">,</span> <span class="m">9.99</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">b</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Product</span><span class="p">(</span><span class="s">&#34;B&#34;</span><span class="p">,</span> <span class="m">19.99</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">c</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Product</span><span class="p">(</span><span class="s">&#34;C&#34;</span><span class="p">,</span> <span class="m">49.99</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">ppo</span>  <span class="p">=</span> <span class="k">new</span> <span class="n">ProductsPriceOver</span><span class="p">(</span><span class="m">10.00</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">ppo</span><span class="p">.</span><span class="k">add</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">ppo</span><span class="p">.</span><span class="k">add</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">ppo</span><span class="p">.</span><span class="k">add</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>First we create an <code>ProductsPriceOver</code> object that only accepts Products more expensive than <code>10.00</code>.
+When we implement <code>ProductsPriceOver</code> it means the <code>add</code> method must check the <code>Price</code>
+of every <code>Product</code>. When the above code gets executed we assume only product &ldquo;B&rdquo;
+and &ldquo;C&rdquo; are inside <code>ProductsPriceOver</code>.</p>
+<p><strong>Question:</strong> If we assume <code>add</code> is the only method <code>ProductsPriceOver</code> will ever
+implement. Will <code>ProductsPriceOver</code> always be valid?</p>
+<p><strong>Answer:</strong> No. We can invalidate <code>ProductsPriceOver</code> by just changing the Price
+of any Product directly.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="n">b</span><span class="p">.</span><span class="n">Price</span> <span class="p">=</span> <span class="m">5.00</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The problem is that we reference Product B directly in <code>ProductsPriceOver</code> and we
+also never get a notification if one of the products changes.</p>
+<p>There are two ways how we can fix that. We could choose only one so I consider
+both as the fifth rule.</p>
+<blockquote>
+<p>Fifth Rule A: Mutable objects must have some kind of notification mechanism
+once they changed.</p>
+</blockquote>
+<p>As an example. We could add a <code>Changed</code> event to every mutable object that gets
+fired as soon an object changes.</p>
+<p>This way the <code>ppo.add(x)</code> function can add an event handler to every product.
+If a product changes it price, it re-checks if the new price is high enough
+to still be part of the <code>ppo</code> object.</p>
+<blockquote>
+<p>Fifth Rule B: Mutable objects must have a <code>Copy</code> function that can create
+deep copies of an object.</p>
+</blockquote>
+<p>This technique is often named <em>defensive copies</em>. When <code>ppo.add(x)</code> is
+called it doesn&rsquo;t save a reference to the same object. It creates a copy
+of the whole object and only keeps the copy in its internal list.</p>
+<p>When we do this, even after we execute <code>b.Price = 5.00</code> the product in <code>ppo</code>
+will still be <code>19.99</code> instead of <code>5</code>. This way every <code>ProductsPriceOver</code> object
+stay valid, but we need a way to update the price in <code>ProductsPriceOver</code>.
+We look at this problem more precisely later in the immutability part.</p>
+<p>In some way <em>defensive copies</em> and <em>immutability</em> are the same. Because
+sharing a mutable object can cause problems, defensive copying creates
+copies of objects and try to avoid sharing. With immutable objects
+sharing is no problem, but we create copies of objects when we want to
+change something.</p>
+<p>The difference is at what time we create copies. Defensive copies
+creates copies before-hand, immutability creates copies only in the exact
+moment something is changing.</p>
+<p>But after all, we are still not safe from invalid objects! Rule Five only
+covers things we could describe as <em>Input</em>. It only covers those cases
+when our current object receives another object from outside of our
+current object.</p>
+<p>Another problem that can occur is when we return mutable objects from
+methods. Or in some sense when we return them as <em>Output</em>.</p>
+<p>Up so far The <code>ProductsPriceOver</code> class only provides an <code>add</code> method
+and is pretty useless at this time. We assume that the <code>ProductsPriceOver</code>
+object has an internal mutable list to keep track of all its Products.
+This list is usually created when we create an <code>ProductsPriceOver</code> object
+and is not passed from the outside.</p>
+<p>But when we return those internal mutable object, then our object can be
+easily invalidated. Let&rsquo;s assume our <code>ppo</code> has a <code>Products</code> field that
+directly returns the products as a <code>List&lt;Product&gt;</code>. We could then write
+something like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">a</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Product</span><span class="p">(</span><span class="s">&#34;A&#34;</span><span class="p">,</span> <span class="m">9.99</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">b</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Product</span><span class="p">(</span><span class="s">&#34;B&#34;</span><span class="p">,</span> <span class="m">19.99</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">c</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Product</span><span class="p">(</span><span class="s">&#34;C&#34;</span><span class="p">,</span> <span class="m">49.99</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">ppo</span>  <span class="p">=</span> <span class="k">new</span> <span class="n">ProductsPriceOver</span><span class="p">(</span><span class="m">10.00</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">ppo</span><span class="p">.</span><span class="k">add</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">ppo</span><span class="p">.</span><span class="k">add</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">ppo</span><span class="p">.</span><span class="k">add</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// At this time ppo contains only &#34;B&#34; and &#34;C&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">List</span><span class="p">&lt;</span><span class="n">Product</span><span class="p">&gt;</span> <span class="n">products</span> <span class="p">=</span> <span class="n">ppo</span><span class="p">.</span><span class="n">Products</span>
+</span></span><span class="line"><span class="cl"><span class="n">products</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// ppo now contains &#34;A&#34;, &#34;B&#34; and &#34;C&#34;!!!</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>By directly accessing the internal mutable array we bypass the <code>ppo.add()</code> method
+including its enforcement of the rules. We can solve this problem in the exact
+same way we did with Rule Five.</p>
+<blockquote>
+<p>Sixth Rule A: Every mutable object we return must have a Changed event
+that gets fired when an object was mutated.</p>
+</blockquote>
+<p>If the internal mutable list has an event that gets fired whenever the list
+somehow mutates. Then our <code>ProductsPriceOver</code> class could add an event-handler
+that re-checks if all elements inside the list are valid.</p>
+<blockquote>
+<p>Sixth Rule B: Never return mutable objects directly. Return defensive
+copies instead.</p>
+</blockquote>
+<p>If <code>ppo.Products</code> just returns a copy then the caller can manipulate
+the returning list in any possible way, but it doesn&rsquo;t affect <code>ppo</code>.</p>
+<p>But for the output case, there exists a third way.</p>
+<blockquote>
+<p>Sixth Rule C: Don&rsquo;t allow access to internal mutable objects at all.</p>
+</blockquote>
+<p>This rule is probably the most used one in practice. And in my opinion it
+is the worst rule of all. This rule is so bad that in my opinion most problems
+of OO programming are connected to this idea. This rule alone deserves a
+whole article on its own to describe its evilness. Yes, I&rsquo;m serious and this
+is not a joke!</p>
+<p>Currently I left it to he reader to figure out how many implications this has,
+otherwise this article will get too long. You can start with the question:
+<em>When you cannot access the <code>Products</code> list of an <code>ProductsPriceOver</code> object.
+How do you implement new functionality?</em></p>
+<p>Now that we have Rule Five and Six, lets talk about these. Actually you cannot
+freely decide if you either use events or defensive copies. Events are
+<em>reactive</em>. They get fired <em>after</em> a mutation happened. So you only can use
+events if there is a way to fix an object after it became invalid.</p>
+<p>If there is no way to fix an invalid object, you must use defensive copies!
+This is not really a rule you must follow, more a reminder which
+previously rule you must choose. But because of its important I still
+consider it as a new rule.</p>
+<blockquote>
+<p>Seventh Rule: Events can only be used if there is always a way to fix
+an invalid object. If there is no way to fix an invalid object, use
+defensive copies.</p>
+</blockquote>
+<p>Straight away, here is my last rule without much explanation as
+it should be self-explanatory.</p>
+<blockquote>
+<p>Eighth Rule: If your mutable objects are accessed by multiple threads
+(mutable shared state). You also must add synchronization primitives
+to avoid race conditions that can bring an object into an invalid
+state.</p>
+</blockquote>
+<p>And here is a bonus rule for the eighth rule.</p>
+<blockquote>
+<p>Bonus Rule: Just because every method of an object has synchronization
+primitives doesn&rsquo;t mean it is thread-safe. Because of this, you probably
+want to ignore Rule Eight.</p>
+</blockquote>
+<p>Also this is worth its own article I will write about in the near future.</p>
+<p>Let&rsquo;s get an overview of all rules we have to follow so we can be sure state
+will always be valid.</p>
+<h2 id="all-rules-to-ensure-a-valid-state">All Rules to ensure a valid State</h2>
+<ol>
+<li><strong>First Rule:</strong> Always re-validate every rule to ensure the correctness of an object.</li>
+<li><strong>Second Rule:</strong> You always must validate before mutating.</li>
+<li><strong>Third Rule:</strong> The second rule don&rsquo;t need to be followed in a constructor. In
+a constructor you always are allowed to mutate and validate afterwards.</li>
+<li><strong>Fourth Rule:</strong> If there is a way to <em>fix</em> an invalid object, you
+are allowed to mutate and validate even outside of an constructor.</li>
+<li><strong>Fifth Rule A:</strong> Mutable objects must have some kind of notification mechanism
+once they changed.</li>
+<li><strong>Fifth Rule B:</strong> Mutable objects must have a <code>Copy</code> function that can create
+deep copies of an object.</li>
+<li><strong>Sixth Rule A:</strong> Every mutable object we return must have a Changed event
+that gets fired when an object was mutated.</li>
+<li><strong>Sixth Rule B:</strong> Never return mutable objects directly. Return defensive
+copies instead.</li>
+<li><strong>Sixth Rule C:</strong> Don&rsquo;t allow access to internal mutable objects at all.</li>
+<li><strong>Seventh Rule:</strong> Events can only be used if there is always a way to fix
+an invalid object. If there is no way to fix an invalid object, use
+defensive copies.</li>
+<li><strong>Eighth Rule:</strong> If your mutable objects are accessed by multiple threads
+(mutable shared state). You also must add synchronization primitives
+to avoid race conditions that can bring an object into an invalid
+state.</li>
+<li><strong>Bonus Rule:</strong> Just because every method of an object has synchronization
+primitives doesn&rsquo;t mean it is thread-safe. Because of this, you probably
+want to ignore Rule Eighth.</li>
+</ol>
+<p>In fact, even now I&rsquo;m not sure if I really covered everything! Besides
+the amount of rules you should follow to ensure an object is always valid,
+the problem is that nearly every rule either has an exception or special
+requirements when you should/can use them.</p>
+<p>This overall makes mutability pretty hard. Now that we covered the mutability
+part lets see how immutability helps us.</p>
+<h2 id="designing-with-immutability">Designing with Immutability</h2>
+<p>Our MinMax class can be easily represented by a record in F#. Records in F#
+are immutable by default and can group data together like classes do.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">MinMax</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Minimum</span><span class="o">:</span> <span class="n">int</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Maximum</span><span class="o">:</span> <span class="n">int</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Current</span><span class="o">:</span> <span class="n">int</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The problem is that up to this point we have no validation and can create a lot
+of invalid objects like:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">a</span> <span class="o">=</span> <span class="o">{</span><span class="n">Minimum</span><span class="o">=</span><span class="n">0</span><span class="o">;</span> <span class="n">Maximum</span><span class="o">=</span><span class="n">100</span><span class="o">;</span> <span class="n">Current</span><span class="o">=</span><span class="n">1000</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="o">{</span><span class="n">Minimum</span><span class="o">=</span><span class="n">100</span><span class="o">;</span> <span class="n">Maximum</span><span class="o">=</span><span class="n">0</span><span class="o">;</span> <span class="n">Current</span><span class="o">=-</span><span class="n">1000</span><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We solve that problem by creating a module and make the record constructor private.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">MinMax</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">T</span> <span class="o">=</span> <span class="k">private</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Minimum</span><span class="o">:</span> <span class="n">int</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Maximum</span><span class="o">:</span> <span class="n">int</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Current</span><span class="o">:</span> <span class="n">int</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we cannot create a <code>MinMax</code> object outside of the <code>MinMax</code> module. So we need at
+least one constructor. Because we want to eliminate the ability to create invalid
+<code>MinMax</code> objects we also add any validation we want to this constructor. Our
+final constructor <code>create</code> looks like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">create</span> <span class="n">min</span> <span class="n">max</span> <span class="n">cur</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">create</span> <span class="n">min</span> <span class="n">max</span> <span class="n">cur</span> <span class="o">=</span> <span class="o">{</span><span class="n">Minimum</span><span class="o">=</span><span class="n">min</span><span class="o">;</span> <span class="n">Maximum</span><span class="o">=</span><span class="n">max</span><span class="o">;</span> <span class="n">Current</span><span class="o">=</span><span class="n">cur</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span>   <span class="n">min</span> <span class="o">&gt;</span> <span class="n">max</span> <span class="k">then</span> <span class="n">failwith</span> <span class="s">&#34;Minimum greater than Maximum&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">cur</span> <span class="o">&gt;</span> <span class="n">max</span> <span class="k">then</span> <span class="n">create</span> <span class="n">min</span> <span class="n">max</span> <span class="n">max</span>
+</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">cur</span> <span class="o">&lt;</span> <span class="n">min</span> <span class="k">then</span> <span class="n">create</span> <span class="n">min</span> <span class="n">max</span> <span class="n">min</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="n">create</span> <span class="n">min</span> <span class="n">max</span> <span class="n">cur</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>I also create a small <code>show</code> function that can display the content of a <code>MinMax</code> object.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">show</span> <span class="n">mm</span> <span class="o">=</span> <span class="n">sprintf</span> <span class="s">&#34;%d range %d/%d&#34;</span> <span class="n">mm</span><span class="o">.</span><span class="n">Current</span> <span class="n">mm</span><span class="o">.</span><span class="n">Minimum</span> <span class="n">mm</span><span class="o">.</span><span class="n">Maximum</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Outside of the <code>MinMax</code> module the only way to create a new <code>MinMax</code> object is
+by using the <code>MinMax.create</code> constructor. As an example the previously invalid
+state cannot be created anymore.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">MinMax</span><span class="p">.</span><span class="n">show</span> <span class="o">(</span><span class="nn">MinMax</span><span class="p">.</span><span class="n">create</span> <span class="n">0</span> <span class="n">100</span> <span class="n">1000</span><span class="o">)</span> <span class="c1">// 100 range 0/100
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">MinMax</span><span class="p">.</span><span class="n">create</span> <span class="n">100</span> <span class="n">0</span> <span class="o">-</span><span class="n">1000</span>              <span class="c1">// Exception: Minimum greater than Maximum
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Inside the module it is a little bit different. Every function still has access
+to the record constructor, so there is a possibility of creating an invalid object.
+This leads to the <strong>only</strong> rule you will ever need with immutability!</p>
+<blockquote>
+<p>Golden Rule: Create a constructor function with the name <code>create</code> that contains
+all rules and validation logic. Only use this function to create new
+objects from now on.</p>
+</blockquote>
+<p>Here are the <code>add</code> and <code>subtract</code> functions:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span> <span class="n">x</span> <span class="n">mm</span>      <span class="o">=</span> <span class="n">create</span> <span class="n">mm</span><span class="o">.</span><span class="n">Minimum</span> <span class="n">mm</span><span class="o">.</span><span class="n">Maximum</span> <span class="o">(</span><span class="n">mm</span><span class="o">.</span><span class="n">Current</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">subtract</span> <span class="n">x</span> <span class="n">mm</span> <span class="o">=</span> <span class="n">create</span> <span class="n">mm</span><span class="o">.</span><span class="n">Minimum</span> <span class="n">mm</span><span class="o">.</span><span class="n">Maximum</span> <span class="o">(</span><span class="n">mm</span><span class="o">.</span><span class="n">Current</span> <span class="o">-</span> <span class="n">x</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Consider that these functions don&rsquo;t contain any validation logic and
+still work as intended. With mutability we had rules if we
+need to validate or mutate first. Because we cannot mutate in the first
+place we must create a new object and we do that by using the <code>create</code>
+function that contains all validation logic. We also can say, we are
+falling into the pit of success.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">MinMax</span><span class="p">.</span><span class="n">create</span> <span class="n">0</span> <span class="n">100</span> <span class="n">50</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">MinMax</span><span class="p">.</span><span class="n">add</span> <span class="n">200</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">MinMax</span><span class="p">.</span><span class="n">show</span> <span class="c1">// 100 range 0/100
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nn">MinMax</span><span class="p">.</span><span class="n">create</span> <span class="n">0</span> <span class="n">100</span> <span class="n">50</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">MinMax</span><span class="p">.</span><span class="n">subtract</span> <span class="n">200</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">MinMax</span><span class="p">.</span><span class="n">show</span> <span class="c1">// 0 range 0/100
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Because functions return a new <code>MinMax</code> object we often end up with a fluid-interface.
+The only thing you have to consider is that the <code>MinMax</code> object should be
+the last argument of a function.</p>
+<p>Next look at <code>setMinimum</code> and <code>setMaximum</code>. In our mutation version it throws
+an exception, but it could leave an object in an invalid state if we first
+mutated an object. Needless to say that we never get this problem with
+immutability.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">setMaximum</span> <span class="n">max</span> <span class="n">mm</span> <span class="o">=</span> <span class="n">create</span> <span class="n">mm</span><span class="o">.</span><span class="n">Minimum</span> <span class="n">max</span> <span class="n">mm</span><span class="o">.</span><span class="n">Current</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">setMinimum</span> <span class="n">min</span> <span class="n">mm</span> <span class="o">=</span> <span class="n">create</span> <span class="n">min</span> <span class="n">mm</span><span class="o">.</span><span class="n">Maximum</span> <span class="n">mm</span><span class="o">.</span><span class="n">Current</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As you can see, everything always stays valid:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">v</span> <span class="o">=</span> <span class="nn">MinMax</span><span class="p">.</span><span class="n">create</span> <span class="n">0</span> <span class="n">100</span> <span class="n">80</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">try</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="nn">MinMax</span><span class="p">.</span><span class="n">setMaximum</span> <span class="o">-</span><span class="n">100</span> <span class="n">v</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printfn</span> <span class="s">&#34;%s&#34;</span> <span class="o">(</span><span class="nn">MinMax</span><span class="p">.</span><span class="n">show</span> <span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="bp">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nn">MinMax</span><span class="p">.</span><span class="n">show</span> <span class="n">v</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 80 range 0/100
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>This should be obvious as <code>MinMax.setMaximum</code> returns a new object and don&rsquo;t
+mutate an object. <code>v</code> never can become invalid.</p>
+<p>You can choose if you want to <em>fix</em> or throw an error exactly like we did
+with the mutable version. But there are no special rules you must consider
+how something can become invalid. Nevertheless it still might be a good idea
+to avoid <em>fixing</em>.</p>
+<div class="info">
+I only use exceptions to throw errors. In functional language this is usually
+not considered good. Instead of throwing an exception I also could return an
+<strong>Option</strong> or a <strong>Result-type</strong>. Functional error
+handling is yet another topic on its own. But for this topic, none of those
+matter as long the validation stays inside the constructor.
+</div>
+<p>Up to this point I already covered the whole <code>MinMax</code> example, and covered
+everything up to the Fifth Rule in our mutation based code. Here is the full
+code for our <code>MinMax</code> module.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">MinMax</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">T</span> <span class="o">=</span> <span class="k">private</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Minimum</span><span class="o">:</span> <span class="n">int</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Maximum</span><span class="o">:</span> <span class="n">int</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Current</span><span class="o">:</span> <span class="n">int</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">minimum</span> <span class="n">mm</span> <span class="o">=</span> <span class="n">mm</span><span class="o">.</span><span class="n">Minimum</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">maximum</span> <span class="n">mm</span> <span class="o">=</span> <span class="n">mm</span><span class="o">.</span><span class="n">Maximum</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">current</span> <span class="n">mm</span> <span class="o">=</span> <span class="n">mm</span><span class="o">.</span><span class="n">Current</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">create</span> <span class="n">min</span> <span class="n">max</span> <span class="n">cur</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="nv">create</span> <span class="n">min</span> <span class="n">max</span> <span class="n">cur</span> <span class="o">=</span> <span class="o">{</span><span class="n">Minimum</span><span class="o">=</span><span class="n">min</span><span class="o">;</span> <span class="n">Maximum</span><span class="o">=</span><span class="n">max</span><span class="o">;</span> <span class="n">Current</span><span class="o">=</span><span class="n">cur</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span>   <span class="n">min</span> <span class="o">&gt;</span> <span class="n">max</span> <span class="k">then</span> <span class="n">failwith</span> <span class="s">&#34;Minimum greater than Maximum&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">cur</span> <span class="o">&gt;</span> <span class="n">max</span> <span class="k">then</span> <span class="n">create</span> <span class="n">min</span> <span class="n">max</span> <span class="n">max</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">cur</span> <span class="o">&lt;</span> <span class="n">min</span> <span class="k">then</span> <span class="n">create</span> <span class="n">min</span> <span class="n">max</span> <span class="n">min</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="n">create</span> <span class="n">min</span> <span class="n">max</span> <span class="n">cur</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">show</span> <span class="n">mm</span> <span class="o">=</span> <span class="n">sprintf</span> <span class="s">&#34;%d range %d/%d&#34;</span> <span class="n">mm</span><span class="o">.</span><span class="n">Current</span> <span class="n">mm</span><span class="o">.</span><span class="n">Minimum</span> <span class="n">mm</span><span class="o">.</span><span class="n">Maximum</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">add</span> <span class="n">x</span> <span class="n">mm</span>      <span class="o">=</span> <span class="n">create</span> <span class="n">mm</span><span class="o">.</span><span class="n">Minimum</span> <span class="n">mm</span><span class="o">.</span><span class="n">Maximum</span> <span class="o">(</span><span class="n">mm</span><span class="o">.</span><span class="n">Current</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">subtract</span> <span class="n">x</span> <span class="n">mm</span> <span class="o">=</span> <span class="n">create</span> <span class="n">mm</span><span class="o">.</span><span class="n">Minimum</span> <span class="n">mm</span><span class="o">.</span><span class="n">Maximum</span> <span class="o">(</span><span class="n">mm</span><span class="o">.</span><span class="n">Current</span> <span class="o">-</span> <span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">setMaximum</span> <span class="n">max</span> <span class="n">mm</span> <span class="o">=</span> <span class="n">create</span> <span class="n">mm</span><span class="o">.</span><span class="n">Minimum</span> <span class="n">max</span> <span class="n">mm</span><span class="o">.</span><span class="n">Current</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">setMinimum</span> <span class="n">min</span> <span class="n">mm</span> <span class="o">=</span> <span class="n">create</span> <span class="n">min</span> <span class="n">mm</span><span class="o">.</span><span class="n">Maximum</span> <span class="n">mm</span><span class="o">.</span><span class="n">Current</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In the mutation based code I introduced the <code>ProductsPriceOver</code> example
+and we discussed what happens if mutable objects are either passed
+or returned from an object.</p>
+<p>We had two solution for this problem. We either fired events as soon
+something was changed or we created defensive copies. Using events
+doesn&rsquo;t make any sense with immutable objects. As they cannot change those
+events will never be fired.</p>
+<p>And as discussed previously the idea of creating defensive copies is very
+similar to immutability. In fact it created another problem that if we mutated
+a product it didn&rsquo;t affected the same product in a <code>ProductsPriceOver</code> object.
+So lets address this problem.</p>
+<p>First, we create an immutable <code>Product</code>. It contains no validation and I also
+could just used the Record definition (3 lines of code). But I anyway decided
+to create another module with functions so you could get an idea how to convert
+a similar mutable <code>Product</code> class to an immutable <code>Product</code> module.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">Product</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">T</span> <span class="o">=</span> <span class="k">private</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Name</span><span class="o">:</span>  <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Price</span><span class="o">:</span> <span class="kt">decimal</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Constructor
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">let</span> <span class="nv">create</span> <span class="n">name</span> <span class="n">price</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span><span class="n">Name</span><span class="o">=</span><span class="n">name</span><span class="o">;</span> <span class="n">Price</span><span class="o">=</span><span class="n">price</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Getters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">let</span> <span class="nv">name</span> <span class="n">mm</span>  <span class="o">=</span> <span class="n">mm</span><span class="o">.</span><span class="n">Name</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">price</span> <span class="n">mm</span> <span class="o">=</span> <span class="n">mm</span><span class="o">.</span><span class="n">Price</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Setter
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">let</span> <span class="nv">setName</span> <span class="n">name</span> <span class="n">mm</span>   <span class="o">=</span> <span class="n">create</span> <span class="n">name</span> <span class="n">mm</span><span class="o">.</span><span class="n">Price</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">setPrice</span> <span class="n">price</span> <span class="n">mm</span> <span class="o">=</span> <span class="n">create</span> <span class="n">mm</span><span class="o">.</span><span class="n">Name</span> <span class="n">price</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// other functions
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">let</span> <span class="nv">toString</span> <span class="n">p</span> <span class="o">=</span> <span class="n">sprintf</span> <span class="s">&#34;%s -- %.2f&#34;</span> <span class="n">p</span><span class="o">.</span><span class="n">Name</span> <span class="n">p</span><span class="o">.</span><span class="n">Price</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Second, we create our <code>ProductsPriceOver</code> type. This time I just show
+the whole code.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">ProductsPriceOver</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">T</span> <span class="o">=</span> <span class="k">private</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Price</span><span class="o">:</span>    <span class="kt">decimal</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Products</span><span class="o">:</span> <span class="nn">Product</span><span class="p">.</span><span class="n">T</span> <span class="kt">list</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Constructor
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">let</span> <span class="nv">priceOver</span> <span class="n">x</span> <span class="n">product</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="nn">Product</span><span class="p">.</span><span class="n">price</span> <span class="n">product</span><span class="o">)</span> <span class="o">&gt;</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">create</span> <span class="n">price</span> <span class="n">products</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="nv">products</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="n">priceOver</span> <span class="n">price</span><span class="o">)</span> <span class="n">products</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span><span class="n">Price</span><span class="o">=</span><span class="n">price</span><span class="o">;</span> <span class="n">Products</span><span class="o">=</span><span class="n">products</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Getter
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">let</span> <span class="nv">price</span> <span class="n">ppo</span>    <span class="o">=</span> <span class="n">ppo</span><span class="o">.</span><span class="n">Price</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">products</span> <span class="n">ppo</span> <span class="o">=</span> <span class="n">ppo</span><span class="o">.</span><span class="n">Products</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Setter
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">let</span> <span class="nv">setPrice</span> <span class="n">price</span> <span class="n">ppo</span>       <span class="o">=</span> <span class="n">create</span> <span class="n">price</span> <span class="n">ppo</span><span class="o">.</span><span class="n">Products</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">setProducts</span> <span class="n">products</span> <span class="n">ppo</span> <span class="o">=</span> <span class="n">create</span> <span class="n">ppo</span><span class="o">.</span><span class="n">Price</span> <span class="n">products</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Other Functions
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">let</span> <span class="nv">toString</span> <span class="n">ppo</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sprintf</span> <span class="s">&#34;%A&#34;</span> <span class="o">(</span><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="nn">Product</span><span class="p">.</span><span class="n">toString</span> <span class="n">ppo</span><span class="o">.</span><span class="n">Products</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">add</span> <span class="n">product</span> <span class="n">ppo</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="n">create</span> <span class="n">ppo</span><span class="o">.</span><span class="n">Price</span> <span class="o">(</span><span class="n">product</span> <span class="o">::</span> <span class="n">ppo</span><span class="o">.</span><span class="n">Products</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">update</span> <span class="n">product</span> <span class="n">ppo</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="nv">mapper</span> <span class="n">old</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span>   <span class="o">(</span><span class="nn">Product</span><span class="p">.</span><span class="n">name</span> <span class="n">old</span><span class="o">)</span> <span class="o">=</span> <span class="o">(</span><span class="nn">Product</span><span class="p">.</span><span class="n">name</span> <span class="n">product</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">then</span> <span class="n">product</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span> <span class="n">old</span>
+</span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="nv">updatedList</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">mapper</span> <span class="n">ppo</span><span class="o">.</span><span class="n">Products</span>
+</span></span><span class="line"><span class="cl">        <span class="n">create</span> <span class="n">ppo</span><span class="o">.</span><span class="n">Price</span> <span class="n">updatedList</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Here is a short summary of the stuff you already should now.</p>
+<p>Instead of a class we create a module. We put all private mutable fields
+inside an immutable record. We make this record private. A constructor
+function that we name <code>create</code> has the purpose of creating a new object and
+contains all validation. In this case it filters the list and ensures that only
+products over a specified price will be saved in our object. The Getter and
+Setter part are identical to what you know from OO. Because the record is private
+we need getters so we can access the <code>Price</code> and <code>Products</code> outside of the module.
+The setter just sets the value of <code>Price</code> or <code>Products</code> to a new value. But it does
+it by creating new objects instead of mutating. The <code>toString</code> and <code>add</code>
+functions are normal functions like <code>MinMax.show</code>, <code>MinMax.add</code> or
+<code>MinMax.subtract</code> with more logic.</p>
+<p>For a moment lets forget about the <code>update</code> function. Lets see what we can
+do with our <code>ProductsPriceOver</code> module so far:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// returns a list of product names from a ProductsPriceOver object
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">getProductNames</span> <span class="n">ppo</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="nn">Product</span><span class="p">.</span><span class="n">name</span> <span class="o">(</span><span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">products</span> <span class="n">ppo</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Our Products
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">a</span> <span class="o">=</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="s">&#34;A&#34;</span> <span class="n">9</span><span class="o">.</span><span class="n">99m</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="s">&#34;B&#34;</span> <span class="n">19</span><span class="o">.</span><span class="n">99m</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">c</span> <span class="o">=</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="s">&#34;C&#34;</span> <span class="n">49</span><span class="o">.</span><span class="n">99m</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Initializing and adding our products
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">ppo</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">create</span> <span class="n">10</span><span class="o">.</span><span class="n">00m</span> <span class="bp">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">add</span> <span class="n">a</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">add</span> <span class="n">b</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">add</span> <span class="n">c</span>
+</span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%A&#34;</span> <span class="o">(</span><span class="n">getProductNames</span> <span class="n">ppo</span><span class="o">)</span> <span class="c1">// [&#34;C&#34;; &#34;B&#34;]
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Correct: only contains B and C as price of A is below 10.00
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Replace the whole products
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">ppo2</span> <span class="o">=</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">setProducts</span> <span class="o">[</span><span class="n">a</span><span class="o">;</span><span class="n">c</span><span class="o">]</span> <span class="n">ppo</span>
+</span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%A&#34;</span> <span class="o">(</span><span class="n">getProductNames</span> <span class="n">ppo2</span><span class="o">)</span> <span class="c1">// [&#34;C&#34;]
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Correct: only contains C as price of A is below 10.00
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Increase minimum price
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">ppo3</span> <span class="o">=</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">setPrice</span> <span class="n">20</span><span class="o">.</span><span class="n">00m</span> <span class="n">ppo</span>
+</span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%A&#34;</span> <span class="o">(</span><span class="n">getProductNames</span> <span class="n">ppo3</span><span class="o">)</span> <span class="c1">// [&#34;C&#34;]
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Correct: Contained B and C before. B was removed after
+</span></span></span><span class="line"><span class="cl"><span class="c1">//          increasing the needed price a product must have.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Decrease Price and then reset all products
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">ppo4</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ppo</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">setPrice</span> <span class="n">5</span><span class="o">.</span><span class="n">00m</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">setProducts</span> <span class="o">[</span><span class="n">a</span><span class="o">;</span><span class="n">b</span><span class="o">;</span><span class="n">c</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%A&#34;</span> <span class="o">(</span><span class="n">getProductNames</span> <span class="n">ppo4</span><span class="o">)</span> <span class="c1">// [&#34;A&#34;; &#34;B&#34;; &#34;C&#34;]
+</span></span></span><span class="line"><span class="cl"><span class="c1">// Correct: Should be obvious.
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Again, we can see how we got a fluid-syntax or in general an data-flow API
+very easily. Amazing is that none of our functions from <code>add</code>, <code>setProducts</code>
+or <code>setPrice</code> contains any validation logic and we still always get valid objects.</p>
+<p>The final part is the problem we already saw with <em>defensive copies</em>. If we
+change the price of any product, it doesn&rsquo;t effect any <code>ProductsPriceOver</code>
+object.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// Set Price of A to &#34;1.00&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">newA</span> <span class="o">=</span> <span class="nn">Product</span><span class="p">.</span><span class="n">setPrice</span> <span class="n">1</span><span class="o">.</span><span class="n">00m</span> <span class="n">a</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// A in ppo4 is still 9.99
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">printfn</span> <span class="s">&#34;%s&#34;</span> <span class="o">(</span><span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">toString</span> <span class="n">ppo4</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// [&#34;A -- 9.99&#34;; &#34;B -- 19.99&#34;; &#34;C -- 49.99&#34;]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>This should be obvious and is the reason why we need an <code>update</code> function.
+When we update the price of a product, we need to create a new <code>ProductsPriceOver</code>
+object and we pass it the Product that changed. We could pass <code>newA</code>
+that we created and pass it to the <code>update</code> function. But actually, there
+is no reason to create <code>newA</code> separately. We also could write:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">p1</span> <span class="o">=</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">update</span> <span class="o">(</span><span class="nn">Product</span><span class="p">.</span><span class="n">setPrice</span> <span class="n">8</span><span class="o">.</span><span class="n">0m</span> <span class="n">a</span><span class="o">)</span> <span class="n">ppo4</span>
+</span></span><span class="line"><span class="cl"><span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">toString</span> <span class="n">p1</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// [&#34;A -- 8.00&#34;; &#34;B -- 19.99&#34;; &#34;C -- 49.99&#34;]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">p2</span> <span class="o">=</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">update</span> <span class="o">(</span><span class="nn">Product</span><span class="p">.</span><span class="n">setPrice</span> <span class="n">1</span><span class="o">.</span><span class="n">0m</span> <span class="n">a</span><span class="o">)</span> <span class="n">ppo4</span>
+</span></span><span class="line"><span class="cl"><span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">toString</span> <span class="n">p2</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// [&#34;B -- 19.99&#34;; &#34;C -- 49.99&#34;]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Instead of creating a new object, and then pass it to update, we just
+inline the whole function call. <a href="https://davidraab.github.io/posts/function-application-and-composition/">In general immutability changes the way how
+we write code either into a more sequential-style or a nested-style</a></p>
+<p>If you follow this idea further there are probably even more changes you want
+to do, but all of those are outside the scope of this article. The important
+aspect is if our objects stay valid.</p>
+<p>We must create an <code>update</code> function that is not needed in an mutable version.
+But even that can be considered as good. We didn&rsquo;t need to create an <code>update</code>
+function with a mutable version because mutable Products already had this
+feature. In fact the problem is more that you can forget this feature, and this
+is the reason why an <code>ProductsPriceOver</code> in the mutable version can become
+invalid, because you can forget a feature that msomehow must be handled.</p>
+<p>The rules to create either events or defensive copies forces you to think about
+this cases so you hopefully don&rsquo;t forget them. With immutability you cannot forget
+anything that later on can invalidate anything. Your code only has those
+features you also implemented!</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Working with immutability sure is different. I guess some people will also claim
+that updating with immutability is harder. With mutability you just need to
+change the Product and that&rsquo;s it.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="n">a</span><span class="p">.</span><span class="n">Price</span> <span class="p">=</span> <span class="m">5.0</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The problem is that those things often miss the bigger picture. As just mutating
+the price can cause problems in other code like we have seen previously. If we
+start adding <code>copy</code> functions for defensive copying or need to add event handling
+then this is not really simpler compared to immutability.</p>
+<p>It is sure possible that you can create mutable objects that are always valid,
+but doing so is a lot harder. Even now I&rsquo;m still not 100% sure if I covered
+ll possibilities how mutation can somehow lead to an invalid object.</p>
+<p>There are more reasons for immutability, advantages and techniques we didn&rsquo;t
+looked at. But there are also reasons against immutability. But in this article we
+only looked at mutability vs. immutability in the context of maintaining
+valid objects.</p>
+<p>In my opinion, most of the time, this is the most important aspect we usually
+care for. As a general thumb of rule I would claim that by default everything
+should be immutable. Until of course there are other reasons why this
+shouldn&rsquo;t be the case. What this other reasons could be are topics for other
+articles.</p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
