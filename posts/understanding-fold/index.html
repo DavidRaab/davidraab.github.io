@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Understanding Fold // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="David Raab" />
+    <meta name="description" content="A journey with pictures to understand List.fold and List.foldBack" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.c66c9f869df391145846a3267f7873e14c03e1e359c1f6e806800232b0145246.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Understanding Fold"/>
+<meta name="twitter:description" content="A journey with pictures to understand List.fold and List.foldBack"/>
+
+    <meta property="og:title" content="Understanding Fold" />
+<meta property="og:description" content="A journey with pictures to understand List.fold and List.foldBack" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/understanding-fold/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-03-19T00:00:00+00:00" />
+<meta property="article:modified_time" content="2017-03-19T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>My personal Blog. Writing about programming and other stuff.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+          <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Understanding Fold</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Mar 19, 2017
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          11 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/list/">list</a>
+              <a class="tag" href="https://davidraab.github.io/tags/fold/">fold</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>A very important function in List-processing is the <code>List.fold</code> function.
+<code>List.fold</code> is a very powerful function that gives you a lot of flexibility
+to do any kind of list transformation. The disadvantage is that this kind of
+power makes understanding <code>List.fold</code> a lot harder. In this article we
+look at some visualizations to better understand <code>List.fold</code>.</p>
+<p>First we need to understand how we visualize a function. A function has some
+inputs and one output and we visualize it as a box with the inputs on
+the top and the output on the bottom. As an example this function and
+functions call:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">times2</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">times2</span>  <span class="n">5</span> <span class="c1">// 10
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">times2</span>  <span class="n">7</span> <span class="c1">// 14
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">times2</span> <span class="n">10</span> <span class="c1">// 20
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Will be visualized like this:</p>
+<div class="svg-code" style="width:50%; margin: 30px auto">
+<img src="images/01-times2.svg" alt="The times2 functions as boxes" />
+</div>
+<p>We visualze a list like <code>[1;2;3;4;5]</code> like that:</p>
+<div class="svg-code" style="width:80%; margin: 30px auto">
+<img src="images/02-list.svg" alt="A list containing elements 1 to 5" />
+</div>
+<p>We don&rsquo;t directly jump to <code>List.fold</code>, instead we work towards <code>List.fold</code> by
+first looking at <code>List.map</code> and then <code>List.reduce</code>.</p>
+<h2 id="listmap">List.map</h2>
+<p>We could visualize a call like <code>List.map times2 [1;2;3;4;5]</code> with the technique
+we have seen so far. Draw a box with two inputs and a list as output. But we
+are not interested in visualizing the <code>List.map</code> call itself, we want to
+visualize how <code>List.map</code> internally works.</p>
+<p>We can think of <code>List.map</code> as a function that applies its first argument, a function,
+to every element of the list passed as the second argument.</p>
+<div class="svg-code" style="width:75%; margin: 30px auto">
+<img src="images/03-map.svg" alt="Visualization for List.map example" />
+</div>
+<p><code>List.map</code> is a very useful function as executing a function for every element is
+often needed in programming. On the other hand it is the exact opposite
+of powerful, it is a very specific function that only can manipulate one element
+of a list at a time. For example we cannot add all values of a list together, filter a
+list and do other kind of things with a list.</p>
+<h2 id="listreduce">List.reduce</h2>
+<p>To understand <code>List.reduce</code> I use an example that is often used by others.
+First let me say that I don&rsquo;t think this is the best way to explain <code>List.reduce</code>
+but it is still a good start.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">reduce</span> <span class="o">(+)</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">]</span> <span class="c1">// 15
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>The result of the above statement is <code>15</code>. You can imagine that <code>List.reduce</code>
+just puts the <code>+</code> between every element in the list:</p>
+<pre><code>1 + 2 + 3 + 4 + 5
+</code></pre>
+<p>It isn&rsquo;t the best explanation because as it doesn&rsquo;t explain what this means:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">reduce</span> <span class="n">someFunc</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Putting <code>someFunc</code> between every element doesn&rsquo;t seem to make any sense!</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// What does that mean?
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">1</span> <span class="n">someFunc</span> <span class="n">2</span> <span class="n">someFunc</span> <span class="n">3</span> <span class="n">someFunc</span> <span class="n">4</span> <span class="n">someFunc</span> <span class="n">5</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But we ignore this for a moment.</p>
+<p>First, we need to understand that <code>+</code> is also just a function. For example
+we could visualize <code>7 + 9</code> like this:</p>
+<div class="svg-code" style="width:25%; margin: 30px auto">
+<img src="images/04-plus.svg" alt="Visualization of: 7 + 9" />
+</div>
+<p>Second, if we calculate <code>1 + 2 + 3 + 4 + 5</code> in our head then we don&rsquo;t do
+it in one big step. We actually do a lot of steps and create a lot of
+intermediate results.</p>
+<p>We first calculate <code>1 + 2</code> and keep <code>3</code> in our head. Then we calculate
+<code>3 + 3</code> and keep <code>6</code> in our head. Then we calculate <code>6 + 4</code> and finally
+we do <code>10 + 5</code> in our head. If we add parenthesis around every step we
+do something like this in our head:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">((((</span><span class="n">1</span> <span class="o">+</span> <span class="n">2</span><span class="o">)</span> <span class="o">+</span> <span class="n">3</span><span class="o">)</span> <span class="o">+</span> <span class="n">4</span><span class="o">)</span> <span class="o">+</span> <span class="n">5</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This idea of doing multiple calculations and remembering an intermediate
+value after each step is exactly how <code>List.reduce</code> works.</p>
+<div class="svg-code" style="width:80%; margin: 30px auto">
+<img src="images/05-reduce.svg" alt="Visualization of reduce" />
+</div>
+<p>This visualization also explains how <code>List.reduce</code> works if we pass it other
+functions instead of operators like <code>+</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">reduce</span> <span class="n">max</span> <span class="o">[</span><span class="n">4</span><span class="o">;</span><span class="n">12</span><span class="o">;</span><span class="n">18</span><span class="o">;</span><span class="n">7</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="c1">// 18
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="svg-code" style="width:80%; margin: 30px auto">
+<img src="images/06-max.svg" alt="Visualization of reduce with max" />
+</div>
+<p>We also can write it with parenthesis:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="n">max</span> <span class="o">(</span><span class="n">max</span> <span class="o">(</span><span class="n">max</span> <span class="o">(</span><span class="n">max</span> <span class="n">4</span> <span class="n">12</span><span class="o">)</span> <span class="n">18</span><span class="o">)</span> <span class="n">7</span><span class="o">)</span> <span class="n">3</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This is how <code>List.reduce</code> works, but also <code>List.reduce</code> has some limitations.</p>
+<p>First, what should <code>List.reduce</code> do if you only pass a list with one or zero
+elements? In the case of one argument it just returns this one element without
+that functions like <code>+</code> or <code>max</code> is executed once. In the case of zero arguments
+it throws an exception.</p>
+<p>A second limitation is that we are still limited in which kind of list
+transformations we can create. This becomes more obvious if we look at the
+types of the function that we must pass to <code>List.reduce</code>. We must pass
+a function where all input and output types are the same and must be of
+the type that the list contains.</p>
+<p>This becomes obvious if we look at how <code>List.reduce (+) [1;2;3;4;5]</code> works. The
+first calculation it does is <code>1 + 2</code>. So it passes <code>1</code> as the first argument
+and <code>2</code> as the second argument to <code>+</code>. As both values come from the same list
+and all values in a list must be of the same type it means both input values
+must be the exact same type of the list.</p>
+<p>As the result of <code>1 + 2</code> is again passed as the first argument to the next
+<code>+</code> call it also means the output of a function must be the same as its
+input type.</p>
+<p>This means when we pass a list of <code>int</code> to <code>List.reduce</code> then we must pass a
+<code>int -&gt; int -&gt; int</code> function to <code>List.reduce</code> and overall it also returns
+an <code>int</code> as the final value. More general, we need a function of type:</p>
+<pre><code>a -&gt; a -&gt; a
+</code></pre>
+<p>Another way to describe how <code>List.reduce</code> works is to say it combines the first
+two values of a list into a new single value and repeats doing this step until
+we end up with a single value that is then returned.</p>
+<div class="svg-code" style="width:75%; margin: 30px auto">
+<img src="images/07-reduce2.svg" alt="Another visualization of reduce" />
+</div>
+<p>The first visualization we have seen is more accurate, but also this
+kind of idea leads you to the correct result of any <code>List.reduce</code> call.</p>
+<h2 id="listfold">List.fold</h2>
+<p>Finally we are at <code>List.fold</code>. The way how <code>List.fold</code> works is pretty much
+the exact same as <code>List.reduce</code>! The only difference is that we pass an
+initial starting value. Doesn&rsquo;t seems like a big deal but this initial
+value fixes all limitations of <code>List.reduce</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(+)</span> <span class="n">0</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">]</span> <span class="c1">// 15
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>The <code>List.fold</code> call above internally does something like this:</p>
+<div class="svg-code" style="width:80%; margin: 30px auto">
+<img src="images/08-fold.svg" alt="Visualization of fold" />
+</div>
+<p>Overall <code>List.fold</code> does one additional calculation compared to <code>List.reduce</code>
+because we pass it an initial value. But because of this it also always can
+return a value even if we pass it an empty list. This way it doesn&rsquo;t need
+to throw an exception.</p>
+<p>The biggest advantage is that we can use different types. As the initial
+value is not part of the list it also can be another type.</p>
+<p>The initial value is passed as the first argument to the folder function,
+the folder function then returns a new intermediate result that is used
+for the next call. This tells us that the first argument and the return
+value must be of the same type.</p>
+<p>Only the second argument of the folder function must be the type thats inside
+of our list.</p>
+<div class="svg-code" style="width:50%; margin: 30px auto">
+<img src="images/09-fold-func.svg" alt="List.fold annotated" />
+</div>
+<p>Let&rsquo;s say we want to traverse a list and build a string where every number
+is just concatenated. Then we already know that the initial value must be
+a string. The initial value must be a starting value, so we use the empty
+string. Next we know that the the first argument of the folder function
+is the initial value or any intermediate string, the second argument is
+one element from the list, and we must return the next intermediate string
+(or final return value).</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="o">(</span><span class="kt">string</span> <span class="n">x</span><span class="o">))</span> <span class="s">&#34;&#34;</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">]</span> <span class="c1">// &#34;12345&#34;
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>The execution of the above function looks like this:</p>
+<div class="svg-code" style="width:100%; margin: 30px auto">
+<img src="images/10-fold-string.svg" alt="Building a string" />
+</div>
+<p>Instead of <strong>initial</strong> or <strong>intermediate</strong> value we use the term <strong>accumulator</strong>,
+hence the name <code>acc</code> in the anonymous function.</p>
+<p>Now i want you to look at the following code:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">mutable</span> <span class="n">acc</span> <span class="o">=</span> <span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">]</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="n">acc</span> <span class="o">&lt;-</span> <span class="n">acc</span> <span class="o">+</span> <span class="o">(</span><span class="kt">string</span> <span class="n">x</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Can you see the similarities with the <code>List.fold</code> function call?</p>
+<div class="svg-code" style="width:100%; margin: 30px auto">
+<img src="images/11-fold-vs-loop.svg" alt="Comparing fold with a loop" />
+</div>
+<p>In some way we can say that <code>List.fold</code> for immutable data-types is what a
+<strong>for-loop</strong> is for mutable data-types. <code>List.fold</code> is what you get if you try
+to eliminate all mutable variables and data-types. The whole purpose of looping
+is to mutate some state that is usually defined outside of the loop. In
+<code>List.fold</code> on the other hand the new state is always passed as an argument
+and we need to return the new state for the next function call.</p>
+<p>It becomes more obvious if we go through the states of <code>acc</code> in the loop based
+code. We start with the empty string <code>&quot;&quot;</code>. In the first loop iteration <code>x</code> is
+assigned <code>1</code> and we append this to <code>acc</code> and <code>acc</code> is set to <code>&quot;1&quot;</code>. The second
+loop iteration assigns <code>&quot;12&quot;</code> to <code>acc</code> and so on. These are exactly the states
+our <strong>folder</strong> function return in the <code>List.fold</code> example.</p>
+<p>You also can easily convert other loop code to a <code>List.fold</code>. As an example:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">mutable</span> <span class="n">amountOfEvenNumbers</span> <span class="o">=</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">mutable</span> <span class="n">sumOfEvenNumbers</span>    <span class="o">=</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="n">1</span> <span class="o">..</span> <span class="n">10</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">        <span class="n">amountOfEvenNumbers</span> <span class="o">&lt;-</span> <span class="n">amountOfEvenNumbers</span> <span class="o">+</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sumOfEvenNumbers</span>    <span class="o">&lt;-</span> <span class="n">sumOfEvenNumbers</span> <span class="o">+</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">amountOfEvenNumbers</span> <span class="c1">// 5
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">sumOfEvenNumbers</span>    <span class="c1">// 30
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Written as a fold:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">folder</span> <span class="o">(</span><span class="n">amount</span><span class="o">,</span><span class="n">sum</span><span class="o">)</span> <span class="n">x</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span>   <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">then</span> <span class="o">(</span><span class="n">amount</span><span class="o">+</span><span class="n">1</span><span class="o">,</span> <span class="n">sum</span><span class="o">+</span><span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="o">(</span><span class="n">amount</span><span class="o">,</span> <span class="n">sum</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="o">(</span><span class="n">amount</span><span class="o">,</span> <span class="n">sum</span><span class="o">)</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="n">folder</span> <span class="o">(</span><span class="n">0</span><span class="o">,</span><span class="n">0</span><span class="o">)</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">10</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">amount</span> <span class="c1">// 5
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">sum</span>    <span class="c1">// 30
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>It&rsquo;s a bit different. As a <code>List.fold</code> only supports one initial value
+we use a Tuple with two values. In the mutation based code we don&rsquo;t need an
+<em>else</em> branch as nothing happens with an odd number. In the <code>List.fold</code>
+example we must explicitly return the unchanged state.</p>
+<h2 id="listfoldback">List.foldBack</h2>
+<p>As <code>List.fold</code> is basically just a for-loop it should now become clear why it
+is so powerful, yet some task are harder as it seems. As an example we want
+to build our own <code>List.map</code> with the help of <code>List.fold</code>.</p>
+<p>As the return value is a list our initial value also must be a list and we
+start with the empty list as the initial value. Then we execute a user-defined function
+for every element and the result must be added to the empty list.</p>
+<p>We could write something like that:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">map</span><span class="k">&#39;</span> <span class="n">f</span> <span class="kt">list</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">folder</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="nv">newElement</span> <span class="o">=</span> <span class="n">f</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">        <span class="n">newElement</span> <span class="o">::</span> <span class="n">acc</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="n">folder</span> <span class="bp">[]</span> <span class="kt">list</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">map&#39;</span> <span class="n">times2</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">5</span><span class="o">]</span> <span class="c1">// [10; 8; 6; 4; 2]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>The problem is how we build the list. The cons operator <code>::</code> only can prepend
+an element to a list, not append. Because of this we get <code>[10;8;6;4;2]</code> instead
+of the expected <code>[2;4;6;8;10]</code>.</p>
+<p>It is possible to write an <code>append</code> function that appends a single element to
+a list. The general problem is that this is a very inefficient operation with
+an immutable list. Whenever you append an element a whole new list must be
+created and all elements must be copied.</p>
+<p>A better approach would be to traverse the list in reverse order. We start at
+the end (the right side) and prepend the result to an empty list. This is
+excactly how <code>List.foldBack</code> works.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">map</span><span class="k">&#39;&#39;</span> <span class="n">f</span> <span class="kt">list</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">folder</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="nv">newElement</span> <span class="o">=</span> <span class="n">f</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">        <span class="n">newElement</span> <span class="o">::</span> <span class="n">acc</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">List</span><span class="p">.</span><span class="n">foldBack</span> <span class="n">folder</span> <span class="kt">list</span> <span class="bp">[]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">map&#39;&#39;</span> <span class="n">times2</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">5</span><span class="o">]</span> <span class="c1">// [2;4;6;8;10]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="svg-code" style="width:80%; margin: 30px auto">
+<img src="images/12-foldback.svg" alt="FoldBack that shows the map implementation" />
+</div>
+<p>If you look at the visualization it also becomes clear why the order of the initial
+value is different. In <code>List.fold</code> you start from the left and the initial value
+is also places on the left-side from the list.</p>
+<p>In <code>List.foldBack</code> we start at the right and we also place the initial value at the
+right-side of the list. The <code>List.fold</code> and <code>List.foldBack</code> resembles that idea.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">fold</span>     <span class="n">folder</span> <span class="n">initialValue</span> <span class="kt">list</span>
+</span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">foldBack</span> <span class="n">folder</span> <span class="kt">list</span>         <span class="n">initialValue</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Also the folder function receives the accumulator as the second argument
+(right argument) in <code>List.foldback</code> while <code>List.fold</code> receives it as the first
+argument (left argument).</p>
+<h2 id="exercises">Exercises</h2>
+<p>If you truly want to understand those function you should do some exercises.
+As an exercise you should re-create the following List functions with either
+<code>List.fold</code> or <code>List.foldBack</code>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Function</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">length xs</td>
+<td style="text-align:left">Returns the amount of elements in a list</td>
+</tr>
+<tr>
+<td style="text-align:left">rev xs</td>
+<td style="text-align:left">Reverses a list</td>
+</tr>
+<tr>
+<td style="text-align:left">map f xs</td>
+<td style="text-align:left">Runs a function on every element of a list</td>
+</tr>
+<tr>
+<td style="text-align:left">filter predicate xs</td>
+<td style="text-align:left">Only keep those elements that predicate returns true for</td>
+</tr>
+<tr>
+<td style="text-align:left">forAll predicate xs</td>
+<td style="text-align:left">Returns true if all elements of the list return true for the predicate</td>
+</tr>
+</tbody>
+</table>
+<h2 id="summary">Summary</h2>
+<p>Other languages use different namens for these operations, but the logic
+stays the same.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left">List.fold</th>
+<th style="text-align:left">List.foldBack</th>
+<th style="text-align:left">List.reduce</th>
+<th style="text-align:left">Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>C# (LINQ)</strong></td>
+<td style="text-align:left">Aggregate</td>
+<td style="text-align:left">N/A</td>
+<td style="text-align:left">Aggregate</td>
+<td style="text-align:left">Aggregate accepts 2 or 3 arguments</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>JavaScript</strong></td>
+<td style="text-align:left">Array.reduce</td>
+<td style="text-align:left">Array.reduceRight</td>
+<td style="text-align:left">Array.reduce</td>
+<td style="text-align:left">Array.reduce accepts 2 or 3 arguments</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Elm</strong></td>
+<td style="text-align:left">foldl</td>
+<td style="text-align:left">foldr</td>
+<td style="text-align:left">N/A</td>
+<td style="text-align:left">None</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Haskell</strong></td>
+<td style="text-align:left">foldl</td>
+<td style="text-align:left">foldr</td>
+<td style="text-align:left">foldl1</td>
+<td style="text-align:left">None</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Clojure</strong></td>
+<td style="text-align:left">reduce</td>
+<td style="text-align:left">N/A</td>
+<td style="text-align:left">reduce</td>
+<td style="text-align:left">reduce accepts 2 or 3 arguments</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>List.fold</code> and <code>List.foldBack</code> functions are powerful function, but this
+doesn&rsquo;t mean they are &ldquo;good&rdquo;. In general you should avoid powerful language
+constructs. Functions like <code>map</code> or <code>filter</code> are overall less powerful but
+many times easier to understand. This is also the idea of
+<a href="https://davidraab.github.io/posts/structured-programming/">Structured Programming</a>.</p>
+<p>But avoiding doesn&rsquo;t mean: &ldquo;Never use it&rdquo;. If you need a special list manipulation
+and there doesn&rsquo;t exists a built-in function then use <code>List.fold</code> or <code>List.foldBack</code>
+and create the needed function on your own.</p>
+<p>Besides list manipulation (list as input and list as output), <code>List.fold</code> and
+<code>List.foldBack</code> are the best functions if you want to convert a list to any other
+non-list data-types.</p>
+<p>If you are interested in more code examples and you want to know how to implement
+<code>List.fold</code> and <code>List.foldBack</code> yourself you also can read
+<a href="https://davidraab.github.io/posts/loops-to-folds/">From mutable loops to immutable folds</a>.</p>
+<p>Nowadays <code>fold</code> and <code>foldBack</code> functions are not only implemented for the List
+data-type. The idea was generalized and is known as
+<a href="https://davidraab.github.io/posts/catamorphisms/">Catamorphisms</a>. You should
+know about <a href="https://davidraab.github.io/posts/algebraic-data-types/">Algebraic Data-Types</a>
+especially recursive data-types beforehand to understand them.</p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

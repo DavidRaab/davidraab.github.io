@@ -6,7 +6,29 @@
     <description>Recent content on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 27 Feb 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 19 Mar 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Understanding Fold</title>
+      <link>https://davidraab.github.io/posts/understanding-fold/</link>
+      <pubDate>Sun, 19 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/understanding-fold/</guid>
+      <description>A very important function in List-processing is the List.fold function. List.fold is a very powerful function that gives you a lot of flexibility to do any kind of list transformation. The disadvantage is that this kind of power makes understanding List.fold a lot harder. In this article we look at some visualizations to better understand List.fold.
+First we need to understand how we visualize a function. A function has some inputs and one output and we visualize it as a box with the inputs on the top and the output on the bottom.</description>
+    </item>
+    
+    <item>
+      <title>Variable Arguments in F#</title>
+      <link>https://davidraab.github.io/posts/variable-arguments-in-fsharp/</link>
+      <pubDate>Mon, 13 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/variable-arguments-in-fsharp/</guid>
+      <description>One question that appears in F# from time to time is: How do you create a function that expects a variable amount of arguments?
+A short answer is: You can&amp;rsquo;t do that.
+A longer and correct answer: You can do it with (static) methods. But you probably don&amp;rsquo;t want to use this and look for an alternative.
+First we should look at the difference between an F# function and a (static) method.</description>
+    </item>
+    
     <item>
       <title>Mutability vs. Immutability: Valid objects</title>
       <link>https://davidraab.github.io/posts/mutabaility-vs-immutability-validation/</link>

@@ -6,7 +6,17 @@
     <description>Recent content in list on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 28 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/list/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 19 Mar 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/list/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Understanding Fold</title>
+      <link>https://davidraab.github.io/posts/understanding-fold/</link>
+      <pubDate>Sun, 19 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/understanding-fold/</guid>
+      <description>A very important function in List-processing is the List.fold function. List.fold is a very powerful function that gives you a lot of flexibility to do any kind of list transformation. The disadvantage is that this kind of power makes understanding List.fold a lot harder. In this article we look at some visualizations to better understand List.fold.
+First we need to understand how we visualize a function. A function has some inputs and one output and we visualize it as a box with the inputs on the top and the output on the bottom.</description>
+    </item>
+    
     <item>
       <title>Catamorphisms</title>
       <link>https://davidraab.github.io/posts/catamorphisms/</link>

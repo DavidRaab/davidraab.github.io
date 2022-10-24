@@ -6,7 +6,34 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 27 Feb 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 19 Mar 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>fold</title>
+      <link>https://davidraab.github.io/tags/fold/</link>
+      <pubDate>Sun, 19 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/fold/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FSharp</title>
+      <link>https://davidraab.github.io/tags/fsharp/</link>
+      <pubDate>Sun, 19 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/fsharp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>list</title>
+      <link>https://davidraab.github.io/tags/list/</link>
+      <pubDate>Sun, 19 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/list/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>comparison</title>
       <link>https://davidraab.github.io/tags/comparison/</link>
@@ -22,15 +49,6 @@
       <pubDate>Mon, 27 Feb 2017 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/csharp/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>FSharp</title>
-      <link>https://davidraab.github.io/tags/fsharp/</link>
-      <pubDate>Mon, 27 Feb 2017 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/fsharp/</guid>
       <description></description>
     </item>
     
@@ -76,24 +94,6 @@
       <pubDate>Sat, 28 May 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/data/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>fold</title>
-      <link>https://davidraab.github.io/tags/fold/</link>
-      <pubDate>Sat, 28 May 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/fold/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>list</title>
-      <link>https://davidraab.github.io/tags/list/</link>
-      <pubDate>Sat, 28 May 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/list/</guid>
       <description></description>
     </item>
     

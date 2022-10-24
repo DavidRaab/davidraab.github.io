@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Variable Arguments in F# // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="David Raab" />
+    <meta name="description" content="This article explains how you can create functions with variable arguments, and why you should avoid them." />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.c66c9f869df391145846a3267f7873e14c03e1e359c1f6e806800232b0145246.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Variable Arguments in F#"/>
+<meta name="twitter:description" content="This article explains how you can create functions with variable arguments, and why you should avoid them."/>
+
+    <meta property="og:title" content="Variable Arguments in F#" />
+<meta property="og:description" content="This article explains how you can create functions with variable arguments, and why you should avoid them." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/variable-arguments-in-fsharp/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-03-13T00:00:00+00:00" />
+<meta property="article:modified_time" content="2017-03-13T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>My personal Blog. Writing about programming and other stuff.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+          <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Variable Arguments in F#</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Mar 13, 2017
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          7 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>One question that appears in F# from time to time is: How do you create a
+function that expects a variable amount of arguments?</p>
+<p><strong>A short answer is:</strong> You can&rsquo;t do that.</p>
+<p><strong>A longer and correct answer:</strong> You can do it with (static) methods.
+But you probably don&rsquo;t want to use this and look for an alternative.</p>
+<p>First we should look at the difference between an F# function and a (static)
+method.</p>
+<h2 id="f-functions-vs-static-methods">F# Functions vs. (static) methods</h2>
+<p>Usually I don&rsquo;t distinguish between those two as both just execute
+some code and return some value. But in this case we must differentiate
+them. An F# function is any function defined with the <code>let</code> keyword.
+F# functions are usually defined inside of modules or inside of other
+functions.</p>
+<p>A (static) method on the other hand is part of a class definition. The
+definition is different, but using (static) methods or functions can look
+the same. The biggest difference is that (static) methods often use
+tupled-syntax while F# functions use currying. But you are not restricted
+to the one or other.</p>
+<p>You can use currying and a tupled syntax in F# functions.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">SomeModule</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Currying
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">let</span> <span class="nv">funcC</span> <span class="n">a</span> <span class="n">b</span> <span class="o">=</span> <span class="o">...</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Tuple
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">let</span> <span class="nv">funcT</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">)</span> <span class="o">=</span> <span class="o">...</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>You could call both functions like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">SomeModule</span><span class="p">.</span><span class="n">funcC</span> <span class="n">x</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="nn">SomeModule</span><span class="p">.</span><span class="n">funcT</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The second version looks a lot like calling a function in other languages
+from C, C#, Java and so on and this is not an accident. But F# is
+really consistent in its syntax. Whenever you see parenthesis
+and values separated with commas then you really just define a tuple.
+Because of this you also could write:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">args</span> <span class="o">=</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nn">SomeModule</span><span class="p">.</span><span class="n">funcT</span> <span class="n">args</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This is something you cannot do in C, C#, Java and so on. Calling a function
+looks the same but the meaning is different. All of this is also possible
+with (static) methods.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">SomeClass</span><span class="bp">()</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">funcC</span> <span class="n">a</span> <span class="n">b</span> <span class="o">=</span> <span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">funcT</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">)</span> <span class="o">=</span> <span class="o">...</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>you can call it in the same way</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">SomeClass</span><span class="p">.</span><span class="n">funcC</span> <span class="n">x</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="nn">SomeClass</span><span class="p">.</span><span class="n">funcT</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So, why is any of this important?</p>
+<ol>
+<li>In F# you usually want to work with curried functions.</li>
+<li>Variable Arguments are only supported with tupled (static) methods.</li>
+</ol>
+<h2 id="variable-arguments">Variable Arguments</h2>
+<p>First lets focus on the second point. So we only can use variable
+arguments if we create a class, and use tupled syntax. As a light
+example let&rsquo;s build a <code>max</code> function that returns the biggest
+element from all arguments we pass to it.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Util</span><span class="bp">()</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">max</span><span class="o">([&lt;</span><span class="nn">System</span><span class="p">.</span><span class="n">ParamArray</span><span class="o">&gt;]</span> <span class="n">xs</span><span class="o">)</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">reduce</span> <span class="n">max</span> <span class="n">xs</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nn">Util</span><span class="p">.</span><span class="n">max</span><span class="o">(</span><span class="n">1</span><span class="o">,</span><span class="n">2</span><span class="o">,</span><span class="n">3</span><span class="o">)</span>         <span class="c1">// 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Util</span><span class="p">.</span><span class="n">max</span><span class="o">(</span><span class="n">1</span><span class="o">,</span><span class="n">10</span><span class="o">,</span><span class="n">3</span><span class="o">,</span><span class="n">20</span><span class="o">,</span><span class="n">4</span><span class="o">,</span><span class="n">6</span><span class="o">)</span> <span class="c1">// 20
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Util</span><span class="p">.</span><span class="n">max</span><span class="o">(</span><span class="n">3</span><span class="o">,</span><span class="n">2</span><span class="o">,</span><span class="n">1</span><span class="o">)</span>         <span class="c1">// 3
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>The concept of a variable argument function is easy. You just use a normal
+argument and add the attribute <code>[&lt;System.ParamArray&gt;]</code> to it. Only the
+last argument can be flagged with the attribute. And finally, you receive all
+arguments as an array.</p>
+<h2 id="why-you-should-avoid-variable-arguments">Why you should avoid variable arguments</h2>
+<p>Previously I said that when you use parenthesis and separate values with
+comma it is a tuple. In fact this kind of consistency is broken with <code>ParamArray</code>.
+You can see the difference in this extended example:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Util</span><span class="bp">()</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">max</span><span class="o">([&lt;</span><span class="nn">System</span><span class="p">.</span><span class="n">ParamArray</span><span class="o">&gt;]</span> <span class="n">xs</span><span class="o">)</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">reduce</span> <span class="n">max</span> <span class="n">xs</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">max4</span><span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">,</span><span class="n">c</span><span class="o">,</span><span class="n">d</span><span class="o">)</span>                 <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">reduce</span> <span class="n">max</span> <span class="o">[|</span><span class="n">a</span><span class="o">;</span><span class="n">b</span><span class="o">;</span><span class="n">c</span><span class="o">;</span><span class="n">d</span><span class="o">|]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">nums</span> <span class="o">=</span> <span class="o">(</span><span class="n">1</span><span class="o">,</span><span class="n">10</span><span class="o">,</span><span class="n">30</span><span class="o">,</span><span class="n">15</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nn">Util</span><span class="p">.</span><span class="n">max4</span> <span class="o">(</span><span class="n">1</span><span class="o">,</span><span class="n">10</span><span class="o">,</span><span class="n">30</span><span class="o">,</span><span class="n">15</span><span class="o">)</span> <span class="c1">// 30
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Util</span><span class="p">.</span><span class="n">max4</span> <span class="n">nums</span>         <span class="c1">// 30
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Util</span><span class="p">.</span><span class="n">max</span>  <span class="o">(</span><span class="n">1</span><span class="o">,</span><span class="n">10</span><span class="o">,</span><span class="n">30</span><span class="o">,</span><span class="n">15</span><span class="o">)</span> <span class="c1">// 30
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Util</span><span class="p">.</span><span class="n">max</span>  <span class="n">nums</span>         <span class="c1">// (1,10,30,15)
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Both <code>Util.max4</code> calls return <code>30</code> because this function expects a tuple with
+four arguments and we pass this to <code>Util.max4</code> in both cases.</p>
+<p>But the <code>Util.max</code> calls completely differ. In the first example we really pass
+four arguments, but in the second <code>Util.max</code> example we really pass a single
+value, a tuple containing four elements.</p>
+<p><code>ParamArray</code> really is an inconsistency in the language. I wouldn&rsquo;t even say this
+was a bad decision. If you use a variable arguments function defined in C# from F#
+it absolutely makes sense to break this consistency. In fact this inconsistency can
+even feel more consistent. A C# static method that you call from F# with four
+arguments looks like:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">Class</span><span class="p">.</span><span class="n">Func</span><span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">,</span><span class="n">c</span><span class="o">,</span><span class="n">d</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>a static method with variable arguments that you also pass four arguments also looks like:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">Class</span><span class="p">.</span><span class="n">Func</span><span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">,</span><span class="n">c</span><span class="o">,</span><span class="n">d</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So it is consistent or inconsistent depending from which way you look at it.</p>
+<p>But rather arguing with consistency the important part I consider is that it
+behaves differently and you cannot see that from the code. When I look at
+code like <code>Class.func(a,b,c,d)</code> I could assume that it is a function that
+expects four arguments. It isn&rsquo;t obvious that I can add a fifth argument
+or probably use less arguments.</p>
+<p>The biggest problem in my opinion is that most of the time you already have
+a collection like a list and you just want to pass that list to a function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">list</span> <span class="o">=</span> <span class="o">[</span><span class="n">20</span><span class="o">;</span><span class="n">14</span><span class="o">;</span><span class="n">37</span><span class="o">;</span><span class="n">16</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nn">Util</span><span class="p">.</span><span class="n">max</span> <span class="o">[</span><span class="n">20</span><span class="o">;</span><span class="n">14</span><span class="o">;</span><span class="n">37</span><span class="o">;</span><span class="n">16</span><span class="o">]</span> <span class="c1">// [20;14;37;16]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Util</span><span class="p">.</span><span class="n">max</span> <span class="kt">list</span>          <span class="c1">// [20;14;37;16]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>If you already have a list, then variable arguments doesn&rsquo;t help you at all.
+In fact you must write other code like:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">reduce</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="nn">Util</span><span class="p">.</span><span class="n">max</span><span class="o">(</span><span class="n">acc</span><span class="o">,</span><span class="n">x</span><span class="o">))</span> <span class="kt">list</span> <span class="c1">// 37
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>This is pretty much exactly how <code>Util.max()</code> itself is implemented! On top
+it&rsquo;s a bit longer, because you cannot just write
+<code>List.reduce Util.max numbers</code>. <code>List.reduce</code> expect a curried two argument
+function, not a tupled two argument function!</p>
+<p>The funny thing is: It works differently with an Array. Actually you can write
+stuff like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">array</span> <span class="o">=</span> <span class="o">[|</span><span class="n">20</span><span class="o">;</span><span class="n">14</span><span class="o">;</span><span class="n">37</span><span class="o">;</span><span class="n">16</span><span class="o">|]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nn">Util</span><span class="p">.</span><span class="n">max</span> <span class="n">array</span>               <span class="c1">// 37
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Util</span><span class="p">.</span><span class="n">max</span> <span class="o">[|</span><span class="n">20</span><span class="o">;</span><span class="n">14</span><span class="o">;</span><span class="n">37</span><span class="o">;</span><span class="n">16</span><span class="o">|]</span>     <span class="c1">// 37
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Util</span><span class="p">.</span><span class="n">max</span> <span class="o">(</span><span class="nn">Array</span><span class="p">.</span><span class="n">ofList</span> <span class="kt">list</span><span class="o">)</span> <span class="c1">// 37
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>So you can pass arrays, and arrays are not considered as passing one argument.
+This also works with functions with fixed arguments.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Util</span><span class="bp">()</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">replicate</span><span class="o">(</span><span class="n">amount</span><span class="o">,</span> <span class="o">[&lt;</span><span class="nn">System</span><span class="p">.</span><span class="n">ParamArray</span><span class="o">&gt;]</span> <span class="n">xs</span><span class="o">)</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">collect</span> <span class="o">(</span><span class="nn">Array</span><span class="p">.</span><span class="n">replicate</span> <span class="n">amount</span><span class="o">)</span> <span class="n">xs</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The idea is that you can pass a variable amount of elements, and the first argument
+describes how often every element gets repeated.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">Util</span><span class="p">.</span><span class="n">replicate</span><span class="o">(</span><span class="n">3</span><span class="o">,</span><span class="n">1</span><span class="o">,</span><span class="n">2</span><span class="o">,</span><span class="n">3</span><span class="o">)</span>      <span class="c1">// [|1; 1; 1; 2; 2; 2; 3; 3; 3|]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Util</span><span class="p">.</span><span class="n">replicate</span><span class="o">(</span><span class="n">3</span><span class="o">,</span> <span class="o">[|</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">|])</span> <span class="c1">// [|1; 1; 1; 2; 2; 2; 3; 3; 3|]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Util</span><span class="p">.</span><span class="n">replicate</span><span class="o">(</span><span class="n">3</span><span class="o">,</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">])</span>   <span class="c1">// [|[1; 2; 3]; [1; 2; 3]; [1; 2; 3]|]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>So the first and second function calls are the same, but the third one is different.
+It works with arrays but not with lists. By the way here we see how <code>ParamArray</code>
+could be implemented in F# from the beginning and still maintain consistency by
+always expecting an <code>Array</code> and disallowing the first notation.</p>
+<p>The Last reason why it might be a bad idea is because in F# everything is really
+build around the concepts of currying. A tupled syntax like in <code>Util.replicate</code>
+means we always must pass all arguments. We cannot just partial apply
+only the first argument and write:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">Util</span><span class="p">.</span><span class="n">replicate</span><span class="o">(</span><span class="n">3</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The reason why we want to write this is to allow a more sequence based approach.
+As an example. We would want to write it like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// This doesn&#39;t work
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[|</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">|]</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">Util</span><span class="p">.</span><span class="n">replicate</span> <span class="n">3</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Okay, in this small example you gain not much from this kind of piping-style.
+But you usually want functions that work well with piping. It&rsquo;s important to notice
+that piping doesn&rsquo;t work because we have the <code>|&gt;</code> operator. Piping really works
+because we have curried function that we can call without passing all arguments!</p>
+<p>Currying is the reason we can choose to write <code>func a b</code> or <code>b |&gt; func a</code>.
+With tupled-syntax we really lose this advantage, and we also must write
+more parenthesis and commas.</p>
+<h2 id="the-alternative">The Alternative</h2>
+<p>So, instead of variable arguments, what should we do instead? We should just
+expect a collection as an argument! If you expect <code>Seq</code> then a user also can
+pass an <code>Array</code> or <code>List</code> as an argument.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">max</span> <span class="n">xs</span>              <span class="o">=</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">reduce</span> <span class="n">max</span> <span class="n">xs</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">replicate</span> <span class="n">amount</span> <span class="n">xs</span> <span class="o">=</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">collect</span> <span class="o">(</span><span class="nn">Seq</span><span class="p">.</span><span class="n">replicate</span> <span class="n">amount</span><span class="o">)</span> <span class="n">xs</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">max</span> <span class="n">numbers</span>        <span class="c1">// 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">max</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span>        <span class="c1">// 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">max</span> <span class="o">[|</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">|]</span>      <span class="c1">// 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">max</span> <span class="o">(</span><span class="n">seq</span> <span class="o">{</span><span class="n">1</span> <span class="o">..</span> <span class="n">3</span><span class="o">})</span> <span class="c1">// 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">replicate</span> <span class="n">3</span> <span class="n">numbers</span>        <span class="c1">// seq [1;1;1;2;2;2;3;3;3]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">replicate</span> <span class="n">3</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span>        <span class="c1">// seq [1;1;1;2;2;2;3;3;3]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">replicate</span> <span class="n">3</span> <span class="o">[|</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">|]</span>      <span class="c1">// seq [1;1;1;2;2;2;3;3;3]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">replicate</span> <span class="n">3</span> <span class="o">(</span><span class="n">seq</span> <span class="o">{</span><span class="n">1</span> <span class="o">..</span> <span class="n">3</span><span class="o">})</span> <span class="c1">// seq [1;1;1;2;2;2;3;3;3]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="summary">Summary</h2>
+<p>Instead of variable arguments you should just expect a <code>Seq</code> as an argument
+to a function. It&rsquo;s very easy to create <code>List</code> or <code>Array</code> in F# and you can
+directly inline those creations with a function call. You don&rsquo;t get problems
+if you already have a collection. With currying you can use functions in a
+piping-style and you can use partial application.</p>
+<p>But more important, its easy to see that arguments are variable because you
+pass a <code>List</code>, <code>Array</code> or <code>Seq</code> as an argument. My recommendation is just
+simply: <strong>Avoid functions with variable arguments.</strong></p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
