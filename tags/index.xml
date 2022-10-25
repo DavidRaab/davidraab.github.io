@@ -6,22 +6,40 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 19 Mar 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 25 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>fold</title>
-      <link>https://davidraab.github.io/tags/fold/</link>
-      <pubDate>Sun, 19 Mar 2017 00:00:00 +0000</pubDate>
+      <title>equality</title>
+      <link>https://davidraab.github.io/tags/equality/</link>
+      <pubDate>Tue, 25 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://davidraab.github.io/tags/fold/</guid>
+      <guid>https://davidraab.github.io/tags/equality/</guid>
       <description></description>
     </item>
     
     <item>
       <title>FSharp</title>
       <link>https://davidraab.github.io/tags/fsharp/</link>
-      <pubDate>Sun, 19 Mar 2017 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 25 Oct 2022 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/fsharp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>generics</title>
+      <link>https://davidraab.github.io/tags/generics/</link>
+      <pubDate>Tue, 25 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/generics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>fold</title>
+      <link>https://davidraab.github.io/tags/fold/</link>
+      <pubDate>Sun, 19 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/fold/</guid>
       <description></description>
     </item>
     

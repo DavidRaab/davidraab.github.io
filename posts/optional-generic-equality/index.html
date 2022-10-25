@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Optional Generic Equality on a Data-Type in F# // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="David Raab" />
+    <meta name="description" content="Implementing an optional Generic Equality" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.c66c9f869df391145846a3267f7873e14c03e1e359c1f6e806800232b0145246.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Optional Generic Equality on a Data-Type in F#"/>
+<meta name="twitter:description" content="Implementing an optional Generic Equality"/>
+
+    <meta property="og:title" content="Optional Generic Equality on a Data-Type in F#" />
+<meta property="og:description" content="Implementing an optional Generic Equality" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/optional-generic-equality/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-25T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-10-25T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>My personal Blog. Writing about programming and other stuff.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+          <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Optional Generic Equality on a Data-Type in F#</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Oct 25, 2022
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          6 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/equality/">equality</a>
+              <a class="tag" href="https://davidraab.github.io/tags/generics/">generics</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>Lately I implemented my own immutable Queue and came upon a problem
+implementing equality for it. The problem goes like this. You want
+a generic data-type that supports equality. But it only should support
+equality if the generic type also supports equality.</p>
+<p>Seems a little bit weird? But F# has this built-in probably without that
+you realize this. At least i did not.</p>
+<p>Here is an example with a list.</p>
+<p>You can write the following in F#.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In F# you can compare two lists. The above statement will return <code>true</code> as the list itself
+is equal. But equality depends on he types inside the list. Here it is <code>int</code>.</p>
+<p>When you use F# this doesn&rsquo;t look surprising. But you probably also know that list can also
+contain types that has no equality. This would be for example a function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">double</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">id</span><span class="o">;</span><span class="kt">double</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="n">id</span><span class="o">;</span><span class="kt">double</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>When you write code like this, you get the compiler-error</p>
+<pre><code>The type '('a -&gt; 'a)' does not support the 'equality' constraint because it is a function type
+</code></pre>
+<p>Or in other words equality for a list depends on the generic type you use. Let&rsquo;s try to implement
+our own <code>List</code> to see the problem more clear and how we solve this.</p>
+<h2 id="our-own-list">Our own List</h2>
+<p>We start with</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="o">|</span> <span class="n">Empty</span>
+</span></span><span class="line"><span class="cl"><span class="o">|</span> <span class="n">Cons</span>  <span class="k">of</span> <span class="k">&#39;</span><span class="n">a</span> <span class="o">*</span> <span class="n">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">empty</span>     <span class="o">=</span> <span class="n">Empty</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cons</span> <span class="n">x</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">Cons</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">xs</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>implementing Equality is easy. As a function we could just write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">equal</span> <span class="n">xs</span> <span class="n">ys</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">xs</span><span class="o">,</span><span class="n">ys</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span><span class="o">,</span><span class="n">Empty</span>           <span class="o">-&gt;</span> <span class="k">true</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span><span class="o">,</span><span class="n">ys</span>              <span class="o">-&gt;</span> <span class="k">false</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">xs</span><span class="o">,</span><span class="n">Empty</span>              <span class="o">-&gt;</span> <span class="k">false</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">xs</span><span class="o">),</span><span class="n">Cons</span><span class="o">(</span><span class="n">y</span><span class="o">,</span><span class="n">ys</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">&amp;&amp;</span> <span class="n">equal</span> <span class="n">xs</span> <span class="n">ys</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And our own List type work as expected. Here is a small test.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">map</span> <span class="n">f</span> <span class="n">xs</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">xs</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>      <span class="o">-&gt;</span> <span class="n">Empty</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">xs</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">cons</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span> <span class="o">(</span><span class="n">map</span> <span class="n">f</span> <span class="n">xs</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">xs</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="n">1</span> <span class="o">(</span><span class="n">cons</span> <span class="n">2</span> <span class="o">(</span><span class="n">cons</span> <span class="n">3</span> <span class="n">empty</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">ys</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="n">2</span> <span class="o">(</span><span class="n">cons</span> <span class="n">4</span> <span class="o">(</span><span class="n">cons</span> <span class="n">6</span> <span class="n">empty</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">equal</span> <span class="o">(</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span><span class="o">)</span> <span class="n">xs</span><span class="o">)</span> <span class="o">(</span><span class="n">cons</span> <span class="n">2</span> <span class="o">(</span><span class="n">cons</span> <span class="n">4</span> <span class="o">(</span><span class="n">cons</span> <span class="n">6</span> <span class="n">empty</span><span class="o">))))</span>
+</span></span><span class="line"><span class="cl"><span class="k">then</span> <span class="n">printfn</span> <span class="s">&#34;Equal&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="n">printfn</span> <span class="s">&#34;Not Equal&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The above code will print <code>Equal</code> as expected. We also can create a
+list that contains functions without a problem.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">double</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">fs</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="n">id</span> <span class="o">(</span><span class="n">cons</span> <span class="kt">double</span> <span class="n">empty</span><span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>but comparing them doesn&rsquo;t work</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// The type &#39;(int -&gt; int)&#39; does not support the &#39;equality&#39; constraint because it is a function type
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">equal</span> <span class="n">fs</span> <span class="n">fs</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But we now have a function named <code>equal</code> or in your code you probably have a module <code>MyList.equal</code>. But
+you also want to overload equality. So we can use <code>=</code> for our own type instead of writing <code>equal</code>. And then
+things start to get complicated.</p>
+<h2 id="overloading-equality">Overloading Equality</h2>
+<p>The first attempt would be</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="hl"><span class="lnt"> 2
+</span></span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="hl"><span class="lnt"> 6
+</span></span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="hl"><span class="lnt">14
+</span></span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[&lt;</span><span class="n">CustomEquality</span><span class="o">;</span><span class="n">NoComparison</span><span class="o">&gt;]</span>
+</span></span><span class="line hl"><span class="cl"><span class="k">type</span> <span class="nc">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span>  <span class="k">of</span> <span class="k">&#39;</span><span class="n">a</span> <span class="o">*</span> <span class="n">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line hl"><span class="cl">    <span class="k">override</span> <span class="n">this</span><span class="p">.</span><span class="nf">Equals</span> <span class="o">(</span><span class="kt">obj</span><span class="o">:</span><span class="kt">obj</span><span class="o">)</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">match</span> <span class="kt">obj</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="o">:?</span> <span class="n">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span> <span class="k">as</span> <span class="n">other</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="o">(</span><span class="n">xs</span><span class="o">:</span><span class="n">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;)</span> <span class="o">(</span><span class="n">ys</span><span class="o">:</span><span class="n">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;)</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">                <span class="k">match</span> <span class="n">xs</span><span class="o">,</span><span class="n">ys</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">                <span class="o">|</span> <span class="n">Empty</span><span class="o">,</span><span class="n">Empty</span>           <span class="o">-&gt;</span> <span class="k">true</span>
+</span></span><span class="line"><span class="cl">                <span class="o">|</span> <span class="n">Empty</span><span class="o">,</span><span class="n">ys</span>              <span class="o">-&gt;</span> <span class="k">false</span>
+</span></span><span class="line"><span class="cl">                <span class="o">|</span> <span class="n">xs</span><span class="o">,</span><span class="n">Empty</span>              <span class="o">-&gt;</span> <span class="k">false</span>
+</span></span><span class="line hl"><span class="cl">                <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">xs</span><span class="o">),</span><span class="n">Cons</span><span class="o">(</span><span class="n">y</span><span class="o">,</span><span class="n">ys</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">&amp;&amp;</span> <span class="n">loop</span> <span class="n">xs</span> <span class="n">ys</span>
+</span></span><span class="line"><span class="cl">            <span class="n">loop</span> <span class="n">this</span> <span class="n">other</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="o">_</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="n">this</span><span class="p">.</span><span class="nf">GetHashCode</span><span class="bp">()</span> <span class="o">:</span> <span class="n">int</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="nn">Unchecked</span><span class="p">.</span><span class="n">hash</span> <span class="n">this</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But the F# compiler will give the following errors for the highlighted lines.</p>
+<pre><code>1    -&gt; The signature and implementation are not compatible because the declaration
+        of the type parameter 'a' requires a constraint of the form 'a: equality
+
+6,14 -&gt; A type parameter is missing a constraint 'when 'a: equality'
+</code></pre>
+<p>You could fix this by adding the constraint.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="hl"><span class="lnt"> 2
+</span></span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[&lt;</span><span class="n">CustomEquality</span><span class="o">;</span><span class="n">NoComparison</span><span class="o">&gt;]</span>
+</span></span><span class="line hl"><span class="cl"><span class="k">type</span> <span class="nc">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span> <span class="k">when</span> <span class="k">&#39;</span><span class="n">a</span> <span class="o">:</span> <span class="n">equality</span><span class="o">&gt;</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span>  <span class="k">of</span> <span class="k">&#39;</span><span class="n">a</span> <span class="o">*</span> <span class="n">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="n">this</span><span class="p">.</span><span class="nf">Equals</span> <span class="o">(</span><span class="kt">obj</span><span class="o">:</span><span class="kt">obj</span><span class="o">)</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">match</span> <span class="kt">obj</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="o">:?</span> <span class="n">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span> <span class="k">as</span> <span class="n">other</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="o">(</span><span class="n">xs</span><span class="o">:</span><span class="n">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;)</span> <span class="o">(</span><span class="n">ys</span><span class="o">:</span><span class="n">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;)</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">                <span class="k">match</span> <span class="n">xs</span><span class="o">,</span><span class="n">ys</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">                <span class="o">|</span> <span class="n">Empty</span><span class="o">,</span><span class="n">Empty</span>           <span class="o">-&gt;</span> <span class="k">true</span>
+</span></span><span class="line"><span class="cl">                <span class="o">|</span> <span class="n">Empty</span><span class="o">,</span><span class="n">ys</span>              <span class="o">-&gt;</span> <span class="k">false</span>
+</span></span><span class="line"><span class="cl">                <span class="o">|</span> <span class="n">xs</span><span class="o">,</span><span class="n">Empty</span>              <span class="o">-&gt;</span> <span class="k">false</span>
+</span></span><span class="line"><span class="cl">                <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">xs</span><span class="o">),</span><span class="n">Cons</span><span class="o">(</span><span class="n">y</span><span class="o">,</span><span class="n">ys</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">&amp;&amp;</span> <span class="n">loop</span> <span class="n">xs</span> <span class="n">ys</span>
+</span></span><span class="line"><span class="cl">            <span class="n">loop</span> <span class="n">this</span> <span class="n">other</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="o">_</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="n">this</span><span class="p">.</span><span class="nf">GetHashCode</span><span class="bp">()</span> <span class="o">:</span> <span class="n">int</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="nn">Unchecked</span><span class="p">.</span><span class="n">hash</span> <span class="n">this</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But then you lose the ability to use <code>MyList</code> with a generic types that has no
+equality. Because now all types must have equality. So you cannot write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">fs</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="n">id</span> <span class="o">(</span><span class="n">cons</span> <span class="kt">double</span> <span class="n">empty</span><span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The above code now returns the error</p>
+<pre><code>The type '('a -&gt; 'a)' does not support the 'equality' constraint because it is a function type
+</code></pre>
+<p>So what we need is either two types one with the generic constraint and one without or the ability to
+say that equality depends on the generic type we pass. If the generic type has equality then our
+own List implementation can be compared otherwise not.</p>
+<p>Luckily F# already supports this.</p>
+<h2 id="equalityconditionalon">EqualityConditionalOn</h2>
+<p>F# has the attributes <code>EqualityConditionalOn</code> and there is also a <code>ComparisonConditionalOn</code>
+that works the same way. But only adding those will still not solve the problem.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="hl"><span class="lnt"> 2
+</span></span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="hl"><span class="lnt"> 6
+</span></span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="hl"><span class="lnt">14
+</span></span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[&lt;</span><span class="n">CustomEquality</span><span class="o">;</span><span class="n">NoComparison</span><span class="o">&gt;]</span>
+</span></span><span class="line hl"><span class="cl"><span class="k">type</span> <span class="nc">MyList</span><span class="o">&lt;[&lt;</span><span class="n">EqualityConditionalOn</span><span class="o">&gt;]</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span>  <span class="k">of</span> <span class="k">&#39;</span><span class="n">a</span> <span class="o">*</span> <span class="n">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line hl"><span class="cl">    <span class="k">override</span> <span class="n">this</span><span class="p">.</span><span class="nf">Equals</span> <span class="o">(</span><span class="kt">obj</span><span class="o">:</span><span class="kt">obj</span><span class="o">)</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">match</span> <span class="kt">obj</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="o">:?</span> <span class="n">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span> <span class="k">as</span> <span class="n">other</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="o">(</span><span class="n">xs</span><span class="o">:</span><span class="n">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;)</span> <span class="o">(</span><span class="n">ys</span><span class="o">:</span><span class="n">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;)</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">                <span class="k">match</span> <span class="n">xs</span><span class="o">,</span><span class="n">ys</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">                <span class="o">|</span> <span class="n">Empty</span><span class="o">,</span><span class="n">Empty</span>           <span class="o">-&gt;</span> <span class="k">true</span>
+</span></span><span class="line"><span class="cl">                <span class="o">|</span> <span class="n">Empty</span><span class="o">,</span><span class="n">ys</span>              <span class="o">-&gt;</span> <span class="k">false</span>
+</span></span><span class="line"><span class="cl">                <span class="o">|</span> <span class="n">xs</span><span class="o">,</span><span class="n">Empty</span>              <span class="o">-&gt;</span> <span class="k">false</span>
+</span></span><span class="line hl"><span class="cl">                <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">xs</span><span class="o">),</span><span class="n">Cons</span><span class="o">(</span><span class="n">y</span><span class="o">,</span><span class="n">ys</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">&amp;&amp;</span> <span class="n">loop</span> <span class="n">xs</span> <span class="n">ys</span>
+</span></span><span class="line"><span class="cl">            <span class="n">loop</span> <span class="n">this</span> <span class="n">other</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="o">_</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="n">this</span><span class="p">.</span><span class="nf">GetHashCode</span><span class="bp">()</span> <span class="o">:</span> <span class="n">int</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="nn">Unchecked</span><span class="p">.</span><span class="n">hash</span> <span class="n">this</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>you still get the same errors. So what do we missing here?</p>
+<p>The answer is that we need to replace the <code>=</code> with a <strong>non-generic</strong> version as
+using <code>=</code> always expects the equal constraint. So the last piece we need to change is
+use <code>Unchecked.equals</code> (or <code>Unchecked.compare</code> when you implement comparison).</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="hl"><span class="lnt">14
+</span></span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[&lt;</span><span class="n">CustomEquality</span><span class="o">;</span><span class="n">NoComparison</span><span class="o">&gt;]</span>
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">MyList</span><span class="o">&lt;[&lt;</span><span class="n">EqualityConditionalOn</span><span class="o">&gt;]</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span>  <span class="k">of</span> <span class="k">&#39;</span><span class="n">a</span> <span class="o">*</span> <span class="n">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="n">this</span><span class="p">.</span><span class="nf">Equals</span> <span class="o">(</span><span class="kt">obj</span><span class="o">:</span><span class="kt">obj</span><span class="o">)</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">match</span> <span class="kt">obj</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="o">:?</span> <span class="n">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span> <span class="k">as</span> <span class="n">other</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="o">(</span><span class="n">xs</span><span class="o">:</span><span class="n">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;)</span> <span class="o">(</span><span class="n">ys</span><span class="o">:</span><span class="n">MyList</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;)</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">                <span class="k">match</span> <span class="n">xs</span><span class="o">,</span><span class="n">ys</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">                <span class="o">|</span> <span class="n">Empty</span><span class="o">,</span><span class="n">Empty</span>           <span class="o">-&gt;</span> <span class="k">true</span>
+</span></span><span class="line"><span class="cl">                <span class="o">|</span> <span class="n">Empty</span><span class="o">,</span><span class="n">ys</span>              <span class="o">-&gt;</span> <span class="k">false</span>
+</span></span><span class="line"><span class="cl">                <span class="o">|</span> <span class="n">xs</span><span class="o">,</span><span class="n">Empty</span>              <span class="o">-&gt;</span> <span class="k">false</span>
+</span></span><span class="line hl"><span class="cl">                <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">xs</span><span class="o">),</span><span class="n">Cons</span><span class="o">(</span><span class="n">y</span><span class="o">,</span><span class="n">ys</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="nn">Unchecked</span><span class="p">.</span><span class="n">equals</span> <span class="n">x</span> <span class="n">y</span> <span class="o">&amp;&amp;</span> <span class="n">loop</span> <span class="n">xs</span> <span class="n">ys</span>
+</span></span><span class="line"><span class="cl">            <span class="n">loop</span> <span class="n">this</span> <span class="n">other</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="o">_</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">override</span> <span class="n">this</span><span class="p">.</span><span class="nf">GetHashCode</span><span class="bp">()</span> <span class="o">:</span> <span class="n">int</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="nn">Unchecked</span><span class="p">.</span><span class="n">hash</span> <span class="n">this</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now you have a list that can contain any generic type also those without equality and
+on those with equality you also can use <code>=</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span><span class="o">)</span> <span class="n">xs</span><span class="o">)</span> <span class="o">=</span> <span class="n">ys</span>
+</span></span><span class="line"><span class="cl"><span class="k">then</span> <span class="n">printfn</span> <span class="s">&#34;Equal&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="n">printfn</span> <span class="s">&#34;Not Equal&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">double</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">fs</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="n">id</span> <span class="o">(</span><span class="n">cons</span> <span class="kt">double</span> <span class="n">empty</span><span class="o">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="summary">Summary</h2>
+<p>Sometimes it is interesting how much pain a <em>simple</em> (whatever&hellip;) feature like <strong>overloading</strong>
+can cause.</p>
+<p>If you want to see a full example with Comparision than you can
+look at my <a href="https://github.com/DavidRaab/Queue/blob/master/lib/Queue.fs">Immutable Queue</a> implementation.</p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
