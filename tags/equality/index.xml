@@ -13,9 +13,8 @@
       <pubDate>Tue, 25 Oct 2022 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/posts/optional-generic-equality/</guid>
-      <description>Lately I implemented my own immutable Queue and came upon a problem implementing equality for it. The problem goes like this. You want a generic data-type that supports equality. But it only should support equality if the generic type also supports equality.
-Seems a little bit weird? But F# has this built-in probably without that you realize this. At least i did not.
-Here is an example with a list.</description>
+      <description>Lately I implemented my own immutable Queue and came upon a problem implementing equality for it. The problem goes like this: You want a generic data-type that supports equality. But it only should support equality if the generic type also supports equality.
+Seems a little bit weird? But this is actually a common problem in F# that is already solved without that you probably even noticed that this is a problem.</description>
     </item>
     
   </channel>

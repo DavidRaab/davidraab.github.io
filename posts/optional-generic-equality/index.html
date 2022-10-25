@@ -87,13 +87,13 @@
     </header>
     <div class="post-content">
       <p>Lately I implemented my own immutable Queue and came upon a problem
-implementing equality for it. The problem goes like this. You want
+implementing equality for it. The problem goes like this: You want
 a generic data-type that supports equality. But it only should support
 equality if the generic type also supports equality.</p>
-<p>Seems a little bit weird? But F# has this built-in probably without that
-you realize this. At least i did not.</p>
-<p>Here is an example with a list.</p>
-<p>You can write the following in F#.</p>
+<p>Seems a little bit weird? But this is actually a common problem in F# that is already solved
+without that you probably even noticed that this is a problem. At least I did not
+realize it until I tried to implement a Queue with equality myself.</p>
+<p>But to introduce the problem. Let&rsquo;s talk about <code>List</code> in F#. Currently you can write this.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -102,10 +102,10 @@ you realize this. At least i did not.</p>
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>In F# you can compare two lists. The above statement will return <code>true</code> as the list itself
-is equal. But equality depends on he types inside the list. Here it is <code>int</code>.</p>
-<p>When you use F# this doesn&rsquo;t look surprising. But you probably also know that list can also
-contain types that has no equality. This would be for example a function.</p>
+</div><p>In F# you can compare two lists (Something you cannot do in C# for example).
+The above statement will return <code>true</code> because both lists are equal. But if equality works or not
+depends on the type inside the list. In the above example it is <code>int</code>.</p>
+<p>But when you use a type that has now equality like a function.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -116,11 +116,11 @@ contain types that has no equality. This would be for example a function.</p>
 </span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">id</span><span class="o">;</span><span class="kt">double</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="n">id</span><span class="o">;</span><span class="kt">double</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>When you write code like this, you get the compiler-error</p>
+</div><p>Then you get a compile-error</p>
 <pre><code>The type '('a -&gt; 'a)' does not support the 'equality' constraint because it is a function type
 </code></pre>
 <p>Or in other words equality for a list depends on the generic type you use. Let&rsquo;s try to implement
-our own <code>List</code> to see the problem more clear and how we solve this.</p>
+our own <code>List</code> to see the problem more clear and how to solve this.</p>
 <h2 id="our-own-list">Our own List</h2>
 <p>We start with</p>
 <div class="highlight"><div class="chroma">
@@ -212,9 +212,8 @@ list that contains functions without a problem.</p>
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">equal</span> <span class="n">fs</span> <span class="n">fs</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>But we now have a function named <code>equal</code> or in your code you probably have a module <code>MyList.equal</code>. But
-you also want to overload equality. So we can use <code>=</code> for our own type instead of writing <code>equal</code>. And then
-things start to get complicated.</p>
+</div><p>At this moment we only have a function named <code>equal</code> but maybe we also want to overload equality so we can use
+<code>=</code> in our code. Then things start to get complicated.</p>
 <h2 id="overloading-equality">Overloading Equality</h2>
 <p>The first attempt would be</p>
 <div class="highlight"><div class="chroma">
@@ -264,12 +263,12 @@ things start to get complicated.</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>But the F# compiler will give the following errors for the highlighted lines.</p>
-<pre><code>1    -&gt; The signature and implementation are not compatible because the declaration
+<pre><code>2    -&gt; The signature and implementation are not compatible because the declaration
         of the type parameter 'a' requires a constraint of the form 'a: equality
 
 6,14 -&gt; A type parameter is missing a constraint 'when 'a: equality'
 </code></pre>
-<p>You could fix this by adding the constraint.</p>
+<p>We can fix this by adding the constraint.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
