@@ -6,31 +6,49 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 25 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>equality</title>
-      <link>https://davidraab.github.io/tags/equality/</link>
-      <pubDate>Tue, 25 Oct 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/equality/</guid>
-      <description></description>
-    </item>
-    
+    <lastBuildDate>Thu, 27 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>FSharp</title>
       <link>https://davidraab.github.io/tags/fsharp/</link>
-      <pubDate>Tue, 25 Oct 2022 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 27 Oct 2022 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/fsharp/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>functors</title>
+      <link>https://davidraab.github.io/tags/functors/</link>
+      <pubDate>Thu, 27 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/functors/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>generics</title>
       <link>https://davidraab.github.io/tags/generics/</link>
-      <pubDate>Tue, 25 Oct 2022 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 27 Oct 2022 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/generics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>map</title>
+      <link>https://davidraab.github.io/tags/map/</link>
+      <pubDate>Thu, 27 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/map/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>equality</title>
+      <link>https://davidraab.github.io/tags/equality/</link>
+      <pubDate>Tue, 25 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/equality/</guid>
       <description></description>
     </item>
     

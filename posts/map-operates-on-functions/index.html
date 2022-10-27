@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Map operates on functions! // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="David Raab" />
+    <meta name="description" content="map is for functions not for data-types." />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.63506a1255de2bbd2501468b0b8a1e3bc30e2a15bfcf11f3e397c03ef3aa0afd.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Map operates on functions!"/>
+<meta name="twitter:description" content="map is for functions not for data-types."/>
+
+    <meta property="og:title" content="Map operates on functions!" />
+<meta property="og:description" content="map is for functions not for data-types." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/map-operates-on-functions/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-27T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-10-27T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>My personal Blog. Writing about programming and other stuff.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+          <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Map operates on functions!</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Oct 27, 2022
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          8 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+              <a class="tag" href="https://davidraab.github.io/tags/map/">map</a>
+              <a class="tag" href="https://davidraab.github.io/tags/generics/">generics</a>
+              <a class="tag" href="https://davidraab.github.io/tags/functors/">functors</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p><code>map</code> operates on functions not on data-types like <code>list</code>.</p>
+<p>When I started learning F# I had some problems understanding the <code>map</code> function. Don&rsquo;t get me wrong. As
+a Perl programmer <code>map</code> is built into the core language (long before other languages adopted the idea)
+and I used and understanded it very well in Perl. This <code>map</code> is the same as <code>List.map</code> that I also
+immediately understood.</p>
+<p>But in F# you will encounter <code>Result.map</code>, <code>Option.map</code>, <code>SomethingElse.map</code>, &hellip; and I didn&rsquo;t get what
+those <code>map</code> function did for those types!</p>
+<p>The problem was not really that I misunderstood <code>map</code>. I just understood a specific implementation
+but not the more general concept. Or in other words: I didn&rsquo;t learned it properly. I learned
+the definiton:</p>
+<blockquote>
+<p><code>map</code> is a higher-order function that executes a function on every element on a list producing
+a new list this way.</p>
+</blockquote>
+<p>but that definition is wrong. It just explains a specific <code>map</code> implementation or more general
+what <code>List.map</code> does, but not the general concept behind <code>map</code>. A correct definition would be more like:</p>
+<blockquote>
+<p><code>F.map</code> is a higher-order function that transforms a function into a new function working on type <code>F</code>.</p>
+</blockquote>
+<p>The first thing you have to realize is. That <code>map</code> is actually not about a <code>list</code>, <code>option</code> and so on.
+While you must implement it for the different types, it really is about the function you pass as the first
+argument. <code>map</code> really is about transforming a function. So let&rsquo;s get started.</p>
+<h2 id="map-as-a-two-argument-function"><code>map</code> as a two argument function</h2>
+<p>The type of <code>List.map</code> looks like this</p>
+<pre><code>('a -&gt; 'b) -&gt; list&lt;'a&gt; -&gt; list&lt;'b&gt;
+</code></pre>
+<p>When we look at <code>map</code> as a two argument function it does exactly as my first description. We interpet the function
+this way.</p>
+<pre><code>(1. Argument)   (2. Argument)   (Return Value)
+('a -&gt; 'b)   -&gt; list&lt;'a&gt;     -&gt; list&lt;'b&gt;
+</code></pre>
+<p><code>map</code> takes a function <code>('a -&gt; 'b)</code> and a <code>list&lt;'a&gt;</code> and applies the function to every element and returns the
+<code>list&lt;'b&gt;</code>. But thinking this way makes it hard to understand <code>Async.map</code> or <code>Option.map</code> as those types don&rsquo;t
+have a list of values. They usually only have one value. When I tried to implement those functions I always asked
+myself: Are those implementation right? How do I know if the implementation i gave is right? What does <em>right</em>
+or <em>wrong</em> even mean?</p>
+<p>Maybe <code>option&lt;'a&gt;</code> is not so hard to understand, maybe like me you heard it before that you can think of <code>option&lt;'a&gt;</code>
+as just a <code>list</code> with a single value. Maybe you can think of <code>Async</code> the same. But that doesn&rsquo;t really explain
+the concept good enough to understand, and I think bad examples or analogies can even turn out to make things
+even harder to understand.</p>
+<p>I got enlightenment when I throw away what I already knew (I emptied my glass) and looked at <code>map</code> as a
+one-argument function.</p>
+<h2 id="map-as-a-one-argument-function"><code>map</code> as a one-argument function</h2>
+<p>One important thing in F# is that every function is just a one argument function. There doesn&rsquo;t exists
+functions with multiple arguments. We can think of the <code>map</code> function as a one-argument function that returns
+a new function.</p>
+<pre><code>(1. Argument)    (Return Value)
+('a -&gt; 'b)    -&gt; (list&lt;'a&gt; -&gt; list&lt;'b&gt;)
+</code></pre>
+<p>The additional parenthesis around <code>list&lt;'a&gt; -&gt; list&lt;'b&gt;</code> are not needed here as the arrow <code>-&gt;</code> is right-associative
+by default. But I added them for clarity. Now we have a <code>map</code> function taking a <code>'a -&gt; 'b</code> function and it returns
+us another new function <code>list&lt;'a&gt; -&gt; list&lt;'b&gt;</code>. Think of every function just as a single input and output. Now
+you can think of <code>List.map</code> this way.</p>
+<pre><code>Input:       'a  -&gt;      'b
+Output: list&lt;'a&gt; -&gt; list&lt;'b&gt;
+</code></pre>
+<p>What <code>List.map</code> really does is just transform the input function. It somehow wraps whatever you have as
+input and output and puts a <code>list</code> around it.</p>
+<p>You have a function <code>async&lt;url&gt; -&gt; async&lt;option&lt;string&gt;&gt;</code>? When you pass that to <code>List.map</code> you get a
+new function with the signature: <code>list&lt;async&lt;url&gt;&gt; -&gt; list&lt;async&lt;option&lt;string&gt;&gt;&gt;</code>.</p>
+<pre><code>Input:       async&lt;url&gt;  -&gt;      async&lt;option&lt;string&gt;&gt;
+Output  list&lt;async&lt;url&gt;&gt; -&gt; list&lt;async&lt;option&lt;string&gt;&gt;&gt;
+</code></pre>
+<p>This is the same for any other <code>F.map</code> function. A <code>Result.map</code> for example turns a <code>'a -&gt; 'b</code>
+into a <code>Result&lt;'a&gt; -&gt; Result&lt;'b&gt;</code> function.</p>
+<pre><code>Input:         'a  -&gt;        'b
+Output: Result&lt;'a&gt; -&gt; Result&lt;'b&gt;
+</code></pre>
+<h2 id="map-transformer">map transformer</h2>
+<p>Because of this you always can think of <code>map</code> as a function transformer. So when you have a function
+that squares an int.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// int -&gt; int
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">square</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>you can turn this function into a new function that squares a list of ints.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// list&lt;int&gt; -&gt; list&lt;int&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">squareList</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and when we pass <code>square</code> to <code>Option.map</code>? Then we just get a new function back that works
+on an optional value.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// option&lt;int&gt; -&gt; option&lt;int&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">squareOption</span> <span class="o">=</span> <span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Even when we pass all two arguments to <code>List.map</code> at once (without partial application)
+we still can think of it as a function transformer. Let&rsquo;s say we write</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">square</span> <span class="n">4</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>to square a <code>4</code>. But what happens if you have a list of values? We write:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">xs</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">[</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">;</span><span class="n">6</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Think of it the following way: You still execute <code>square</code> but the first argument of your function
+now turns into a list because you put <code>List.map</code> in front of it. The return value will
+also be a <code>list</code>.</p>
+<p>I often look at those functions the following way.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span>            <span class="n">square</span>  <span class="n">4</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span>   <span class="n">square</span> <span class="o">[</span><span class="n">4</span><span class="o">;</span><span class="n">8</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">(</span><span class="n">Some</span> <span class="n">4</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="nn">Result</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">(</span><span class="n">Ok</span> <span class="n">4</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In all those cases we just execute the <code>square</code> function and the argument we pass to <code>square</code> now can
+be of type <code>F</code> whichever <code>F</code> we choose with <code>F.map</code>.</p>
+<p>This is one reason why I prefer to write</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span>   <span class="n">square</span>  <span class="n">numbers</span>
+</span></span><span class="line"><span class="cl"><span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">(</span><span class="n">Some</span> <span class="n">4</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nn">Result</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">(</span><span class="n">Ok</span> <span class="n">4</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>instead of</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">value</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span>   <span class="n">square</span>
+</span></span><span class="line"><span class="cl"><span class="n">value</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span>
+</span></span><span class="line"><span class="cl"><span class="n">value</span> <span class="o">|&gt;</span> <span class="nn">Result</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>I call pipe the <em>Object-orientet invocation operator</em> and it hides what it does. It looks like <code>value</code> is the
+important aspect as if we would call the method <code>map</code> on <code>value</code>. But the values or objects have
+no importance even in OO code. When we read code we want to know what the code does. <code>value</code> is
+not anything that <em>does</em> anything. We don&rsquo;t even care about the specific values inside of <code>value</code> because
+<code>value</code> is a variable that can have any value depending n when the code is executed, but source code is
+not executed when we look at it or write the code. Not even <code>map</code> is the most important aspect in those
+lines. It is <code>square</code> that has the most importance, followed by <code>map</code> as it <em>augments</em> <code>sqaure</code> and
+the <code>value</code> we want to <code>square</code> is of least importance.</p>
+<p>Because <code>map</code> is really about the function you use, it also works well with any number of arguments.
+This invocation:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">map6</span> <span class="n">func</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span> <span class="n">d</span> <span class="n">e</span> <span class="n">f</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>for example just executes <code>func</code> with all six arguments and the return value being a <code>list</code>. This is what I mean
+with <strong>function transformators</strong>. And it exactly resembles what you would write if <code>func</code> would already
+expect <code>list</code> values. You would just delete the <code>List.map6</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">func</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span> <span class="n">d</span> <span class="n">e</span> <span class="n">f</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="map-on-inner-type">map on inner-type</h2>
+<p>You also can think of <code>map</code> as a function that lets you work on the inner-type. This is more
+appropiate with the two-argument version. For example when you have a <code>list&lt;int&gt;</code> and a
+function that does something with an <code>int</code> then you can use <code>List.map</code> for this.</p>
+<p>This goes hand in hand with other types. You got an <code>Async&lt;int&gt;</code> and you have a function that
+does something with an <code>int</code> but not <code>Async&lt;int&gt;</code>? Just use <code>Async.map</code>!</p>
+<p>You have a <code>Foo&lt;int&gt;</code> and want to work with the <code>int</code> inside the <code>Foo</code> type? Just use <code>Foo.map</code>!</p>
+<p>This mind-model also works for <code>List.map2</code>, <code>List.map3</code> and so on. It lets you work on the inner
+type but it let&rsquo;s you use multiple lists at once. As an example <code>String.replicate</code> expects
+a <code>int</code> and a <code>string</code> as its arguments. So you can write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// &#34;BB&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">String</span><span class="p">.</span><span class="n">replicate</span> <span class="n">2</span> <span class="s">&#34;B&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// [&#34;A&#34;; &#34;BB&#34;; &#34;CCC&#34;]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">map2</span> <span class="nn">String</span><span class="p">.</span><span class="n">replicate</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">[</span><span class="s">&#34;A&#34;</span><span class="o">;</span><span class="s">&#34;B&#34;</span><span class="o">;</span><span class="s">&#34;C&#34;</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So the function you pass to <code>map</code> always just sees one of the inner type of <code>xs</code> and <code>ys</code>.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Think of <code>F.map</code> as either <strong>upgrading</strong> a function that puts wrappers around the
+input and output types of whatever <code>F</code> is.</p>
+<p>Or think of this function as something that works on the inside of the type. This means, something is
+unwrapped and wrapped again. Like a list is unwrapped (unfolded) and then wraped (folded) again. But
+you don&rsquo;t have to know how that is done (even for other types). Just think of it as don&rsquo;t caring
+for the wrapped type at all. Just do something of what&rsquo;s inside of the type.</p>
+<p>But definitely never think of <code>map</code> as a function that iterates through every element of a list. This
+is what you probably know because that&rsquo;s what all other languages usually provides. But you have to
+abondon this idea because its wrong and just stands in your way to really understand what <code>map</code> is all
+about.</p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
