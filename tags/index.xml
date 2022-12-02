@@ -6,7 +6,25 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 27 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 02 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>dynamic-typed</title>
+      <link>https://davidraab.github.io/tags/dynamic-typed/</link>
+      <pubDate>Fri, 02 Dec 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/dynamic-typed/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>static-typed</title>
+      <link>https://davidraab.github.io/tags/static-typed/</link>
+      <pubDate>Fri, 02 Dec 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/static-typed/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>FSharp</title>
       <link>https://davidraab.github.io/tags/fsharp/</link>
@@ -17,11 +35,11 @@
     </item>
     
     <item>
-      <title>functors</title>
-      <link>https://davidraab.github.io/tags/functors/</link>
+      <title>functor</title>
+      <link>https://davidraab.github.io/tags/functor/</link>
       <pubDate>Thu, 27 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://davidraab.github.io/tags/functors/</guid>
+      <guid>https://davidraab.github.io/tags/functor/</guid>
       <description></description>
     </item>
     
@@ -220,15 +238,6 @@
       <pubDate>Thu, 14 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/applicative/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>functor</title>
-      <link>https://davidraab.github.io/tags/functor/</link>
-      <pubDate>Thu, 14 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/functor/</guid>
       <description></description>
     </item>
     

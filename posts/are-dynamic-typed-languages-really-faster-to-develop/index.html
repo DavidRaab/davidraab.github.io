@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Are dynamic-typed languages really faster to develop? // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="David Raab" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.63506a1255de2bbd2501468b0b8a1e3bc30e2a15bfcf11f3e397c03ef3aa0afd.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Are dynamic-typed languages really faster to develop?"/>
+<meta name="twitter:description" content="On Reddit i came about a discussion of dynamic typed (functional) languages. A user suggested that in a dynamic typed language it might be easier to return different types for a function call and thus overall the development can be faster. He concluded.
+Having not to deal with types in that way when you refactor or build a system makes you significantly faster. Combine that with a proper testing approach and you have a reason to use dynamically typed languages."/>
+
+    <meta property="og:title" content="Are dynamic-typed languages really faster to develop?" />
+<meta property="og:description" content="On Reddit i came about a discussion of dynamic typed (functional) languages. A user suggested that in a dynamic typed language it might be easier to return different types for a function call and thus overall the development can be faster. He concluded.
+Having not to deal with types in that way when you refactor or build a system makes you significantly faster. Combine that with a proper testing approach and you have a reason to use dynamically typed languages." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/are-dynamic-typed-languages-really-faster-to-develop/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-02T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-12-02T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>My personal Blog. Writing about programming and other stuff.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+          <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Are dynamic-typed languages really faster to develop?</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Dec 2, 2022
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          5 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/dynamic-typed/">dynamic-typed</a>
+              <a class="tag" href="https://davidraab.github.io/tags/static-typed/">static-typed</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>On Reddit i came <a href="https://www.reddit.com/r/functionalprogramming/comments/z3cbrm/the_case_for_dynamic_functional_programming/">about a discussion</a>
+of dynamic typed (functional) languages. A user suggested that in a dynamic typed language it
+might be easier to return different types for a function call and thus overall
+the development can be faster. He concluded.</p>
+<blockquote>
+<p>Having not to deal with types in that way when you refactor or build a
+system makes you significantly faster. Combine that with a proper testing
+approach and you have a reason to use dynamically typed languages.</p>
+</blockquote>
+<p>I disagree and I think that dynamic typing in this case makes you slower overall
+not faster.</p>
+<p>Yes, in a dynamic typed language it is very easy to return different types
+for a function call. So let&rsquo;s assume you had a function that always returned
+<code>string</code>. And you change that function to now sometimes also return a
+<code>list</code> of <code>string</code>s. This has severall implications.</p>
+<p>Doing this change is very fast in a dynamic typed language, maybe the
+code you have written might still work. But does that really mean your code
+is correct? <strong>No</strong>.</p>
+<p>Once you changed a function to return two different types you also must change
+every function invocation and check the result what is returned in each case.
+If you don&rsquo;t do that on every invocation you just have a bug in your program
+that you might miss.</p>
+<p>But a dynamically typed language:</p>
+<ol>
+<li>Gives you no help to find all invocations.</li>
+<li>You still need some kind of <em>type-checking</em>.</li>
+</ol>
+<p>(1) is the reason why it actually turns out to be slower to develop, not faster.</p>
+<p>(2) is the reason why you also could use a statically typed language.</p>
+<p>The author mentioned how hard it is to return different types in a statically
+typed languages. But that is not quit right. In statically typed <strong>functional</strong> languages,
+and those we were talking at, it is quite easy.</p>
+<p>For example in F# a type would look like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">StringOrListResult</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Single</span> <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Many</span>   <span class="k">of</span> <span class="kt">string</span> <span class="kt">list</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>You also could return <code>Choice1Of2</code> and <code>Choice2Of2</code> as F# already provides
+types to return different things in a generic way instead of creating
+a new type. But the above code shows that returning different types and creating
+such a type is not a problem about static-typing. More about languages
+with a bad static-typing system. Not all static-type systems
+in languages are equal!</p>
+<p>Let&rsquo;s assume you had written a <code>func</code> and now instead of <code>string</code> it now
+would return a type of <code>StringOrListResult</code>. Now every invocation in your
+program will fail at compile-time. Probably already your IDE will highlight
+all cases where you call <code>func</code> and you at least must change the call to
+<code>func</code> with some kind of pattern matching. So you will change your code
+to something like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">match</span> <span class="n">func</span> <span class="n">x</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl"><span class="o">|</span> <span class="n">String</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="c1">// Code when string returned
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">|</span> <span class="n">List</span>  <span class="n">xs</span> <span class="o">-&gt;</span> <span class="c1">// Code when string list is returned
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>This kind of pattern matching is basically what you also do in a dynamic typed language.
+It just looks way more ugly. For example in JavaScript you might write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">func</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Code when array
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Code when hopefully string
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>in Perl you might write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="nv">$x</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span> <span class="nb">ref</span> <span class="nv">$result</span> <span class="ow">eq</span> <span class="s">&#39;ARRAY&#39;</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Code when Array</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Code when hopefully string</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In basically every dynamic typed language you need some way to check the type
+and do something in the different cases. Those languages also have the tools
+to check for types but at least in my experience this kind of checking often
+just feel awkward.</p>
+<p>Sometimes it is even hard to distinguish different types in a dynamic typed
+language. For example how do you test in JavaScript if you have a number or
+a string?</p>
+<p>I guess people will probably come up with 20 solutions how this can be done
+in JavaScript where each solution has dozens of pros and cons. People
+will probably even ask: Are strings containing a valid number also considered
+a number, or not?</p>
+<p>But when we compare the F# with the JavaScript solution we can
+see that they are similar.</p>
+<p>Actually both has some kind of <em>Pattern Matching</em>. You must check the return
+type. But in a dynamically typed language you are not forced todo so. But
+not doing just means you <strong>will have a bug in your code</strong>.</p>
+<p>A statically typed language will <strong>force</strong> you todo so as otherwise your code will
+not compile.</p>
+<p>A dynamically typed language will not help you to find all wrong invocations.
+And wrong doesn&rsquo;t mean it throws an error. It could be that your invocation only
+rarely returns a <code>list</code> as it depends on the input. And most of the time
+your input returns a <code>string</code>. So most invocations seems to be <em>right</em>. Your
+program seems to still work, well &hellip; most of the time.</p>
+<p>But all of this doesn&rsquo;t mean it is faster. You might think it is faster and you
+probably did your change in a dynamically typed language faster. But this is
+an illusion. The time you miss to change every invocation or later try to find a bug because you missed to change
+a line of code will probably consume more time as you ever <em>safed</em>.</p>
+<p>Especially changing or re-factoring is <strong>a lot</strong> more safe in a statically
+typed language. And no, writing additionaly test doesn&rsquo;t make it faster. It
+just makes it slower again as you also need to write tests.</p>
+<p>And once you changed code you also must re-write your test-suite. This
+is just additional stuff you must do. Nothing against tests. They have there
+purpose. But it is always better if you don&rsquo;t must write a test at all.</p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

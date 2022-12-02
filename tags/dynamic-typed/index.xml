@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>dynamic-typed on David Raab</title>
+    <link>https://davidraab.github.io/tags/dynamic-typed/</link>
+    <description>Recent content in dynamic-typed on David Raab</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 02 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/dynamic-typed/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Are dynamic-typed languages really faster to develop?</title>
+      <link>https://davidraab.github.io/posts/are-dynamic-typed-languages-really-faster-to-develop/</link>
+      <pubDate>Fri, 02 Dec 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/are-dynamic-typed-languages-really-faster-to-develop/</guid>
+      <description>On Reddit i came about a discussion of dynamic typed (functional) languages. A user suggested that in a dynamic typed language it might be easier to return different types for a function call and thus overall the development can be faster. He concluded.
+Having not to deal with types in that way when you refactor or build a system makes you significantly faster. Combine that with a proper testing approach and you have a reason to use dynamically typed languages.</description>
+    </item>
+    
+  </channel>
+</rss>
