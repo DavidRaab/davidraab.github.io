@@ -6,7 +6,19 @@
     <description>Recent content in Posts on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 02 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 07 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Perl Regex Parsing with the g option</title>
+      <link>https://davidraab.github.io/posts/perl-regex-parsing-with-g-option/</link>
+      <pubDate>Sat, 07 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/perl-regex-parsing-with-g-option/</guid>
+      <description>Perl regexes have the /g modificator that is worth knowing about. As you can do a lot of advanced things with this modificator. But here are the basics first.
+Context First we need to understand that Perl has two different contexts and in both contexts the /g modificator works differently.
+List context Let&amp;rsquo;s see list context first. We can enforce list context by assigning to an array.
+Without the /g option a regex just finds its first match and just returns it.</description>
+    </item>
+    
     <item>
       <title>Are dynamic-typed languages really faster to develop in?</title>
       <link>https://davidraab.github.io/posts/are-dynamic-typed-languages-really-faster-to-develop/</link>
@@ -285,6 +297,16 @@ The Toy Example Recently I had some conversation about code in a game and provid
       
       <guid>https://davidraab.github.io/posts/structured-programming/</guid>
       <description>Back in 1968 Edsger W. Dijkstra wrote an open letter named &amp;ldquo;Go To Statement Considered Harmful&amp;rdquo;. As already suggested from the title, the very idea was to raise consciousness that the goto statement is more harmful then helpful. From today view we would expect that this idea catches fire really fast, but it didn&amp;rsquo;t. It took quite a long time. Even during all the 1970s and 1980s that question was debated a lot.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://davidraab.github.io/posts/array/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/array/</guid>
+      <description>Now to the final task. Let&amp;rsquo;s consider we want to parse an array that is provided by a string. Sure, we could use eval or other helpers. But we want to do it ourself. We consider that the array only can contain numbers. The string could look like this.
+[1,2,3,4] For parsing this array we could split it into four different regexes. First an array must start with [. The end of an array is ].</description>
     </item>
     
   </channel>

@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Perl Regex Parsing with the g option // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="David Raab" />
+    <meta name="description" content="Shows how to do parsing with Perl and the g modifier" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.63506a1255de2bbd2501468b0b8a1e3bc30e2a15bfcf11f3e397c03ef3aa0afd.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Perl Regex Parsing with the g option"/>
+<meta name="twitter:description" content="Shows how to do parsing with Perl and the g modifier"/>
+
+    <meta property="og:title" content="Perl Regex Parsing with the g option" />
+<meta property="og:description" content="Shows how to do parsing with Perl and the g modifier" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/perl-regex-parsing-with-g-option/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-07T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-01-07T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>My personal Blog. Writing about programming and other stuff.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+          <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Perl Regex Parsing with the g option</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Jan 7, 2023
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          12 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/perl/">perl</a>
+              <a class="tag" href="https://davidraab.github.io/tags/regex/">regex</a>
+              <a class="tag" href="https://davidraab.github.io/tags/parsing/">parsing</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>Perl regexes have the <code>/g</code> modificator that is worth knowing about. As you
+can do a lot of advanced things with this modificator. But here are the basics
+first.</p>
+<h1 id="context">Context</h1>
+<p>First we need to understand that Perl has two different contexts and in both
+contexts the <code>/g</code> modificator works differently.</p>
+<h2 id="list-context">List context</h2>
+<p>Let&rsquo;s see list context first. We can enforce list context by assigning to an array.</p>
+<p>Without the <code>/g</code> option a regex just finds its first match and just returns it.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$str</span>  <span class="o">=</span> <span class="s">&#34;1234 and 4567 and 8901&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">@nums</span> <span class="o">=</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/</span><span class="p">;</span>  <span class="c1"># 1234</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Here <code>@nums</code> will only contain a single value <code>1234</code>. But with the <code>/g</code> we can extract
+all matches at once.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$str</span>  <span class="o">=</span> <span class="s">&#34;1234 and 4567 and 8901&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">@nums</span> <span class="o">=</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span><span class="p">;</span>  <span class="c1"># (1234, 4567, 8901)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>With <code>/g</code> we get three entries containing the digital numbers. It is important
+to know that Perl will try to match everything and extract everything
+at once. So when we have a very large string we will get back an array with
+all matches at once. We will see later why this can matter.</p>
+<p>We get list context in Perl by either assigning to an array. Assigning to
+a list or by using a regex match inside a <code>for</code> loop or some other functions like
+<code>map</code>, <code>grep</code> and so on.</p>
+<p>But when we assign to a list we only extract so much values as we have defined.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="p">(</span><span class="nv">$first</span><span class="p">,</span> <span class="nv">$second</span><span class="p">)</span> <span class="o">=</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span><span class="p">;</span> <span class="c1"># 1234, 4567</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In a for loop you want to use it like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">for</span> <span class="k">my</span> <span class="nv">$num</span> <span class="p">(</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">say</span> <span class="nv">$num</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Maybe you are used to use <code>$1, $2, $3, ...</code> for accessing the capture group.
+But with a <code>for</code> loop like above, you will have an unexpected output.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">for</span> <span class="k">my</span> <span class="nv">$num</span> <span class="p">(</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">say</span> <span class="nv">$1</span><span class="p">;</span> <span class="c1"># always prints 8901</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In this case you will see <code>8901</code> three times. This is because the regex, like
+said above, runs completly to the end before returning. Or in other words give
+the control to the <code>for</code> loop. In this case you will only have access to the
+last match. And this was <code>8901</code>.</p>
+<p>Consider that using <code>if</code> or <code>while</code> is scalar context and it works a little bit
+different in those.</p>
+<h2 id="scalar-context">Scalar Context</h2>
+<p>Different to a list context that returns all its matches at once, a regex
+that is used in scalar context just returns a value if the match
+was succesfull or not. So using a regex in a <code>if</code> statements does not return
+the match itself. You now must use <code>$1, $2, $3, ...</code> to extract this information.</p>
+<p>When you use a regex in scalar context on a string with the <code>/g</code> modificator
+it might be that you think nothing will happen. For example both of the
+code examples will return the exact same thing.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/</span> <span class="c1"># 1234</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span> <span class="c1"># 1234</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Both will print <code>1234</code> to the console. But with the <code>/g</code> modifcator there is a
+difference. Perl internally saves the position where the Regex engine stopped.
+So when you do another new match against <code>$str</code> with a regex that has <code>/g</code>
+enabled it startes again where it stopped. Maybe code explains itself
+better.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/</span><span class="p">;</span> <span class="c1"># prints 1234</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/</span><span class="p">;</span> <span class="c1"># prints 1234</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/</span><span class="p">;</span> <span class="c1"># prints 1234</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But with <code>/g</code> we get</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span><span class="p">;</span> <span class="c1"># prints 1234</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span><span class="p">;</span> <span class="c1"># prints 4567</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span><span class="p">;</span> <span class="c1"># prints 8901</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In Perl you can get (or set) the position where the regex stopped with the
+<code>pos</code> function. Or where it will start when you use a new regex against the
+same string.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">say</span> <span class="nb">pos</span><span class="p">(</span><span class="nv">$str</span><span class="p">);</span>               <span class="c1"># undef</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span><span class="p">;</span> <span class="c1"># 1234</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nb">pos</span><span class="p">(</span><span class="nv">$str</span><span class="p">);</span>               <span class="c1"># 4</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span><span class="p">;</span> <span class="c1"># 4567</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nb">pos</span><span class="p">(</span><span class="nv">$str</span><span class="p">);</span>               <span class="c1"># 13</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>To understand the position: The position of a string is between the characters
+of a string. It start with <code>0</code> before the first character of a string. So
+position <code>4</code> means it is between <code>4</code> and the space character <code> </code>.</p>
+<p>But it is also possible to set the starting position before you use a regex
+on it. You can use <code>pos</code> as a left-value and assign a value to it.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$hello</span> <span class="o">=</span> <span class="s">&#34;Hello, World!&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">pos</span><span class="p">(</span><span class="nv">$hello</span><span class="p">)</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$hello</span> <span class="o">=~</span> <span class="sr">m/(\w+)/g</span><span class="p">;</span> <span class="c1"># prints &#34;World&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>without the <code>/g</code> in this example, you would get <code>Hello</code> as the regex engine
+would then start at the beginning and discards the previous position.</p>
+<p>So overall using <code>/g</code> on the same string in scalar context is like an <em>iterator</em>.
+It will always return the next match as long there is any. As soon the regex
+cannot find a match an <code>undef</code> will be returned. Then it will start over again.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span><span class="p">;</span> <span class="c1"># prints 1234</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span><span class="p">;</span> <span class="c1"># prints 4567</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span><span class="p">;</span> <span class="c1"># prints 8901</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span><span class="p">;</span> <span class="c1"># not true</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span><span class="p">;</span> <span class="c1"># prints 1234</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span><span class="p">;</span> <span class="c1"># prints 4567</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>With this behavior you can use it in a <code>while</code> loop.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">say</span> <span class="nv">$1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Compared to the <code>for</code> loop it is now safe to use <code>$1</code> or better, you
+must use <code>$1</code>. This becomes especially handy if you extract more than just one
+value per match. The loop will print all three numbers once and then finish.</p>
+<h1 id="different-regexes">different regexes</h1>
+<p>Here is one interesting aspect. When you use <code>/g</code> on a string it saves
+the position where it stopped. But this information is stored in the string
+and is independed of the regex you use. This means you can use different
+regexes with <code>/g</code> on the same string.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$str</span> <span class="o">=</span> <span class="s">&#34;1234 and 4567 and 8901&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span><span class="p">;</span> <span class="c1"># 1234</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\w+)/g</span><span class="p">;</span> <span class="c1"># and</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span><span class="p">;</span> <span class="c1"># 4567</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\w+)/g</span><span class="p">;</span> <span class="c1"># and</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/g</span><span class="p">;</span> <span class="c1"># 8901</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This can help in parsing as you can parse with one regex, advance the
+regex engine some characters forward and use another regex. But it has one
+flaw, sadly it resets the position to <code>0</code> once it fails (But we can fix
+that, as you will see in a moment).</p>
+<h1 id="g-anchor">\G anchor</h1>
+<p>But first let&rsquo;s talk about the <code>\G</code> anchor. So far we have used <code>/g</code> succesfully
+on the string. But the way regexes works they usually skip characters to find
+a starting match. Consider you want to check if a string only contains digit
+then you must add anchors like <code>^</code>, <code>\A</code>, <code>$</code>, <code>\Z</code> and/or <code>\z</code>, otherwise
+you allow more than you want.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$only_digits</span> <span class="o">=</span> <span class="s">&#34;hello 1234&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span> <span class="nv">$only_digits</span> <span class="o">=~</span> <span class="sr">m/(\d+)/</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># ...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The above code will be true as the regex just scans for the first digits
+in the string. So it will extract <code>1234</code>. But often we want to check if the
+whole string matches a given regex. That&rsquo;s why we write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$only_digits</span> <span class="o">=</span> <span class="s">&#34;hello 1234&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span> <span class="nv">$only_digits</span> <span class="o">=~</span> <span class="sr">m/\A (\d+) \z/xms</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># ...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>in this example the if statement would not be executed as our string starts with
+<code>hello</code> and not with digits. In the same way we want to have the same kind of
+restriction when we use <code>/g</code>. We need a way to say: <em>Now check something, and
+it must start where the last regex stopped</em>. And this is what the <code>\G</code> anchor
+does in a regex.</p>
+<p>Consider we want to parse an alphanumeric followed by a number. When we don&rsquo;t
+use any anchor this will be sucessfull, even if it shouldn&rsquo;t.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$str</span> <span class="o">=</span> <span class="s">&#34;hello world 1234&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\w+)/gxms</span><span class="p">;</span> <span class="c1"># hello</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/(\d+)/gxms</span><span class="p">;</span> <span class="c1"># 1234</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The first regex parses <code>hello</code>, but then the next line will search for the next
+digits. But we want it to be restricted that digits must follow. We get this
+restriction by using <code>\G</code> as an anchor.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$str</span> <span class="o">=</span> <span class="s">&#34;hello world 1234&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/\G (\w+)/gxms</span><span class="p">;</span> <span class="c1"># hello</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="nv">$1</span> <span class="k">if</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/\G (\d+)/gxms</span><span class="p">;</span> <span class="c1"># 1234</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now, only <code>hello</code> will be printed. Because after <code>hello</code> the remaining string
+not yet consumed by the regex engine will be <code> world 1234</code>. And it doesn&rsquo;t starts
+with digits! It starts with an space character.</p>
+<p>So it seems that this way, we can split our parsing into multiple chunks
+(or tokens). But there is another problem. As we learned before. As soon
+a regex doesn&rsquo;t match on a string it will reset its position to <code>0</code>.</p>
+<p>This makes sense when we use a single regex with a <code>while</code> loop as otherwise
+we would have an infinite loop. But it would be cool if we can turn this off.</p>
+<h1 id="c-option">/c option</h1>
+<p>For now, let&rsquo;s think of another use case. Consider we want to parse lines
+in the following format.</p>
+<pre tabindex="0"><code>maximum = 1234
+verbose = true
+</code></pre><p>It seems like a configuration file that supports just key and value assignment.
+Sure, it would be very easy to just do it with a single regex. But it also
+can make sense to split it up into multiple statements and parse it step after
+step. The separation can be easier to read and understand, but also easier to
+write. Especially if what we try to parse is a lot more complex.</p>
+<p>The idea goes as follows. We first try to just parse the key, then the equal
+sign, and finally expect a bool or an integer. We could start with something like
+this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$config</span> <span class="o">=</span> <span class="s">&#34;verbose = true&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span> <span class="nv">$config</span> <span class="o">=~</span> <span class="sr">m/\G (\w+)/gxms</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$key</span> <span class="o">=</span> <span class="nv">$1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="nv">$config</span> <span class="o">=~</span> <span class="sr">m/\G \s* = \s* /gxms</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="nv">$config</span> <span class="o">=~</span> <span class="sr">m/\G (true|false) \s*/gxms</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">my</span> <span class="nv">$value</span> <span class="o">=</span> <span class="nv">$1</span> <span class="ow">eq</span> <span class="s">&#39;true&#39;</span> <span class="p">?</span> <span class="mi">1</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">printf</span> <span class="s">&#34;Key=[%s] Value=[%s]\n&#34;</span><span class="p">,</span> <span class="nv">$key</span><span class="p">,</span> <span class="nv">$value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This parses the boolean line sucessfully. But when we try to add the integer
+part, it wouldn&rsquo;t work.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="hl"><span class="lnt"> 1
+</span></span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="hl"><span class="lnt">10
+</span></span><span class="hl"><span class="lnt">11
+</span></span><span class="hl"><span class="lnt">12
+</span></span><span class="hl"><span class="lnt">13
+</span></span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line hl"><span class="cl"><span class="k">my</span> <span class="nv">$config</span> <span class="o">=</span> <span class="s">&#34;maximum = 1234&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span> <span class="nv">$config</span> <span class="o">=~</span> <span class="sr">m/\G (\w+)/gxms</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$key</span> <span class="o">=</span> <span class="nv">$1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="nv">$config</span> <span class="o">=~</span> <span class="sr">m/\G \s* = \s* /gxms</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="nv">$config</span> <span class="o">=~</span> <span class="sr">m/\G (true|false) \s*/gxms</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">my</span> <span class="nv">$value</span> <span class="o">=</span> <span class="nv">$1</span> <span class="ow">eq</span> <span class="s">&#39;true&#39;</span> <span class="p">?</span> <span class="mi">1</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">printf</span> <span class="s">&#34;Key=[%s] Value=[%s]\n&#34;</span><span class="p">,</span> <span class="nv">$key</span><span class="p">,</span> <span class="nv">$value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line hl"><span class="cl">        <span class="k">elsif</span> <span class="p">(</span> <span class="nv">$config</span> <span class="o">=~</span> <span class="sr">m/\G (\d+) \s*/gxms</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line hl"><span class="cl">            <span class="k">my</span> <span class="nv">$value</span> <span class="o">=</span> <span class="nv">$1</span><span class="p">;</span>
+</span></span><span class="line hl"><span class="cl">            <span class="nb">printf</span> <span class="s">&#34;Key=[%s] Value=[%s]\n&#34;</span><span class="p">,</span> <span class="nv">$key</span><span class="p">,</span> <span class="nv">$value</span><span class="p">;</span>
+</span></span><span class="line hl"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In the last case we first parse <code>maximum</code>, then it would succeed to parse
+the equal sign <code>=</code>. But then it will first check if what comes next is either
+<code>true</code> or <code>false</code>, but it will fail. The problem is that when it fails the regex
+engine will reset its position back to the beginning.</p>
+<p>So when the <code>elsif</code> checks for <code>(\d+)</code>, it will not succeed. So we just need a
+way for checking for <code>(true|false)</code> without that the regex engine resets the position
+if it fails. We could save the position with <code>pos</code> before we match and set it again
+after a fail. But it is just easier to add the option <code>/c</code> to the regex, as this will
+change the regex engine to not reset the position anymore. And a best practice is
+to just add it to all of them.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="hl"><span class="lnt"> 3
+</span></span><span class="lnt"> 4
+</span><span class="hl"><span class="lnt"> 5
+</span></span><span class="hl"><span class="lnt"> 6
+</span></span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="hl"><span class="lnt">10
+</span></span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$config</span> <span class="o">=</span> <span class="s">&#34;maximum = 1234&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line hl"><span class="cl"><span class="k">if</span> <span class="p">(</span> <span class="nv">$config</span> <span class="o">=~</span> <span class="sr">m/\G (\w+)/gxmsc</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$key</span> <span class="o">=</span> <span class="nv">$1</span><span class="p">;</span>
+</span></span><span class="line hl"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="nv">$config</span> <span class="o">=~</span> <span class="sr">m/\G \s* = \s* /gxmsc</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line hl"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="nv">$config</span> <span class="o">=~</span> <span class="sr">m/\G (true|false) \s*/gxmsc</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">my</span> <span class="nv">$value</span> <span class="o">=</span> <span class="nv">$1</span> <span class="ow">eq</span> <span class="s">&#39;true&#39;</span> <span class="p">?</span> <span class="mi">1</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">printf</span> <span class="s">&#34;Key=[%s] Value=[%s]\n&#34;</span><span class="p">,</span> <span class="nv">$key</span><span class="p">,</span> <span class="nv">$value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line hl"><span class="cl">        <span class="k">elsif</span> <span class="p">(</span> <span class="nv">$config</span> <span class="o">=~</span> <span class="sr">m/\G (\d+) \s*/gxmsc</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">my</span> <span class="nv">$value</span> <span class="o">=</span> <span class="nv">$1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">printf</span> <span class="s">&#34;Key=[%s] Value=[%s]\n&#34;</span><span class="p">,</span> <span class="nv">$key</span><span class="p">,</span> <span class="nv">$value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Finally, we want to parse not a single line. We expect to parse multiple lines.
+So we need a loop that continues parsing up to the end. We can achieve this with
+the following loop.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span> <span class="nv">$config</span> <span class="o">!~</span> <span class="sr">m/\G\z/gxmsc</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># code above inserted here ...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This loop continues until <code>\G</code> that is the position of the regex engine has reached
+<code>\z</code>, the end of the string. Maybe we also want some error handling and create a hash
+instead of printing the result to the console. So finally we can write the following
+function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$cfg</span> <span class="o">=</span> <span class="n">parseConfig</span><span class="p">(</span><span class="s">&#34;maximum = 1234\nverbose=true&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">parseConfig</span><span class="p">($config) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$cfg</span> <span class="o">=</span> <span class="p">{};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span> <span class="nv">$config</span> <span class="o">!~</span> <span class="sr">m/\G\z/gxmsc</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Parse the Key</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="nv">$config</span> <span class="o">=~</span> <span class="sr">m/\G (\w+) /gxmsc</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">my</span> <span class="nv">$key</span> <span class="o">=</span> <span class="nv">$1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># Then there must be an equal sign</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span> <span class="nv">$config</span> <span class="o">=~</span> <span class="sr">m/\G \s* = \s*/gxmsc</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># Value can be a bool</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span> <span class="nv">$config</span> <span class="o">=~</span> <span class="sr">m/\G (true|false) \s*/gxmsc</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="nv">$cfg</span><span class="o">-&gt;</span><span class="p">{</span><span class="nv">$key</span><span class="p">}</span> <span class="o">=</span> <span class="nv">$1</span> <span class="ow">eq</span> <span class="s">&#39;true&#39;</span> <span class="p">?</span> <span class="mi">1</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># or an integer</span>
+</span></span><span class="line"><span class="cl">                <span class="k">elsif</span> <span class="p">(</span><span class="nv">$config</span> <span class="o">=~</span> <span class="sr">m/\G (\d+) \s*/gxmsc</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="nv">$cfg</span><span class="o">-&gt;</span><span class="p">{</span><span class="nv">$key</span><span class="p">}</span> <span class="o">=</span> <span class="nv">$1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># unknown</span>
+</span></span><span class="line"><span class="cl">                <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="nb">die</span> <span class="s">&#34;Expected: Bool or Integer\n&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nb">die</span> <span class="s">&#34;Expected: =\n&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">die</span> <span class="s">&#34;Expected: key that is alphanumeric\n&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nv">$cfg</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>parseConfig</code> returns a hash with the content.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">maximum</span> <span class="o">=&gt;</span> <span class="mi">1234</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">verbose</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The good part of it is that we can easily expand the parsing. For example
+adding the ability for another type of value can become very easy. We just
+need to add another <code>elsif</code> pattern for the value we want. We also
+can produce decent error messages as we always knew what must come
+next. With <code>pos</code> we have access to the current position of the regex engine
+and we can produce a meaningfull error message if needed.</p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
