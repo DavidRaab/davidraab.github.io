@@ -13,8 +13,8 @@
       <pubDate>Sat, 07 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/posts/perl-regex-parsing-with-g-option/</guid>
-      <description>Perl regexes have the /g modificator that is worth knowing about. As you can do a lot of advanced things with this modificator. But here are the basics first.
-Context First we need to understand that Perl has two different contexts and in both contexts the /g modificator works differently.
+      <description>Perl regexes have the /g modifier that is worth knowing about, as you can do a lot of advanced things with this modifier. But here are the basics first.
+Context First we need to understand that Perl has two different contexts and in both contexts the /g modifier works differently.
 List context Let&amp;rsquo;s see list context first. We can enforce list context by assigning to an array.
 Without the /g option a regex just finds its first match and just returns it.</description>
     </item>
