@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>What is Dependency injection? // David Raab</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="David Raab" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.63506a1255de2bbd2501468b0b8a1e3bc30e2a15bfcf11f3e397c03ef3aa0afd.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="What is Dependency injection?"/>
+<meta name="twitter:description" content="On Reddit i came to a question about someone who had problems understanding Dependency Injection. He provided the following code.
+1 2 3 4 5 6 7 8 9 10 11 12 public class Wheel { public Wheel() {} public void moveleft() {} } public class Car { private Wheel wheel; public Car (Wheel wheel) { this.wheel = wheel; } } The question is: Is this usage of Wheel in Car Dependency injection?"/>
+
+    <meta property="og:title" content="What is Dependency injection?" />
+<meta property="og:description" content="On Reddit i came to a question about someone who had problems understanding Dependency Injection. He provided the following code.
+1 2 3 4 5 6 7 8 9 10 11 12 public class Wheel { public Wheel() {} public void moveleft() {} } public class Car { private Wheel wheel; public Car (Wheel wheel) { this.wheel = wheel; } } The question is: Is this usage of Wheel in Car Dependency injection?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/what-is-dependency-injection/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-11T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-01-11T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+      <span class="app-header-title">David Raab</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">Home</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">Tags</a>
+      </nav>
+      <p>My personal Blog. Writing about programming and other stuff.</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+          <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">What is Dependency injection?</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Jan 11, 2023
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          7 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+              <a class="tag" href="https://davidraab.github.io/tags/patterns/">patterns</a>
+              <a class="tag" href="https://davidraab.github.io/tags/dependency-injection/">dependency-injection</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p><a href="https://www.reddit.com/r/csharp/comments/108unij/quick_question_dependency_injection_is_just/">On Reddit i came to a question</a> about someone who had problems understanding
+Dependency Injection. He provided the following code.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Wheel</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Wheel</span><span class="p">()</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">moveleft</span><span class="p">()</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Car</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Wheel</span> <span class="n">wheel</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Car</span> <span class="p">(</span><span class="n">Wheel</span> <span class="n">wheel</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">wheel</span> <span class="p">=</span> <span class="n">wheel</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The question is: Is this usage of <code>Wheel</code> in <code>Car</code> <strong>Dependency injection</strong>?
+But the person wasn&rsquo;t sure, as a <strong>Is it that simple or I misunderstand something?</strong> followed.</p>
+<p>First, the answer is <strong>No</strong>. It&rsquo;s not dependency injection. And still a lot of people
+saying <strong>yes</strong> believing it would be. This is one of the reason the author is being confused.
+Because if this would be <strong>Dependency injection</strong> as many people believe, then the
+only classes without <strong>Dependency injection</strong> would be those with an empty constructor.
+No wonder the following <strong>Is it that simple?</strong> is asked. Because then <strong>Dependency injection</strong>
+would have no meaning at all.</p>
+<p>I guess the whole misunderstanding of <strong>Dependendy injection</strong> happens because
+a lot of explanation (I see this often with design patterns) are just extremely bad.
+They usually don&rsquo;t start with a problem and just explain a pattern out of the blue.</p>
+<p>But this is not how Design Patterns, or any kind of a good explanation should work
+in general. Design Pattern are called <strong>Design Patterns</strong> because the are solution
+to common problems.</p>
+<p>And sure, just passing some arguments to a class is obviously not a problem at
+all. That&rsquo;s what basically every language offers. Otherwise programming with
+objects would be completely pointless.</p>
+<p>To understanding any <strong>Design Pattern</strong> we first must understand what kind of
+problem a <strong>Design Pattern</strong> tries to solve. So we must understand the
+problem first.</p>
+<p>And this is what i&rsquo;m doing now. I introduce you to a problem that is common
+to software development.</p>
+<h2 id="the-problem">The problem</h2>
+<p>Consider you are writing an application. The application should have a common
+configuration file. In your first attempt you just consider to read
+a JSON file. So you create a <code>Config</code> class, that just does that. Reads the
+config, does the parsing and offers you an interface to query your config.</p>
+<p>How this interface exactly looks and how it is implemented doesn&rsquo;t matter
+in this article.</p>
+<p>Your program get bigger and suddenly you decide to support another configuration
+file. Maybe you create your own format, or you use XML. Maybe you want to
+read the config from a database. Or maybe you are writing a test-suite and
+need different configurations in your test-suite, so it would be nice to define
+the config just as a <code>string</code>.</p>
+<p>The question that arise: How do you solve this problem? How can you provide this
+flexibility without changing all of the classes that depends on <code>Config</code>?</p>
+<p>The answer is with <strong>Dependency injection</strong>. <strong>Dependency injection</strong> is that
+you have a <strong>dependency</strong> in this case for a Configugration file. But you want
+multiple different ways to configure your application. So instead of
+a single <code>Config</code> class you will have many different <strong>Config</strong> classes like
+<code>ConfigJSON</code>, <code>ConfigXML</code>, <code>ConfigDatabase</code>, <code>ConfigString</code>, &hellip;</p>
+<p>Other classes that you write could now directly instantiate <code>ConfigJSON</code> or <code>ConfigString</code>
+and so on. But this would have disadvantages. The short is, you usually
+don&rsquo;t want to pick a concrete implementation if there exists more than one,
+actually your application anyway wouldn&rsquo;t work this way.</p>
+<div class="info">
+The <strong>more than one</strong> actually is really important. Today a lot of (at least
+OO) programmers think it's in general a bad idea to instantiate a specific class.
+This often leads to code where every class has an interface, wether or not
+there exists multiple implementations. In my opinion an extremely bad
+practice that is common today.
+</div>
+<p>At the early stage when your program starts, you usually want to pick
+one of those, and then use this throughout the whole program. For example
+you program could check if a file like <code>config.json</code> exists, if so then
+it uses <code>ConfigJSON</code>, otherwise it would test for <code>config.xml</code> and use
+<code>ConfigXML</code>, &hellip;</p>
+<p>Once you have decided which config to use you would pass this configuration
+to all of your classes. One way to do so is by <strong>Dependency injection</strong>. <strong>Dependency injection</strong>
+means by either providing the dependency when you create the class (<strong>Constructor injection</strong>)
+or by passing it later through a setter (<strong>Method/Property injection</strong>).</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">foo</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Foo</span><span class="p">(</span><span class="n">config</span><span class="p">=</span><span class="k">new</span> <span class="n">ConfigJson</span><span class="p">(</span><span class="s">&#34;file&#34;</span><span class="p">));</span> <span class="c1">// Constructor injection</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">foo</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Foo</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">foo</span><span class="p">.</span><span class="n">setConfig</span><span class="p">(</span><span class="k">new</span> <span class="n">ConfigJson</span><span class="p">(</span><span class="s">&#34;file&#34;</span><span class="p">));</span> <span class="c1">// Property/Method injection</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And this is also why people get confused what <strong>Dependency injection</strong> really is.
+When you are never introduced to the problem first then there is no difference
+to any call to a constructor of a class or any other setter.</p>
+<p>No wonder why there is so much confusion around this!</p>
+<p><strong>Dependency injection</strong> tries to solve the problem that rises when you have
+one dependency, like a config, but many different ways how to create such an
+dependency.</p>
+<p>When your application uses only one way to configure your application, and
+you never feel the urge to do it any different, then you would not have a
+problem to begin with. You still can pass the config as an argument as passing
+variables always makes things more flexible but you will never run into a problem
+with this.</p>
+<p>One reason where people feel the urge to use this pattern, and probably the most
+common, is when your class is doing side-effects. Exactly what happens when you
+read a config file. That&rsquo;s also why I picked this example.</p>
+<p>Without side-effects and multiple different implementations there usually
+is no need for this pattern as you don&rsquo;t have a problem to begin with.</p>
+<h1 id="static-typing">Static Typing</h1>
+<p>The only thing we need to consider is <strong>Static Typing</strong>. In a dynamic typed
+language there would be no problem to create different classes like <code>ConfigJson</code>
+and so on, and use them wherever you want. As long all those classes share the same
+interface it will work.</p>
+<p>But in a <strong>static typed</strong> language you must add some glue that this is possible.</p>
+<p>You either must:</p>
+<ol>
+<li>Create an abstract base class <code>Config</code> with your common interface and expect
+every implementation to derive from <code>Config</code>.</li>
+<li>Create an interface like <code>IConfig</code> and expect <code>IConfig</code> everywhere you would
+expect to get a config.</li>
+</ol>
+<p>This way it is possible to write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">config</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ConfigJson</span><span class="p">(</span><span class="s">&#34;config.json&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">config</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ConfigXML</span><span class="p">(</span><span class="s">&#34;config.xml&#34;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and later use any of the <code>config</code> variable.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">other</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Other</span><span class="p">(</span><span class="n">config</span><span class="p">=</span><span class="n">config</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It doesn&rsquo;t matter if your <code>config</code> will be <code>ConfigJson</code> or <code>ConfigXML</code>. And all
+of this is <strong>Dependency injection</strong>.</p>
+<p>Whenever you have just a <em>normal</em> (whatever this means) class with just some fields,
+than it doesn&rsquo;t become <strong>Dependency injection</strong> just because you constructor expects
+some variables.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Person</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">Name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Person</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">name</span> <span class="p">=</span> <span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>If we would say <code>string</code> would be a dependency to <code>Person</code> and it would be
+<strong>Dependency injection</strong> then we could just forget everything about the Pattern.
+The pattern would otherwise be so much simplified that it became complex. As
+any meaning to the Pattern was lost. It would have no purpose to talk about
+<strong>Dependency injection</strong>.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>A pattern always solves a problem and the code to implement it doesn&rsquo;t stand
+for itself. Just because some other code basically looks the same doesn&rsquo;t
+mean it is this pattern.</p>
+<p>Ignoring the problem just causes confusion to understand patterns in general.
+Sadly this is exactly what i see in most OO tutorials that explain design
+patterns.</p>
+<p>I also must say i am generally against most of the design patterns that people
+think are usefull, they often have the exact same problem you see here. Some
+(not all) are so identical that it becomes hard to distinguish them. Some
+patterns are basically the same with different names (Strategy &amp; Command pattern
+as an example).</p>
+<p>On top, there are also other ways how to solve the problem. You can solve the problem
+of different configurations from JSON, XML or an in-memory string with a single <code>Config</code>
+class, without inheritance and without using interfaces at all.</p>
+<p>But this is another story &hellip;</p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

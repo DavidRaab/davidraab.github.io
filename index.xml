@@ -6,7 +6,17 @@
     <description>Recent content on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 07 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 11 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>What is Dependency injection?</title>
+      <link>https://davidraab.github.io/posts/what-is-dependency-injection/</link>
+      <pubDate>Wed, 11 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/what-is-dependency-injection/</guid>
+      <description>On Reddit i came to a question about someone who had problems understanding Dependency Injection. He provided the following code.
+1 2 3 4 5 6 7 8 9 10 11 12 public class Wheel { public Wheel() {} public void moveleft() {} } public class Car { private Wheel wheel; public Car (Wheel wheel) { this.wheel = wheel; } } The question is: Is this usage of Wheel in Car Dependency injection?</description>
+    </item>
+    
     <item>
       <title>Perl Regex Parsing with the g option</title>
       <link>https://davidraab.github.io/posts/perl-regex-parsing-with-g-option/</link>
@@ -307,6 +317,15 @@ The Toy Example Recently I had some conversation about code in a game and provid
       <guid>https://davidraab.github.io/posts/array/</guid>
       <description>Now to the final task. Let&amp;rsquo;s consider we want to parse an array that is provided by a string. Sure, we could use eval or other helpers. But we want to do it ourself. We consider that the array only can contain numbers. The string could look like this.
 [1,2,3,4] For parsing this array we could split it into four different regexes. First an array must start with [. The end of an array is ].</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://davidraab.github.io/posts/draft-ioc/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/draft-ioc/</guid>
+      <description>Why OO is garbagbe. On the example of Depency Injection and IoC. Triggered by: https://www.reddit.com/r/csharp/comments/108unij/quick_question_dependency_injection_is_just/ Additional Resources: https://www.tutorialsteacher.com/ioc/inversion-of-control</description>
     </item>
     
   </channel>
