@@ -4,11 +4,11 @@
     <title>From mutable loops to immutable folds // David Raab</title>
     <link rel="shortcut icon" href="/favicon.ico" />
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="generator" content="Hugo 0.109.0">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="David Raab" />
     <meta name="description" content="Explains the shift from imperative loops to more functional folds" />
-    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.63506a1255de2bbd2501468b0b8a1e3bc30e2a15bfcf11f3e397c03ef3aa0afd.css" />
+    <link rel="stylesheet" href="/css/main.min.b3acd33ff029e0c10002ab1a1389f324829e4e73b351e6aa4653f4bc189f6375.css" />
 
     
     <meta name="twitter:card" content="summary"/>
@@ -21,7 +21,6 @@
 <meta property="og:url" content="https://davidraab.github.io/posts/loops-to-folds/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2016-04-05T00:00:00+00:00" />
 <meta property="article:modified_time" content="2016-04-05T00:00:00+00:00" />
-
 
 
   </head>
@@ -39,14 +38,14 @@
       <div class="app-header-social">
         
           <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <title>David Raab Github Profile</title>
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg>
           </a>
         
           <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
   <title>Atom Feed</title>
   <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
 </svg>
@@ -61,21 +60,21 @@
       <h1 class ="post-title">From mutable loops to immutable folds</h1>
       <div class="post-meta">
         <div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <title>calendar</title>
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
           Apr 5, 2016
         </div>
         <div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
           18 min read
         </div>
         <div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
@@ -127,9 +126,9 @@ if we had <em>immutable data</em>. That means, we return new data, instead of <e
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="n">ResizeArray</span><span class="o">&lt;_&gt;</span><span class="bp">()</span>
-</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="o">.</span><span class="n">Add</span><span class="o">(</span><span class="n">1</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="o">.</span><span class="n">Add</span><span class="o">(</span><span class="n">2</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="o">.</span><span class="n">Add</span><span class="o">(</span><span class="n">3</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="o">.</span><span class="n">Add</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="o">.</span><span class="n">Add</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="o">.</span><span class="n">Add</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">squaredNumbers</span> <span class="o">=</span> <span class="nn">ResizeArray</span><span class="p">.</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">)</span> <span class="n">numbers</span>
 </span></span></code></pre></td></tr></table>
@@ -215,16 +214,16 @@ Technically we could expand the looping construct into separate statements.</p>
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">i</span>  <span class="o">=</span> <span class="n">0</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">i</span>  <span class="o">=</span> <span class="mi">0</span>
 </span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">i</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">i1</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">i1</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
 </span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">i1</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">i2</span> <span class="o">=</span> <span class="n">i1</span> <span class="o">+</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">i2</span> <span class="o">=</span> <span class="n">i1</span> <span class="o">+</span> <span class="mi">1</span>
 </span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">i2</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">i3</span> <span class="o">=</span> <span class="n">i2</span> <span class="o">+</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">i3</span> <span class="o">=</span> <span class="n">i2</span> <span class="o">+</span> <span class="mi">1</span>
 </span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">i3</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -240,7 +239,7 @@ variable. We also can pass the result to a function.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">calc</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">1</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">calc</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
 </span></span><span class="line"><span class="cl"><span class="n">f</span> <span class="n">calc</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -250,7 +249,7 @@ variable. We also can pass the result to a function.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">f</span> <span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">1</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">f</span> <span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>This is an important idea. It just means that when we call a function, it is also an assign statement
@@ -268,9 +267,9 @@ recursively and pass it the next state as an argument!</p>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">i</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">i</span>
-</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">loop</span> <span class="n">0</span> <span class="c1">// infinity loop
+</span></span><span class="line"><span class="cl"><span class="n">loop</span> <span class="mi">0</span> <span class="c1">// infinity loop
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Sure, we now have another problem, as we currently have an infinity loop. We now <em>always</em> call <code>loop i+1</code>.
@@ -286,11 +285,11 @@ So we have to add some condition when we really want to loop.</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">i</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">10</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="k">then</span>
 </span></span><span class="line"><span class="cl">        <span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">i</span>
-</span></span><span class="line"><span class="cl">        <span class="n">loop</span> <span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">loop</span> <span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">loop</span> <span class="n">0</span> <span class="c1">// Will now print numbers from 0 to 9
+</span></span><span class="line"><span class="cl"><span class="n">loop</span> <span class="mi">0</span> <span class="c1">// Will now print numbers from 0 to 9
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Let&rsquo;s abstract it further. Instead of hard coding <code>10</code> we want to provide the end as an argument.
@@ -309,9 +308,9 @@ of hard-coding the <em>print-statement</em>.</p>
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">forLoop</span> <span class="n">i</span> <span class="n">stop</span> <span class="n">f</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">stop</span> <span class="k">then</span>
 </span></span><span class="line"><span class="cl">        <span class="n">f</span> <span class="n">i</span>
-</span></span><span class="line"><span class="cl">        <span class="n">forLoop</span> <span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="n">1</span><span class="o">)</span> <span class="n">stop</span> <span class="n">f</span>
+</span></span><span class="line"><span class="cl">        <span class="n">forLoop</span> <span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span> <span class="n">stop</span> <span class="n">f</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">forLoop</span> <span class="n">0</span> <span class="n">10</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">i</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">forLoop</span> <span class="mi">0</span> <span class="mi">10</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">i</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We now basically recreated a <code>for</code> loop through a recursive function! We just can provide
@@ -337,10 +336,10 @@ to provide <code>stop</code> and <code>f</code> again as arguments. We can fix t
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">i</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">stop</span> <span class="k">then</span>
 </span></span><span class="line"><span class="cl">            <span class="n">f</span> <span class="n">i</span>
-</span></span><span class="line"><span class="cl">            <span class="n">loop</span> <span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">loop</span> <span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="n">start</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">forLoop</span> <span class="n">0</span> <span class="n">10</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">i</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">forLoop</span> <span class="mi">0</span> <span class="mi">10</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">i</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Our <code>forLoop</code> function is not a recursive function any more, instead it contains a recursive <code>loop</code>
@@ -407,13 +406,13 @@ pass <code>sum</code> as an argument to our <code>f</code> function. As we canno
 </span></span><span class="line"><span class="cl">            <span class="c1">// create the next sum
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">let</span> <span class="nv">nextSum</span> <span class="o">=</span> <span class="n">f</span> <span class="n">i</span> <span class="n">sum</span>
 </span></span><span class="line"><span class="cl">            <span class="c1">// next recursive call with updated &#34;i&#34; and &#34;sum&#34;
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">loop</span> <span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="n">1</span><span class="o">)</span> <span class="n">nextSum</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">loop</span> <span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span> <span class="n">nextSum</span>
 </span></span><span class="line"><span class="cl">        <span class="k">else</span>
 </span></span><span class="line"><span class="cl">            <span class="c1">// Return &#34;sum&#34; as soon we reach stop
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">sum</span>
-</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="n">start</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="n">start</span> <span class="mi">0</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> <span class="n">forLoop</span> <span class="n">0</span> <span class="n">10</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="n">sum</span> <span class="o">-&gt;</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">i</span><span class="o">)</span> <span class="c1">// 45
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> <span class="n">forLoop</span> <span class="mi">0</span> <span class="mi">10</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="n">sum</span> <span class="o">-&gt;</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">i</span><span class="o">)</span> <span class="c1">// 45
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>The only thing I dislike at this point is that the usage of our <code>forLoop</code> is still limited. We have
@@ -444,12 +443,12 @@ of the same type. This way, the <em>initial-value</em> can be generic.</p>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">i</span> <span class="n">acc</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">stop</span> <span class="k">then</span>
 </span></span><span class="line"><span class="cl">            <span class="k">let</span> <span class="nv">nextAcc</span> <span class="o">=</span> <span class="n">f</span> <span class="n">i</span> <span class="n">acc</span>
-</span></span><span class="line"><span class="cl">            <span class="n">loop</span> <span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="n">1</span><span class="o">)</span> <span class="n">nextAcc</span>
+</span></span><span class="line"><span class="cl">            <span class="n">loop</span> <span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span> <span class="n">nextAcc</span>
 </span></span><span class="line"><span class="cl">        <span class="k">else</span>
 </span></span><span class="line"><span class="cl">            <span class="n">acc</span>
 </span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="n">start</span> <span class="n">init</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> <span class="n">forLoop</span> <span class="n">0</span> <span class="n">10</span> <span class="n">0</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="n">sum</span> <span class="o">-&gt;</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">i</span><span class="o">)</span> <span class="c1">// 45
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> <span class="n">forLoop</span> <span class="mi">0</span> <span class="mi">10</span> <span class="mi">0</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="n">sum</span> <span class="o">-&gt;</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">i</span><span class="o">)</span> <span class="c1">// 45
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>We now have the signature:</p>
@@ -466,7 +465,7 @@ an <em>immutable</em> way.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listOfNumbers</span> <span class="o">=</span> <span class="n">forLoop</span> <span class="n">0</span> <span class="n">10</span> <span class="bp">[]</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="kt">list</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">::</span> <span class="kt">list</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listOfNumbers</span> <span class="o">=</span> <span class="n">forLoop</span> <span class="mi">0</span> <span class="mi">10</span> <span class="bp">[]</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="kt">list</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">::</span> <span class="kt">list</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// [9;8;7;6;5;4;3;2;1;0]
 </span></span></span></code></pre></td></tr></table>
 </div>
@@ -477,7 +476,7 @@ an <em>immutable</em> way.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">stringofNumbers</span> <span class="o">=</span> <span class="n">forLoop</span> <span class="n">0</span> <span class="n">10</span> <span class="s">&#34;&#34;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="n">str</span> <span class="o">-&gt;</span> <span class="n">str</span> <span class="o">+</span> <span class="o">(</span><span class="kt">string</span> <span class="n">i</span><span class="o">))</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">stringofNumbers</span> <span class="o">=</span> <span class="n">forLoop</span> <span class="mi">0</span> <span class="mi">10</span> <span class="s">&#34;&#34;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="n">str</span> <span class="o">-&gt;</span> <span class="n">str</span> <span class="o">+</span> <span class="o">(</span><span class="kt">string</span> <span class="n">i</span><span class="o">))</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// &#34;0123456789&#34;
 </span></span></span></code></pre></td></tr></table>
 </div>
@@ -489,8 +488,8 @@ an <em>immutable</em> way.</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">100</span><span class="o">.</span><span class="n">0</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">forLoop</span> <span class="n">0</span> <span class="n">5</span> <span class="n">x</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">/</span> <span class="n">2</span><span class="o">.</span><span class="n">0</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="mi">100</span><span class="o">.</span><span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">forLoop</span> <span class="mi">0</span> <span class="mi">5</span> <span class="n">x</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">/</span> <span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// 3.125
 </span></span></span></code></pre></td></tr></table>
 </div>
@@ -525,8 +524,8 @@ or use pattern matching to extract values from the beginning.</p>
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">numbers1</span> <span class="o">=</span> <span class="o">[</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">]</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">numbers2</span> <span class="o">=</span> <span class="n">1</span> <span class="o">::</span> <span class="n">numbers1</span> <span class="c1">// [1;2;3;4;5]
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">numbers1</span> <span class="o">=</span> <span class="o">[</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">;</span><span class="mi">5</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">numbers2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">::</span> <span class="n">numbers1</span> <span class="c1">// [1;2;3;4;5]
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="o">(</span><span class="n">head</span><span class="o">::</span><span class="n">tail</span><span class="o">)</span> <span class="o">=</span> <span class="n">numbers2</span>
 </span></span><span class="line"><span class="cl">
@@ -586,7 +585,7 @@ followed by <code>acc</code> and <code>list</code>. Summing a list of <code>int<
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> <span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span> <span class="n">0</span> <span class="o">[</span><span class="n">1</span> <span class="o">..</span> <span class="n">9</span><span class="o">]</span> <span class="c1">// 45
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> <span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span> <span class="mi">0</span> <span class="o">[</span><span class="mi">1</span> <span class="o">..</span> <span class="mi">9</span><span class="o">]</span> <span class="c1">// 45
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>So, what is <code>fold</code> exactly? <code>fold</code> is just the idea of looping through a <em>data-structure</em>
@@ -618,7 +617,7 @@ recursive loop function anymore to traverse a list! We just can use <code>fold</
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span> <span class="o">::</span> <span class="n">acc</span>   <span class="c1">//     nextAcc &lt;- (f x) :: acc
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">)</span> <span class="bp">[]</span> <span class="kt">list</span>          <span class="c1">// Start with &#34;[]&#34; as &#34;acc&#34; and go through &#34;list&#34;
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span><span class="o">)</span> <span class="o">[</span><span class="n">0</span><span class="o">..</span><span class="n">9</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="o">)</span> <span class="o">[</span><span class="mi">0</span><span class="o">..</span><span class="mi">9</span><span class="o">]</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// [18; 16; 14; 12; 10; 8; 6; 4; 2; 0]
 </span></span></span></code></pre></td></tr></table>
 </div>
@@ -659,7 +658,7 @@ have <code>foldBack</code> we can define <code>map</code> with <code>foldBack</c
 </span></span><span class="line"><span class="cl">    <span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span> <span class="o">::</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="bp">[]</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// Now we get the right result
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span><span class="o">)</span> <span class="o">[</span><span class="n">1</span> <span class="o">..</span> <span class="n">9</span><span class="o">]</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="o">)</span> <span class="o">[</span><span class="mi">1</span> <span class="o">..</span> <span class="mi">9</span><span class="o">]</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// [2; 4; 6; 8; 10; 12; 14; 16; 18]
 </span></span></span></code></pre></td></tr></table>
 </div>
@@ -674,7 +673,7 @@ steps that code like this do:</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> <span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span> <span class="n">0</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">5</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> <span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span> <span class="mi">0</span> <span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><pre><code>acc | list        | acc + x
@@ -692,7 +691,7 @@ steps that code like this do:</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> <span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">5</span><span class="o">]</span> <span class="n">0</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> <span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="o">]</span> <span class="mi">0</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><pre><code>list        | acc | x + acc
@@ -750,39 +749,39 @@ those functions yourself.</p>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// Length
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">length</span> <span class="n">xs</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">    <span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">1</span><span class="o">)</span> <span class="n">0</span> <span class="n">xs</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="mi">0</span> <span class="n">xs</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">length</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">10</span><span class="o">]</span> <span class="c1">// 10
+</span></span><span class="line"><span class="cl"><span class="n">length</span> <span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="o">]</span> <span class="c1">// 10
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl"><span class="c1">// Filter
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">filter</span> <span class="n">predicate</span> <span class="n">xs</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="n">predicate</span> <span class="n">x</span> <span class="k">then</span> <span class="n">x</span> <span class="o">::</span> <span class="n">acc</span> <span class="k">else</span> <span class="n">acc</span><span class="o">)</span> <span class="n">xs</span> <span class="bp">[]</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">filter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span><span class="o">)</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">10</span><span class="o">]</span> <span class="c1">// [2;4;6;8;10]
+</span></span><span class="line"><span class="cl"><span class="n">filter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="o">]</span> <span class="c1">// [2;4;6;8;10]
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl"><span class="c1">// Iter
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">iter</span> <span class="n">f</span> <span class="n">xs</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="n">x</span><span class="o">)</span> <span class="bp">()</span> <span class="n">xs</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">iter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">x</span><span class="o">)</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">5</span><span class="o">]</span> <span class="c1">// Prints numbers 1 to 5 on a line
+</span></span><span class="line"><span class="cl"><span class="n">iter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">x</span><span class="o">)</span> <span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="o">]</span> <span class="c1">// Prints numbers 1 to 5 on a line
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl"><span class="c1">// Append
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">append</span> <span class="n">xs</span> <span class="n">ys</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">::</span> <span class="n">acc</span><span class="o">)</span> <span class="n">xs</span> <span class="n">ys</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">append</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">[</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">;</span><span class="n">6</span><span class="o">]</span> <span class="c1">// [1;2;3;4;5;6]
+</span></span><span class="line"><span class="cl"><span class="n">append</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">]</span> <span class="o">[</span><span class="mi">4</span><span class="o">;</span><span class="mi">5</span><span class="o">;</span><span class="mi">6</span><span class="o">]</span> <span class="c1">// [1;2;3;4;5;6]
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl"><span class="c1">// concat
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">concat</span> <span class="n">lol</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">append</span> <span class="n">acc</span> <span class="n">x</span><span class="o">)</span> <span class="bp">[]</span> <span class="n">lol</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">concat</span> <span class="o">[[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">];</span> <span class="o">[</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">;</span><span class="n">6</span><span class="o">];</span> <span class="o">[</span><span class="n">7</span><span class="o">;</span><span class="n">8</span><span class="o">;</span><span class="n">9</span><span class="o">]]</span> <span class="c1">// [1;2;3;4;5;6;7;8;9]
+</span></span><span class="line"><span class="cl"><span class="n">concat</span> <span class="o">[[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">];</span> <span class="o">[</span><span class="mi">4</span><span class="o">;</span><span class="mi">5</span><span class="o">;</span><span class="mi">6</span><span class="o">];</span> <span class="o">[</span><span class="mi">7</span><span class="o">;</span><span class="mi">8</span><span class="o">;</span><span class="mi">9</span><span class="o">]]</span> <span class="c1">// [1;2;3;4;5;6;7;8;9]
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl"><span class="c1">// collect
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">collect</span> <span class="n">f</span> <span class="n">xs</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="n">map</span> <span class="n">f</span> <span class="n">xs</span> <span class="o">|&gt;</span> <span class="n">concat</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">collect</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="o">[</span><span class="n">x</span><span class="o">;</span><span class="n">x</span><span class="o">;</span><span class="n">x</span><span class="o">])</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="c1">// [1;1;1;2;2;2;3;3;3]
+</span></span><span class="line"><span class="cl"><span class="n">collect</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="o">[</span><span class="n">x</span><span class="o">;</span><span class="n">x</span><span class="o">;</span><span class="n">x</span><span class="o">])</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">]</span> <span class="c1">// [1;1;1;2;2;2;3;3;3]
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>From the implementation i think only <code>append</code>, <code>concat</code> and <code>collect</code> are interesting.</p>

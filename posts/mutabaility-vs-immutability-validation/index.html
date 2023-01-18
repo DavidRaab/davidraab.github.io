@@ -4,11 +4,11 @@
     <title>Mutability vs. Immutability: Valid objects // David Raab</title>
     <link rel="shortcut icon" href="/favicon.ico" />
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="generator" content="Hugo 0.109.0">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="David Raab" />
     <meta name="description" content="At any time we want to maintain valid objects. In this article we compare how hard/easy it is with mutability and immutability." />
-    <link rel="stylesheet" href="https://davidraab.github.io/css/main.min.63506a1255de2bbd2501468b0b8a1e3bc30e2a15bfcf11f3e397c03ef3aa0afd.css" />
+    <link rel="stylesheet" href="/css/main.min.b3acd33ff029e0c10002ab1a1389f324829e4e73b351e6aa4653f4bc189f6375.css" />
 
     
     <meta name="twitter:card" content="summary"/>
@@ -21,7 +21,6 @@
 <meta property="og:url" content="https://davidraab.github.io/posts/mutabaility-vs-immutability-validation/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2017-02-27T00:00:00+00:00" />
 <meta property="article:modified_time" content="2017-02-27T00:00:00+00:00" />
-
 
 
   </head>
@@ -39,14 +38,14 @@
       <div class="app-header-social">
         
           <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <title>David Raab Github Profile</title>
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg>
           </a>
         
           <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
   <title>Atom Feed</title>
   <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
 </svg>
@@ -61,21 +60,21 @@
       <h1 class ="post-title">Mutability vs. Immutability: Valid objects</h1>
       <div class="post-meta">
         <div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <title>calendar</title>
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
           Feb 27, 2017
         </div>
         <div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
           26 min read
         </div>
         <div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
@@ -609,8 +608,8 @@ of invalid objects like:</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">a</span> <span class="o">=</span> <span class="o">{</span><span class="n">Minimum</span><span class="o">=</span><span class="n">0</span><span class="o">;</span> <span class="n">Maximum</span><span class="o">=</span><span class="n">100</span><span class="o">;</span> <span class="n">Current</span><span class="o">=</span><span class="n">1000</span><span class="o">}</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="o">{</span><span class="n">Minimum</span><span class="o">=</span><span class="n">100</span><span class="o">;</span> <span class="n">Maximum</span><span class="o">=</span><span class="n">0</span><span class="o">;</span> <span class="n">Current</span><span class="o">=-</span><span class="n">1000</span><span class="o">}</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">a</span> <span class="o">=</span> <span class="o">{</span><span class="n">Minimum</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">Maximum</span><span class="o">=</span><span class="mi">100</span><span class="o">;</span> <span class="n">Current</span><span class="o">=</span><span class="mi">1000</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="o">{</span><span class="n">Minimum</span><span class="o">=</span><span class="mi">100</span><span class="o">;</span> <span class="n">Maximum</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">Current</span><span class="o">=-</span><span class="mi">1000</span><span class="o">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We solve that problem by creating a module and make the record constructor private.</p>
@@ -674,8 +673,8 @@ state cannot be created anymore.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">MinMax</span><span class="p">.</span><span class="n">show</span> <span class="o">(</span><span class="nn">MinMax</span><span class="p">.</span><span class="n">create</span> <span class="n">0</span> <span class="n">100</span> <span class="n">1000</span><span class="o">)</span> <span class="c1">// 100 range 0/100
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">MinMax</span><span class="p">.</span><span class="n">create</span> <span class="n">100</span> <span class="n">0</span> <span class="o">-</span><span class="n">1000</span>              <span class="c1">// Exception: Minimum greater than Maximum
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">MinMax</span><span class="p">.</span><span class="n">show</span> <span class="o">(</span><span class="nn">MinMax</span><span class="p">.</span><span class="n">create</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">1000</span><span class="o">)</span> <span class="c1">// 100 range 0/100
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">MinMax</span><span class="p">.</span><span class="n">create</span> <span class="mi">100</span> <span class="mi">0</span> <span class="o">-</span><span class="mi">1000</span>              <span class="c1">// Exception: Minimum greater than Maximum
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Inside the module it is a little bit different. Every function still has access
@@ -714,12 +713,12 @@ falling into the pit of success.</p>
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">MinMax</span><span class="p">.</span><span class="n">create</span> <span class="n">0</span> <span class="n">100</span> <span class="n">50</span>
-</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">MinMax</span><span class="p">.</span><span class="n">add</span> <span class="n">200</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">MinMax</span><span class="p">.</span><span class="n">create</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">50</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">MinMax</span><span class="p">.</span><span class="n">add</span> <span class="mi">200</span>
 </span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">MinMax</span><span class="p">.</span><span class="n">show</span> <span class="c1">// 100 range 0/100
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="nn">MinMax</span><span class="p">.</span><span class="n">create</span> <span class="n">0</span> <span class="n">100</span> <span class="n">50</span>
-</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">MinMax</span><span class="p">.</span><span class="n">subtract</span> <span class="n">200</span>
+</span></span><span class="line"><span class="cl"><span class="nn">MinMax</span><span class="p">.</span><span class="n">create</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">50</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">MinMax</span><span class="p">.</span><span class="n">subtract</span> <span class="mi">200</span>
 </span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="nn">MinMax</span><span class="p">.</span><span class="n">show</span> <span class="c1">// 0 range 0/100
 </span></span></span></code></pre></td></tr></table>
 </div>
@@ -755,10 +754,10 @@ immutability.</p>
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">v</span> <span class="o">=</span> <span class="nn">MinMax</span><span class="p">.</span><span class="n">create</span> <span class="n">0</span> <span class="n">100</span> <span class="n">80</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">v</span> <span class="o">=</span> <span class="nn">MinMax</span><span class="p">.</span><span class="n">create</span> <span class="mi">0</span> <span class="mi">100</span> <span class="mi">80</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">try</span>
-</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="nn">MinMax</span><span class="p">.</span><span class="n">setMaximum</span> <span class="o">-</span><span class="n">100</span> <span class="n">v</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="nn">MinMax</span><span class="p">.</span><span class="n">setMaximum</span> <span class="o">-</span><span class="mi">100</span> <span class="n">v</span>
 </span></span><span class="line"><span class="cl">    <span class="n">printfn</span> <span class="s">&#34;%s&#34;</span> <span class="o">(</span><span class="nn">MinMax</span><span class="p">.</span><span class="n">show</span> <span class="n">x</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="k">with</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="bp">()</span>
@@ -1033,13 +1032,13 @@ do with our <code>ProductsPriceOver</code> module so far:</p>
 </span></span><span class="line"><span class="cl">    <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="nn">Product</span><span class="p">.</span><span class="n">name</span> <span class="o">(</span><span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">products</span> <span class="n">ppo</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// Our Products
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">a</span> <span class="o">=</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="s">&#34;A&#34;</span> <span class="n">9</span><span class="o">.</span><span class="n">99m</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="s">&#34;B&#34;</span> <span class="n">19</span><span class="o">.</span><span class="n">99m</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">c</span> <span class="o">=</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="s">&#34;C&#34;</span> <span class="n">49</span><span class="o">.</span><span class="n">99m</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">a</span> <span class="o">=</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="s">&#34;A&#34;</span> <span class="mi">9</span><span class="o">.</span><span class="mi">99m</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="s">&#34;B&#34;</span> <span class="mi">19</span><span class="o">.</span><span class="mi">99m</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">c</span> <span class="o">=</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="s">&#34;C&#34;</span> <span class="mi">49</span><span class="o">.</span><span class="mi">99m</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// Initializing and adding our products
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">ppo</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">    <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">create</span> <span class="n">10</span><span class="o">.</span><span class="n">00m</span> <span class="bp">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">create</span> <span class="mi">10</span><span class="o">.</span><span class="mi">00m</span> <span class="bp">[]</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">add</span> <span class="n">a</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">add</span> <span class="n">b</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">add</span> <span class="n">c</span>
@@ -1052,7 +1051,7 @@ do with our <code>ProductsPriceOver</code> module so far:</p>
 </span></span></span><span class="line"><span class="cl"><span class="c1">// Correct: only contains C as price of A is below 10.00
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl"><span class="c1">// Increase minimum price
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">ppo3</span> <span class="o">=</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">setPrice</span> <span class="n">20</span><span class="o">.</span><span class="n">00m</span> <span class="n">ppo</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">ppo3</span> <span class="o">=</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">setPrice</span> <span class="mi">20</span><span class="o">.</span><span class="mi">00m</span> <span class="n">ppo</span>
 </span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%A&#34;</span> <span class="o">(</span><span class="n">getProductNames</span> <span class="n">ppo3</span><span class="o">)</span> <span class="c1">// [&#34;C&#34;]
 </span></span></span><span class="line"><span class="cl"><span class="c1">// Correct: Contained B and C before. B was removed after
 </span></span></span><span class="line"><span class="cl"><span class="c1">//          increasing the needed price a product must have.
@@ -1060,7 +1059,7 @@ do with our <code>ProductsPriceOver</code> module so far:</p>
 </span></span><span class="line"><span class="cl"><span class="c1">// Decrease Price and then reset all products
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">ppo4</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="n">ppo</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">setPrice</span> <span class="n">5</span><span class="o">.</span><span class="n">00m</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">setPrice</span> <span class="mi">5</span><span class="o">.</span><span class="mi">00m</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">setProducts</span> <span class="o">[</span><span class="n">a</span><span class="o">;</span><span class="n">b</span><span class="o">;</span><span class="n">c</span><span class="o">]</span>
 </span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%A&#34;</span> <span class="o">(</span><span class="n">getProductNames</span> <span class="n">ppo4</span><span class="o">)</span> <span class="c1">// [&#34;A&#34;; &#34;B&#34;; &#34;C&#34;]
 </span></span></span><span class="line"><span class="cl"><span class="c1">// Correct: Should be obvious.
@@ -1083,7 +1082,7 @@ object.</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// Set Price of A to &#34;1.00&#34;
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">newA</span> <span class="o">=</span> <span class="nn">Product</span><span class="p">.</span><span class="n">setPrice</span> <span class="n">1</span><span class="o">.</span><span class="n">00m</span> <span class="n">a</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">newA</span> <span class="o">=</span> <span class="nn">Product</span><span class="p">.</span><span class="n">setPrice</span> <span class="mi">1</span><span class="o">.</span><span class="mi">00m</span> <span class="n">a</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// A in ppo4 is still 9.99
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">printfn</span> <span class="s">&#34;%s&#34;</span> <span class="o">(</span><span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">toString</span> <span class="n">ppo4</span><span class="o">)</span>
@@ -1106,11 +1105,11 @@ is no reason to create <code>newA</code> separately. We also could write:</p>
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">p1</span> <span class="o">=</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">update</span> <span class="o">(</span><span class="nn">Product</span><span class="p">.</span><span class="n">setPrice</span> <span class="n">8</span><span class="o">.</span><span class="n">0m</span> <span class="n">a</span><span class="o">)</span> <span class="n">ppo4</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">p1</span> <span class="o">=</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">update</span> <span class="o">(</span><span class="nn">Product</span><span class="p">.</span><span class="n">setPrice</span> <span class="mi">8</span><span class="o">.</span><span class="mi">0m</span> <span class="n">a</span><span class="o">)</span> <span class="n">ppo4</span>
 </span></span><span class="line"><span class="cl"><span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">toString</span> <span class="n">p1</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// [&#34;A -- 8.00&#34;; &#34;B -- 19.99&#34;; &#34;C -- 49.99&#34;]
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">p2</span> <span class="o">=</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">update</span> <span class="o">(</span><span class="nn">Product</span><span class="p">.</span><span class="n">setPrice</span> <span class="n">1</span><span class="o">.</span><span class="n">0m</span> <span class="n">a</span><span class="o">)</span> <span class="n">ppo4</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">p2</span> <span class="o">=</span> <span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">update</span> <span class="o">(</span><span class="nn">Product</span><span class="p">.</span><span class="n">setPrice</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0m</span> <span class="n">a</span><span class="o">)</span> <span class="n">ppo4</span>
 </span></span><span class="line"><span class="cl"><span class="nn">ProductsPriceOver</span><span class="p">.</span><span class="n">toString</span> <span class="n">p2</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// [&#34;B -- 19.99&#34;; &#34;C -- 49.99&#34;]
 </span></span></span></code></pre></td></tr></table>
