@@ -102,7 +102,7 @@ are things you already know.</p>
 <p>Overall I show why functional programming and object-oriented programming are
 orthogonal. I hope that by the end of the article you learned something about
 functional programming, but also widen your view on object-oriented programming.</p>
-<h2 id="table-of-content">Table of Content</h2>
+<h1 id="table-of-content">Table of Content</h1>
 <ul class="toc">
   <li>Functional Programming</li>
   <ul>
@@ -128,7 +128,7 @@ functional programming, but also widen your view on object-oriented programming.
   <li><a href="#comments">Comments</a></li>
 </ul>
 <p><a name="fp-data"></a></p>
-<h2 id="functions-as-data">Functions as data</h2>
+<h1 id="functions-as-data">Functions as data</h1>
 <p>One important concept in functional programming is the ability to use functions just
 as data. This means you can create functions and store them in variables.
 But that also means you can pass those functions to other functions as arguments
@@ -141,7 +141,7 @@ often as in a functional language.</p>
 yourself if that idea really makes sense, or what useful thinks you can
 do with that idea.</p>
 <p><a name="fp-function"></a></p>
-<h2 id="what-is-a-function">What is a function?</h2>
+<h1 id="what-is-a-function">What is a function?</h1>
 <p>Before we go deeper we have to ask ourself: What is a function anyway? Depending
 on the language there are also multiple terms for the word function. Terms
 like procedures, static methods or subroutines.</p>
@@ -196,7 +196,7 @@ we get some profit out of it. We just have:</p>
 <p>What happens between those steps? We don&rsquo;t know, but we also don&rsquo;t care. The only
 thing that matters is that we can somehow turn underpants into profit.</p>
 <p><a name="fp-exp-functions"></a></p>
-<h2 id="exploiting-functions">Exploiting functions</h2>
+<h1 id="exploiting-functions">Exploiting functions</h1>
 <p>The idea that only the input and output of a function matters is quite interesting.
 We could take that idea further and for example rewrite our <code>square</code> function
 into the following way:</p>
@@ -387,7 +387,7 @@ data to represent a function is so huge, it is even more important that we can p
 that only calculates those things we truly need.</p>
 </div>
 <p><a name="fp-retn-functions"></a></p>
-<h2 id="functions-as-return-values">Functions as return values</h2>
+<h1 id="functions-as-return-values">Functions as return values</h1>
 <p>Let&rsquo;s consider the following function.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -464,7 +464,7 @@ can turn any input <code>int</code> into an output <code>int</code> where we add
 <p>As you can see, both versions with a data-structure or the functions are quite similar.
 But the last version still contains some interesting things that are worth to talk about.</p>
 <p><a name="fp-lambda"></a></p>
-<h2 id="there-is-only-lambda">There is only lambda</h2>
+<h1 id="there-is-only-lambda">There is only lambda</h1>
 <p>When we want to create an <code>int</code>. How do we do that? Well we just write it. For example <code>5</code> is
 just <code>5</code>. We can work with <code>5</code> however we want. We can pass it to a function, use it in
 calculations and so on.</p>
@@ -605,7 +605,7 @@ a function.</p>
 </div><p>It just shows that the second <code>let</code> definition that already includes the function arguments
 is only a shortcut to the more explicit lambda expression.</p>
 <p><a name="fp-currying"></a></p>
-<h2 id="currying">Currying</h2>
+<h1 id="currying">Currying</h1>
 <p>In fact the simplification don&rsquo;t stop here. We don&rsquo;t even have functions with more than one
 argument. There only exists functions with one arguments. So what do you do when you for
 example want to add two numbers?</p>
@@ -716,7 +716,7 @@ But this creates conflict with Partial Applied functions. When i write <code>add
 would expect that it is a partial applied function with the first argument set to <code>3</code>.</p>
 </div>
 <p><a name="fp-closures"></a></p>
-<h2 id="closures">Closures</h2>
+<h1 id="closures">Closures</h1>
 <p>Previously I said that when you call a function then some kind of substitution happens.
 When you call <code>add 10</code> in the last example then <code>x</code> gets substituted by <code>10</code> and it returns
 a function <code>10 + y</code>. But this is not quite correct. What really happens is that the actual
@@ -769,7 +769,7 @@ is probably not a good practical decision.</p>
 <p>Whenever we <em>remember</em> a variable or refer to a variable from a lambda expression,
 we call it a <em>Closure</em>.</p>
 <p><a name="fp-example"></a></p>
-<h2 id="example-currying-and-closures">Example: Currying and Closures</h2>
+<h1 id="example-currying-and-closures">Example: Currying and Closures</h1>
 <p>I want to give a small example that shows functions as value and return values,
 currying and closures all in action. In F# we have an option type. An option type can have
 two states, <code>Some</code> or <code>None</code>. The <code>Some</code> state can carry an additional value with it.
@@ -998,14 +998,14 @@ then composing them into bigger functions is the heart of functional programming
 programming we directly work with functions and we even write our own combinators
 to compose functions.</p>
 <p><a name="oo"></a></p>
-<h2 id="object-oriented-programming">Object-Oriented programming</h2>
+<h1 id="object-oriented-programming">Object-Oriented programming</h1>
 <p>At the start of the article i said we can achieve the same ideas in Object-Oriented programming
 or that you probably already know these things. I want to show you some C# code to achieve the
 same things. C# already has some functional features like lambda-expressions. But there is
 really no point in showing C# code that uses functional features as an example that OO
 and functional programming are orthogonal. Because of this i will only use classes.</p>
 <p><a name="oo-class"></a></p>
-<h2 id="what-is-a-class">What is a class?</h2>
+<h1 id="what-is-a-class">What is a class?</h1>
 <p>We start with the same idea. What is actually a class anyway? A class is actually some
 kind of compose-able type. It always has at least one constructor, beyond that it can contain
 multiple data in the form of public and private fields, additional it can contain multiple
@@ -1015,7 +1015,7 @@ functions and methods.</p>
 data or no functions. There is also no restriction that tells you how many data fields or
 functions you must implement.</p>
 <p><a name="oo-function"></a></p>
-<h2 id="function-as-data">Function as data</h2>
+<h1 id="function-as-data">Function as data</h1>
 <p>I started with the idea of functions as data. I created a <code>square</code> function and passed the function
 around. We wrote our own <code>map</code> function that showed that we could replace a function by data.
 But also the opposite that we could pass a function instead of a data-structure. Re-doing that
@@ -1118,7 +1118,7 @@ But those are the functional features that were added with C# 3. There is no poi
 functional concepts with functional features in an OO language to prove that they are orthogonal.
 </div>
 <p><a name="oo-curry-partial-closure"></a></p>
-<h2 id="currying-partial-application-and-closures">Currying, Partial Application and Closures</h2>
+<h1 id="currying-partial-application-and-closures">Currying, Partial Application and Closures</h1>
 <p>All three things are somehow connected to each other. In the functional code I first introduced
 currying, but I primarily used it to show Partial Application (only providing some arguments
 to a function, not all) and explained why this needs the concept of a closure. I will first ignore
@@ -1328,7 +1328,7 @@ much shorter.</p>
 code uses immutability. With immutable data you don&rsquo;t really need a class at all. A class gives you
 the ability to hide <em>mutable data</em> so you only have specific functions that can manipulate those.</p>
 <p><a name="oo-currying"></a></p>
-<h2 id="currying-1">Currying</h2>
+<h1 id="currying-1">Currying</h1>
 <p>F# does automatic currying by default, but it doesn&rsquo;t mean just because your language doesn&rsquo;t do
 currying you can&rsquo;t have it. While most modern functional languages usually do it by default some
 older languages especially those based on Lisp also don&rsquo;t do it by default.</p>
@@ -1596,7 +1596,7 @@ We also can easily define <code>curry</code> functions.
 </div>
 </div></div>
 <p><a name="oo-exercise"></a></p>
-<h2 id="exercise">Exercise</h2>
+<h1 id="exercise">Exercise</h1>
 <p>Previously I provided a small exercise with validation, but I leave the task to implement it
 in your favourite language. Up to this point you should know enough about currying and
 partial application. Most languages today also support lambda statements. Not every language
@@ -1736,7 +1736,7 @@ like <code>smaller</code>, <code>greater</code> and so on should never be part o
 <p>When you create a solution in your favourite language, you can leave a message in the Disqus
 chat, or sent me a notification via Twitter, I add a link to your solution here.</p>
 <p><a name="summary"></a></p>
-<h2 id="summary">Summary</h2>
+<h1 id="summary">Summary</h1>
 <p>I started with the idea of functions as data and why it makes sense that we can pass functions
 as arguments or return functions from other functions. A lambda expression is a way to
 create a function on-the-fly, so we can easily pass functions as arguments or return them from
@@ -1751,7 +1751,7 @@ to Object-Oriented programming and why closures and objects are the same.</p>
 <p>I overall hope that this introduction helped you not only in understanding functional programming
 better, but also widen your view on object-oriented programming.</p>
 <p><a name="reading"></a></p>
-<h2 id="further-reading">Further Reading</h2>
+<h1 id="further-reading">Further Reading</h1>
 <ul>
 <li><a href="http://www.lihaoyi.com/post/WhatsFunctionalProgrammingAllAbout.html">What&rsquo;s Functional Programming All About?</a></li>
 <li><a href="https://medium.com/@cscalfani/so-you-want-to-be-a-functional-programmer-part-1-1f15e387e536">So You Want to be a Functional Programmer (Part 1)</a></li>
@@ -1785,27 +1785,23 @@ better, but also widen your view on object-oriented programming.</p>
 </main>
 <aside> <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#table-of-content">Table of Content</a></li>
-        <li><a href="#functions-as-data">Functions as data</a></li>
-        <li><a href="#what-is-a-function">What is a function?</a></li>
-        <li><a href="#exploiting-functions">Exploiting functions</a></li>
-        <li><a href="#functions-as-return-values">Functions as return values</a></li>
-        <li><a href="#there-is-only-lambda">There is only lambda</a></li>
-        <li><a href="#currying">Currying</a></li>
-        <li><a href="#closures">Closures</a></li>
-        <li><a href="#example-currying-and-closures">Example: Currying and Closures</a></li>
-        <li><a href="#object-oriented-programming">Object-Oriented programming</a></li>
-        <li><a href="#what-is-a-class">What is a class?</a></li>
-        <li><a href="#function-as-data">Function as data</a></li>
-        <li><a href="#currying-partial-application-and-closures">Currying, Partial Application and Closures</a></li>
-        <li><a href="#currying-1">Currying</a></li>
-        <li><a href="#exercise">Exercise</a></li>
-        <li><a href="#summary">Summary</a></li>
-        <li><a href="#further-reading">Further Reading</a></li>
-      </ul>
-    </li>
+    <li><a href="#table-of-content">Table of Content</a></li>
+    <li><a href="#functions-as-data">Functions as data</a></li>
+    <li><a href="#what-is-a-function">What is a function?</a></li>
+    <li><a href="#exploiting-functions">Exploiting functions</a></li>
+    <li><a href="#functions-as-return-values">Functions as return values</a></li>
+    <li><a href="#there-is-only-lambda">There is only lambda</a></li>
+    <li><a href="#currying">Currying</a></li>
+    <li><a href="#closures">Closures</a></li>
+    <li><a href="#example-currying-and-closures">Example: Currying and Closures</a></li>
+    <li><a href="#object-oriented-programming">Object-Oriented programming</a></li>
+    <li><a href="#what-is-a-class">What is a class?</a></li>
+    <li><a href="#function-as-data">Function as data</a></li>
+    <li><a href="#currying-partial-application-and-closures">Currying, Partial Application and Closures</a></li>
+    <li><a href="#currying-1">Currying</a></li>
+    <li><a href="#exercise">Exercise</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#further-reading">Further Reading</a></li>
   </ul>
 </nav> </aside>
 

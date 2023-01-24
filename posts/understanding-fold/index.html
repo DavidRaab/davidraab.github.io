@@ -121,7 +121,7 @@ functions call:</p>
 </div>
 <p>We don&rsquo;t directly jump to <code>List.fold</code>, instead we work towards <code>List.fold</code> by
 first looking at <code>List.map</code> and then <code>List.reduce</code>.</p>
-<h2 id="listmap">List.map</h2>
+<h1 id="listmap">List.map</h1>
 <p>We could visualize a call like <code>List.map times2 [1;2;3;4;5]</code> with the technique
 we have seen so far. Draw a box with two inputs and a list as output. But we
 are not interested in visualizing the <code>List.map</code> call itself, we want to
@@ -136,7 +136,7 @@ often needed in programming. On the other hand it is the exact opposite
 of powerful, it is a very specific function that only can manipulate one element
 of a list at a time. For example we cannot add all values of a list together, filter a
 list and do other kind of things with a list.</p>
-<h2 id="listreduce">List.reduce</h2>
+<h1 id="listreduce">List.reduce</h1>
 <p>To understand <code>List.reduce</code> I use an example that is often used by others.
 First let me say that I don&rsquo;t think this is the best way to explain <code>List.reduce</code>
 but it is still a good start.</p>
@@ -251,7 +251,7 @@ we end up with a single value that is then returned.</p>
 </div>
 <p>The first visualization we have seen is more accurate, but also this
 kind of idea leads you to the correct result of any <code>List.reduce</code> call.</p>
-<h2 id="listfold">List.fold</h2>
+<h1 id="listfold">List.fold</h1>
 <p>Finally we are at <code>List.fold</code>. The way how <code>List.fold</code> works is pretty much
 the exact same as <code>List.reduce</code>! The only difference is that we pass an
 initial starting value. Doesn&rsquo;t seems like a big deal but this initial
@@ -386,7 +386,7 @@ our <strong>folder</strong> function return in the <code>List.fold</code> exampl
 we use a Tuple with two values. In the mutation based code we don&rsquo;t need an
 <em>else</em> branch as nothing happens with an odd number. In the <code>List.fold</code>
 example we must explicitly return the unchanged state.</p>
-<h2 id="listfoldback">List.foldBack</h2>
+<h1 id="listfoldback">List.foldBack</h1>
 <p>As <code>List.fold</code> is basically just a for-loop it should now become clear why it
 is so powerful, yet some task are harder as it seems. As an example we want
 to build our own <code>List.map</code> with the help of <code>List.fold</code>.</p>
@@ -465,7 +465,7 @@ right-side of the list. The <code>List.fold</code> and <code>List.foldBack</code
 </div><p>Also the folder function receives the accumulator as the second argument
 (right argument) in <code>List.foldback</code> while <code>List.fold</code> receives it as the first
 argument (left argument).</p>
-<h2 id="exercises">Exercises</h2>
+<h1 id="exercises">Exercises</h1>
 <p>If you truly want to understand those function you should do some exercises.
 As an exercise you should re-create the following List functions with either
 <code>List.fold</code> or <code>List.foldBack</code>.</p>
@@ -499,7 +499,7 @@ As an exercise you should re-create the following List functions with either
 </tr>
 </tbody>
 </table>
-<h2 id="summary">Summary</h2>
+<h1 id="summary">Summary</h1>
 <p>Other languages use different namens for these operations, but the logic
 stays the same.</p>
 <table>
@@ -597,16 +597,12 @@ especially recursive data-types beforehand to understand them.</p>
 </main>
 <aside> <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#listmap">List.map</a></li>
-        <li><a href="#listreduce">List.reduce</a></li>
-        <li><a href="#listfold">List.fold</a></li>
-        <li><a href="#listfoldback">List.foldBack</a></li>
-        <li><a href="#exercises">Exercises</a></li>
-        <li><a href="#summary">Summary</a></li>
-      </ul>
-    </li>
+    <li><a href="#listmap">List.map</a></li>
+    <li><a href="#listreduce">List.reduce</a></li>
+    <li><a href="#listfold">List.fold</a></li>
+    <li><a href="#listfoldback">List.foldBack</a></li>
+    <li><a href="#exercises">Exercises</a></li>
+    <li><a href="#summary">Summary</a></li>
   </ul>
 </nav> </aside>
 

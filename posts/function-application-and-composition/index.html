@@ -109,7 +109,7 @@ a function to get the result. Let&rsquo;s take the example of calculating the sq
 programming the correct term is that we apply the value <code>2.0</code> to the function <code>sqrt</code>. Probably
 you will ask how I can write a whole article about this topic, but there are some topics
 associated with it.</p>
-<h2 id="partial-application">Partial Application</h2>
+<h1 id="partial-application">Partial Application</h1>
 <p>Partial application is one of those topics. If we pass all arguments to a function we name it
 <em>function application</em>. But if we only pass some arguments to a function we name it
 <em>partial application</em>.</p>
@@ -147,7 +147,7 @@ argument <code>y</code>.</p>
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add1</span> <span class="mi">10</span> <span class="c1">// 11
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="immutability">Immutability</h2>
+</div><h1 id="immutability">Immutability</h1>
 <p>Another big topic in functional programming is immutability. Immutability is a fairly easy
 concept. It just means data cannot be changed after creation. If you are new to functional
 programming or in general to this concept, this sound a little bit strange. How
@@ -253,7 +253,7 @@ the result once. We just can nest the code:</p>
 right to left. Every function call returns a new result that is directly used as the
 input of another function. With nesting we have once again a simple chain of execution.
 No <em>jumping around</em> anymore to understand the code.</p>
-<h2 id="piping-with-">Piping with |&gt;</h2>
+<h1 id="piping-with-">Piping with |&gt;</h1>
 <p>Up so far I only discussed the first property that a variable was only used once. But we
 also had another property that the output of one function is the input of the
 next function. We also could say, we have a chain of execution. The last visualization
@@ -317,7 +317,7 @@ when we see code like this:</p>
 </div>
 </div><p>We start with the data, and every new command is put on a new line. This way we easily
 can create longer chains that are still readable and extensible.</p>
-<h2 id="never-use-">Never use &lt;|</h2>
+<h1 id="never-use-">Never use &lt;|</h1>
 <p>We can summarize <code>|&gt;</code> as an operator that swaps the function and the input of a function. Usually
 the input is on the right and the function on the left, and we say we read it from right-to-left.</p>
 <p>With <code>|&gt;</code> we swap the function and the input. The input is now on the left, and we read the code
@@ -554,7 +554,7 @@ argument. This then returns a new anonymous function that expects the remaining 
 then returns another new anonymous function that expects the last argument <code>z</code>. And to this function
 we finally apply <code>3 + 3</code> to it what then executes everything.</p>
 </div>
-<h2 id="nesting-again">Nesting again</h2>
+<h1 id="nesting-again">Nesting again</h1>
 <p>Writing code in a piping style with left-piping is probably the most common and most used
 way you see in F#. Its not that this is in general a bad idea, but it can be bad if people
 try to solve everything this way. It is important to understand when it is a good idea
@@ -809,7 +809,7 @@ anything as a sequence?</p>
 that representing things as trees is easier. Trying to fit everything into a piping style just
 can limit the view in how to solve problems in general. This is best described with
 an example.</p>
-<h2 id="binary-converter">Binary Converter</h2>
+<h1 id="binary-converter">Binary Converter</h1>
 <p>In our example we want to write a function that can convert any number into a binary string
 representation. Before we start coding we actually need to know an algorithm that
 solves our problem.</p>
@@ -1028,7 +1028,7 @@ in the end need to put together into a single result. This algorithm is best vis
 not a good approach to represent tree structures. If you want to try to solve everything by
 some kind of piping even before you determined if the problem is even solvable in a sequential
 manner, you will only run into problems and will have a hard time to solve these kind of problems.</p>
-<h2 id="composition">Composition</h2>
+<h1 id="composition">Composition</h1>
 <p>What we have seen so far is function application. Function application means to apply a value to
 a function, or in other words. Execute a function to get the result of a function. Function
 composition on the other hand is completely different. It means, combine two or more functions
@@ -1113,7 +1113,7 @@ to write something like this:</p>
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="o">(</span><span class="n">square</span> <span class="o">&lt;&lt;</span> <span class="n">add10</span> <span class="o">&lt;&lt;</span> <span class="n">sqrt</span><span class="o">)</span> <span class="o">[</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span> <span class="o">..</span> <span class="mi">100</span><span class="o">.</span><span class="mi">0</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="best-practices">Best Practices</h2>
+</div><h1 id="best-practices">Best Practices</h1>
 <p>At the end I just want to gather some best practices. Those are best practices from me and
 like always, every person usually disagree with another 10%.</p>
 <ol>
@@ -1131,7 +1131,7 @@ thus more powerful. Try to use nesting by default.</li>
 piping. Refactor the code with piping.</li>
 <li>If possible, use function composition if you pass functions as arguments instead of lambda functions.</li>
 </ol>
-<h2 id="summary">Summary</h2>
+<h1 id="summary">Summary</h1>
 <p>Overall we covered function application and composition. We saw function application with nesting
 or piping with operators like <code>|&gt;</code> or <code>&lt;|</code>. We also can use function composition with <code>&lt;&lt;</code> or
 <code>&gt;&gt;</code> in certain situation.</p>
@@ -1168,19 +1168,15 @@ in a sequential way of piping. So don&rsquo;t view any problem as a nail that yo
 </main>
 <aside> <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#partial-application">Partial Application</a></li>
-        <li><a href="#immutability">Immutability</a></li>
-        <li><a href="#piping-with-">Piping with |&gt;</a></li>
-        <li><a href="#never-use-">Never use &lt;|</a></li>
-        <li><a href="#nesting-again">Nesting again</a></li>
-        <li><a href="#binary-converter">Binary Converter</a></li>
-        <li><a href="#composition">Composition</a></li>
-        <li><a href="#best-practices">Best Practices</a></li>
-        <li><a href="#summary">Summary</a></li>
-      </ul>
-    </li>
+    <li><a href="#partial-application">Partial Application</a></li>
+    <li><a href="#immutability">Immutability</a></li>
+    <li><a href="#piping-with-">Piping with |&gt;</a></li>
+    <li><a href="#never-use-">Never use &lt;|</a></li>
+    <li><a href="#nesting-again">Nesting again</a></li>
+    <li><a href="#binary-converter">Binary Converter</a></li>
+    <li><a href="#composition">Composition</a></li>
+    <li><a href="#best-practices">Best Practices</a></li>
+    <li><a href="#summary">Summary</a></li>
   </ul>
 </nav> </aside>
 
