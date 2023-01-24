@@ -1,22 +1,22 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
-    <title>Catamorphisms // David Raab</title>
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.109.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="David Raab" />
-    <meta name="description" content="Explains Catamorphisms in F#. That means the purpose of fold and foldBack." />
-    <link rel="stylesheet" href="/css/main.min.e81e23275c8362e1b88fea8b73cf7e83f08dd1995654c5c8c50eccaffe8e6ea8.css" />
-    <script src="/static/code-toggle.js" async></script>
+    <head>
+        <title>Catamorphisms // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="Explains Catamorphisms in F#. That means the purpose of fold and foldBack." />
+        <link rel="stylesheet" href="/css/main.min.bbc1f107fe044f24ea7aeed40319feb0ddb776378c7642a4605e44d7fa5f6e02.css" />
+        <script src="/static/code-toggle.js" async></script>
 
-    
-    <meta name="twitter:card" content="summary"/>
+        
+        <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Catamorphisms"/>
 <meta name="twitter:description" content="Explains Catamorphisms in F#. That means the purpose of fold and foldBack."/>
 
-    <meta property="og:title" content="Catamorphisms" />
+        <meta property="og:title" content="Catamorphisms" />
 <meta property="og:description" content="Explains Catamorphisms in F#. That means the purpose of fold and foldBack." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://davidraab.github.io/posts/catamorphisms/" /><meta property="article:section" content="posts" />
@@ -24,98 +24,76 @@
 <meta property="article:modified_time" content="2016-05-28T00:00:00+00:00" />
 
 
-  </head>
-  <body>
-    <header class="app-header">
-      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
-      <span class="app-header-title">David Raab</span>
-      <nav class="app-header-menu">
-          <a class="app-header-menu-item" href="/">Home</a>
-             - 
-          
-          <a class="app-header-menu-item" href="/tags/">Tags</a>
-      </nav>
-      <p>My personal Blog. Writing about programming and other stuff.</p>
-      <div class="app-header-social">
-        
-          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>My personal Blog. Writing about programming and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <title>David Raab Github Profile</title>
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg>
-          </a>
-        
-          <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
   <title>Atom Feed</title>
   <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
 </svg>
-          </a>
+                    </a>
+                
+            </div>
+        </header>
         
-      </div>
-    </header>
-    <main class="app-container">
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class ="post-title">Catamorphisms</h1>
-      <div class="post-meta">
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Catamorphisms</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <title>calendar</title>
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
-          May 28, 2016
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+                    May 28, 2016
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          3 min read
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+                    3 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-              <a class="tag" href="https://davidraab.github.io/tags/fold/">fold</a>
-              <a class="tag" href="https://davidraab.github.io/tags/list/">list</a>
-              <a class="tag" href="https://davidraab.github.io/tags/data/">data</a>
-              <a class="tag" href="https://davidraab.github.io/tags/types/">types</a>
-              <a class="tag" href="https://davidraab.github.io/tags/recursion/">recursion</a>
-        </div>
-      </div>
-    </header>
-    <div class="post-content">
-      <p>Up to this point I created various articles about <code>fold</code>, in my <a href="/Series">Series</a> I
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fold/">fold</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/list/">list</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/data/">data</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/types/">types</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/recursion/">recursion</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>Up to this point I created various articles about <code>fold</code>, in my <a href="/Series">Series</a> I
 also created a category named <strong>Fold (Catamorphisms)</strong> but up till now I didn&rsquo;t explained
 how this articles related to each other, or what <em>Catamorphisms</em> mean. In this article
 I want to talk about the remaining parts.</p>
-<h2 id="table-of-content">Table of Content</h2>
-<ul class="toc">
-  <li><a href="#TheLists">The List</a></li>
-    <ul>
-      <li><a href="#cata">Introducing Cata</a></li>
-      <li><a href="#tail-recursion">Tail Recursion with FoldBack</a></li>
-    </ul>
-  <li><a href="#binary-trees">Binary Trees</a></li>
-    <ul>
-      <li><a href="#tree-cata">Cata for Tree</a></li>
-      <li><a href="#fold-vs-foldback">Fold vs. FoldBack</a></li>
-      <li><a href="#tree-foldback">FoldBack for Tree</a></li>
-      <li><a href="#tree-foldback-examples">FoldBack examples</a></li>
-      <li><a href="#tree-fold">Fold for Tree</a></li>
-      <li><a href="#benchmarking">Some Benchmarking</a></li>
-    </ul>
-  <li><a href="#markdown">Markdown</a></li>
-  <li><a href="#summary">Summary</a></li>
-  <li><a href="#further">Further Reading</a></li>
-  <li><a href="#comments">Comments</a></li>
-</ul>
-<p><a name="TheLists"></a></p>
-<h2 id="the-list">The List</h2>
+<h1 id="the-list">The List</h1>
 <p>Catamorphisms is a generalization that emerged from the list data-structure. The list
 data-structure, how it is found in functional programming, is usually build as a single
 linked list. Or to be more precise, it is build as a recursive data type expressed
@@ -313,7 +291,6 @@ feels not like Don&rsquo;t-Repeat-Yourself.</li>
 <li>None of the functions we have, are tail-recursive.</li>
 </ol>
 <p>Let&rsquo;s address those problems separately.</p>
-<p><a name="cata"></a></p>
 <h2 id="introducing-cata">Introducing Cata</h2>
 <p>We already identified our Pattern, so what we usually do is to create a <code>cata</code> function
 that abstract those repetition. To describe the repetition in one sentence: <em>A <code>cata</code>
@@ -529,7 +506,6 @@ first passed to <code>cata</code> itself.</li>
 <li>The behaviour of <code>cata</code> is the same as <code>foldBack</code>.</li>
 <li><code>cata</code> is not tail-recursive.</li>
 </ol>
-<p><a name="tail-recursion"></a></p>
 <h2 id="tail-recursion-with-foldback">Tail Recursion with FoldBack</h2>
 <p>At this point we should ask ourselves if we really need tail-recursion. The answer is
 not always <strong>yes</strong>. We really should think of the use-cases we have, and what kind
@@ -620,8 +596,7 @@ Let&rsquo;s see the <code>cata</code> and <code>foldBack</code> directly to each
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listSnoc</span> <span class="n">x</span> <span class="kt">list</span> <span class="o">=</span> <span class="n">listFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">cons</span> <span class="n">x</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="o">(</span><span class="n">cons</span> <span class="n">x</span> <span class="n">empty</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><a name="binary-trees"></a></p>
-<h2 id="binary-trees">Binary Trees</h2>
+</div><h1 id="binary-trees">Binary Trees</h1>
 <p>Up so far we explored the concept of the <code>cata</code> function only with the list and when we make that
 function tail-recursive we call it <code>foldBack</code>. But as said before, Catamorphisms are a generalization.
 That means, the concept of writing a <code>cata</code> function and creating tail-recursive version out of it
@@ -672,7 +647,6 @@ you see that a tree has two cases exactly like a list has. <code>Leaf</code> mar
 <p>The only difference between a list and a binary tree is that every element in a list only has one
 child, while a binary tree has two child&rsquo;s. Those child&rsquo;s are often named <em>Left</em> and <em>Right</em>.
 That&rsquo;s also the reason why I named the variables <code>l</code> and <code>r</code> in the functions.</p>
-<p><a name="tree-cata"></a></p>
 <h2 id="cata-for-tree">Cata for Tree</h2>
 <p>So, let&rsquo;s start by creating a <code>cata</code> function for our tree.</p>
 <div class="highlight"><div class="chroma">
@@ -792,8 +766,7 @@ expects the remaining tree. All in one, we now end with:</p>
 </span></span></span><span class="line"><span class="cl"><span class="c1">//   (node 36 (endNode 25) (endNode 49)))
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><p><a name="fold-vs-foldback"></a></p>
-<h2 id="fold-vs-foldback">Fold vs. FoldBack</h2>
+</div><h2 id="fold-vs-foldback">Fold vs. FoldBack</h2>
 <p>Before we talk about how to turn <code>cata</code> into a tail-recursive function we should talk
 about the difference between <code>fold</code> and <code>foldBack</code>. I explained that if we turn <code>cata</code>
 into a tail-recursive function we get back <code>foldBack</code>. If I mention <code>cata</code> or <code>foldBack</code>
@@ -929,7 +902,6 @@ to somehow get all the values, but you don&rsquo;t expect a particular order.</p
 <p>But if you need the additional information of the structure and somehow work with the
 full tree, then you must use <code>foldBack</code>. Because of that, <code>foldBack</code> is more powerful than
 <code>fold</code> as you always can use <code>foldBack</code> instead of <code>fold</code>. But the reverse is not true.</p>
-<p><a name="tree-foldback"></a></p>
 <h2 id="foldback-for-tree">FoldBack for Tree</h2>
 <p>I will implement <code>foldBack</code> with the Continuation approach, but I don&rsquo;t go into
 much detail how the implementation works exactly, you can read more of those
@@ -1060,7 +1032,6 @@ you finished calculating the result, please call the <code>callback</code> funct
 and pass it the result. <em>Callback</em> or <em>Continuation</em> really means the same.</p>
 <p>But in this case we call <code>loop</code> that is in tail position. So we end up with a
 tail-recursive function.</p>
-<p><a name="tree-foldback-examples"></a></p>
 <h2 id="foldback-examples">FoldBack examples</h2>
 <p>Instead let&rsquo;s focus on things we can do with <code>foldBack</code> but not with <code>fold</code>. As <code>foldBack</code>
 preserves the structure, we can actually very easily convert a Tree into a string representation.</p>
@@ -1212,7 +1183,6 @@ contains the information if the child contains the searched element. And when it
 node above prepend either <code>&quot;Left&quot;</code> or <code>&quot;Right&quot;</code> to the list. As an example, when we search for
 <code>5</code> we get the following transformations:</p>
 <p><img src="tree_path_5.svg" alt="Tree with path to 5"></p>
-<p><a name="tree-fold"></a></p>
 <h2 id="fold-for-tree">Fold for Tree</h2>
 <p>At last we want to look at <code>fold</code>. As we learned so far, we don&rsquo;t need to implement a particular
 tree traversal order. For <code>fold</code> it is only important that we visit every node and we treat an
@@ -1342,7 +1312,6 @@ we can return <code>acc</code>. So our final <code>treeFold</code> looks like th
 </div><p>And if you noticed, this kind of tree-traversal is a pre-order tree traversal. But it is only pre-order
 traversal by accident. I just thought of an easy way to traverse so we need to put as few things as possible
 onto the <code>stack</code> variable. Someone should not expect a specific tree traversal order for <code>fold</code>.</p>
-<p><a name="benchmarking"></a></p>
 <h2 id="some-benchmarking">Some Benchmarking</h2>
 <p>I think some simple benchmarks are quite good. At first, we always talk about tail-recursion and
 I provided ways to achieve it, but never looked at performance. And there are two things to say here.</p>
@@ -1610,8 +1579,7 @@ and the speed is quite good. Instead you should consider if you expect problems 
 When you create balanced trees this is quite uncommon that you run into problems with the stack depth.</p>
 <p>But with a type like a list that has linear recursion, where every element increases the stack depth
 by one, you should consider more time in writing tail-recursive functions.</p>
-<p><a name="markdown"></a></p>
-<h2 id="markdown">Markdown</h2>
+<h1 id="markdown">Markdown</h1>
 <p>Up so far I only talked about lists and binary trees, but both types basically contain everything
 you need to know. Any other type is basically just repetition of what was said so far. As a last
 example I want to show the small Markdown example that I created in the
@@ -1721,8 +1689,7 @@ use currying, so I don&rsquo;t need to create a lot of lambda expressions.</p>
 </span></span></span><span class="line"><span class="cl"><span class="c1">//  &lt;p&gt;This is the end with some &amp;lt;html&amp;gt;that should be escaped&amp;lt;/html&amp;gt;&lt;/p&gt;&lt;/p&gt;&#34;
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><p><a name="summary"></a></p>
-<h2 id="summary">Summary</h2>
+</div><h1 id="summary">Summary</h1>
 <p>We have seen how to create a <code>cata</code> function, and we learned that <code>foldBack</code> is just <code>cata</code>
 written tail-recursive. For the <code>fold</code> implementation of the tree, i choosed another way to
 create a tail-recursive function that manages the stack directly.</p>
@@ -1732,16 +1699,16 @@ eliminate garbage collection cleanup.</p>
 <p>But overall we have seen that <code>cata</code> is very fast and it doesn&rsquo;t mean that tail-recursion
 is automatically better or faster.</p>
 <p><a name="further"></a></p>
-<h2 id="further-reading">Further Reading</h2>
+<h1 id="further-reading">Further Reading</h1>
 <ul>
 <li><a href="http://fsharpforfunandprofit.com/series/recursive-types-and-folds.html">Recursive types and folds</a></li>
 <li><a href="https://lorgonblog.wordpress.com/2008/04/05/catamorphisms-part-one/">Catamorphisms, part one</a></li>
 </ul>
 <p><a name="comments"></a></p>
 
-    </div>
-    <div class="post-footer">
-      <div id="disqus_thread"></div>
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
 <script type="application/javascript">
     window.disqus_config = function () {
     
@@ -1761,9 +1728,32 @@ is automatically better or faster.</p>
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-    </div>
-  </article>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-list">The List</a>
+      <ul>
+        <li><a href="#introducing-cata">Introducing Cata</a></li>
+        <li><a href="#tail-recursion-with-foldback">Tail Recursion with FoldBack</a></li>
+      </ul>
+    </li>
+    <li><a href="#binary-trees">Binary Trees</a>
+      <ul>
+        <li><a href="#cata-for-tree">Cata for Tree</a></li>
+        <li><a href="#fold-vs-foldback">Fold vs. FoldBack</a></li>
+        <li><a href="#foldback-for-tree">FoldBack for Tree</a></li>
+        <li><a href="#foldback-examples">FoldBack examples</a></li>
+        <li><a href="#fold-for-tree">Fold for Tree</a></li>
+        <li><a href="#some-benchmarking">Some Benchmarking</a></li>
+      </ul>
+    </li>
+    <li><a href="#markdown">Markdown</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#further-reading">Further Reading</a></li>
+  </ul>
+</nav> </aside>
 
-    </main>
-  </body>
+    </body>
 </html>

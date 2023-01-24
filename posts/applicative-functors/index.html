@@ -1,22 +1,22 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
-    <title>Applicative Functors // David Raab</title>
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.109.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="David Raab" />
-    <meta name="description" content="Explains the apply Function (Applicative Functors) with the option type" />
-    <link rel="stylesheet" href="/css/main.min.e81e23275c8362e1b88fea8b73cf7e83f08dd1995654c5c8c50eccaffe8e6ea8.css" />
-    <script src="/static/code-toggle.js" async></script>
+    <head>
+        <title>Applicative Functors // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="Explains the apply Function (Applicative Functors) with the option type" />
+        <link rel="stylesheet" href="/css/main.min.bbc1f107fe044f24ea7aeed40319feb0ddb776378c7642a4605e44d7fa5f6e02.css" />
+        <script src="/static/code-toggle.js" async></script>
 
-    
-    <meta name="twitter:card" content="summary"/>
+        
+        <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Applicative Functors"/>
 <meta name="twitter:description" content="Explains the apply Function (Applicative Functors) with the option type"/>
 
-    <meta property="og:title" content="Applicative Functors" />
+        <meta property="og:title" content="Applicative Functors" />
 <meta property="og:description" content="Explains the apply Function (Applicative Functors) with the option type" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://davidraab.github.io/posts/applicative-functors/" /><meta property="article:section" content="posts" />
@@ -24,79 +24,79 @@
 <meta property="article:modified_time" content="2016-03-31T00:00:00+00:00" />
 
 
-  </head>
-  <body>
-    <header class="app-header">
-      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
-      <span class="app-header-title">David Raab</span>
-      <nav class="app-header-menu">
-          <a class="app-header-menu-item" href="/">Home</a>
-             - 
-          
-          <a class="app-header-menu-item" href="/tags/">Tags</a>
-      </nav>
-      <p>My personal Blog. Writing about programming and other stuff.</p>
-      <div class="app-header-social">
-        
-          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>My personal Blog. Writing about programming and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <title>David Raab Github Profile</title>
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg>
-          </a>
-        
-          <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
   <title>Atom Feed</title>
   <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
 </svg>
-          </a>
+                    </a>
+                
+            </div>
+        </header>
         
-      </div>
-    </header>
-    <main class="app-container">
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class ="post-title">Applicative Functors</h1>
-      <div class="post-meta">
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Applicative Functors</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <title>calendar</title>
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
-          Mar 31, 2016
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+                    Mar 31, 2016
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          25 min read
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+                    25 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-              <a class="tag" href="https://davidraab.github.io/tags/functor/">functor</a>
-              <a class="tag" href="https://davidraab.github.io/tags/applicative/">applicative</a>
-              <a class="tag" href="https://davidraab.github.io/tags/option/">option</a>
-        </div>
-      </div>
-    </header>
-    <div class="post-content">
-      <p>In my previous article <a href="https://davidraab.github.io/posts/understanding-map/">Understanding map</a> I
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/functor/">functor</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/applicative/">applicative</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/option/">option</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>In my previous article <a href="https://davidraab.github.io/posts/understanding-map/">Understanding map</a> I
 introduced the <code>map</code> function and described that implementing <code>map</code> and fulfilling two laws
 we get what we call a <em>Functor</em>. In this Post we discuss the <code>apply</code> function that
 we can view as an extension to the <code>map</code> function.</p>
-<h2 id="problem-with-map">Problem with <code>map</code></h2>
+<h1 id="problem-with-map">Problem with <code>map</code></h1>
 <p>It might be that you have noticed one problem with <code>map</code>. <code>map</code> only can work with
 one-argument functions! The definition of <code>map</code> expects a function <code>'a -&gt; 'b</code> as it&rsquo;s
 first argument. So we can <strong>upgrade</strong> one-argument functions but what happens
 if we want to upgrade two, three or four argument functions?</p>
-<h2 id="some-dummy-functions">Some dummy functions</h2>
+<h1 id="some-dummy-functions">Some dummy functions</h1>
 <p>Once again we will create some dummy functions with more than one argument to see
 how we can work with them.</p>
 <div class="highlight"><div class="chroma">
@@ -126,7 +126,7 @@ how we can work with them.</p>
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">repeat</span> <span class="mi">3</span> <span class="s">&#34;abc&#34;</span> <span class="c1">// &#34;abcabcabc&#34;
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="currying-again">Currying again</h2>
+</div><h1 id="currying-again">Currying again</h1>
 <p>But wait, didn&rsquo;t we previously said that there doesn&rsquo;t really exists functions with more than
 one argument? Are not all functions just one argument functions, and that two/three/four&hellip; arguments
 function are really just functions that return another function? Yes, it is and that is also the
@@ -146,7 +146,7 @@ with a <code>map</code> function and let&rsquo;s see what we get.</p>
 </div><p>When we expect the signature of our <code>optionMul</code> function we now get a new function that looks like this.</p>
 <pre><code>option&lt;int&gt; -&gt; option&lt;(int -&gt; int)&gt;
 </code></pre>
-<h2 id="what-happened">What happened?</h2>
+<h1 id="what-happened">What happened?</h1>
 <p>So what happened exactly? And why could we pass <code>mul</code> (<code>int -&gt; int -&gt; int</code>) anyway to <code>map</code> that expected
 a <code>'a -&gt; 'b</code>? The big answer is, it&rsquo;s all because of currying. As said once before. A definition like
 <code>int -&gt; int -&gt; int</code> can be really interpreted as <code>int -&gt; (int -&gt; int)</code>. The braces are actually optional
@@ -163,7 +163,7 @@ get a function back with it&rsquo;s input and output wrapped.</p>
 That&rsquo;s why we get back</p>
 <pre><code>option&lt;int&gt; -&gt; option&lt;(int -&gt; int)&gt;
 </code></pre>
-<h2 id="what-does-optionint---int-mean">What does <code>option&lt;(int -&gt; int)&gt;</code> mean?</h2>
+<h1 id="what-does-optionint---int-mean">What does <code>option&lt;(int -&gt; int)&gt;</code> mean?</h1>
 <p>The question that really starts to beg is. What the hell does <code>option&lt;int -&gt; int&gt;</code> anyway mean? And how
 do we work with such a construct anyway?</p>
 <p>Actually the answer is easy, and it the same way unhelpful. The answer is <code>option&lt;int -&gt; int&gt;</code> is just an
@@ -191,7 +191,7 @@ that you can execute in the <code>Some</code> case.</p>
 </div><p>The bigger problem is that all of this question and answers are currently <em>unhelpful</em> because
 their are the wrong question. We really have to start at the beginning and rethink:
 <strong>Which result do we expect after upgrading a two-argument function?</strong></p>
-<h2 id="which-result-do-we-expect">Which result do we expect?</h2>
+<h1 id="which-result-do-we-expect">Which result do we expect?</h1>
 <p>Let&rsquo;s rethink the purpose of <code>map</code>. <code>map</code> is the idea that we can just <strong>upgrade</strong> an existing
 function and add the <code>option</code> handling for us. It just turns a</p>
 <pre><code>int -&gt; int
@@ -211,7 +211,7 @@ function. But those functions would probably end up in being much the same. Not 
 can get harder and harder to write a function that handles three, four or more <code>option</code> at the
 same time. On top of that, it doesn&rsquo;t really feel so much flexible, isn&rsquo;t there some better way
 so we can handle functions with arbitrary arguments? Sure there is!</p>
-<h2 id="introducing-apply">Introducing <code>apply</code></h2>
+<h1 id="introducing-apply">Introducing <code>apply</code></h1>
 <p>The solution to our problem is that we just write a function that can handle the output of
 our <code>map</code> function. Let&rsquo;s work with the <code>repeat</code> function this time, and let&rsquo;s also pass in the
 first argument.</p>
@@ -373,7 +373,7 @@ is <code>Some 3</code>. This will return just an <code>option&lt;int&gt;</code><
 <p>Currently we <strong>upgrade</strong> <code>mul</code> and execute <code>mul</code> in one step, because we provide all arguments. But
 how can we just <strong>upgrade</strong> <code>mul</code> without executing it? Before we do that, let&rsquo;s look in how we can
 make the execution more readable.</p>
-<h2 id="defining-your-own-operators">Defining your own Operators</h2>
+<h1 id="defining-your-own-operators">Defining your own Operators</h1>
 <p>In F# we can define our own operators. Operators are basically just two argument function. But instead of
 writing <code>f x y</code> an operator is written between (infix) two arguments <code>x f y</code>. The value
 left of the operator is the first argument, the value right of an operator is the second argument.
@@ -509,7 +509,7 @@ into a new function where every argument should be a <code>option</code>.</p>
 arguments, without <em>Partial Applying</em> functions. And we still can create easily <code>lift2</code>, <code>lift3</code> or
 <code>lift4</code> functions to upgrade functions as a whole.</p>
 <p>Some note if it is not obvious. Usually we don&rsquo;t implement a <code>lift1</code> because that is what <code>map</code> does!</p>
-<h2 id="the-return-function">The <code>return</code> function</h2>
+<h1 id="the-return-function">The <code>return</code> function</h1>
 <p>Currently we always created all <strong>lifted</strong> values directly. For example if we needed an <code>option&lt;int&gt;</code>
 we directly wrote <code>Some 7</code> to create it. Let&rsquo;s rethink this process. Let&rsquo;s assume we just
 have an int like <code>7</code>, now we want to upgrade the value. <code>Some 7</code> creates an <code>option&lt;int&gt;</code> but what
@@ -598,7 +598,7 @@ actually that is quite the reason why it&rsquo;s so good. At first how easy it i
 type you have. But yes, <code>retn</code> is often a very easy implementation. On top of it, it
 also can happen that <code>apply</code> is sometimes easier to implement as <code>map</code>. So it is quite
 good to know different ways to implement the same function.</p>
-<h2 id="what-can-we-do-with-all-of-this">What can we do with all of this?</h2>
+<h1 id="what-can-we-do-with-all-of-this">What can we do with all of this?</h1>
 <p>Currently we only have written the Applicative Functor for the <code>option</code> type. But you can think
 of this extension for every type that you usually also can write a <code>map</code> function for. This
 is a general technique not limited to <code>option</code>.</p>
@@ -618,7 +618,7 @@ we either have to:</p>
 </ol>
 <p>Both solutions are very tedious and can become very annoying. Like <code>null</code> checking is always
 annoying. So you end up with either.</p>
-<h3 id="1-unwrap-all-optionals-beforehand">1. Unwrap all optionals beforehand</h3>
+<h2 id="1-unwrap-all-optionals-beforehand">1. Unwrap all optionals beforehand</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -649,7 +649,7 @@ annoying. So you end up with either.</p>
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">printfn</span> <span class="s">&#34;Result: %d&#34;</span> <span class="o">(</span><span class="n">mul</span> <span class="n">x</span> <span class="n">y</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="2-rewrite-a-optionmul-function">2. Rewrite a <code>optionMul</code> function</h3>
+</div><h2 id="2-rewrite-a-optionmul-function">2. Rewrite a <code>optionMul</code> function</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -740,12 +740,12 @@ Why is that better?</em></p>
 forget the checks, but the real advantage is that they are values on it&rsquo;s own, and you
 can write such an <em>Applicative Functor</em> around <code>option</code> that supports upgrading any function
 to the <code>option</code> world and do all the checking for you. That&rsquo;s the real benefit of using <code>option</code>.</p>
-<h2 id="applicative-functor-laws">Applicative Functor Laws</h2>
+<h1 id="applicative-functor-laws">Applicative Functor Laws</h1>
 <p>In <a href="https://davidraab.github.io/posts/understanding-map/">Understanding map</a> we already came across
 two laws that <code>map</code> should satisfy. As we now introduced two new functions <code>return</code> (retn)
 and <code>apply</code> there also exists some laws they have to satisfy until we can call it a
 <em>Applicative Functor</em>.</p>
-<h3 id="1-rule-identity">1. Rule: Identity</h3>
+<h2 id="1-rule-identity">1. Rule: Identity</h2>
 <p>This basically refers to the first law of a functor. We said that mapping over the <code>id</code>
 function should not change the value. Because <code>map</code> can be implemented in terms of
 <code>return</code> and <code>apply</code> the same law must be hold.</p>
@@ -761,7 +761,7 @@ function should not change the value. Because <code>map</code> can be implemente
 </span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="c1">// comparing must be true -- here it will be (Some 10)
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="2-rule-order-of-upgrading">2. Rule: Order of <strong>upgrading</strong></h3>
+</div><h2 id="2-rule-order-of-upgrading">2. Rule: Order of <strong>upgrading</strong></h2>
 <p>It shouldn&rsquo;t matter if we first calculate <code>f x</code> and then <code>retn</code>. Or if we <code>retn</code> <code>f</code>
 and <code>x</code> separately, and then do the calculation</p>
 <div class="highlight"><div class="chroma">
@@ -776,7 +776,7 @@ and <code>x</code> separately, and then do the calculation</p>
 </span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="c1">// Both must be the same -- here it will be (Some 21)
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="3-rule-partial-applying">3. Rule: Partial Applying</h3>
+</div><h2 id="3-rule-partial-applying">3. Rule: Partial Applying</h2>
 <p>That one probably needs some more explanation. Usually we can <em>Partial Apply</em> a function
 by just omitting values. For example <code>repeat 3</code>. But what is if you want to <em>Partial Apply</em>
 the second argument? Here are two solutions in how we can write it.</p>
@@ -813,7 +813,7 @@ the result should be the same. The same rule must hold when we additionally lift
 </span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="c1">// Both must be the same -- Here it will be -- Some &#34;abcabcabc&#34;
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="4rule-composition">4.Rule: Composition</h3>
+</div><h2 id="4rule-composition">4.Rule: Composition</h2>
 <p>This rule comes from normal function composition. Let&rsquo;s say we have two functions. One adds &ldquo;1&rdquo;
 to a value, another one adds &ldquo;2&rdquo; to a value. Function Composition says that it doesn&rsquo;t matter
 if you execute the first function on a value, and then the second function on the returned
@@ -897,7 +897,7 @@ functions still behaves the same, as if we just execute both functions directly 
 </span></span><span class="line"><span class="cl"><span class="n">ox</span> <span class="o">=</span> <span class="n">oy</span> <span class="c1">// Both must be the same
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="summary">Summary</h2>
+</div><h1 id="summary">Summary</h1>
 <p>We started with <code>map</code> as a general function to <em>upgrade/lift/box</em> normal functions into
 some other types. But <code>map</code> only handles one argument functions in a way we would expect.
 But because we have currying, and there only exists one argument functions anyway, we still
@@ -913,15 +913,15 @@ function with arbitrary arguments. We also can easily create <code>lift2</code>,
 idea works also for other types. While the technique how to implement an <em>Applicative Functor</em>
 is the same. The meaning of it changes between types. Currently with <code>option</code> we basically
 have written a solution to the <a href="https://davidraab.github.io/posts/null-is-evil/">null is Evil</a> problem.</p>
-<h2 id="further-reading">Further Reading</h2>
+<h1 id="further-reading">Further Reading</h1>
 <ul>
 <li><a href="http://fsharpforfunandprofit.com/posts/elevated-world/">Understanding map and apply</a></li>
 <li><a href="http://www.davesquared.net/2015/07/apply-pattern.html">The Apply Pattern</a></li>
 </ul>
 
-    </div>
-    <div class="post-footer">
-      <div id="disqus_thread"></div>
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
 <script type="application/javascript">
     window.disqus_config = function () {
     
@@ -941,9 +941,38 @@ have written a solution to the <a href="https://davidraab.github.io/posts/null-i
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-    </div>
-  </article>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#problem-with-map">Problem with <code>map</code></a></li>
+    <li><a href="#some-dummy-functions">Some dummy functions</a></li>
+    <li><a href="#currying-again">Currying again</a></li>
+    <li><a href="#what-happened">What happened?</a></li>
+    <li><a href="#what-does-optionint---int-mean">What does <code>option&lt;(int -&gt; int)&gt;</code> mean?</a></li>
+    <li><a href="#which-result-do-we-expect">Which result do we expect?</a></li>
+    <li><a href="#introducing-apply">Introducing <code>apply</code></a></li>
+    <li><a href="#defining-your-own-operators">Defining your own Operators</a></li>
+    <li><a href="#the-return-function">The <code>return</code> function</a></li>
+    <li><a href="#what-can-we-do-with-all-of-this">What can we do with all of this?</a>
+      <ul>
+        <li><a href="#1-unwrap-all-optionals-beforehand">1. Unwrap all optionals beforehand</a></li>
+        <li><a href="#2-rewrite-a-optionmul-function">2. Rewrite a <code>optionMul</code> function</a></li>
+      </ul>
+    </li>
+    <li><a href="#applicative-functor-laws">Applicative Functor Laws</a>
+      <ul>
+        <li><a href="#1-rule-identity">1. Rule: Identity</a></li>
+        <li><a href="#2-rule-order-of-upgrading">2. Rule: Order of <strong>upgrading</strong></a></li>
+        <li><a href="#3-rule-partial-applying">3. Rule: Partial Applying</a></li>
+        <li><a href="#4rule-composition">4.Rule: Composition</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#further-reading">Further Reading</a></li>
+  </ul>
+</nav> </aside>
 
-    </main>
-  </body>
+    </body>
 </html>

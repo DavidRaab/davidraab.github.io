@@ -1,22 +1,22 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
-    <title>CPS fold -- fold with early exit // David Raab</title>
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.109.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="David Raab" />
-    <meta name="description" content="Describes how to implement a CPS fold. A CPS fold supports early exit" />
-    <link rel="stylesheet" href="/css/main.min.e81e23275c8362e1b88fea8b73cf7e83f08dd1995654c5c8c50eccaffe8e6ea8.css" />
-    <script src="/static/code-toggle.js" async></script>
+    <head>
+        <title>CPS fold -- fold with early exit // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="Describes how to implement a CPS fold. A CPS fold supports early exit" />
+        <link rel="stylesheet" href="/css/main.min.bbc1f107fe044f24ea7aeed40319feb0ddb776378c7642a4605e44d7fa5f6e02.css" />
+        <script src="/static/code-toggle.js" async></script>
 
-    
-    <meta name="twitter:card" content="summary"/>
+        
+        <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="CPS fold -- fold with early exit"/>
 <meta name="twitter:description" content="Describes how to implement a CPS fold. A CPS fold supports early exit"/>
 
-    <meta property="og:title" content="CPS fold -- fold with early exit" />
+        <meta property="og:title" content="CPS fold -- fold with early exit" />
 <meta property="og:description" content="Describes how to implement a CPS fold. A CPS fold supports early exit" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://davidraab.github.io/posts/cps-fold/" /><meta property="article:section" content="posts" />
@@ -24,71 +24,71 @@
 <meta property="article:modified_time" content="2016-05-07T00:00:00+00:00" />
 
 
-  </head>
-  <body>
-    <header class="app-header">
-      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
-      <span class="app-header-title">David Raab</span>
-      <nav class="app-header-menu">
-          <a class="app-header-menu-item" href="/">Home</a>
-             - 
-          
-          <a class="app-header-menu-item" href="/tags/">Tags</a>
-      </nav>
-      <p>My personal Blog. Writing about programming and other stuff.</p>
-      <div class="app-header-social">
-        
-          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>My personal Blog. Writing about programming and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <title>David Raab Github Profile</title>
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg>
-          </a>
-        
-          <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
   <title>Atom Feed</title>
   <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
 </svg>
-          </a>
+                    </a>
+                
+            </div>
+        </header>
         
-      </div>
-    </header>
-    <main class="app-container">
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class ="post-title">CPS fold -- fold with early exit</h1>
-      <div class="post-meta">
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">CPS fold -- fold with early exit</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <title>calendar</title>
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
-          May 7, 2016
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+                    May 7, 2016
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          10 min read
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+                    10 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-              <a class="tag" href="https://davidraab.github.io/tags/list/">list</a>
-              <a class="tag" href="https://davidraab.github.io/tags/fold/">fold</a>
-              <a class="tag" href="https://davidraab.github.io/tags/cps/">cps</a>
-              <a class="tag" href="https://davidraab.github.io/tags/recursion/">recursion</a>
-        </div>
-      </div>
-    </header>
-    <div class="post-content">
-      <p>The most general function to traverse a data-structures is the <code>fold</code> function. But <code>fold</code> has one
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/list/">list</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fold/">fold</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/cps/">cps</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/recursion/">recursion</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>The most general function to traverse a data-structures is the <code>fold</code> function. But <code>fold</code> has one
 problem that is sometimes not optimal. It always traverses the whole data-structure and we cannot
 abort the recusion early.</p>
 <p>But sometimes, that is exactly what we want to do. For example when we want to search for a specific
@@ -99,7 +99,7 @@ be helpful.</p>
 <p>We always can write our own recursive functions for those cases, but then we must ensure that we get
 tail-recursion right. Wouldn&rsquo;t it be better if we could abstract it just like fold? In this article
 I explain how to write a CPS fold that allows us to do this.</p>
-<h2 id="continuation">Continuation</h2>
+<h1 id="continuation">Continuation</h1>
 <p>The important concept in implementing a CPS fold is a so-called <em>Continuation
 function</em> or often just named CPS (Continuation-Passing Style). The idea of CPS is that we just
 pass an additional function as an argument that the user can call to explicitly recurs. This way the
@@ -178,7 +178,7 @@ than 11 and add them together.</em> <code>foldk</code> on the other hand runs as
 than <code>11</code> and only add those together it saw up to this point. As soon he encounter a bigger
 number it will stop traversing the list. <code>fold</code> calculated <code>5 + 10 + 10 + 5</code> while <code>foldk</code>
 just summed up the first two elements <code>5 + 10</code>.</p>
-<h2 id="implementing-foldk">Implementing foldk</h2>
+<h1 id="implementing-foldk">Implementing foldk</h1>
 <p>Implementing <code>foldk</code> is actually pretty easy, let&rsquo;s go over it:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -441,7 +441,7 @@ pattern matching in the <code>foldk</code> function.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="implementing-some-other-functions">Implementing some other functions</h2>
+<h1 id="implementing-some-other-functions">Implementing some other functions</h1>
 <p>Now, let&rsquo;s use our <code>foldk</code> function to implement some other functions. First <code>tryPick</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -607,16 +607,16 @@ the <code>collected</code> field after <code>foldk</code> finished and throw an 
 as <code>amount</code>. But I like my behaviour more than the default implementation.</p>
 <p>I could continue by implementing further functions, but I think at this point it should
 be obvious how <code>foldk</code> works and how we use it.</p>
-<h2 id="summary">Summary</h2>
+<h1 id="summary">Summary</h1>
 <p>Implementing a CPS fold gives the control when to recurs to the caller of <code>foldk</code>.</p>
 <p>Some task are easier solved by <code>foldk</code>. Some other task can sometimes be more efficient as we don&rsquo;t
 need to traverse the complete data-structure. In general if you ever wanted something similar
 to <code>break</code> or <code>continue</code> as you know it from imperative looping constructs. With <code>foldk</code>
 you have this ability and it works fine with immutable data-structures.</p>
 
-    </div>
-    <div class="post-footer">
-      <div id="disqus_thread"></div>
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
 <script type="application/javascript">
     window.disqus_config = function () {
     
@@ -636,9 +636,17 @@ you have this ability and it works fine with immutable data-structures.</p>
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-    </div>
-  </article>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#continuation">Continuation</a></li>
+    <li><a href="#implementing-foldk">Implementing foldk</a></li>
+    <li><a href="#implementing-some-other-functions">Implementing some other functions</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav> </aside>
 
-    </main>
-  </body>
+    </body>
 </html>

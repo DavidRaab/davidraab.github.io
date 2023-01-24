@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>goto on David Raab</title>
+    <link>https://davidraab.github.io/tags/goto/</link>
+    <description>Recent content in goto on David Raab</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/goto/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Structured Programming</title>
+      <link>https://davidraab.github.io/posts/structured-programming/</link>
+      <pubDate>Wed, 09 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/structured-programming/</guid>
+      <description>Back in 1968 Edsger W. Dijkstra wrote an open letter named &amp;ldquo;Go To Statement Considered Harmful&amp;rdquo;. As already suggested from the title, the very idea was to raise consciousness that the goto statement is more harmful then helpful. From today view we would expect that this idea catches fire really fast, but it didn&amp;rsquo;t. It took quite a long time. Even during all the 1970s and 1980s that question was debated a lot.</description>
+    </item>
+    
+  </channel>
+</rss>

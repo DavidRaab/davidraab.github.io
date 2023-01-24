@@ -1,22 +1,22 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
-    <title>Introduction to F# // David Raab</title>
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.109.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="David Raab" />
-    <meta name="description" content="Gives an introduction to F# for C# developers" />
-    <link rel="stylesheet" href="/css/main.min.e81e23275c8362e1b88fea8b73cf7e83f08dd1995654c5c8c50eccaffe8e6ea8.css" />
-    <script src="/static/code-toggle.js" async></script>
+    <head>
+        <title>Introduction to F# // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="Gives an introduction to F# for C# developers" />
+        <link rel="stylesheet" href="/css/main.min.bbc1f107fe044f24ea7aeed40319feb0ddb776378c7642a4605e44d7fa5f6e02.css" />
+        <script src="/static/code-toggle.js" async></script>
 
-    
-    <meta name="twitter:card" content="summary"/>
+        
+        <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Introduction to F#"/>
 <meta name="twitter:description" content="Gives an introduction to F# for C# developers"/>
 
-    <meta property="og:title" content="Introduction to F#" />
+        <meta property="og:title" content="Introduction to F#" />
 <meta property="og:description" content="Gives an introduction to F# for C# developers" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://davidraab.github.io/posts/introduction-fsharp/" /><meta property="article:section" content="posts" />
@@ -24,69 +24,69 @@
 <meta property="article:modified_time" content="2016-03-10T00:00:00+00:00" />
 
 
-  </head>
-  <body>
-    <header class="app-header">
-      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
-      <span class="app-header-title">David Raab</span>
-      <nav class="app-header-menu">
-          <a class="app-header-menu-item" href="/">Home</a>
-             - 
-          
-          <a class="app-header-menu-item" href="/tags/">Tags</a>
-      </nav>
-      <p>My personal Blog. Writing about programming and other stuff.</p>
-      <div class="app-header-social">
-        
-          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>My personal Blog. Writing about programming and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <title>David Raab Github Profile</title>
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg>
-          </a>
-        
-          <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
   <title>Atom Feed</title>
   <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
 </svg>
-          </a>
+                    </a>
+                
+            </div>
+        </header>
         
-      </div>
-    </header>
-    <main class="app-container">
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class ="post-title">Introduction to F#</h1>
-      <div class="post-meta">
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Introduction to F#</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <title>calendar</title>
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
-          Mar 10, 2016
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+                    Mar 10, 2016
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          21 min read
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+                    21 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-              <a class="tag" href="https://davidraab.github.io/tags/csharp/">CSharp</a>
-              <a class="tag" href="https://davidraab.github.io/tags/intro/">intro</a>
-        </div>
-      </div>
-    </header>
-    <div class="post-content">
-      <p>When I remember the first time I looked at functional(-first) languages like F#, ML, Haskell and others.
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/csharp/">CSharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/intro/">intro</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>When I remember the first time I looked at functional(-first) languages like F#, ML, Haskell and others.
 The typical reaction that I had, and I always see from other people is: This is unreadable, it
 must be hard to read, it feels complicated and hard.</p>
 <p>After spending some time in F# I cannot agree to that at all anymore. Often the syntax
@@ -98,8 +98,8 @@ languages. The problem is more that it is just unfamiliar.</p>
 With this overview it should be easy to understand the most basic part to read
 and understand functional code.</p>
 <p>For better understanding I will provide some C# to F# code examples.</p>
-<h2 id="variables">Variables</h2>
-<h3 id="definition-c">Definition C#</h3>
+<h1 id="variables">Variables</h1>
+<h2 id="definition-c">Definition C#</h2>
 <p>Variables are an important concept, in C# you can define variables in two ways. First with an
 explicit type. You can optionally initialize it with a value.</p>
 <div class="highlight"><div class="chroma">
@@ -128,7 +128,7 @@ type of a variable. You are also forced to specify a value in this way.</p>
 </span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">person</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Person</span><span class="p">(</span><span class="s">&#34;foo&#34;</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="definition-in-f">Definition in F#</h3>
+</div><h2 id="definition-in-f">Definition in F#</h2>
 <p>In F# we usually only use the second form of definition. But instead of <code>var</code> we write <code>let</code>.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -160,8 +160,8 @@ type of a variable. You are also forced to specify a value in this way.</p>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">person</span> <span class="o">:</span> <span class="n">Person</span> <span class="o">=</span> <span class="n">Person</span><span class="o">(</span><span class="s">&#34;foo&#34;</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="immutability">(Im)mutability</h2>
-<h3 id="immutability-in-c">(Im)mutability in C#</h3>
+</div><h1 id="immutability">(Im)mutability</h1>
+<h2 id="immutability-in-c">(Im)mutability in C#</h2>
 <p>One important difference is that every variable in C# is <em>mutable</em> by default. This
 means you can change a variable at any time you want</p>
 <div class="highlight"><div class="chroma">
@@ -178,7 +178,7 @@ means you can change a variable at any time you want</p>
 </div>
 </div><p>In C# you otherwise only can create immutable class fields with the <code>readonly</code> keyword.
 You cannot create immutable <em>local-variables</em>.</p>
-<h3 id="immutability-in-f">(Im)mutability in F#</h3>
+<h2 id="immutability-in-f">(Im)mutability in F#</h2>
 <p>In F# on the other hand, everything is immutable by default. You cannot change a variable by default.
 If you want to create a mutable variable you have to mark a variable as <code>mutable</code></p>
 <div class="highlight"><div class="chroma">
@@ -207,8 +207,8 @@ There is no operator like <code>+=</code> in F#. F# doesn&rsquo;t try to make mu
 </span></span><span class="line"><span class="cl"><span class="n">person</span> <span class="o">&lt;-</span> <span class="n">Person</span><span class="o">(</span><span class="s">&#34;bar&#34;</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="functions--static-methods">Functions / Static Methods</h2>
-<h3 id="definition-in-c">Definition in C#</h3>
+</div><h1 id="functions--static-methods">Functions / Static Methods</h1>
+<h2 id="definition-in-c">Definition in C#</h2>
 <p>In C# you define <em>static methods</em> as part of a <em>class</em>.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -226,7 +226,7 @@ There is no operator like <code>+=</code> in F#. F# doesn&rsquo;t try to make mu
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="definition-in-f-1">Definition in F#</h3>
+</div><h2 id="definition-in-f-1">Definition in F#</h2>
 <p>In F# you put functions inside modules.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -256,7 +256,7 @@ There is no operator like <code>+=</code> in F#. F# doesn&rsquo;t try to make mu
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">add</span> <span class="o">(</span><span class="n">x</span><span class="o">:</span><span class="n">int</span><span class="o">)</span> <span class="o">(</span><span class="n">y</span><span class="o">:</span><span class="n">int</span><span class="o">)</span> <span class="o">:</span> <span class="n">int</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="calling-functions-in-c">Calling functions in C#</h3>
+</div><h2 id="calling-functions-in-c">Calling functions in C#</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -265,7 +265,7 @@ There is no operator like <code>+=</code> in F#. F# doesn&rsquo;t try to make mu
 <pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="n">MyOperations</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">10</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="calling-functions-in-f">Calling functions in F#</h3>
+</div><h2 id="calling-functions-in-f">Calling functions in F#</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -276,12 +276,12 @@ There is no operator like <code>+=</code> in F#. F# doesn&rsquo;t try to make mu
 </div>
 </div><p>The only difference is that you don&rsquo;t use braces and commas to separate the arguments. You
 just provide the arguments as-is.</p>
-<h2 id="generics">Generics</h2>
+<h1 id="generics">Generics</h1>
 <p>One important concept that you will see more often in F# (compared to C#) is the usage of generics.
 Because <em>type-inference</em> also works with functions. F# often automatically generalize a function
 with generic arguments, instead of specific-types. And overall generics are more important in
 functional languages.</p>
-<h3 id="generics-in-c">Generics in C#</h3>
+<h2 id="generics-in-c">Generics in C#</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -294,7 +294,7 @@ functional languages.</p>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="generics-in-f">Generics in F#</h3>
+</div><h2 id="generics-in-f">Generics in F#</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -316,7 +316,7 @@ F# will automatically infer a generic type for you. So overall you also could ju
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">someFunction</span> <span class="n">input</span> <span class="o">=</span> <span class="c1">// Some code
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="data-types">Data-Types</h2>
+</div><h1 id="data-types">Data-Types</h1>
 <p>Other than object-oriented languages the key concept of <em>functional programming</em> is a separation
 between <em>data</em> and <em>behaviour</em>. In <em>OO</em> programming we use <em>classes</em>. Classes can contain
 public/private fields to save data, and provide methods for working with this data.</p>
@@ -325,7 +325,7 @@ We then provide (pure) functions that gets immutable data as input, and generate
 as output. Because working with data is so important, a functional language offers more than just
 classes to define data-types. Besides classes we can use <em>tuples</em>, <em>records</em> and
 <em>discriminated unions</em>.</p>
-<h3 id="tuples-in-c">Tuples in C#</h3>
+<h2 id="tuples-in-c">Tuples in C#</h2>
 <p>Tuples are also present in C#. There already exists as a <code>Tuple</code> class. But working with them
 is not so convenient as in F#. Anyway let&rsquo;s quickly look at how you use them.</p>
 <div class="highlight"><div class="chroma">
@@ -345,7 +345,7 @@ is not so convenient as in F#. Anyway let&rsquo;s quickly look at how you use th
 </div><p>Tuples are a good way for intermediate types. If you easily want to pass some values as
 <em>one unit</em> to a function. But more often they are used as a result. So you can easily return
 multiple different values from a function.</p>
-<h3 id="tuples-in-f">Tuples in F#</h3>
+<h2 id="tuples-in-f">Tuples in F#</h2>
 <p>Working with Tuples is much easier in F#</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -393,7 +393,7 @@ multiplied by Two.</p>
 a tuple is built into the language itself. They will be represented as <code>int * int * int</code> as a type.
 <code>int * float * string * Person</code> would be a four element tuple (quadruple) that contains an <code>int</code> a <code>float</code>
 a <code>string</code> and a <code>Person</code> in that <strong>exact</strong> order.</p>
-<h3 id="records-in-f">Records in F#</h3>
+<h2 id="records-in-f">Records in F#</h2>
 <p>Working with tuples is good for intermediate function, for example if you create Pipelines like you
 see them with LINQ in C#. They are also good for grouping two or three elements, but as soon you have
 have more elements, they are unhandy to work with. An alternative to this is a Record type. If
@@ -514,7 +514,7 @@ you can create hierarchical data-structures.</p>
 </span></span><span class="line"><span class="cl"><span class="n">printfn</span> <span class="s">&#34;%s was a Warrior with Strength of %d&#34;</span> <span class="n">warrior</span><span class="o">.</span><span class="n">Name</span> <span class="n">warrior</span><span class="o">.</span><span class="n">Attribute</span><span class="o">.</span><span class="n">Strength</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="discriminated-unions-in-f">Discriminated Unions in F#</h3>
+</div><h2 id="discriminated-unions-in-f">Discriminated Unions in F#</h2>
 <p>A Discriminated Union (DU) also doesn&rsquo;t currently exists in C#, but they are also planed as a feature for C# 7.
 A DU is important as they provide a <em>OR</em> type. When you look at classes, tuples or records all of them are
 basically <em>AND</em> types. All of those types group some data-together, but you always have all of them
@@ -688,7 +688,7 @@ can easily build recursive data-structures.</p>
 </code></pre>
 <p>So we can easily create hierarchical data-structures, and with Pattern Matching we can easily write recursive
 function to traverse them.</p>
-<h3 id="list-in-f">List in F#</h3>
+<h2 id="list-in-f">List in F#</h2>
 <p>The example above already introduced lists. Otherwise a list in F# is different to the C# <code>List&lt;T&gt;</code> type.
 In C# you create a mutable <code>List&lt;T&gt;</code> object and you can directly <code>Add</code> items to. In F# on the other hand you
 create lists just with the syntax <code>[ ... ]</code> (Like in JavaScript). Otherwise elements get separated by <code>;</code>
@@ -740,7 +740,7 @@ and as <em>linked-list</em>) means adding and removing from the beginning is an 
 <p>There are various functions inside the <code>List</code> module to transform lists itself. With <code>[|1;2;3|]</code>
 we also can create <em>mutable fixed-size array</em>. There also exists a <code>Array</code> Module with nearly the same
 functions as in the <code>List</code> module.</p>
-<h2 id="composition-and-piping">Composition and Piping</h2>
+<h1 id="composition-and-piping">Composition and Piping</h1>
 <p>The last concepts we look at in our introduction is the concept of <em>Composition</em> and <em>Piping</em>. Both
 are very important in functional languages, as more complex logic is achieved by composing of functions.
 Compose ability is actually pretty easy. Let&rsquo;s assume we have a function that takes an <code>int</code> as its input
@@ -1066,19 +1066,19 @@ code could also be implemented in this way with C# LINQ feature.</p>
 </span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="n">Numbers</span><span class="p">(</span><span class="n">Enumerable</span><span class="p">.</span><span class="n">Range</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">100</span><span class="p">));</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="final-note">Final Note</h2>
+</div><h1 id="final-note">Final Note</h1>
 <p>I covered quite a lot of topics. But I hope that now <em>functional languages</em> looks less scary to you. By understanding
 all of the topics you basically already made a big step in understanding F# in general.</p>
-<h2 id="further-reading">Further Reading</h2>
+<h1 id="further-reading">Further Reading</h1>
 <ul>
 <li><a href="https://channel9.msdn.com/Blogs/pdc2008/TL11">[Video] An Introduction to Microsoft F#</a></li>
 <li><a href="http://fsharpforfunandprofit.com/why-use-fsharp/">Why use F#</a></li>
 <li><a href="http://www.davesquared.net/2013/05/why-not-try-fsharp.html">Why not try F#?</a></li>
 </ul>
 
-    </div>
-    <div class="post-footer">
-      <div id="disqus_thread"></div>
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
 <script type="application/javascript">
     window.disqus_config = function () {
     
@@ -1098,9 +1098,51 @@ all of the topics you basically already made a big step in understanding F# in g
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-    </div>
-  </article>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#variables">Variables</a>
+      <ul>
+        <li><a href="#definition-c">Definition C#</a></li>
+        <li><a href="#definition-in-f">Definition in F#</a></li>
+      </ul>
+    </li>
+    <li><a href="#immutability">(Im)mutability</a>
+      <ul>
+        <li><a href="#immutability-in-c">(Im)mutability in C#</a></li>
+        <li><a href="#immutability-in-f">(Im)mutability in F#</a></li>
+      </ul>
+    </li>
+    <li><a href="#functions--static-methods">Functions / Static Methods</a>
+      <ul>
+        <li><a href="#definition-in-c">Definition in C#</a></li>
+        <li><a href="#definition-in-f-1">Definition in F#</a></li>
+        <li><a href="#calling-functions-in-c">Calling functions in C#</a></li>
+        <li><a href="#calling-functions-in-f">Calling functions in F#</a></li>
+      </ul>
+    </li>
+    <li><a href="#generics">Generics</a>
+      <ul>
+        <li><a href="#generics-in-c">Generics in C#</a></li>
+        <li><a href="#generics-in-f">Generics in F#</a></li>
+      </ul>
+    </li>
+    <li><a href="#data-types">Data-Types</a>
+      <ul>
+        <li><a href="#tuples-in-c">Tuples in C#</a></li>
+        <li><a href="#tuples-in-f">Tuples in F#</a></li>
+        <li><a href="#records-in-f">Records in F#</a></li>
+        <li><a href="#discriminated-unions-in-f">Discriminated Unions in F#</a></li>
+        <li><a href="#list-in-f">List in F#</a></li>
+      </ul>
+    </li>
+    <li><a href="#composition-and-piping">Composition and Piping</a></li>
+    <li><a href="#final-note">Final Note</a></li>
+    <li><a href="#further-reading">Further Reading</a></li>
+  </ul>
+</nav> </aside>
 
-    </main>
-  </body>
+    </body>
 </html>

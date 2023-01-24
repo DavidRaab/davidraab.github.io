@@ -1,22 +1,22 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
-    <title>Mutability vs. Immutability: Valid objects // David Raab</title>
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.109.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="David Raab" />
-    <meta name="description" content="At any time we want to maintain valid objects. In this article we compare how hard/easy it is with mutability and immutability." />
-    <link rel="stylesheet" href="/css/main.min.e81e23275c8362e1b88fea8b73cf7e83f08dd1995654c5c8c50eccaffe8e6ea8.css" />
-    <script src="/static/code-toggle.js" async></script>
+    <head>
+        <title>Mutability vs. Immutability: Valid objects // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="At any time we want to maintain valid objects. In this article we compare how hard/easy it is with mutability and immutability." />
+        <link rel="stylesheet" href="/css/main.min.bbc1f107fe044f24ea7aeed40319feb0ddb776378c7642a4605e44d7fa5f6e02.css" />
+        <script src="/static/code-toggle.js" async></script>
 
-    
-    <meta name="twitter:card" content="summary"/>
+        
+        <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Mutability vs. Immutability: Valid objects"/>
 <meta name="twitter:description" content="At any time we want to maintain valid objects. In this article we compare how hard/easy it is with mutability and immutability."/>
 
-    <meta property="og:title" content="Mutability vs. Immutability: Valid objects" />
+        <meta property="og:title" content="Mutability vs. Immutability: Valid objects" />
 <meta property="og:description" content="At any time we want to maintain valid objects. In this article we compare how hard/easy it is with mutability and immutability." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://davidraab.github.io/posts/mutabaility-vs-immutability-validation/" /><meta property="article:section" content="posts" />
@@ -24,70 +24,70 @@
 <meta property="article:modified_time" content="2017-02-27T00:00:00+00:00" />
 
 
-  </head>
-  <body>
-    <header class="app-header">
-      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
-      <span class="app-header-title">David Raab</span>
-      <nav class="app-header-menu">
-          <a class="app-header-menu-item" href="/">Home</a>
-             - 
-          
-          <a class="app-header-menu-item" href="/tags/">Tags</a>
-      </nav>
-      <p>My personal Blog. Writing about programming and other stuff.</p>
-      <div class="app-header-social">
-        
-          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>My personal Blog. Writing about programming and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <title>David Raab Github Profile</title>
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg>
-          </a>
-        
-          <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
   <title>Atom Feed</title>
   <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
 </svg>
-          </a>
+                    </a>
+                
+            </div>
+        </header>
         
-      </div>
-    </header>
-    <main class="app-container">
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class ="post-title">Mutability vs. Immutability: Valid objects</h1>
-      <div class="post-meta">
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Mutability vs. Immutability: Valid objects</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <title>calendar</title>
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
-          Feb 27, 2017
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+                    Feb 27, 2017
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          26 min read
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+                    26 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-              <a class="tag" href="https://davidraab.github.io/tags/csharp/">CSharp</a>
-              <a class="tag" href="https://davidraab.github.io/tags/immutability/">immutability</a>
-              <a class="tag" href="https://davidraab.github.io/tags/comparison/">comparison</a>
-        </div>
-      </div>
-    </header>
-    <div class="post-content">
-      <p>I already wrote <a href="https://davidraab.github.io/posts/immutability-and-functions/">an article that explains immutability</a>,
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/csharp/">CSharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/immutability/">immutability</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/comparison/">comparison</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>I already wrote <a href="https://davidraab.github.io/posts/immutability-and-functions/">an article that explains immutability</a>,
 but one thing I hand-waved was the benefits of immutability and why you should
 program with immutable values.</p>
 <p>In this article I talk about those benefits by trying to maintaining valid
@@ -98,7 +98,7 @@ this, but the problem I see is that it isn&rsquo;t so obvious how hard the mutab
 part really is.</p>
 <p>Because of this, first I show all the things you have to keep in mind if you work
 with mutability. Then we see how immutability helps us.</p>
-<h2 id="about-this-article">About this article</h2>
+<h1 id="about-this-article">About this article</h1>
 <p>Throughout this article I will use C# and F#. I use C# for the mutable examples
 and F# for the immutable example. There are multiple reasons for this decision:</p>
 <ol>
@@ -133,7 +133,7 @@ thus are considered <em>constructors</em>.</p>
 immutable object in C# and get the same benefits as in the F# examples. Or
 you can create mutable classes in F# and get the same disadvantages as in
 the C# examples.</p>
-<h2 id="mutability-the-minmax-example">Mutability: The MinMax example</h2>
+<h1 id="mutability-the-minmax-example">Mutability: The MinMax example</h1>
 <p>We start with a really small and simple example. A <code>MinMax</code> class that only has
 the purpose to keep a <em>current</em> value between a defined <em>minimum</em> and <em>maximum</em>.
 A C# class could look like this:</p>
@@ -548,7 +548,7 @@ want to ignore Rule Eight.</p>
 <p>Also this is worth its own article I will write about in the near future.</p>
 <p>Let&rsquo;s get an overview of all rules we have to follow so we can be sure state
 will always be valid.</p>
-<h2 id="all-rules-to-ensure-a-valid-state">All Rules to ensure a valid State</h2>
+<h1 id="all-rules-to-ensure-a-valid-state">All Rules to ensure a valid State</h1>
 <ol>
 <li><strong>First Rule:</strong> Always re-validate every rule to ensure the correctness of an object.</li>
 <li><strong>Second Rule:</strong> You always must validate before mutating.</li>
@@ -582,7 +582,7 @@ the problem is that nearly every rule either has an exception or special
 requirements when you should/can use them.</p>
 <p>This overall makes mutability pretty hard. Now that we covered the mutability
 part lets see how immutability helps us.</p>
-<h2 id="designing-with-immutability">Designing with Immutability</h2>
+<h1 id="designing-with-immutability">Designing with Immutability</h1>
 <p>Our MinMax class can be easily represented by a record in F#. Records in F#
 are immutable by default and can group data together like classes do.</p>
 <div class="highlight"><div class="chroma">
@@ -1131,7 +1131,7 @@ invalid, because you can forget a feature that msomehow must be handled.</p>
 this cases so you hopefully don&rsquo;t forget them. With immutability you cannot forget
 anything that later on can invalidate anything. Your code only has those
 features you also implemented!</p>
-<h2 id="conclusion">Conclusion</h2>
+<h1 id="conclusion">Conclusion</h1>
 <p>Working with immutability sure is different. I guess some people will also claim
 that updating with immutability is harder. With mutability you just need to
 change the Product and that&rsquo;s it.</p>
@@ -1160,9 +1160,9 @@ should be immutable. Until of course there are other reasons why this
 shouldn&rsquo;t be the case. What this other reasons could be are topics for other
 articles.</p>
 
-    </div>
-    <div class="post-footer">
-      <div id="disqus_thread"></div>
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
 <script type="application/javascript">
     window.disqus_config = function () {
     
@@ -1182,9 +1182,18 @@ articles.</p>
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-    </div>
-  </article>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#about-this-article">About this article</a></li>
+    <li><a href="#mutability-the-minmax-example">Mutability: The MinMax example</a></li>
+    <li><a href="#all-rules-to-ensure-a-valid-state">All Rules to ensure a valid State</a></li>
+    <li><a href="#designing-with-immutability">Designing with Immutability</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav> </aside>
 
-    </main>
-  </body>
+    </body>
 </html>

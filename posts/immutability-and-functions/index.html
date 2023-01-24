@@ -1,22 +1,22 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
-    <title>Understanding Immutability and Pure Functions (for OOP) // David Raab</title>
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.109.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="David Raab" />
-    <meta name="description" content="Explains what immutability and pure functions are, and how we design proper immutable objects" />
-    <link rel="stylesheet" href="/css/main.min.e81e23275c8362e1b88fea8b73cf7e83f08dd1995654c5c8c50eccaffe8e6ea8.css" />
-    <script src="/static/code-toggle.js" async></script>
+    <head>
+        <title>Understanding Immutability and Pure Functions (for OOP) // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="Explains what immutability and pure functions are, and how we design proper immutable objects" />
+        <link rel="stylesheet" href="/css/main.min.bbc1f107fe044f24ea7aeed40319feb0ddb776378c7642a4605e44d7fa5f6e02.css" />
+        <script src="/static/code-toggle.js" async></script>
 
-    
-    <meta name="twitter:card" content="summary"/>
+        
+        <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Understanding Immutability and Pure Functions (for OOP)"/>
 <meta name="twitter:description" content="Explains what immutability and pure functions are, and how we design proper immutable objects"/>
 
-    <meta property="og:title" content="Understanding Immutability and Pure Functions (for OOP)" />
+        <meta property="og:title" content="Understanding Immutability and Pure Functions (for OOP)" />
 <meta property="og:description" content="Explains what immutability and pure functions are, and how we design proper immutable objects" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://davidraab.github.io/posts/immutability-and-functions/" /><meta property="article:section" content="posts" />
@@ -24,69 +24,69 @@
 <meta property="article:modified_time" content="2016-03-14T00:00:00+00:00" />
 
 
-  </head>
-  <body>
-    <header class="app-header">
-      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
-      <span class="app-header-title">David Raab</span>
-      <nav class="app-header-menu">
-          <a class="app-header-menu-item" href="/">Home</a>
-             - 
-          
-          <a class="app-header-menu-item" href="/tags/">Tags</a>
-      </nav>
-      <p>My personal Blog. Writing about programming and other stuff.</p>
-      <div class="app-header-social">
-        
-          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>My personal Blog. Writing about programming and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <title>David Raab Github Profile</title>
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg>
-          </a>
-        
-          <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
   <title>Atom Feed</title>
   <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
 </svg>
-          </a>
+                    </a>
+                
+            </div>
+        </header>
         
-      </div>
-    </header>
-    <main class="app-container">
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class ="post-title">Understanding Immutability and Pure Functions (for OOP)</h1>
-      <div class="post-meta">
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Understanding Immutability and Pure Functions (for OOP)</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <title>calendar</title>
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
-          Mar 14, 2016
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+                    Mar 14, 2016
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          29 min read
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+                    29 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-              <a class="tag" href="https://davidraab.github.io/tags/immutability/">immutability</a>
-              <a class="tag" href="https://davidraab.github.io/tags/oop/">oop</a>
-        </div>
-      </div>
-    </header>
-    <div class="post-content">
-      <p>One important concept in functional programming is immutability. But also in
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/immutability/">immutability</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/oop/">oop</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>One important concept in functional programming is immutability. But also in
 object-oriented programming immutability and so called <em>immutable objects</em> getting
 more attention. The problem that I see especially from object-oriented programmers
 are really bad explanations. A lot of explanation I had see described it like this:
@@ -99,7 +99,7 @@ think: <em>Uhm, but I want to change things! I want to add data to an array, I w
 modify things. I want to do some kind of calculations. I don&rsquo;t want to have static non
 changing things. Immutability sounds not practical at all!</em></p>
 <p>So let&rsquo;s see what immutability really means.</p>
-<h2 id="immutability-in-a-nutshell">Immutability in a Nutshell</h2>
+<h1 id="immutability-in-a-nutshell">Immutability in a Nutshell</h1>
 <p>A much more useful explanation is to say that <em>immutability</em> is not about <em>forbidding change</em>
 at all. Instead <em>immutability</em> is more on <strong>how</strong> to <em>handle change</em>. Immutability
 is not about forbidding some kind of operations. You still can add an element to
@@ -110,7 +110,7 @@ understand that instead of modifying something you create something <em>new</em>
 change applied.</p>
 <p>Once you understand it is more about creating <em>new</em> things with your changes applied,
 the question that arise is more: <em>Why should that be better?</em></p>
-<h2 id="about-oo">About OO</h2>
+<h1 id="about-oo">About OO</h1>
 <p>Before we go into all kinds of explanations we first have to address OO programming. At first,
 talking about immutability and OO at the same time is actually a bad idea. The problem is
 that immutability doesn&rsquo;t really fit in the OO world. Because of that we should first focus
@@ -125,11 +125,11 @@ encapsulate and hide data instead. Data-access is often even viewed as <em>bad</
 to create methods instead of providing access to data. This and other things are the reason
 why it is hard to <em>get</em> the concept of immutability especially as an OO programmer. We will later
 talk about this problem in more depth. For the moment we will put objects aside.</p>
-<h2 id="immutability-is-about-data">Immutability is about data</h2>
+<h1 id="immutability-is-about-data">Immutability is about data</h1>
 <p>So Immutability really means that data itself cannot be changed. But as stated previously, instead
 of modifying data itself we call functions that then can return new immutable data. Let&rsquo;s look at
 some immutable data-structures.</p>
-<h3 id="int-is-immutable"><code>int</code> is immutable</h3>
+<h2 id="int-is-immutable"><code>int</code> is immutable</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -148,7 +148,7 @@ operations take some number, do some kind of operation with it and return someth
 <p><code>x</code> stays the same, instead <code>+</code> takes two arguments, and produces a new result. We can actually
 treat <code>+</code> just as a function that takes two <code>int</code> and produces a whole new <code>int</code>. As a result
 we get <code>z</code> that is <code>15</code>. We wouldn&rsquo;t expect that <code>x</code> or <code>y</code> also get modified at all.</p>
-<h3 id="string-is-immutable"><code>string</code> is immutable</h3>
+<h2 id="string-is-immutable"><code>string</code> is immutable</h2>
 <p>Using <code>int</code> to get the feeling of the concept is easy, but it is sometimes hard how this concept
 works with more complex types. Additional <code>int</code> is in most languages some kind of special <em>primitive</em>
 type or a so called <em>value type</em>. So we threat them anyway as some kind of <em>special</em>.</p>
@@ -179,7 +179,7 @@ But looking at the examples we still see that also <code>string</code> behaves m
 two strings together we don&rsquo;t modify a string. Instead we create a whole new string instead.</p>
 <p>We can observe the same with our method calls. Calling <code>foo1.Replace('1', '2')</code> doesn&rsquo;t change <code>foo1</code>
 instead we get a new string back with our change applied.</p>
-<h3 id="list-is-immutable"><code>list</code> is immutable</h3>
+<h2 id="list-is-immutable"><code>list</code> is immutable</h2>
 <p>So let&rsquo;s look into a more advanced immutable data-type a <code>list</code> in F#. (This is not
 <code>System.Collections.Generic.List&lt;T&gt;</code>).</p>
 <div class="highlight"><div class="chroma">
@@ -237,7 +237,7 @@ operation for us.</p>
 </div>
 </div><p>After executing we once again have two lists. <code>data</code> that still contains <code>[1;2;3;4;5]</code> and
 <code>data2</code> that now contains <code>[2;4;6;8;10]</code>.</p>
-<h3 id="records-are-immutable">Records are immutable</h3>
+<h2 id="records-are-immutable">Records are immutable</h2>
 <p>Let&rsquo;s create another more advanced example. Let&rsquo;s create a <code>Person</code> type that represents a Person
 in a database.</p>
 <div class="highlight"><div class="chroma">
@@ -414,14 +414,14 @@ a whole new <code>Person</code> object with your operation applied. Because it i
 you can chain methods. You also can get a <em>fluent-interface</em> by just returning <em>this</em> after
 each modification. It would look the same. But in the end <code>me</code> and <code>me2</code> would be references
 to the same object, and <code>me</code> would be changed.</p>
-<h2 id="pure-functions">Pure functions</h2>
+<h1 id="pure-functions">Pure functions</h1>
 <p>In a <em>functional-only</em> language we could probably stop at this point. <em>Data</em> and <em>functions</em>
 are clearly separated, immutability is only about <em>data</em> that does not change. The big problem
 arises if a language also supports classes. Because a class is about <em>hiding data</em>
 and additionally contains <em>functions</em>, it introduces a lot of complexity. To understand
 the reason of this complexity, we first need to talk about <em>pure</em> and <em>impure</em> functions on
 its own.</p>
-<h3 id="side-effects">Side-effects</h3>
+<h2 id="side-effects">Side-effects</h2>
 <p><em>Pure</em> functions are only those functions that don&rsquo;t have any kind of side-effects. So
 what exactly is a <em>side-effect</em>? A simple explanation would be: <em>A function only can
 depend on its input</em>. Calling a function with the same input, <em>always</em> has to produce the
@@ -484,7 +484,7 @@ control them. We want to minimize side-effects as much as possible.</p>
 <p>So how do we do that? We first assume that impure functions do as little as possible and have
 nearly no logic at all, second we just assume that they return some immutable data! Those
 immutable data then can be used/transformed and so on by pure functions.</p>
-<h3 id="immutability-and-impure-functions">(Im)mutability and (im)pure functions</h3>
+<h2 id="immutability-and-impure-functions">(Im)mutability and (im)pure functions</h2>
 <p>One interesting aspect is that both concepts are completely orthogonal. That means, we can have
 any combination of those. We can have pure functions that take mutable or immutable data, and return
 mutable or immutable data. And we can have impure functions that take and return mutable or immutable
@@ -501,7 +501,7 @@ again at the above impure functions.</p>
 </ul>
 <p>At this point, I cannot stress further how important it is to understand that immutability
 is all about data, not about functions or behaviour. We will see later why this is so important!</p>
-<h3 id="pure-functions-with-side-effects">Pure functions with side-effects</h3>
+<h2 id="pure-functions-with-side-effects">Pure functions with side-effects</h2>
 <p>The last important point is that we can have pure-functions even if they have some kind of
 side-effects. A typical example of this is a function that has internal caching with a mutable
 variable.</p>
@@ -521,7 +521,7 @@ function and even gets/returns immutable data, it is absolutely fine to have mut
 of the functions from the <code>List</code> module turn a List into a mutable array, do some work on it, and
 turn it back into an immutable list. And overall we don&rsquo;t care that it does that. As long as we
 use a function and it behaves like a pure function returning immutable data, we are fine with it.</p>
-<h2 id="benefits-of-immutability">Benefits of Immutability</h2>
+<h1 id="benefits-of-immutability">Benefits of Immutability</h1>
 <p>To shorten the example. Let&rsquo;s assume everything is mutable and a <em>reference-type</em> and it also
 applies to numbers. Saying that, lets look at the following code.</p>
 <div class="highlight"><div class="chroma">
@@ -588,7 +588,7 @@ kind of code if at every blink of an eye every value can be changed at any time.
 overall can make code easier to read and maintain.</p>
 <p>We also can gain other benefits out of it, like easy do/undo systems, backtracking in recursive
 functions for free, and a lot of other stuff.</p>
-<h2 id="disadvantages-of-immutability">Disadvantages of Immutability</h2>
+<h1 id="disadvantages-of-immutability">Disadvantages of Immutability</h1>
 <p>Nothing in the world really just have only benefits. Everything in the world has its advantages and
 its disadvantages. So what are the disadvantages of immutability?</p>
 <p>Mainly it is performance.
@@ -628,7 +628,7 @@ such problems you always can convert some kind of data to some kind of mutable d
 operation, and convert it back to a immutable data-type.</p>
 <p>So it is still important to understand that not everything is shiny and automatically better.
 Immutability can sometime have it&rsquo;s own problems, but there exists solutions for it.</p>
-<h2 id="immutability-and-oo">Immutability and OO</h2>
+<h1 id="immutability-and-oo">Immutability and OO</h1>
 <p>Finally, we now have every knowledge to talk about immutability in object-oriented programming
 and why it is so damn hard. First, let&rsquo;s reconsider what an object is.</p>
 <p>The fundamental thing
@@ -776,7 +776,7 @@ doesn&rsquo;t help us to solve any problems. The only way out of it is if you wr
 for impure functions. In this way you can separate impure functions from pure functions
 and an object could be considered as pure/immutable as long it only has pure methods.
 So let&rsquo;s consider how a good immutable object should look like.</p>
-<h2 id="how-to-design-immutable-objects">How to Design immutable objects</h2>
+<h1 id="how-to-design-immutable-objects">How to Design immutable objects</h1>
 <ol>
 <li>An immutable class don&rsquo;t have <em>hidden</em> (<code>private</code>) fields. <code>private</code> in the sense of hidden fields
 not exposed to the user. Sure a class can have <code>private</code> fields for its data. But a class always
@@ -872,7 +872,7 @@ that does this for us.</p>
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">updatedSite</span> <span class="o">=</span> <span class="nn">SiteImmutable</span><span class="p">.</span><span class="n">Update</span><span class="o">(</span><span class="n">site</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="conclusion">Conclusion</h2>
+</div><h1 id="conclusion">Conclusion</h1>
 <p>Immutability itself is actually an easy concept. The problem starts when we don&rsquo;t separate
 data and functions clearly from each other like OO programming does it. To really embrace
 immutability in OOP you have to forget a lot of stuff you were taught that should be good. Create
@@ -885,7 +885,7 @@ provide methods to convert an mutable object to an immutable object. <code>Strin
 is a good example for an mutable object that fixes the performance problems for creating
 complex strings. Once you are done you convert a <code>StringBuilder</code> instance to an
 immutable <code>string</code>.</p>
-<h2 id="further-reading">Further Reading</h2>
+<h1 id="further-reading">Further Reading</h1>
 <ul>
 <li><a href="http://two-wrongs.com/the-case-for-controlled-side-effects">The Case for Controlled Side Effects</a></li>
 <li><a href="http://fsharpforfunandprofit.com/posts/is-your-language-unreasonable/">Is your language unreasonable</a></li>
@@ -893,9 +893,9 @@ immutable <code>string</code>.</p>
 <li><a href="https://medium.com/@cscalfani/so-you-want-to-be-a-functional-programmer-part-1-1f15e387e536">So You Want to be a Functional Programmer (Part 1)</a></li>
 </ul>
 
-    </div>
-    <div class="post-footer">
-      <div id="disqus_thread"></div>
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
 <script type="application/javascript">
     window.disqus_config = function () {
     
@@ -915,9 +915,36 @@ immutable <code>string</code>.</p>
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-    </div>
-  </article>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#immutability-in-a-nutshell">Immutability in a Nutshell</a></li>
+    <li><a href="#about-oo">About OO</a></li>
+    <li><a href="#immutability-is-about-data">Immutability is about data</a>
+      <ul>
+        <li><a href="#int-is-immutable"><code>int</code> is immutable</a></li>
+        <li><a href="#string-is-immutable"><code>string</code> is immutable</a></li>
+        <li><a href="#list-is-immutable"><code>list</code> is immutable</a></li>
+        <li><a href="#records-are-immutable">Records are immutable</a></li>
+      </ul>
+    </li>
+    <li><a href="#pure-functions">Pure functions</a>
+      <ul>
+        <li><a href="#side-effects">Side-effects</a></li>
+        <li><a href="#immutability-and-impure-functions">(Im)mutability and (im)pure functions</a></li>
+        <li><a href="#pure-functions-with-side-effects">Pure functions with side-effects</a></li>
+      </ul>
+    </li>
+    <li><a href="#benefits-of-immutability">Benefits of Immutability</a></li>
+    <li><a href="#disadvantages-of-immutability">Disadvantages of Immutability</a></li>
+    <li><a href="#immutability-and-oo">Immutability and OO</a></li>
+    <li><a href="#how-to-design-immutable-objects">How to Design immutable objects</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#further-reading">Further Reading</a></li>
+  </ul>
+</nav> </aside>
 
-    </main>
-  </body>
+    </body>
 </html>

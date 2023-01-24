@@ -1,22 +1,22 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
-    <title>Structured Programming // David Raab</title>
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.109.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="David Raab" />
-    <meta name="description" content="Explains the idea behind Structured Programming and how they apply to Functional Programming" />
-    <link rel="stylesheet" href="/css/main.min.e81e23275c8362e1b88fea8b73cf7e83f08dd1995654c5c8c50eccaffe8e6ea8.css" />
-    <script src="/static/code-toggle.js" async></script>
+    <head>
+        <title>Structured Programming // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="Explains the idea behind Structured Programming and how they apply to Functional Programming" />
+        <link rel="stylesheet" href="/css/main.min.bbc1f107fe044f24ea7aeed40319feb0ddb776378c7642a4605e44d7fa5f6e02.css" />
+        <script src="/static/code-toggle.js" async></script>
 
-    
-    <meta name="twitter:card" content="summary"/>
+        
+        <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Structured Programming"/>
 <meta name="twitter:description" content="Explains the idea behind Structured Programming and how they apply to Functional Programming"/>
 
-    <meta property="og:title" content="Structured Programming" />
+        <meta property="og:title" content="Structured Programming" />
 <meta property="og:description" content="Explains the idea behind Structured Programming and how they apply to Functional Programming" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://davidraab.github.io/posts/structured-programming/" /><meta property="article:section" content="posts" />
@@ -24,67 +24,68 @@
 <meta property="article:modified_time" content="2016-03-09T00:00:00+00:00" />
 
 
-  </head>
-  <body>
-    <header class="app-header">
-      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
-      <span class="app-header-title">David Raab</span>
-      <nav class="app-header-menu">
-          <a class="app-header-menu-item" href="/">Home</a>
-             - 
-          
-          <a class="app-header-menu-item" href="/tags/">Tags</a>
-      </nav>
-      <p>My personal Blog. Writing about programming and other stuff.</p>
-      <div class="app-header-social">
-        
-          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>My personal Blog. Writing about programming and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <title>David Raab Github Profile</title>
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg>
-          </a>
-        
-          <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
   <title>Atom Feed</title>
   <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
 </svg>
-          </a>
+                    </a>
+                
+            </div>
+        </header>
         
-      </div>
-    </header>
-    <main class="app-container">
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class ="post-title">Structured Programming</h1>
-      <div class="post-meta">
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Structured Programming</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <title>calendar</title>
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
-          Mar 9, 2016
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+                    Mar 9, 2016
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          8 min read
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+                    8 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-              <a class="tag" href="https://davidraab.github.io/tags/structured/">structured</a>
-        </div>
-      </div>
-    </header>
-    <div class="post-content">
-      <p>Back in 1968 Edsger W. Dijkstra wrote an open letter named &ldquo;Go To Statement Considered Harmful&rdquo;. As already suggested from
+                            <a class="tag" href="https://davidraab.github.io/tags/structured/">structured</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/goto/">goto</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>Back in 1968 Edsger W. Dijkstra wrote an open letter named &ldquo;Go To Statement Considered Harmful&rdquo;. As already suggested from
 the title, the very idea was to raise consciousness that the <code>goto</code> statement is more harmful then helpful. From
 today view we would expect that this idea catches fire really fast, but it didn&rsquo;t. It took quite a long time. Even during
 all the 1970s and 1980s that question was debated a lot.</p>
@@ -92,7 +93,7 @@ all the 1970s and 1980s that question was debated a lot.</p>
 harmful, what was the alternative to <code>goto</code>? And why exactly is <code>goto</code> harmful, and why exactly is the alternative better?</p>
 <p>I think that looking at this questions and their answers is still a very important step forward in understanding programming and
 raise the awareness on how we achieve a more clean way of coding.</p>
-<h2 id="why-goto-was-considered-harmful">Why &ldquo;goto&rdquo; was considered harmful</h2>
+<h1 id="why-goto-was-considered-harmful">Why &ldquo;goto&rdquo; was considered harmful</h1>
 <p>At first we have to understand the time in which these statement was published. It was a time in that nearly every programmer
 actually used a language with such a control statement. Not only that, it usually often was the only way to provide any
 kind of control structures. There were no &ldquo;subroutines&rdquo;, no <code>if</code>, <code>while</code>, or <code>for</code> loops. No blocks of code and so one. Sure
@@ -111,7 +112,7 @@ That is the very reason of why you can get a <code>StackOverflowException</code>
 <p>But by giving all of them direct labels we give all of our programs more structure. And this structure helps us in understanding
 our programs. Or in other words the idea was that we should eliminate powerful construct like <code>goto</code> and yet use a lot more
 weaker but specific constructs.</p>
-<h2 id="structured-programming">Structured Programming</h2>
+<h1 id="structured-programming">Structured Programming</h1>
 <p>That overall leads to another important realization. Nearly all programming languages that we use today are basically some kind
 of Structured Programming. Whether we are talking about object-oriented language, functional languages or other paradigms.</p>
 <p>All of those languages usually provide some kind of control structures, in the form of looping <code>while</code>, <code>for</code> or <code>foreach</code>. Subroutines
@@ -128,7 +129,7 @@ alternative.</p>
 are basically Structured Programming brought to an extreme. Because the important point of Structured programming was not
 the introduction of <code>if</code>, <code>while</code>, <code>for</code>, functions or blocks. The important idea was the general concept of eliminating
 something powerful and provide more declarative and specific control structures instead.</p>
-<h2 id="powerful-vs-specific">Powerful vs. Specific</h2>
+<h1 id="powerful-vs-specific">Powerful vs. Specific</h1>
 <p>So let&rsquo;s reconsider, why was <code>goto</code> harmful? <code>goto</code> was a very powerful concept. It was so powerful that we basically don&rsquo;t need
 any concepts of looping constructs, functions and so on. The problem that it raised was that we ended up with programs that was
 hard to maintain. Without <strong>words</strong> that describe specific problems we have problems to face growing programs and we as humans
@@ -149,7 +150,7 @@ And that is why we view them as <em>harmful</em>.</p>
 have even further separated the idea of looping. We have <code>List.min</code>, <code>List.max</code>, <code>List.map</code>, <code>List.filter</code>, <code>List.map2</code>, <code>List.zip</code>, &hellip;
 and so one just to name a few. All of those constructs are still basically just <em>looping</em> constructs. But they are specialized looping
 constructs that just do one specific thing.</p>
-<h2 id="so-having-powerful-things-is-bad">So having powerful things is bad?</h2>
+<h1 id="so-having-powerful-things-is-bad">So having powerful things is bad?</h1>
 <p>If we follow this thinking then it can lead to the idea that a programming language itself should not have any powerful concepts at all.
 The less powerful a language is, the better. But actually it cannot be further from the truth. In fact it is quite the opposite, a language
 absolute must provide as much powerful things as possible.</p>
@@ -163,7 +164,7 @@ But why not abstract such a common task? <code>List.filter</code> does exactly t
 but we only need to provide the logic for filtering. We have less code when we use a function like <code>List.filter</code>. The intention is more clearer.
 Reading a <code>List.filter</code> is easier as to basically try to understand filtering through a series of commands expressed within a <code>foreach</code>
 loop.</p>
-<h2 id="using-the-least-powerful-thing">Using the least powerful thing</h2>
+<h1 id="using-the-least-powerful-thing">Using the least powerful thing</h1>
 <p>When we follow these rule and thinking what Structured Programming is about, I think it leads to more readable code with all of
 the benefit this usually have. Like higher maintainability, less bugs, in general less code because of reusable constructs. The
 only thing we have todo is to identify our powerful constructs and try to come up with some alternative. In C# the usage of
@@ -171,12 +172,12 @@ only thing we have todo is to identify our powerful constructs and try to come u
 <code>fold</code> counts as powerful. Recursion is basically just looping, and fold is the abstraction of tail-recursive looping with
 an accumulator. Watch out for them and either try to replace them with more specific constructs. Or build your own control
 structures!</p>
-<h2 id="further-reading">Further Reading</h2>
+<h1 id="further-reading">Further Reading</h1>
 <p><a href="https://blog.8thlight.com/uncle-bob/2015/09/23/a-little-structure.html">Uncle Bob - A Little Structure</a></p>
 
-    </div>
-    <div class="post-footer">
-      <div id="disqus_thread"></div>
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
 <script type="application/javascript">
     window.disqus_config = function () {
     
@@ -196,9 +197,19 @@ structures!</p>
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-    </div>
-  </article>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#why-goto-was-considered-harmful">Why &ldquo;goto&rdquo; was considered harmful</a></li>
+    <li><a href="#structured-programming">Structured Programming</a></li>
+    <li><a href="#powerful-vs-specific">Powerful vs. Specific</a></li>
+    <li><a href="#so-having-powerful-things-is-bad">So having powerful things is bad?</a></li>
+    <li><a href="#using-the-least-powerful-thing">Using the least powerful thing</a></li>
+    <li><a href="#further-reading">Further Reading</a></li>
+  </ul>
+</nav> </aside>
 
-    </main>
-  </body>
+    </body>
 </html>

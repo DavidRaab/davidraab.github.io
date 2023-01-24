@@ -1,22 +1,22 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
-    <title>Monoids // David Raab</title>
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.109.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="David Raab" />
-    <meta name="description" content="Describes Monoids in F#" />
-    <link rel="stylesheet" href="/css/main.min.e81e23275c8362e1b88fea8b73cf7e83f08dd1995654c5c8c50eccaffe8e6ea8.css" />
-    <script src="/static/code-toggle.js" async></script>
+    <head>
+        <title>Monoids // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="Describes Monoids in F#" />
+        <link rel="stylesheet" href="/css/main.min.bbc1f107fe044f24ea7aeed40319feb0ddb776378c7642a4605e44d7fa5f6e02.css" />
+        <script src="/static/code-toggle.js" async></script>
 
-    
-    <meta name="twitter:card" content="summary"/>
+        
+        <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Monoids"/>
 <meta name="twitter:description" content="Describes Monoids in F#"/>
 
-    <meta property="og:title" content="Monoids" />
+        <meta property="og:title" content="Monoids" />
 <meta property="og:description" content="Describes Monoids in F#" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://davidraab.github.io/posts/monoids/" /><meta property="article:section" content="posts" />
@@ -24,75 +24,75 @@
 <meta property="article:modified_time" content="2016-05-24T00:00:00+00:00" />
 
 
-  </head>
-  <body>
-    <header class="app-header">
-      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
-      <span class="app-header-title">David Raab</span>
-      <nav class="app-header-menu">
-          <a class="app-header-menu-item" href="/">Home</a>
-             - 
-          
-          <a class="app-header-menu-item" href="/tags/">Tags</a>
-      </nav>
-      <p>My personal Blog. Writing about programming and other stuff.</p>
-      <div class="app-header-social">
-        
-          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>My personal Blog. Writing about programming and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <title>David Raab Github Profile</title>
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg>
-          </a>
-        
-          <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
   <title>Atom Feed</title>
   <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
 </svg>
-          </a>
+                    </a>
+                
+            </div>
+        </header>
         
-      </div>
-    </header>
-    <main class="app-container">
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class ="post-title">Monoids</h1>
-      <div class="post-meta">
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Monoids</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <title>calendar</title>
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
-          May 24, 2016
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+                    May 24, 2016
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          13 min read
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+                    13 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-              <a class="tag" href="https://davidraab.github.io/tags/monoids/">monoids</a>
-        </div>
-      </div>
-    </header>
-    <div class="post-content">
-      <p>A monoid is a simple concept. It is a generalization of some patterns that you
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/monoids/">monoids</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>A monoid is a simple concept. It is a generalization of some patterns that you
 very likely already have seen. Being aware of those can help in designing some
 operations and can simplify things. Without much further ado let us look at
 three simple math equations.</p>
 <pre tabindex="0"><code>1 + 2       = 3
 (1 + 2) + 3 = 1 + (2 + 3)
 1 + 0       = 0 + 1
-</code></pre><h2 id="table-of-content">Table of Content</h2>
+</code></pre><h1 id="table-of-content">Table of Content</h1>
 <ul class="toc">
   <li><a href="#binary">Binary Operations</a></li>
   <li><a href="#assoc">Associativity</a></li>
@@ -128,7 +128,7 @@ three simple math equations.</p>
   <li><a href="#comments">Comments</a></li>
 </ul>
 <p><a name="binary"></a></p>
-<h2 id="binary-operations">Binary Operations</h2>
+<h1 id="binary-operations">Binary Operations</h1>
 <p>When we look at the first equation we just see the following: There exists some kind
 of binary operation that takes two things of the same type, and somehow <em>combines</em>
 those two things into one result of the same type. When we look at the type-signature
@@ -140,20 +140,20 @@ the signature</p>
 <pre><code>'a -&gt; 'a -&gt; 'a
 </code></pre>
 <p><a name="assoc"></a></p>
-<h2 id="associativity">Associativity</h2>
+<h1 id="associativity">Associativity</h1>
 <p>The second equation tells us that our binary operation <code>+</code> has another property. The
 order in which we do the calculation don&rsquo;t change the end result. We can first
 calculate <code>1 + 2</code> and then add <code>3</code> or we can first calculate <code>2 + 3</code> and then
 add <code>1</code>. Both result in <code>6</code>.</p>
 <p><a name="identity"></a></p>
-<h2 id="identity">Identity</h2>
+<h1 id="identity">Identity</h1>
 <p>The last equation tells us that there exists some kind of <em>zero-element</em> or in mathematics
 named <em>identity</em> that don&rsquo;t effect the result of the operation. It works as some
 kind of <em>noop-operation</em>.</p>
 <p>For the binary operation <code>+</code> this kind of element is <code>0</code>. No matter which number we have,
 when we add zero to it, it doesn&rsquo;t change the number at all.</p>
 <p><a name="monoids"></a></p>
-<h2 id="monoids">Monoids</h2>
+<h1 id="monoids">Monoids</h1>
 <p>Whenever all three properties are fulfilled, we name it a monoid. The question is probably
 how such kind of simple generalization is even helpful. But before we look into this, let&rsquo;s
 look at some other example first, to get a better hang of the three rules. First all three rules again.</p>
@@ -166,13 +166,13 @@ look at some other example first, to get a better hang of the three rules. First
 operations all of them already fulfil the first rule, but do they also fulfil the
 second and third rule?</p>
 <p><a name="example-sub"></a></p>
-<h3 id="subtraction">Subtraction</h3>
+<h2 id="subtraction">Subtraction</h2>
 <p>Subtraction is not associative. <code>(1 - 2) - 3</code> gives us <code>-1 - 3</code> that result in <code>-4</code>. But
 <code>1 - (2 - 3)</code> gives us <code>1 - (-1)</code> and this returns <code>2</code>.</p>
 <p>There also does not exists an identity element. We could think once again of <code>0</code>. As <code>1 - 0</code>
 return once again <code>1</code> unchanged. But when we do <code>0 - 1</code> we get <code>-1</code>.</p>
 <p><a name="example-mul"></a></p>
-<h3 id="multiplication">Multiplication</h3>
+<h2 id="multiplication">Multiplication</h2>
 <p>Multiplication is a monoid as both rules are fulfilled. We can do multiplication in any order
 and it always yield the same result. But what is our identity element? This time it is <code>1</code>
 not <code>0</code>. Multiplying a number with <code>1</code> never changes the number itself.</p>
@@ -182,7 +182,7 @@ not <code>0</code>. Multiplying a number with <code>1</code> never changes the n
 1 * 6 = 6
 </code></pre>
 <p><a name="example-div"></a></p>
-<h3 id="division">Division</h3>
+<h2 id="division">Division</h2>
 <p>Division is not associative:</p>
 <pre><code>(100.0 / 2.0) / 5.0 =  50.0 / 5.0 = 10.0
 100.0 / (2.0 / 5.0) = 100.0 / 0.4 = 250.0
@@ -190,11 +190,11 @@ not <code>0</code>. Multiplying a number with <code>1</code> never changes the n
 <p>and we also don&rsquo;t have an identity element. We could once again think of <code>1</code>. As <code>3.0 / 1.0</code>
 don&rsquo;t change <code>3.0</code>, but the reverse <code>1.0 / 3.0</code> is once again something different.</p>
 <p><a name="purpose"></a></p>
-<h2 id="what-is-the-purpose-of-all-of-this">What is the purpose of all of this?</h2>
+<h1 id="what-is-the-purpose-of-all-of-this">What is the purpose of all of this?</h1>
 <p>Now that we have seen more examples we should get familiar with the concept. But why are those
 rules anyway useful? Actually, all three rules gives us an ability that we can use in programming.</p>
 <p><a name="pur-bin"></a></p>
-<h3 id="binary-operations-1">Binary Operations</h3>
+<h2 id="binary-operations-1">Binary Operations</h2>
 <p>When we have a binary operation that combines two things that returns another new thing of the same
 type. It simply means we always can combine a whole list of elements with <code>List.reduce</code>. Let&rsquo;s
 assume we have a list of numbers and we just want to add, subtract, multiply or divide all numbers.
@@ -254,7 +254,7 @@ a single value. When we can combine two things into one thing, we always can kee
 going combining two things until we end up with a single element. A <code>reduce</code> operation
 just does that repetitive combining for us.</p>
 <p><a name="pur-assoc"></a></p>
-<h3 id="associativity-1">Associativity</h3>
+<h2 id="associativity-1">Associativity</h2>
 <p>Associativity can enhance the reduce operation. If the exact order doesn&rsquo;t play a role. It means
 the combining can be done in Parallel on multiple CPUs. As a simple example let&rsquo;s look at a list
 with four elements.</p>
@@ -318,7 +318,7 @@ data for one day, and save the result. If you want to create a month report, you
 need to combine the results of let&rsquo;s say the last 30 days. You don&rsquo;t need to rerun the combine
 operation completely from the start.</p>
 <p><a name="pur-identity"></a></p>
-<h3 id="identity-1">Identity</h3>
+<h2 id="identity-1">Identity</h2>
 <p>There is one problem with <code>reduce</code> or in general we have one problem. Our binary operations
 always expect to combine two things. But what happens if we have zero or only one element? You
 probably ask why we then even want to run a <code>reduce</code> operation. But in normal circumstances
@@ -345,11 +345,11 @@ begin with. To solve the problem with <code>reduce</code> we can use <code>fold<
 </div>
 </div><p>The additional value we pass to <code>fold</code> acts in this case as the identity element.</p>
 <p><a name="mono"></a></p>
-<h2 id="monoids-examples">Monoids examples</h2>
+<h1 id="monoids-examples">Monoids examples</h1>
 <p>As we now have a rough view what an monoid is, and what it allows us to do, let&rsquo;s look at some
 more simple monoids.</p>
 <p><a name="mono-str-concat"></a></p>
-<h3 id="string-concatenation">String concatenation</h3>
+<h2 id="string-concatenation">String concatenation</h2>
 <p>String concatenation is a monoid, the identity element is just the empty string.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -360,7 +360,7 @@ more simple monoids.</p>
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p><a name="mono-list-appending"></a></p>
-<h3 id="list-appending">List appending</h3>
+<h2 id="list-appending">List appending</h2>
 <p>Appending lists is a monoid. The identity element is just the empty list.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -373,7 +373,7 @@ more simple monoids.</p>
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p><a name="mono-max-value"></a></p>
-<h3 id="maximum-value">Maximum value</h3>
+<h2 id="maximum-value">Maximum value</h2>
 <p>We can threat the <code>max</code> operation as a monoid. It just takes two values, and returns
 the one which is greater. Notice that combining doesn&rsquo;t literally mean we really have
 to work with both values and <em>combine</em> them. A function that just throws away one
@@ -438,7 +438,7 @@ for <code>max</code> with the <code>int</code> type is <code>Int32.MinValue</cod
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p><a name="mono-sets"></a></p>
-<h3 id="combining-sets">Combining Sets</h3>
+<h2 id="combining-sets">Combining Sets</h2>
 <p>Also combining two Sets is a monoid, once again with just the empty set as the identity element.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -465,7 +465,7 @@ for <code>max</code> with the <code>int</code> type is <code>Int32.MinValue</cod
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p><a name="comm-monoids"></a></p>
-<h2 id="commutative-monoids">Commutative Monoids</h2>
+<h1 id="commutative-monoids">Commutative Monoids</h1>
 <p>Up so far you probably noticed one additional variation. For some combine operations
 the whole order on how we combine them don&rsquo;t play a role. Actually <code>+</code> for
 numbers and the <code>Set.union</code> fall into this category. But other operation are
@@ -503,14 +503,14 @@ where the whole order doesn&rsquo;t play a role. then we have a <em>Commutative 
 <p>For example adding numbers or multiplying them, combining sets with <code>Set.union</code> or
 getting the <code>max</code> value are <em>Commutative Monoids</em>.</p>
 <p><a name="type"></a></p>
-<h2 id="creating-monoids-types">Creating Monoids Types</h2>
+<h1 id="creating-monoids-types">Creating Monoids Types</h1>
 <p>Up so far we always used <code>List.fold</code> or <code>List.reduce</code> directly and provided the identity
 element directly. But overall it can help to create a type that combines the binary
 operation with the identity element in its own type.</p>
 <p>We can overload the <code>+</code> and the <code>Zero</code> operator to get some nice behaviour. We treat
 <code>+</code> just as our <em>combine</em> operation. And <code>Zero</code> is our <em>identity</em> element.</p>
 <p><a name="type-sum"></a></p>
-<h3 id="sum-monoid">Sum Monoid</h3>
+<h2 id="sum-monoid">Sum Monoid</h2>
 <p>As a simple example let&rsquo;s create a <code>Sum</code> type.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -540,7 +540,7 @@ it returns the <code>Zero</code> element.</p>
 </div><p>Defining a Sum type for <code>int</code> and <code>+</code> doesn&rsquo;t seems like much value, and it isn&rsquo;t. But it
 is only one example to understand the concept. A Product for example seems much more usable.</p>
 <p><a name="type-product"></a></p>
-<h3 id="product-monoid">Product Monoid</h3>
+<h2 id="product-monoid">Product Monoid</h2>
 <p>The product Monoid just multiplies the numbers and we use <code>1</code> as Zero.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -561,7 +561,7 @@ is only one example to understand the concept. A Product for example seems much 
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p><a name="type-ordering"></a></p>
-<h3 id="ordering-monoid">Ordering Monoid</h3>
+<h2 id="ordering-monoid">Ordering Monoid</h2>
 <p>Let&rsquo;s create a Monoid that adds two list together and sorts the list while doing it.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -588,14 +588,14 @@ is only one example to understand the concept. A Product for example seems much 
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p><a name="summary"></a></p>
-<h2 id="summary">Summary</h2>
+<h1 id="summary">Summary</h1>
 <p>A Monoid is a simple way to aggregate data. When you design functions consider if there exists
 binary operations to somehow combine types. If you can implement them you get the ability
 to combine a list of types for free.</p>
 <p>Additionally it opens up the possibility to allow combining data in parallel or build data
 incrementally.</p>
 <p><a name="further"></a></p>
-<h2 id="further-reading">Further Reading</h2>
+<h1 id="further-reading">Further Reading</h1>
 <ul>
 <li><a href="https://fsharpforfunandprofit.com/posts/monoids-without-tears/">Monoid without Tears</a></li>
 <li><a href="http://gettingsharper.de/2015/03/03/understanding-monoids-using-f/">Understanding Monoids using F#</a></li>
@@ -604,9 +604,9 @@ incrementally.</p>
 </ul>
 <p><a name="comments"></a></p>
 
-    </div>
-    <div class="post-footer">
-      <div id="disqus_thread"></div>
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
 <script type="application/javascript">
     window.disqus_config = function () {
     
@@ -626,9 +626,49 @@ incrementally.</p>
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-    </div>
-  </article>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#table-of-content">Table of Content</a></li>
+    <li><a href="#binary-operations">Binary Operations</a></li>
+    <li><a href="#associativity">Associativity</a></li>
+    <li><a href="#identity">Identity</a></li>
+    <li><a href="#monoids">Monoids</a>
+      <ul>
+        <li><a href="#subtraction">Subtraction</a></li>
+        <li><a href="#multiplication">Multiplication</a></li>
+        <li><a href="#division">Division</a></li>
+      </ul>
+    </li>
+    <li><a href="#what-is-the-purpose-of-all-of-this">What is the purpose of all of this?</a>
+      <ul>
+        <li><a href="#binary-operations-1">Binary Operations</a></li>
+        <li><a href="#associativity-1">Associativity</a></li>
+        <li><a href="#identity-1">Identity</a></li>
+      </ul>
+    </li>
+    <li><a href="#monoids-examples">Monoids examples</a>
+      <ul>
+        <li><a href="#string-concatenation">String concatenation</a></li>
+        <li><a href="#list-appending">List appending</a></li>
+        <li><a href="#maximum-value">Maximum value</a></li>
+        <li><a href="#combining-sets">Combining Sets</a></li>
+      </ul>
+    </li>
+    <li><a href="#commutative-monoids">Commutative Monoids</a></li>
+    <li><a href="#creating-monoids-types">Creating Monoids Types</a>
+      <ul>
+        <li><a href="#sum-monoid">Sum Monoid</a></li>
+        <li><a href="#product-monoid">Product Monoid</a></li>
+        <li><a href="#ordering-monoid">Ordering Monoid</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#further-reading">Further Reading</a></li>
+  </ul>
+</nav> </aside>
 
-    </main>
-  </body>
+    </body>
 </html>

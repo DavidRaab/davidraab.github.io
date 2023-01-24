@@ -1,22 +1,22 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
-    <title>Understanding map // David Raab</title>
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.109.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="David Raab" />
-    <meta name="description" content="Explains the map function and what a Functor is" />
-    <link rel="stylesheet" href="/css/main.min.e81e23275c8362e1b88fea8b73cf7e83f08dd1995654c5c8c50eccaffe8e6ea8.css" />
-    <script src="/static/code-toggle.js" async></script>
+    <head>
+        <title>Understanding map // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="Explains the map function and what a Functor is" />
+        <link rel="stylesheet" href="/css/main.min.bbc1f107fe044f24ea7aeed40319feb0ddb776378c7642a4605e44d7fa5f6e02.css" />
+        <script src="/static/code-toggle.js" async></script>
 
-    
-    <meta name="twitter:card" content="summary"/>
+        
+        <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Understanding map"/>
 <meta name="twitter:description" content="Explains the map function and what a Functor is"/>
 
-    <meta property="og:title" content="Understanding map" />
+        <meta property="og:title" content="Understanding map" />
 <meta property="og:description" content="Explains the map function and what a Functor is" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://davidraab.github.io/posts/understanding-map/" /><meta property="article:section" content="posts" />
@@ -24,70 +24,70 @@
 <meta property="article:modified_time" content="2016-03-27T00:00:00+00:00" />
 
 
-  </head>
-  <body>
-    <header class="app-header">
-      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
-      <span class="app-header-title">David Raab</span>
-      <nav class="app-header-menu">
-          <a class="app-header-menu-item" href="/">Home</a>
-             - 
-          
-          <a class="app-header-menu-item" href="/tags/">Tags</a>
-      </nav>
-      <p>My personal Blog. Writing about programming and other stuff.</p>
-      <div class="app-header-social">
-        
-          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>My personal Blog. Writing about programming and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <title>David Raab Github Profile</title>
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg>
-          </a>
-        
-          <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
   <title>Atom Feed</title>
   <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
 </svg>
-          </a>
+                    </a>
+                
+            </div>
+        </header>
         
-      </div>
-    </header>
-    <main class="app-container">
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class ="post-title">Understanding map</h1>
-      <div class="post-meta">
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Understanding map</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <title>calendar</title>
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
-          Mar 27, 2016
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+                    Mar 27, 2016
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          16 min read
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+                    16 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-              <a class="tag" href="https://davidraab.github.io/tags/functor/">functor</a>
-              <a class="tag" href="https://davidraab.github.io/tags/list/">list</a>
-              <a class="tag" href="https://davidraab.github.io/tags/option/">option</a>
-        </div>
-      </div>
-    </header>
-    <div class="post-content">
-      <p>One important function in functional programming is the <code>map</code> function. When I learned F# I must
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/functor/">functor</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/list/">list</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/option/">option</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>One important function in functional programming is the <code>map</code> function. When I learned F# I must
 admit that I had some problems first, understanding it. The problem was, I already knew the <code>map</code>
 function from dozens of other languages. Or to say it correctly, I mostly learned a wrong explanation
 of <code>map</code>.</p>
@@ -115,7 +115,7 @@ going through a collection you will probably suffer to understand what <code>map
 <code>map</code> for yourself, you will probably even wonder what <code>map</code> anyway should do for an arbitrary type? What is
 for example the purpose of <code>Async.map</code>?</p>
 <p>To explain what <code>map</code> really is about, let&rsquo;s forget about what you already know and start from scratch again.</p>
-<h2 id="some-functions">Some functions</h2>
+<h1 id="some-functions">Some functions</h1>
 <p>Before we look at <code>map</code>, let&rsquo;s create some simple functions. These functions will be used throughout the article.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -139,7 +139,7 @@ for example the purpose of <code>Async.map</code>?</p>
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">length</span> <span class="o">(</span><span class="n">str</span><span class="o">:</span><span class="kt">string</span><span class="o">)</span> <span class="o">=</span> <span class="n">str</span><span class="o">.</span><span class="n">Length</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="listmap">List.map</h2>
+</div><h1 id="listmap">List.map</h1>
 <p>We now assume that we don&rsquo;t have most of the functions from the <code>List</code> module. Especially not <code>List.map</code>. Sooner
 or later you will encounter one problem. With our <code>square</code> function we can square an <code>int</code>. But our <code>square</code>
 doesn&rsquo;t work at all with a <code>list&lt;int&gt;</code>.</p>
@@ -238,7 +238,7 @@ for every function, we abstract the looping away in it&rsquo;s own function name
 of our <code>mapList</code> function, and let&rsquo;s just remember the signature.</p>
 <pre><code>('a -&gt; 'b) -&gt; list&lt;'a&gt; -&gt; list&lt;'b&gt;
 </code></pre>
-<h2 id="optionmap">Option.map</h2>
+<h1 id="optionmap">Option.map</h1>
 <p>Suddenly later when we are programming, we face a new problem. We encounter a <code>option&lt;int&gt;</code> value. <code>option&lt;int&gt;</code>
 contains an <code>int</code>. So because it contains an int, we also could use our <code>square</code> function on the <strong>inner</strong> value.
 But sure, now we have to handle <code>option</code>. So what do we do? We can sure unwrap it, and in case of a <code>Some</code> we apply our
@@ -313,7 +313,7 @@ call this abstract function <code>mapOption</code>.</p>
 <pre><code>('a -&gt; 'b) -&gt; option&lt;int&gt; -&gt; option&lt;int&gt;
 </code></pre>
 <p>Does this already look familiar?</p>
-<h2 id="the-commonalities-between-listmap-and-optionmap">The commonalities between <code>List.map</code> and <code>Option.map</code></h2>
+<h1 id="the-commonalities-between-listmap-and-optionmap">The commonalities between <code>List.map</code> and <code>Option.map</code></h1>
 <p>Now let&rsquo;s reconsider with what we started. We started with functions like <code>square</code> and <code>add10</code>.
 But those function only could work with <code>int</code>. But while we were programming we faced values like
 <code>list&lt;int&gt;</code> or <code>option&lt;int&gt;</code>. To use our functions on those values, we somehow have to <strong>unwrap</strong>
@@ -341,7 +341,7 @@ how a <code>map</code> function for <code>Result</code>, <code>Async</code> or <
 ('a -&gt; 'b) -&gt; Async&lt;'a&gt;    -&gt; Async&lt;'b&gt;
 ('a -&gt; 'b) -&gt; Whatever&lt;'a&gt; -&gt; Whatever&lt;'b&gt;
 </code></pre>
-<h2 id="currying-and-partial-application">Currying and Partial Application</h2>
+<h1 id="currying-and-partial-application">Currying and Partial Application</h1>
 <p>At this point it is important to talk about Currying. Currying is the idea that there only
 exists functions with <strong>one-argument</strong> and they <strong>always</strong> have to return a value. F# is such
 a language and does currying automatically.</p>
@@ -436,7 +436,7 @@ two reason on why this concept is important.</p>
 <li>Code-Reuse. If a type supports <code>map</code>, you just can upgrade a function to work with this type.</li>
 <li>In your own functions, you don&rsquo;t need to care about the layer itself.</li>
 </ol>
-<h2 id="code-reuse">Code Reuse</h2>
+<h1 id="code-reuse">Code Reuse</h1>
 <p>So let&rsquo;s look again at our starting functions and just use them with the already built-in <code>List.map</code>
 and <code>Option.map</code> functions.</p>
 <div class="highlight"><div class="chroma">
@@ -462,7 +462,7 @@ and <code>Option.map</code> functions.</p>
 </div><p>So we just can reuse our three functions. We never have to write special functions that loops
 through a list. Or that handles <code>option</code>, <code>Async</code>, <code>Result</code>, we just can <strong>upgrade</strong> any
 function we already have written.</p>
-<h2 id="you-dont-need-to-care-for-the-layers">You don&rsquo;t need to care for the layers</h2>
+<h1 id="you-dont-need-to-care-for-the-layers">You don&rsquo;t need to care for the layers</h1>
 <p>This is probably the biggest advantage, as you don&rsquo;t have to care for the <em>layers</em>. You want
 to convert a list of <code>int</code> to a list of <code>string</code>. Just write a function that does <code>int -&gt; string</code>
 no List handling, no looping, no recursion. Use <code>List.map</code> and you are done.</p>
@@ -471,7 +471,7 @@ that works on a <code>option</code> type. If you pass it to <code>Async.map</cod
 on an asynchronous value. You don&rsquo;t need to write code for looping through a list, do pattern
 match an option, or write code to handle asynchronicity.</p>
 <p>All of this is done for you by the <code>map</code> function!</p>
-<h2 id="asyncmap">Async.map</h2>
+<h1 id="asyncmap">Async.map</h1>
 <p>Currently F# don&rsquo;t have a built-in <code>Async.map</code> function. So let&rsquo;s create the <code>map</code> function
 for <code>Async</code> ourselves.</p>
 <div class="highlight"><div class="chroma">
@@ -505,7 +505,7 @@ This will <strong>unwrap</strong> our <code>Async&lt;'a&gt;</code> and just retu
 <li>We can pass that <code>'a</code> to our function <code>f</code> that converts <code>'a</code> to an <code>'b</code>.</li>
 <li>Once we have a <code>'b</code> we <code>return</code> it. <code>return</code> basically wraps the <code>'b</code> and adds the <code>Async&lt;&gt;</code> layer.</li>
 </ol>
-<h2 id="stacking-layers">Stacking Layers</h2>
+<h1 id="stacking-layers">Stacking Layers</h1>
 <p>The interesting idea is now. We are not restricted to adding a single layer. We can add as much layer
 we want and stack them. For example we could have <code>option</code> values that are wrapped inside a <code>list</code> returned
 by an <code>Async</code> operation.</p>
@@ -592,11 +592,11 @@ to write it like this.</p>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="functors">Functors</h2>
+</div><h1 id="functors">Functors</h1>
 <p>Whenever we have a type with a <code>map</code> function we call it a <em>Functor</em> if the implementation
 of <code>map</code> satisfies two laws. Those two laws ensures that <code>map</code> is predictable and don&rsquo;t do
 additional stuff we didn&rsquo;t expect.</p>
-<h3 id="1-law-mapping-id">1. Law: Mapping <code>id</code></h3>
+<h2 id="1-law-mapping-id">1. Law: Mapping <code>id</code></h2>
 <p>The first rule says that mapping over the <code>id</code> function must not change the input. The <code>id</code>
 function is just a function that returns its input as-is</p>
 <div class="highlight"><div class="chroma">
@@ -617,7 +617,7 @@ function is just a function that returns its input as-is</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Then <code>xs</code> still must be <code>[1;2;3;4;5]</code>.</p>
-<h3 id="2-law-function-composition">2. Law: Function composition</h3>
+<h2 id="2-law-function-composition">2. Law: Function composition</h2>
 <p>The second rule says that composing two functions and then mapping, should be the same
 as mapping over both functions separately.</p>
 <div class="highlight"><div class="chroma">
@@ -652,7 +652,7 @@ as mapping over both functions separately.</p>
 in one-step. Or if we go trough our list two times and do it in two separately steps. Both
 <code>cxs</code> and <code>sxs</code> have to return the same result <code>[11;14;19;26;35]</code></p>
 <p>Because <code>List.map</code> satisfies both laws, we say that <code>List</code> is a <em>functor</em>.</p>
-<h2 id="summary">Summary</h2>
+<h1 id="summary">Summary</h1>
 <p>I hope it is now clear why <code>map</code> is such an important function. Implementing a <code>map</code> function
 just means you can <strong>upgrade</strong> already available functions. It opens up a lot of
 code reuse as you don&rsquo;t have to write special glue code that handles your type/layer.</p>
@@ -661,14 +661,14 @@ If you find yourself writing a function that has a list as its input and a list 
 then you are <em>probably</em> doing something wrong! The same goes for every other type.</p>
 <p>Not only is it easier to just write a function that don&rsquo;t contain any list/looping/recursion
 logic. Such a function is even more reusable.</p>
-<h2 id="further-reading">Further Reading</h2>
+<h1 id="further-reading">Further Reading</h1>
 <ul>
 <li><a href="http://fsharpforfunandprofit.com/posts/elevated-world/">Understanding map and apply</a></li>
 </ul>
 
-    </div>
-    <div class="post-footer">
-      <div id="disqus_thread"></div>
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
 <script type="application/javascript">
     window.disqus_config = function () {
     
@@ -688,9 +688,30 @@ logic. Such a function is even more reusable.</p>
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-    </div>
-  </article>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#some-functions">Some functions</a></li>
+    <li><a href="#listmap">List.map</a></li>
+    <li><a href="#optionmap">Option.map</a></li>
+    <li><a href="#the-commonalities-between-listmap-and-optionmap">The commonalities between <code>List.map</code> and <code>Option.map</code></a></li>
+    <li><a href="#currying-and-partial-application">Currying and Partial Application</a></li>
+    <li><a href="#code-reuse">Code Reuse</a></li>
+    <li><a href="#you-dont-need-to-care-for-the-layers">You don&rsquo;t need to care for the layers</a></li>
+    <li><a href="#asyncmap">Async.map</a></li>
+    <li><a href="#stacking-layers">Stacking Layers</a></li>
+    <li><a href="#functors">Functors</a>
+      <ul>
+        <li><a href="#1-law-mapping-id">1. Law: Mapping <code>id</code></a></li>
+        <li><a href="#2-law-function-composition">2. Law: Function composition</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#further-reading">Further Reading</a></li>
+  </ul>
+</nav> </aside>
 
-    </main>
-  </body>
+    </body>
 </html>

@@ -1,22 +1,22 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
-    <title>null is Evil // David Raab</title>
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.109.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="David Raab" />
-    <meta name="description" content="Explains why we consider null as a mistake, and shows alternatives to it" />
-    <link rel="stylesheet" href="/css/main.min.e81e23275c8362e1b88fea8b73cf7e83f08dd1995654c5c8c50eccaffe8e6ea8.css" />
-    <script src="/static/code-toggle.js" async></script>
+    <head>
+        <title>null is Evil // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="Explains why we consider null as a mistake, and shows alternatives to it" />
+        <link rel="stylesheet" href="/css/main.min.bbc1f107fe044f24ea7aeed40319feb0ddb776378c7642a4605e44d7fa5f6e02.css" />
+        <script src="/static/code-toggle.js" async></script>
 
-    
-    <meta name="twitter:card" content="summary"/>
+        
+        <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="null is Evil"/>
 <meta name="twitter:description" content="Explains why we consider null as a mistake, and shows alternatives to it"/>
 
-    <meta property="og:title" content="null is Evil" />
+        <meta property="og:title" content="null is Evil" />
 <meta property="og:description" content="Explains why we consider null as a mistake, and shows alternatives to it" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://davidraab.github.io/posts/null-is-evil/" /><meta property="article:section" content="posts" />
@@ -24,74 +24,74 @@
 <meta property="article:modified_time" content="2016-03-20T00:00:00+00:00" />
 
 
-  </head>
-  <body>
-    <header class="app-header">
-      <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
-      <span class="app-header-title">David Raab</span>
-      <nav class="app-header-menu">
-          <a class="app-header-menu-item" href="/">Home</a>
-             - 
-          
-          <a class="app-header-menu-item" href="/tags/">Tags</a>
-      </nav>
-      <p>My personal Blog. Writing about programming and other stuff.</p>
-      <div class="app-header-social">
-        
-          <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>My personal Blog. Writing about programming and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <title>David Raab Github Profile</title>
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg>
-          </a>
-        
-          <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
   <title>Atom Feed</title>
   <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
 </svg>
-          </a>
+                    </a>
+                
+            </div>
+        </header>
         
-      </div>
-    </header>
-    <main class="app-container">
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class ="post-title">null is Evil</h1>
-      <div class="post-meta">
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">null is Evil</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <title>calendar</title>
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
-          Mar 20, 2016
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+                    Mar 20, 2016
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          17 min read
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+                    17 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-              <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-              <a class="tag" href="https://davidraab.github.io/tags/csharp/">CSharp</a>
-              <a class="tag" href="https://davidraab.github.io/tags/null/">null</a>
-              <a class="tag" href="https://davidraab.github.io/tags/option/">option</a>
-              <a class="tag" href="https://davidraab.github.io/tags/evil/">evil</a>
-        </div>
-      </div>
-    </header>
-    <div class="post-content">
-      <p>Tony Hoare once said: <em>I call it my billion-dollar mistake. It was the invention of the null
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/csharp/">CSharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/null/">null</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/option/">option</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/evil/">evil</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>Tony Hoare once said: <em>I call it my billion-dollar mistake. It was the invention of the null
 reference in 1965.</em> So, why did he added &ldquo;null&rdquo; in the first place? Why was it such a big
 mistake. And if it is such a big mistake, what are the alternatives?</p>
-<h2 id="the-purpose-of-null">The purpose of null</h2>
+<h1 id="the-purpose-of-null">The purpose of null</h1>
 <p>To understand why it was a mistake, let&rsquo;s look why it was even added in the first place. Let&rsquo;s
 assume we have a simple function expecting a <code>PersonId</code> that returns a <code>Person</code> object. We would
 have a function with the following function signature.</p>
@@ -115,7 +115,7 @@ this sound, this easiness is exactly what leads to numerous errors and problems.
 instead. Actually I leave the discussion for <em>exception</em> for another blog post. The important thing
 is more that you could return a <code>null</code> in the error case. Some functions/libraries do that, and
 there is no way you can prevent that. You just have to deal with it, whether you like it or not.</p>
-<h2 id="the-problems-with-null">The problems with null</h2>
+<h1 id="the-problems-with-null">The problems with null</h1>
 <p>Now that we understand why we have null. Let&rsquo;s create a list of problems that the implementation
 of <em>null</em> causes.</p>
 <p>The first problem is, we cannot see if a function could return <code>null</code> or not. We could just
@@ -212,7 +212,7 @@ can throw <code>NullReferenceException</code> at some other places.</li>
 <li>We also have to check every function argument for <code>null</code></li>
 <li>It destroys <em>Happy Path-coding</em></li>
 </ol>
-<h2 id="optionals">Optionals</h2>
+<h1 id="optionals">Optionals</h1>
 <p>Actually retro-fixing <em>null</em> in a language is nearly impossible. There exists often some kind of <em>hack-ish</em>
 ways on how to fix it. But it usually feels not natural, or it doesn&rsquo;t fix all problems. So let&rsquo;s look at
 F# that does not support <code>null</code> <em>directly</em>. So how do we write a functions that sometimes can return an
@@ -285,7 +285,7 @@ contain a field <code>Name</code>. It basically means, you cannot create <code>N
 forget to add the checking. And you only have to really check those functions that could return an option.</p>
 <p>Actually that eliminates all problems we have, but let&rsquo;s go over the problems once more to describe
 why they are eliminated.</p>
-<h3 id="1-we-can-identify-functions-returning-nothing">1: We can identify functions returning <em>Nothing</em></h3>
+<h2 id="1-we-can-identify-functions-returning-nothing">1: We can identify functions returning <em>Nothing</em></h2>
 <p>It is just part of the function signature.</p>
 <pre><code>int -&gt; int option
 </code></pre>
@@ -293,7 +293,7 @@ why they are eliminated.</p>
 <pre><code>int -&gt; int
 </code></pre>
 <p>This will always return an <code>int</code></p>
-<h3 id="2-we-must-check">2: We must check</h3>
+<h2 id="2-we-must-check">2: We must check</h2>
 <p>We cannot access a value directly. <code>option</code> is a type on its own. If we want to get the inner value
 we have to <em>Pattern Match</em> against an optional.</p>
 <div class="highlight"><div class="chroma">
@@ -311,25 +311,25 @@ we have to <em>Pattern Match</em> against an optional.</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Runtime <code>NullReferenceException</code> are not possible anymore</p>
-<h3 id="3-not-every-function-returns-option">3: Not every function returns <code>option</code></h3>
+<h2 id="3-not-every-function-returns-option">3: Not every function returns <code>option</code></h2>
 <p>That means we only need to <em>Pattern Match</em> those function that return an <code>option</code>. Functions
 that don&rsquo;t return <code>option</code> also cannot be Pattern Matched! If we would Pattern Match against
 a value that is not an <code>option</code> we get an error. Once again, everything happens already at
 compile-time. That means you can see the error already in your IDE.</p>
-<h3 id="4-we-can-skip-the-checking">4: We can skip the checking</h3>
+<h2 id="4-we-can-skip-the-checking">4: We can skip the checking</h2>
 <p><code>option</code> is just a type like any other. That means you can return an option from your function.
 But you also can pass <code>option</code> as a value around. The important thing is, you only need to do
 the checking once you also need the value inside of the <code>option</code>. But note that you cannot pass
 a <code>int option</code> to a function expecting a <code>int</code>. Both are different types. If a function expects
 <code>int</code> you must unwrap the value inside the <code>option</code>. Well that isn&rsquo;t quite correct, because
 you can automate this process, but we will look later at this in more detail.</p>
-<h3 id="5-and-6-passing-option">5 and 6: Passing <code>option</code></h3>
+<h2 id="5-and-6-passing-option">5 and 6: Passing <code>option</code></h2>
 <p>We can pass <code>option</code> as a valid value. But only to those function that expects a <code>option</code>. We
 cannot implicitly pass it. And a function expecting an <code>option</code> as a value also must <em>Pattern Match</em>
 the argument.</p>
 <p>So it cannot happen that values sometimes are <code>option</code> or not. Either they are, and we must check. Or
 we don&rsquo;t have to check at all.</p>
-<h2 id="happy-path-coding">Happy Path-Coding</h2>
+<h1 id="happy-path-coding">Happy Path-Coding</h1>
 <p>Happy Path-Coding needs some further explanations. Previously i said that F# don&rsquo;t support <code>null</code>
 but this isn&rsquo;t quite right. F# runs on the .NET platform, and the runtime supports the concept
 of <code>null</code>. From F# we can call any code that was written for example in C#. So we have to add
@@ -417,7 +417,7 @@ is <code>None</code> just everything is <code>None</code>? The answer is. Yes, t
 <p>But at this point i will not show how to build the solution for yourself. And actually there even exists
 two solutions to solve it. Either way through a so called <em>Applicative Functor</em> or the <em>Maybe Monad</em>.
 So let&rsquo;s look how both solution would look like.</p>
-<h3 id="applicative-functor">Applicative Functor</h3>
+<h2 id="applicative-functor">Applicative Functor</h2>
 <p>The approach with an <em>applicative functor</em> works that we can <em>upgrade</em> any kind of functions. Let&rsquo;s
 first create a function that added our three variables together.</p>
 <div class="highlight"><div class="chroma">
@@ -497,7 +497,7 @@ to check whether your computation was successful or not. But it is up to you whe
 where it makes sense to check it. So instead of checking <code>x</code>, <code>y</code> and <code>z</code> directly, you just can work
 with the values, directly add them but if you want to print the result of your <code>addThreeOptionals</code>
 function. You have to Pattern Match.</p>
-<h3 id="maybe-monad">Maybe Monad</h3>
+<h2 id="maybe-monad">Maybe Monad</h2>
 <p>Another solution is the so called <em>Maybe Monad</em>. F# supports a feature named <em>Computation Expression</em>
 that are syntactic sugar for this kind of computations. Let&rsquo;s just look how our code could look like
 with a <em>Maybe Monad</em>.</p>
@@ -547,7 +547,7 @@ overall <code>resultWithMaybeA</code> is still an <code>int optional</code>. In 
 </div>
 </div><p><code>resultWithMaybeB</code> would be <code>None</code>. This is because <code>tryParse &quot;hallo&quot;</code> would result in <code>None</code>. And this
 will abort the <code>maybe</code> construct at this point, and it would overall just return <code>None</code>.</p>
-<h2 id="summary">Summary</h2>
+<h1 id="summary">Summary</h1>
 <p><code>null</code> is evil, because you have to add a lot of checking to get it right, a language like C# don&rsquo;t
 support you in trying to find all places where you forgot or have to add checking to get a correct
 program.</p>
@@ -557,16 +557,16 @@ an <em>Applicative Functor</em> or the <em>Maybe Monad</em> you can still write 
 want to add explicit checking, without losing the benefits of optionals.</p>
 <p>In some future blogs I will show you in more detail how <em>Applicative Functors</em> and the <em>Maybe Monad</em>
 works. So you can build your own constructs !</p>
-<h2 id="further-reading">Further Reading</h2>
+<h1 id="further-reading">Further Reading</h1>
 <ul>
 <li><a href="http://blog.ploeh.dk/2015/11/13/null-has-no-type-but-maybe-has/">Null has no type, but Maybe has</a></li>
 <li><a href="http://fsharpforfunandprofit.com/posts/the-option-type/">The Option Type</a></li>
 <li><a href="https://en.wikibooks.org/wiki/F_Sharp_Programming/Option_Types">Wikibook - Option Type</a></li>
 </ul>
 
-    </div>
-    <div class="post-footer">
-      <div id="disqus_thread"></div>
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
 <script type="application/javascript">
     window.disqus_config = function () {
     
@@ -586,9 +586,32 @@ works. So you can build your own constructs !</p>
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-    </div>
-  </article>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-purpose-of-null">The purpose of null</a></li>
+    <li><a href="#the-problems-with-null">The problems with null</a></li>
+    <li><a href="#optionals">Optionals</a>
+      <ul>
+        <li><a href="#1-we-can-identify-functions-returning-nothing">1: We can identify functions returning <em>Nothing</em></a></li>
+        <li><a href="#2-we-must-check">2: We must check</a></li>
+        <li><a href="#3-not-every-function-returns-option">3: Not every function returns <code>option</code></a></li>
+        <li><a href="#4-we-can-skip-the-checking">4: We can skip the checking</a></li>
+        <li><a href="#5-and-6-passing-option">5 and 6: Passing <code>option</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#happy-path-coding">Happy Path-Coding</a>
+      <ul>
+        <li><a href="#applicative-functor">Applicative Functor</a></li>
+        <li><a href="#maybe-monad">Maybe Monad</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#further-reading">Further Reading</a></li>
+  </ul>
+</nav> </aside>
 
-    </main>
-  </body>
+    </body>
 </html>

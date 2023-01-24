@@ -110,7 +110,7 @@ One question might be why I&amp;rsquo;m not just showing the immutable part. I c
       
       <guid>https://davidraab.github.io/posts/catamorphisms/</guid>
       <description>Up to this point I created various articles about fold, in my Series I also created a category named Fold (Catamorphisms) but up till now I didn&amp;rsquo;t explained how this articles related to each other, or what Catamorphisms mean. In this article I want to talk about the remaining parts.
-Table of Content The List Introducing Cata Tail Recursion with FoldBack Binary Trees Cata for Tree Fold vs. FoldBack FoldBack for Tree FoldBack examples Fold for Tree Some Benchmarking Markdown Summary Further Reading Comments The List Catamorphisms is a generalization that emerged from the list data-structure.</description>
+The List Catamorphisms is a generalization that emerged from the list data-structure. The list data-structure, how it is found in functional programming, is usually build as a single linked list.</description>
     </item>
     
     <item>
