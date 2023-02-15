@@ -1,0 +1,1993 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>Closures in F#, C#, Perl, JavaScript and Racket // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="Explains the concept of closures in F#, C#, Perl, JavaScript and Racket" />
+        <link rel="stylesheet" href="/css/main.min.433c9a8e29da9030db65a2481a6c1e52aa51bada073895968e834a2addffdd31.css" />
+        <script src="/static/code-toggle.js" async></script>
+
+        
+        <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Closures in F#, C#, Perl, JavaScript and Racket"/>
+<meta name="twitter:description" content="Explains the concept of closures in F#, C#, Perl, JavaScript and Racket"/>
+
+        <meta property="og:title" content="Closures in F#, C#, Perl, JavaScript and Racket" />
+<meta property="og:description" content="Explains the concept of closures in F#, C#, Perl, JavaScript and Racket" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/closures-in-fsharp-csharp-perl-javascript-and-racket/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-02-15T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-02-15T00:00:00+00:00" />
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>My personal Blog. Writing about programming and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Closures in F#, C#, Perl, JavaScript and Racket</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Feb 15, 2023
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    19 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/csharp/">CSharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/perl/">perl</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/js/">js</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/racket/">racket</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fpvsoo/">FPvsOO</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/closure/">closure</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/iterator/">iterator</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>Today, more and more languages supports functions as first-class values. This
+means a function is just a value like any other. You can pass functions as
+arguments to functions, but you are also able to create functions and return
+them from functions.</p>
+<p>Whenever this is done we have to think about the life-time of variables. Usually
+all variables are lexical scoped. Consider the following example.</p>
+<div class="code-toggle">
+<div class="buttons">
+<button data-lang="fsharp">F#</button>
+<button data-lang="csharp">C#</button>
+<button data-lang="perl">Perl</button>
+<button data-lang="js">JavaScript</button>
+<button data-lang="racket">Racket</button>
+</div>
+<div class="code fsharp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span> <span class="n">y</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code csharp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="n">Add10</span><span class="p">(</span><span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">x</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">x</span> <span class="p">+</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code perl">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">add10</span><span class="p">($y) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$x</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nv">$x</span> <span class="o">+</span> <span class="nv">$y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code js">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">add10</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code racket">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">add10</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">define</span> <span class="n">x</span> <span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="nb">+</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+</div>
+<p>In the example the variable <code>x</code> is created only temporary when the function
+is being executed. Once the function is finished the variable <code>x</code> is freed
+from memory. But this can change when we return a function.</p>
+<div class="code-toggle">
+<div class="buttons">
+<button data-lang="fsharp">F#</button>
+<button data-lang="csharp">C#</button>
+<button data-lang="perl">Perl</button>
+<button data-lang="js">JavaScript</button>
+<button data-lang="racket">Racket</button>
+</div>
+<div class="code fsharp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span> <span class="bp">()</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl">    <span class="k">fun</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Everytime <code>add10</code> is called a new function is created and returned.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">f</span> <span class="o">=</span> <span class="n">add10</span> <span class="bp">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">g</span> <span class="o">=</span> <span class="n">add10</span> <span class="bp">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">a</span> <span class="o">=</span> <span class="n">f</span> <span class="mi">20</span> <span class="c1">// 30
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="n">g</span> <span class="mi">20</span> <span class="c1">// 30
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code csharp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="n">Func</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">Add10</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">x</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">x</span> <span class="p">+</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Everytime <code>add10</code> is called a new function is created and returned.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">f</span> <span class="p">=</span> <span class="n">add10</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">g</span> <span class="p">=</span> <span class="n">add10</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">a</span> <span class="p">=</span> <span class="n">f</span><span class="p">(</span><span class="m">20</span><span class="p">);</span> <span class="c1">// 30</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">b</span> <span class="p">=</span> <span class="n">g</span><span class="p">(</span><span class="m">20</span><span class="p">);</span> <span class="c1">// 30</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code perl">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">add10</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$x</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">sub</span><span class="p">(</span><span class="nv">$y</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$x</span> <span class="o">+</span> <span class="nv">$y</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Everytime <code>add10</code> is called a new function is created and returned.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$f</span> <span class="o">=</span> <span class="n">add10</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$g</span> <span class="o">=</span> <span class="n">add10</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$a</span> <span class="o">=</span> <span class="nv">$f</span><span class="o">-&gt;</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span> <span class="c1"># 30</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$b</span> <span class="o">=</span> <span class="nv">$g</span><span class="o">-&gt;</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span> <span class="c1"># 30</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code js">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">add10</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">y</span> <span class="p">=&gt;</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Everytime <code>add10</code> is called a new function is created and returned.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">f</span> <span class="o">=</span> <span class="nx">add10</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">g</span> <span class="o">=</span> <span class="nx">add10</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">f</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span> <span class="c1">// 30
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">g</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span> <span class="c1">// 30
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code racket">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">add10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">define</span> <span class="n">x</span> <span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="n">x</span> <span class="n">y</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Everytime <code>add10</code> is called a new function is created and returned.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">f</span> <span class="p">(</span><span class="n">add10</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">g</span> <span class="p">(</span><span class="n">add10</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">a</span> <span class="p">(</span><span class="n">f</span> <span class="mi">20</span><span class="p">))</span> <span class="c1">; 30</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">b</span> <span class="p">(</span><span class="n">g</span> <span class="mi">20</span><span class="p">))</span> <span class="c1">; 30</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+</div>
+<p><code>add10</code> returns a function instead of doing a calculation. Because the
+function that is returned still access the variable <code>x</code> it means the
+variable is still not freed from memory. In the cases above the new functions
+<code>f</code> and <code>g</code> have access to its own <code>x</code> variable. Both functions
+have there own copy of <code>x</code> that is not shared between them.</p>
+<p>This seems not so useful because <code>x</code> is always <code>10</code>. But we can change the
+example to be more useful.</p>
+<div class="code-toggle">
+<div class="buttons">
+<button data-lang="fsharp">F#</button>
+<button data-lang="csharp">C#</button>
+<button data-lang="perl">Perl</button>
+<button data-lang="js">JavaScript</button>
+<button data-lang="racket">Racket</button>
+</div>
+<div class="code fsharp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span> <span class="n">x</span>   <span class="o">=</span> <span class="k">fun</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Both definitions of <code>add</code> are the same in F# because of currying. Because
+<code>x</code> is now passed as an argument it is now possible to create multiple different
+<code>add</code> functions where each function has access to its own different <code>x</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add1</span>  <span class="o">=</span> <span class="n">add</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span> <span class="o">=</span> <span class="n">add</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">a</span> <span class="o">=</span> <span class="n">add1</span>  <span class="mi">10</span> <span class="c1">// 11
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="n">add10</span> <span class="mi">10</span> <span class="c1">// 20
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code csharp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="n">Func</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">Add</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">x</span> <span class="p">+</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Because <code>x</code> is now passed as an argument it is now possible to create multiple
+different <code>add</code> functions where each function has access to its own different <code>x</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">add1</span>  <span class="p">=</span> <span class="k">add</span><span class="p">(</span><span class="m">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">add10</span> <span class="p">=</span> <span class="k">add</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">a</span> <span class="p">=</span> <span class="n">add1</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>  <span class="c1">// 11</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">b</span> <span class="p">=</span> <span class="n">add10</span><span class="p">(</span><span class="m">10</span><span class="p">);</span> <span class="c1">// 20</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code perl">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">add</span><span class="p">($x) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">sub</span><span class="p">(</span><span class="nv">$y</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$x</span> <span class="o">+</span> <span class="nv">$y</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Because <code>x</code> is now passed as an argument it is now possible to create multiple
+different <code>add</code> functions where each function has access to its own different <code>x</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$add1</span>  <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$add10</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$a</span> <span class="o">=</span> <span class="nv">$add1</span><span class="o">-&gt;</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>  <span class="c1"># 11</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$b</span> <span class="o">=</span> <span class="nv">$add10</span><span class="o">-&gt;</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> <span class="c1"># 20</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code js">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">add</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">y</span> <span class="p">=&gt;</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Because <code>x</code> is now passed as an argument it is now possible to create multiple
+different <code>add</code> functions where each function has access to its own different <code>x</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">add1</span>  <span class="o">=</span> <span class="nx">add</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">add10</span> <span class="o">=</span> <span class="nx">add</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">add1</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>  <span class="c1">// 11
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">add10</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> <span class="c1">// 20
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code racket">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">add</span> <span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="n">x</span> <span class="n">y</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Because <code>x</code> is now passed as an argument it is now possible to create multiple
+different <code>add</code> functions where each function has access to its own different <code>x</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="nb">add1</span>  <span class="p">(</span><span class="n">add</span> <span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">add10</span> <span class="p">(</span><span class="n">add</span> <span class="mi">10</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">a</span> <span class="p">(</span><span class="nb">add1</span>  <span class="mi">10</span><span class="p">))</span> <span class="c1">; 11</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">b</span> <span class="p">(</span><span class="n">add10</span> <span class="mi">10</span><span class="p">))</span> <span class="c1">; 20</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+</div>
+<div class="info">
+This style is related to <strong>currying</strong>. We do <strong>currying</strong>
+whenever we turn a
+function with multiple arguments into a series of one-argument functions. In
+F# we could turn the following function.
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>into a curried form by writing.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span> <span class="n">x</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">fun</span> <span class="n">y</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">fun</span> <span class="n">z</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>but in F# it&rsquo;s not needed because all functions are curried by default.
+With both definitions you can write:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span> <span class="o">=</span> <span class="n">add</span> <span class="mi">4</span> <span class="mi">6</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>add10</code> now <em>accepts</em> the missing argument <code>z</code>. Passing fewer arguments
+as needed to execute a function is called <strong>Partial Application</strong>. In
+C#, Perl, JavaScript and Racket you must do this kind of transformation
+explicitly.</p>
+<div class="code-toggle">
+<div class="buttons">
+<button data-lang="csharp">C#</button>
+<button data-lang="perl">Perl</button>
+<button data-lang="js">JavaScript</button>
+<button data-lang="racket">Racket</button>
+<button data-lang="fsharp">F#</button>
+</div>
+<div class="code csharp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="n">Func</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="n">Func</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">&gt;&gt;</span> <span class="n">Add</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">x</span> <span class="p">+</span> <span class="n">y</span> <span class="p">+</span> <span class="n">z</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>used like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">add10</span> <span class="p">=</span> <span class="n">Add</span><span class="p">(</span><span class="m">6</span><span class="p">)(</span><span class="m">4</span><span class="p">);</span>    <span class="c1">// Func&lt;int,int&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">num</span>   <span class="p">=</span> <span class="n">Add</span><span class="p">(</span><span class="m">6</span><span class="p">)(</span><span class="m">4</span><span class="p">)(</span><span class="m">5</span><span class="p">);</span> <span class="c1">// 15</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code perl">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">add</span><span class="p">($x) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">sub</span><span class="p">(</span><span class="nv">$y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">sub</span><span class="p">(</span><span class="nv">$z</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nv">$x</span> <span class="o">+</span> <span class="nv">$y</span> <span class="o">+</span> <span class="nv">$z</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>used like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$add10</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="o">-&gt;</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>    <span class="c1"># sub</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$num</span>   <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="o">-&gt;</span><span class="p">(</span><span class="mi">4</span><span class="p">)(</span><span class="mi">5</span><span class="p">);</span> <span class="c1"># 15</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code js">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">add</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">z</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span> <span class="o">+</span> <span class="nx">z</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>used like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">add10</span> <span class="o">=</span> <span class="nx">add</span><span class="p">(</span><span class="mi">6</span><span class="p">)(</span><span class="mi">4</span><span class="p">);</span>    <span class="c1">// function
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">num</span>   <span class="o">=</span> <span class="nx">add</span><span class="p">(</span><span class="mi">6</span><span class="p">)(</span><span class="mi">4</span><span class="p">)(</span><span class="mi">5</span><span class="p">);</span> <span class="c1">// 15
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code racket">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">add</span> <span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">z</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="nb">+</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>used like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">add10</span> <span class="p">((</span><span class="n">add</span> <span class="mi">6</span><span class="p">)</span> <span class="mi">4</span><span class="p">))</span>    <span class="c1">; lambda</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">num</span>   <span class="p">((</span><span class="n">add</span> <span class="mi">6</span><span class="p">)</span> <span class="mi">4</span><span class="p">)</span> <span class="mi">5</span><span class="p">)</span><span class="err">)</span> <span class="c1">; 15</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code fsharp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>used like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span> <span class="o">=</span> <span class="n">add</span> <span class="mi">6</span> <span class="mi">4</span>         <span class="c1">// int -&gt; int
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">numa</span>  <span class="o">=</span> <span class="n">add</span> <span class="mi">6</span> <span class="mi">4</span> <span class="mi">5</span>       <span class="c1">// 15
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">numb</span>  <span class="o">=</span> <span class="o">(((</span><span class="n">add</span> <span class="mi">6</span><span class="o">)</span> <span class="mi">4</span><span class="o">)</span> <span class="mi">5</span><span class="o">)</span> <span class="c1">// 15
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>This is the reason why F# doesn&rsquo;t use parenthesis for the arguments <strong>and</strong> they
+are also not required like in Racket (or another LISP-like language).</p>
+</div></div>
+</div>
+<p>While being more usefull I guess you will still wonder why
+you ever want to do this kind of transformation. So here comes a more
+advanced example.</p>
+<p>Consider we want to create a <code>range</code> function accepting a <code>start</code> and
+<code>stop</code> value. But instead of returning a List/Array or other kind
+of data, we want to return a function instead. Whenever this function
+is called it returns the next value starting with <code>start</code> upto <code>stop</code>.</p>
+<p>This concept is also called an <strong>iterator</strong> and we can implement it easily
+with just a <strong>closure</strong>.</p>
+<div class="code-toggle">
+<div class="buttons">
+<button data-lang="fsharp">F#</button>
+<button data-lang="csharp">C#</button>
+<button data-lang="perl">Perl</button>
+<button data-lang="js">JavaScript</button>
+<button data-lang="racket">Racket</button>
+</div>
+<div class="code fsharp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// range : int -&gt; int -&gt; (unit -&gt; option&lt;int&gt;)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">range</span> <span class="n">start</span> <span class="n">stop</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// this is the state
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">let</span> <span class="nv">mutable</span> <span class="n">current</span> <span class="o">=</span> <span class="n">start</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// A function is returned and has has access to its
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// own unique mutable current variable.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">fun</span> <span class="bp">()</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">current</span> <span class="o">&lt;=</span> <span class="n">stop</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">            <span class="k">let</span> <span class="nv">tmp</span> <span class="o">=</span> <span class="n">current</span>
+</span></span><span class="line"><span class="cl">            <span class="n">current</span> <span class="o">&lt;-</span> <span class="n">current</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Some</span> <span class="n">tmp</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="n">None</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code csharp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">delegate</span> <span class="kt">int?</span> <span class="n">RangeDelegate</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="n">RangeDelegate</span> <span class="n">Range</span><span class="p">(</span><span class="kt">int</span> <span class="n">start</span><span class="p">,</span> <span class="kt">int</span> <span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// This is the state</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int?</span> <span class="n">current</span> <span class="p">=</span> <span class="n">start</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// A function is returned and has has access to its</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// own unique mutable current variable.</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="n">current</span> <span class="p">&lt;=</span> <span class="n">stop</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">current</span><span class="p">++;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code perl">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">range</span><span class="p">($start, $stop) {</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># This is the state</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$current</span> <span class="o">=</span> <span class="nv">$start</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># A function is returned and has has access to its</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># own unique mutable current variable.</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">sub</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="nv">$current</span> <span class="o">&lt;=</span> <span class="nv">$stop</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nv">$current</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code js">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">range</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span> <span class="nx">stop</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// This is the state
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">let</span> <span class="nx">current</span> <span class="o">=</span> <span class="nx">start</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// A function is returned and has has access to its
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// own unique mutable current variable.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="nx">current</span> <span class="o">&lt;=</span> <span class="nx">stop</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nx">current</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code racket">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="nb">range</span> <span class="n">start</span> <span class="n">stop</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">; This is the state</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">define</span> <span class="n">current</span> <span class="n">start</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">; A function is returned and has has access to its</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">; own unique mutable current variable.</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="k">cond</span>
+</span></span><span class="line"><span class="cl">            <span class="p">[(</span><span class="nb">&lt;=</span> <span class="n">current</span> <span class="n">stop</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">(</span><span class="k">define</span> <span class="n">tmp</span> <span class="n">current</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">(</span><span class="k">set!</span> <span class="n">current</span> <span class="p">(</span><span class="nb">add1</span> <span class="n">current</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                <span class="n">tmp</span>
+</span></span><span class="line"><span class="cl">            <span class="p">]</span>
+</span></span><span class="line"><span class="cl">            <span class="p">[</span><span class="k">else</span> <span class="no">#f</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+</div>
+<p>The <code>range</code> function defines <code>current</code> and uses <code>start</code> as the initial value.
+Every function created by <code>range</code> has its own copy of <code>current</code>. So whenever
+we call the function that is returned by <code>range</code>, it just iterates from <code>start</code>
+to <code>stop</code>.</p>
+<p>First we create a helper function to iterate through an iterator. This way we
+don&rsquo;t need to write the logic for iteration every single time. Even if the
+code is short for iteration we can easily make mistakes.</p>
+<div class="code-toggle">
+<div class="buttons">
+<button data-lang="fsharp">F#</button>
+<button data-lang="csharp">C#</button>
+<button data-lang="perl">Perl</button>
+<button data-lang="js">JavaScript</button>
+<button data-lang="racket">Racket</button>
+</div>
+<div class="code fsharp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">iter</span> <span class="n">f</span> <span class="n">i</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">i</span><span class="bp">()</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Some</span> <span class="n">value</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">f</span> <span class="n">value</span>
+</span></span><span class="line"><span class="cl">        <span class="n">iter</span> <span class="n">f</span> <span class="n">i</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">None</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It is now easy to create multiple iterators and iterate through them.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">a</span> <span class="o">=</span> <span class="n">range</span>  <span class="mi">1</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="n">range</span> <span class="mi">20</span> <span class="mi">80</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="o">|&gt;</span> <span class="n">iter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">x</span><span class="o">)</span> <span class="c1">// prints 1 to 10
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">b</span> <span class="o">|&gt;</span> <span class="n">iter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">x</span><span class="o">)</span> <span class="c1">// prints 20 to 80
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code csharp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">delegate</span> <span class="kt">int?</span> <span class="n">RangeDelegate</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">Iter</span><span class="p">(</span><span class="n">RangeDelegate</span> <span class="n">i</span><span class="p">,</span> <span class="n">Action</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">f</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">x</span> <span class="p">=</span> <span class="n">i</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span> <span class="n">x</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">Value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="p">=</span> <span class="n">i</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It is now easy to create multiple iterators and iterate through them.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">a</span> <span class="p">=</span> <span class="n">Range</span><span class="p">(</span> <span class="m">1</span><span class="p">,</span><span class="m">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">b</span> <span class="p">=</span> <span class="n">Range</span><span class="p">(</span><span class="m">20</span><span class="p">,</span><span class="m">80</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Iter</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">x</span> <span class="p">=&gt;</span> <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">x</span><span class="p">));</span> <span class="c1">// prints 1 to 10</span>
+</span></span><span class="line"><span class="cl"><span class="n">Iter</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">x</span> <span class="p">=&gt;</span> <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">x</span><span class="p">));</span> <span class="c1">// prints 20 to 80</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code perl">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">iter</span><span class="p">($iter, $f) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span> <span class="nb">defined</span><span class="p">(</span><span class="k">my</span> <span class="nv">$x</span> <span class="o">=</span> <span class="nv">$iter</span><span class="o">-&gt;</span><span class="p">())</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$f</span><span class="o">-&gt;</span><span class="p">(</span><span class="nv">$x</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It is now easy to create multiple iterators and iterate through them.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$a</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$b</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">80</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">iter</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="n">sub</span><span class="p">(</span><span class="nv">$x</span><span class="p">)</span> <span class="p">{</span> <span class="n">say</span> <span class="nv">$x</span> <span class="p">});</span> <span class="c1"># prints 1 to 10</span>
+</span></span><span class="line"><span class="cl"><span class="n">iter</span><span class="p">(</span><span class="nv">$b</span><span class="p">,</span> <span class="n">sub</span><span class="p">(</span><span class="nv">$x</span><span class="p">)</span> <span class="p">{</span> <span class="n">say</span> <span class="nv">$x</span> <span class="p">});</span> <span class="c1"># prints 20 to 80</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code js">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">iter</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">f</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">i</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span> <span class="nx">x</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">f</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">x</span> <span class="o">=</span> <span class="nx">i</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It is now easy to create multiple iterators and iterate through them.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">range</span><span class="p">(</span> <span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">range</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">80</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">iter</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">x</span> <span class="p">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">));</span> <span class="c1">// prints 1 to 10
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">iter</span><span class="p">(</span><span class="nx">b</span><span class="p">,</span> <span class="nx">x</span> <span class="p">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">));</span> <span class="c1">// prints 20 to 80
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code racket">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">iter</span> <span class="n">i</span> <span class="n">f</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">define</span> <span class="n">x</span> <span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">cond</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="n">x</span> <span class="p">(</span><span class="n">f</span> <span class="n">x</span><span class="p">)</span> <span class="p">(</span><span class="n">iter</span> <span class="n">i</span> <span class="n">f</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It is now easy to create multiple iterators and iterate through them.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">a</span> <span class="p">(</span><span class="nb">range</span>  <span class="mi">1</span> <span class="mi">10</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">b</span> <span class="p">(</span><span class="nb">range</span> <span class="mi">20</span> <span class="mi">80</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="n">iter</span> <span class="n">a</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">displayln</span> <span class="n">x</span><span class="p">)))</span> <span class="c1">; prints 1 to 10</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="n">iter</span> <span class="n">b</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">displayln</span> <span class="n">x</span><span class="p">)))</span> <span class="c1">; prints 20 to 80</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+</div>
+<p><em>Closures</em> are tied to <em>functional programming</em>. But let&rsquo;s assume you have an
+object-oriented language and want to achieve the same (without using its
+functional features). How do <em>closures</em> translate to object-oriented programming?</p>
+<p><strong>Answer:</strong> They are just classes with fields. A closure is the same as an object
+that contains data with a single method you can call.</p>
+<p>This is how you implement <code>add10</code>.</p>
+<div class="code-toggle">
+<div class="buttons">
+<button data-lang="fsharp">F#</button>
+<button data-lang="csharp">C#</button>
+<button data-lang="perl">Perl</button>
+<button data-lang="js">JavaScript</button>
+<button data-lang="racket">Racket</button>
+</div>
+<div class="code fsharp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Add10</span><span class="bp">()</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">mutable</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">member</span> <span class="n">this</span><span class="p">.</span><span class="nf">Call</span> <span class="n">y</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Like in the closure example it is now possible to create <code>f</code> and <code>g</code> and both
+objects will have its own <code>x</code> field.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">f</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Add10</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">g</span> <span class="o">=</span> <span class="n">Add10</span><span class="bp">()</span>    <span class="c1">// new is optional
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">a</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">Call</span><span class="o">(</span><span class="mi">20</span><span class="o">)</span> <span class="c1">// 30
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">Call</span><span class="o">(</span><span class="mi">20</span><span class="o">)</span> <span class="c1">// 30
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code csharp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Add10</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">int</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Add10</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">x</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">Call</span><span class="p">(</span><span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="n">x</span> <span class="p">+</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Like in the closure example it is now possible to create <code>f</code> and <code>g</code> and both
+objects will have its own <code>x</code> field.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">f</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Add10</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">g</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Add10</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">a</span> <span class="p">=</span> <span class="n">f</span><span class="p">.</span><span class="n">Call</span><span class="p">(</span><span class="m">20</span><span class="p">);</span> <span class="c1">// 30</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">b</span> <span class="p">=</span> <span class="n">f</span><span class="p">.</span><span class="n">Call</span><span class="p">(</span><span class="m">20</span><span class="p">);</span> <span class="c1">// 30</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code perl">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">package</span> <span class="nn">Add10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nn">v5</span><span class="mf">.36</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">new</span><span class="p">($class) {</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">bless</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span> <span class="nv">$class</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">call</span><span class="p">($self, $y) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">}</span> <span class="o">+</span> <span class="nv">$y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Like in the closure example it is now possible to create <code>f</code> and <code>g</code> and both
+objects will have its own <code>x</code> field.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$f</span> <span class="o">=</span> <span class="nn">Add10</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$g</span> <span class="o">=</span> <span class="nn">Add10</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$a</span> <span class="o">=</span> <span class="nv">$f</span><span class="o">-&gt;</span><span class="n">call</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span> <span class="c1"># 30</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$b</span> <span class="o">=</span> <span class="nv">$g</span><span class="o">-&gt;</span><span class="n">call</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span> <span class="c1"># 30</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code js">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">Add10</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// I am using invoke because JavaScript already has a global call method
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">Add10</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">invoke</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Like in the closure example it is now possible to create <code>f</code> and <code>g</code> and both
+objects will have its own <code>x</code> field.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">f</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Add10</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">g</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Add10</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">f</span><span class="p">.</span><span class="nx">invoke</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">f</span><span class="p">.</span><span class="nx">invoke</span><span class="p">();</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code racket">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">Add10%</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">class</span> <span class="nb">object%</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">super-new</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">field</span> <span class="p">[</span><span class="n">x</span> <span class="mi">10</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">define/public</span> <span class="p">(</span><span class="n">call</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="nb">+</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Like in the closure example it is now possible to create <code>f</code> and <code>g</code> and both
+objects will have its own <code>x</code> field.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">f</span> <span class="p">(</span><span class="k">new</span> <span class="n">Add10%</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">g</span> <span class="p">(</span><span class="k">new</span> <span class="n">Add10%</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">a</span> <span class="p">(</span><span class="k">send</span> <span class="n">f</span> <span class="n">call</span> <span class="mi">20</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">b</span> <span class="p">(</span><span class="k">send</span> <span class="n">f</span> <span class="n">call</span> <span class="mi">20</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div></div>
+<p>Like in the example with the closure it seems useless to have <code>x</code> as a field,
+but we can make it configurable by passing it to the constructor. This would
+be <code>add</code>.</p>
+<div class="code-toggle">
+<div class="buttons">
+<button data-lang="fsharp">F#</button>
+<button data-lang="csharp">C#</button>
+<button data-lang="perl">Perl</button>
+<button data-lang="js">JavaScript</button>
+<button data-lang="racket">Racket</button>
+</div>
+<div class="code fsharp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Add</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">mutable</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">member</span> <span class="n">this</span><span class="p">.</span><span class="nf">Call</span> <span class="n">y</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It doesn&rsquo;t really matter how that one-method is named. Use <code>Run</code>, <code>Execute</code>,
+<code>Invoke</code>, <code>Call</code> or any other synonyms for saying <em>function</em>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add1</span>  <span class="o">=</span> <span class="n">Add</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span> <span class="o">=</span> <span class="n">Add</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">a</span> <span class="o">=</span> <span class="n">add1</span><span class="o">.</span><span class="n">Call</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>  <span class="c1">// 11
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="n">add10</span><span class="o">.</span><span class="n">Call</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span> <span class="c1">// 20
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code csharp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Add</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">int</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Add</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">x</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Call</span><span class="p">(</span><span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="n">x</span> <span class="p">+</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It doesn&rsquo;t really matter how that one-method is named. Use <code>Run</code>, <code>Execute</code>,
+<code>Invoke</code>, <code>Call</code> or any other synonyms for saying <em>function</em>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">add1</span>  <span class="p">=</span> <span class="k">new</span> <span class="n">Add</span><span class="p">(</span><span class="m">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">add10</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Add</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">a</span> <span class="p">=</span> <span class="n">add1</span><span class="p">.</span><span class="n">Call</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>  <span class="c1">// 11</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">b</span> <span class="p">=</span> <span class="n">add10</span><span class="p">.</span><span class="n">Call</span><span class="p">(</span><span class="m">10</span><span class="p">);</span> <span class="c1">// 20</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code perl">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">package</span> <span class="nn">Add</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nn">v5</span><span class="mf">.36</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">new</span><span class="p">($class, $x) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">bless</span> <span class="p">{</span> <span class="n">x</span> <span class="o">=&gt;</span> <span class="nv">$x</span> <span class="p">},</span> <span class="nv">$class</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">call</span><span class="p">($self, $y) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">}</span> <span class="o">+</span> <span class="nv">$y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It doesn&rsquo;t really matter how that one-method is named. Use <code>Run</code>, <code>Execute</code>,
+<code>Invoke</code>, <code>Call</code> or any other synonyms for saying <em>function</em>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$add1</span>  <span class="o">=</span> <span class="nn">Add</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$add10</span> <span class="o">=</span> <span class="nn">Add</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$a</span> <span class="o">=</span> <span class="nv">$add1</span><span class="o">-&gt;</span><span class="n">call</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>  <span class="c1"># 11</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$b</span> <span class="o">=</span> <span class="nv">$add10</span><span class="o">-&gt;</span><span class="n">call</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> <span class="c1"># 20</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code js">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">Add</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nx">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// I am using invoke because JavaScript already has a global call method
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">Add</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">invoke</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It doesn&rsquo;t really matter how that one-method is named. Use <code>Run</code>, <code>Execute</code>,
+<code>Invoke</code>, <code>Call</code> or any other synonyms for saying <em>function</em>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">add1</span>  <span class="o">=</span> <span class="k">new</span> <span class="nx">Add</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">add10</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Add</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">add1</span><span class="p">.</span><span class="nx">invoke</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>  <span class="c1">// 11
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">add10</span><span class="p">.</span><span class="nx">invoke</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> <span class="c1">// 20
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code racket">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">Add%</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">class</span> <span class="nb">object%</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">super-new</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">init-field</span> <span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">define/public</span> <span class="p">(</span><span class="n">call</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="nb">+</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It doesn&rsquo;t really matter how that one-method is named. Use <code>Run</code>, <code>Execute</code>,
+<code>Invoke</code>, <code>Call</code> or any other synonyms for saying <em>function</em>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="nb">add1</span>  <span class="p">(</span><span class="k">new</span> <span class="n">Add%</span> <span class="p">[</span><span class="n">x</span> <span class="mi">1</span><span class="p">]))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">add10</span> <span class="p">(</span><span class="k">new</span> <span class="n">Add%</span> <span class="p">[</span><span class="n">x</span> <span class="mi">10</span><span class="p">]))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">a</span> <span class="p">(</span><span class="k">send</span> <span class="nb">add1</span>  <span class="n">call</span> <span class="mi">10</span><span class="p">))</span> <span class="c1">; 11</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">b</span> <span class="p">(</span><span class="k">send</span> <span class="n">add10</span> <span class="n">call</span> <span class="mi">10</span><span class="p">))</span> <span class="c1">; 20</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div></div>
+<p>This would be the iterator <code>range</code>.</p>
+<div class="code-toggle">
+<div class="buttons">
+<button data-lang="fsharp">F#</button>
+<button data-lang="csharp">C#</button>
+<button data-lang="perl">Perl</button>
+<button data-lang="js">JavaScript</button>
+<button data-lang="racket">Racket</button>
+</div>
+<div class="code fsharp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Range</span><span class="o">(</span><span class="n">start</span><span class="o">,</span> <span class="n">stop</span><span class="o">,</span> <span class="o">?</span><span class="n">current</span><span class="o">)</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">mutable</span> <span class="n">current</span> <span class="o">=</span> <span class="n">defaultArg</span> <span class="n">current</span> <span class="n">start</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// only get Properties
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">member</span> <span class="k">val</span> <span class="n">Start</span>   <span class="o">=</span> <span class="n">start</span>
+</span></span><span class="line"><span class="cl">    <span class="k">member</span> <span class="k">val</span> <span class="n">Stop</span>    <span class="o">=</span> <span class="n">stop</span>
+</span></span><span class="line"><span class="cl">    <span class="k">member</span> <span class="k">val</span> <span class="n">Current</span> <span class="o">=</span> <span class="n">current</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">member</span> <span class="n">this</span><span class="p">.</span><span class="nf">Next</span> <span class="bp">()</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">current</span> <span class="o">&lt;=</span> <span class="n">stop</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">            <span class="k">let</span> <span class="nv">tmp</span> <span class="o">=</span> <span class="n">current</span>
+</span></span><span class="line"><span class="cl">            <span class="n">current</span> <span class="o">&lt;-</span> <span class="n">current</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Some</span> <span class="n">tmp</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="n">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">member</span> <span class="n">this</span><span class="p">.</span><span class="nf">Iter</span> <span class="n">f</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="nv">mutable</span> <span class="n">x</span> <span class="o">=</span> <span class="n">this</span><span class="o">.</span><span class="n">Next</span> <span class="bp">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="nn">Option</span><span class="p">.</span><span class="n">isSome</span> <span class="n">x</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">            <span class="n">f</span> <span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="n">Value</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span> <span class="o">&lt;-</span> <span class="n">this</span><span class="o">.</span><span class="n">Next</span> <span class="bp">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In the object-oriented code I make the <code>iter</code> function a method. The properties
+are not really needed but still shown for comparison. Like mentioned in the
+C# version it is possible to use an interface and extension methods. I also
+could have used a <code>Range</code> module and use functions again, but then the <code>current</code>
+field had to be <code>public</code>. I also could have created a record with a module instead
+but here I wanted to show a class.</p>
+<p>Now it becomes easy to define multiple ranges and iterate through them.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">a</span> <span class="o">=</span> <span class="n">Range</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">5</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="n">Range</span><span class="o">(</span><span class="mi">6</span><span class="o">,</span><span class="mi">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">a</span><span class="o">.</span><span class="n">Iter</span><span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">x</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">b</span><span class="o">.</span><span class="n">Iter</span><span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;%d&#34;</span> <span class="n">x</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code csharp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Range</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span>  <span class="n">Start</span>   <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span>  <span class="n">Stop</span>    <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int?</span> <span class="n">Current</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Range</span><span class="p">(</span><span class="kt">int</span> <span class="n">start</span><span class="p">,</span> <span class="kt">int</span> <span class="n">stop</span><span class="p">,</span> <span class="kt">int?</span> <span class="n">current</span> <span class="p">=</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">Start</span>   <span class="p">=</span> <span class="n">start</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">Stop</span>    <span class="p">=</span> <span class="n">stop</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">Current</span> <span class="p">=</span> <span class="n">current</span><span class="p">.</span><span class="n">HasValue</span> <span class="p">?</span> <span class="n">current</span> <span class="p">:</span> <span class="n">start</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int?</span> <span class="n">Next</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="n">Current</span> <span class="p">&lt;=</span> <span class="k">this</span><span class="p">.</span><span class="n">Stop</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="n">Current</span><span class="p">++;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">Iter</span><span class="p">(</span><span class="n">Action</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">f</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">x</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">Next</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="p">(</span> <span class="n">x</span><span class="p">.</span><span class="n">HasValue</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">Value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">Next</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In the object-oriented code i make the <code>iter</code> function a method. But I also
+cold have used an interface for the <code>Range</code> class and create Extensions Methods
+for additional functions. This is how LINQ is implemented.</p>
+<p>Now it becomes easy to define multiple ranges and iterate through them.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">a</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Range</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">b</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Range</span><span class="p">(</span><span class="m">6</span><span class="p">,</span><span class="m">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">a</span><span class="p">.</span><span class="n">Iter</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">b</span><span class="p">.</span><span class="n">Iter</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code perl">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">package</span> <span class="nn">Range</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nn">v5</span><span class="mf">.36</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nn">Moo</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nn">Types::Standard</span> <span class="sx">qw(Int)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nn">namespace::clean</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">has</span> <span class="s">&#39;start&#39;</span>   <span class="o">=&gt;</span> <span class="p">(</span> <span class="n">is</span> <span class="o">=&gt;</span> <span class="s">&#39;ro&#39;</span><span class="p">,</span> <span class="n">isa</span> <span class="o">=&gt;</span> <span class="n">Int</span><span class="p">,</span> <span class="n">required</span> <span class="o">=&gt;</span> <span class="mi">1</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">has</span> <span class="s">&#39;stop&#39;</span>    <span class="o">=&gt;</span> <span class="p">(</span> <span class="n">is</span> <span class="o">=&gt;</span> <span class="s">&#39;ro&#39;</span><span class="p">,</span> <span class="n">isa</span> <span class="o">=&gt;</span> <span class="n">Int</span><span class="p">,</span> <span class="n">required</span> <span class="o">=&gt;</span> <span class="mi">1</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">has</span> <span class="s">&#39;current&#39;</span> <span class="o">=&gt;</span> <span class="p">(</span> <span class="n">is</span> <span class="o">=&gt;</span> <span class="s">&#39;rw&#39;</span><span class="p">,</span> <span class="n">isa</span> <span class="o">=&gt;</span> <span class="n">Int</span><span class="p">,</span> <span class="n">required</span> <span class="o">=&gt;</span> <span class="mi">0</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">BUILD</span><span class="p">($self, $args) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="ow">not</span> <span class="nb">exists</span> <span class="nv">$args</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">current</span><span class="p">}</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$self</span><span class="o">-&gt;</span><span class="n">current</span><span class="p">(</span><span class="nv">$self</span><span class="o">-&gt;</span><span class="n">start</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">next</span><span class="p">($self) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="n">current</span> <span class="o">&lt;=</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="n">stop</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">my</span> <span class="nv">$tmp</span> <span class="o">=</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="n">current</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$self</span><span class="o">-&gt;</span><span class="n">current</span><span class="p">(</span><span class="nv">$tmp</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$tmp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">iter</span><span class="p">($self, $f) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span> <span class="nb">defined</span><span class="p">(</span><span class="k">my</span> <span class="nv">$x</span> <span class="o">=</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="k">next</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$f</span><span class="o">-&gt;</span><span class="p">(</span><span class="nv">$x</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In the object-oriented code i make the <code>iter</code> function a method. Now it becomes
+easy to define multiple ranges and iterate through them.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$r1</span> <span class="o">=</span> <span class="nn">Range</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="n">start</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=&gt;</span>  <span class="mi">5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$r2</span> <span class="o">=</span> <span class="nn">Range</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="n">start</span> <span class="o">=&gt;</span> <span class="mi">6</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$r1</span><span class="o">-&gt;</span><span class="n">iter</span><span class="p">(</span><span class="k">sub</span> <span class="p">($x) {</span> <span class="n">say</span> <span class="nv">$x</span> <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$r2</span><span class="o">-&gt;</span><span class="n">iter</span><span class="p">(</span><span class="k">sub</span> <span class="p">($x) {</span> <span class="n">say</span> <span class="nv">$x</span> <span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code js">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">Range</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span> <span class="nx">stop</span><span class="p">,</span> <span class="nx">current</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">start</span>   <span class="o">=</span> <span class="nx">start</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">stop</span>    <span class="o">=</span> <span class="nx">stop</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">current</span> <span class="o">=</span> <span class="nx">current</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="o">?</span> <span class="nx">start</span> <span class="o">:</span> <span class="nx">current</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">Range</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">next</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">current</span> <span class="o">&lt;=</span> <span class="k">this</span><span class="p">.</span><span class="nx">stop</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">current</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">Range</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">iter</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">f</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span> <span class="nx">x</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">f</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">x</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In the object-oriented code i make the <code>iter</code> function a method. Now it becomes
+easy to define multiple ranges and iterate through them.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">b</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Range</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">a</span><span class="p">.</span><span class="nx">iter</span><span class="p">(</span><span class="nx">x</span> <span class="p">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nx">b</span><span class="p">.</span><span class="nx">iter</span><span class="p">(</span><span class="nx">x</span> <span class="p">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">));</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="code racket">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">Range%</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="k">class</span> <span class="nb">object%</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">super-new</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">init-field</span> <span class="n">start</span> <span class="n">stop</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">field</span> <span class="p">[</span><span class="n">current</span> <span class="n">start</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">define/public</span> <span class="p">(</span><span class="n">next</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="k">cond</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[(</span><span class="nb">&lt;=</span> <span class="n">current</span> <span class="n">stop</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">         <span class="p">(</span><span class="k">define</span> <span class="n">tmp</span> <span class="n">current</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">         <span class="p">(</span><span class="k">set!</span> <span class="n">current</span> <span class="p">(</span><span class="nb">add1</span> <span class="n">current</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">         <span class="n">tmp</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="k">else</span> <span class="no">#f</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">      <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="k">define/public</span> <span class="p">(</span><span class="n">iter</span> <span class="n">f</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="k">define</span> <span class="n">x</span> <span class="p">(</span><span class="k">send</span> <span class="k">this</span> <span class="n">next</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="k">cond</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="n">x</span> <span class="p">(</span><span class="n">f</span> <span class="n">x</span><span class="p">)</span> <span class="p">(</span><span class="k">send</span> <span class="k">this</span> <span class="n">iter</span> <span class="n">f</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">      <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In the object-oriented code i make the <code>iter</code> function a method. Now it becomes
+easy to define multiple ranges and iterate through them.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">a</span> <span class="p">(</span><span class="k">new</span> <span class="n">Range%</span> <span class="p">[</span><span class="n">start</span> <span class="mi">1</span><span class="p">]</span> <span class="p">[</span><span class="n">stop</span>  <span class="mi">5</span><span class="p">]))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">b</span> <span class="p">(</span><span class="k">new</span> <span class="n">Range%</span> <span class="p">[</span><span class="n">start</span> <span class="mi">6</span><span class="p">]</span> <span class="p">[</span><span class="n">stop</span> <span class="mi">10</span><span class="p">]))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">send</span> <span class="n">a</span> <span class="n">iter</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">displayln</span> <span class="n">x</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">send</span> <span class="n">b</span> <span class="n">iter</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">displayln</span> <span class="n">x</span><span class="p">)))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents"></nav> </aside>
+
+    </body>
+</html>

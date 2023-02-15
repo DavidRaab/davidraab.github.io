@@ -6,7 +6,7 @@ toggles.forEach(toggle => {
     let blocks = [];
     toggle.querySelectorAll(".buttons > button").forEach(button => {
       let lang = button.dataset.lang;
-      let code = toggle.querySelector(".code-" + lang);
+      let code = toggle.querySelector(".code." + lang);
       blocks.push([button,code]);
     });
 

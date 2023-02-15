@@ -6,7 +6,79 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 11 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 15 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>closure</title>
+      <link>https://davidraab.github.io/tags/closure/</link>
+      <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/closure/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CSharp</title>
+      <link>https://davidraab.github.io/tags/csharp/</link>
+      <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/csharp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FPvsOO</title>
+      <link>https://davidraab.github.io/tags/fpvsoo/</link>
+      <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/fpvsoo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FSharp</title>
+      <link>https://davidraab.github.io/tags/fsharp/</link>
+      <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/fsharp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>iterator</title>
+      <link>https://davidraab.github.io/tags/iterator/</link>
+      <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/iterator/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>js</title>
+      <link>https://davidraab.github.io/tags/js/</link>
+      <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/js/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>perl</title>
+      <link>https://davidraab.github.io/tags/perl/</link>
+      <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/perl/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>racket</title>
+      <link>https://davidraab.github.io/tags/racket/</link>
+      <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/racket/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>dependency-injection</title>
       <link>https://davidraab.github.io/tags/dependency-injection/</link>
@@ -35,15 +107,6 @@
     </item>
     
     <item>
-      <title>perl</title>
-      <link>https://davidraab.github.io/tags/perl/</link>
-      <pubDate>Sat, 07 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/perl/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>regex</title>
       <link>https://davidraab.github.io/tags/regex/</link>
       <pubDate>Sat, 07 Jan 2023 00:00:00 +0000</pubDate>
@@ -67,15 +130,6 @@
       <pubDate>Fri, 02 Dec 2022 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/static-typed/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>FSharp</title>
-      <link>https://davidraab.github.io/tags/fsharp/</link>
-      <pubDate>Thu, 27 Oct 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/fsharp/</guid>
       <description></description>
     </item>
     
@@ -143,15 +197,6 @@
     </item>
     
     <item>
-      <title>CSharp</title>
-      <link>https://davidraab.github.io/tags/csharp/</link>
-      <pubDate>Mon, 27 Feb 2017 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/csharp/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>immutability</title>
       <link>https://davidraab.github.io/tags/immutability/</link>
       <pubDate>Mon, 27 Feb 2017 00:00:00 +0000</pubDate>
@@ -215,15 +260,6 @@
     </item>
     
     <item>
-      <title>closure</title>
-      <link>https://davidraab.github.io/tags/closure/</link>
-      <pubDate>Wed, 11 May 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/closure/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>currying</title>
       <link>https://davidraab.github.io/tags/currying/</link>
       <pubDate>Wed, 11 May 2016 00:00:00 +0000</pubDate>
@@ -238,15 +274,6 @@
       <pubDate>Wed, 11 May 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/intro/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>oop</title>
-      <link>https://davidraab.github.io/tags/oop/</link>
-      <pubDate>Wed, 11 May 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/oop/</guid>
       <description></description>
     </item>
     
@@ -328,6 +355,15 @@
       <pubDate>Thu, 24 Mar 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/polymorphism/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>oop</title>
+      <link>https://davidraab.github.io/tags/oop/</link>
+      <pubDate>Mon, 14 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/oop/</guid>
       <description></description>
     </item>
     
