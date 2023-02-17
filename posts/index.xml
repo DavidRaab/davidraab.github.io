@@ -6,7 +6,17 @@
     <description>Recent content in Posts on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 15 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 17 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Installing perl with perlbrew</title>
+      <link>https://davidraab.github.io/posts/installing-perl-with-perlbrew/</link>
+      <pubDate>Fri, 17 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/installing-perl-with-perlbrew/</guid>
+      <description>Today every Linux system mostly already ships Perl including a lot of modules. While this can be totally fine sometimes maybe you want to switch to a newer Perl version. Or maybe even an older version to test a module with an older Perl version for compatibility?
+perlbrew is a tool that helps installing multiple Perl environments and gives you the ability to switch between them. Installing your own Perl also means you don&amp;rsquo;t mess with the system installed Perl and you are able to install any new module directly from CPAN.</description>
+    </item>
+    
     <item>
       <title>Closures in F#, C#, Perl, JavaScript and Racket</title>
       <link>https://davidraab.github.io/posts/closures-in-fsharp-csharp-perl-javascript-and-racket/</link>

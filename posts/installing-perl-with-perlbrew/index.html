@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>Installing perl with perlbrew // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="Howto manage multiple Perl version in home directory with perlbrew." />
+        <link rel="stylesheet" href="/css/main.min.433c9a8e29da9030db65a2481a6c1e52aa51bada073895968e834a2addffdd31.css" />
+        <script src="/static/code-toggle.js"></script>
+
+        
+        <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Installing perl with perlbrew"/>
+<meta name="twitter:description" content="Howto manage multiple Perl version in home directory with perlbrew."/>
+
+        <meta property="og:title" content="Installing perl with perlbrew" />
+<meta property="og:description" content="Howto manage multiple Perl version in home directory with perlbrew." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/installing-perl-with-perlbrew/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-02-17T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-02-17T00:00:00+00:00" />
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>My personal Blog. Writing about programming and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Installing perl with perlbrew</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Feb 17, 2023
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    3 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+                            <a class="tag" href="https://davidraab.github.io/tags/perl/">perl</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/linux/">linux</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/administration/">administration</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>Today every Linux system mostly already ships Perl including a lot of modules.
+While this can be totally fine sometimes maybe you want to switch to a newer
+Perl version. Or maybe even an older version to test a module
+with an older Perl version for compatibility?</p>
+<p><a href="https://metacpan.org/pod/App::perlbrew"><code>perlbrew</code></a> is a tool that helps
+installing multiple Perl environments and gives you the ability to switch between
+them. Installing your own Perl also means you don&rsquo;t mess with the system
+installed Perl and you are able to install any new module directly from CPAN.
+The Perl environments are managed in your <code>$HOME</code> directory.</p>
+<p>First you need to install <code>perlbrew</code> itself. The best option is to install
+<code>perlbrew</code> from your system ressources if available. In Debian Bullseye you
+just can type</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">apt install perlbrew
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It also installs dependency like <code>gcc</code>, <code>make</code>, <code>patch</code> and <code>libc-dev</code> that
+you need to compile your own Perl version. Maybe your favorite Linux distribution
+has a package too. If not you should at least install the same dependencies
+and maybe install <a href="https://metacpan.org/pod/App::perlbrew">App::perlbrew</a> with
+the help of <a href="https://metacpan.org/pod/local::lib">local::lib</a>.</p>
+<p>Once installed as a user (not root) you now can type.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">perlbrew init
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>the command tells you to add a line to <code>.profile</code> (if you are using bash).</p>
+<pre tabindex="0"><code># Add perlbrew environment
+source ~/perl5/perlbrew/etc/bashrc
+</code></pre><p>You must add the line and then either restart the terminal or type the <code>source</code>
+command once.</p>
+<p>To install the newest Perl version (at the point of writting this article) i did
+the following.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">perlbrew install-patchperl
+</span></span><span class="line"><span class="cl">perlbrew install perl-5.36.0
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This took around 10 minutes on my machine to compile Perl from source. After it
+is installed the new Perl version is installed but not used automatically. But
+you can now easily switch between Perl version with the <code>perlbrew</code> command.</p>
+<p>You can see all installed Perl version with</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">user@machine:~$ perlbrew list
+</span></span><span class="line"><span class="cl">  perl-5.36.0
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>You can permanently switch to the new Perl version by executing.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">user@machine:~$ perlbrew switch perl-5.36.0
+</span></span><span class="line"><span class="cl">user@machine:~$ perlbrew list
+</span></span><span class="line"><span class="cl">* perl-5.36.0
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>perlbrew list</code> will mark the active Perl with a <code>*</code>. You also can check with
+<code>perl --version</code> if the correct version is being used.</p>
+<p>You also can switch temporary just for the terminal session with</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">perlbrew use perl-5.36.0
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Once the newest Perl version is installed i recommand to install
+<a href="https://metacpan.org/pod/App::cpanminus"><code>App::cpanminus</code></a>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cpan App::cpanminus
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Its up to you to install additional libraries as you need/want, here is a
+complete set of useful ones I installed.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cpanm EV
+</span></span><span class="line"><span class="cl">cpanm AnyEvent
+</span></span><span class="line"><span class="cl">  cpanm Try::Tiny <span class="c1"># if not explicitly installed Perl::LanguageServer will fail</span>
+</span></span><span class="line"><span class="cl">  cpanm Perl::LanguageServer
+</span></span><span class="line"><span class="cl">cpanm Catalyst
+</span></span><span class="line"><span class="cl">cpanm Data::Printer
+</span></span><span class="line"><span class="cl">cpanm DBI
+</span></span><span class="line"><span class="cl">cpanm DBD::SQLite
+</span></span><span class="line"><span class="cl">cpanm SQL::Abstract
+</span></span><span class="line"><span class="cl">cpanm DBIx::Class
+</span></span><span class="line"><span class="cl">cpanm Text::Table
+</span></span><span class="line"><span class="cl">cpanm Term::ProgressBar
+</span></span><span class="line"><span class="cl">cpanm Moo
+</span></span><span class="line"><span class="cl">cpanm Moose
+</span></span><span class="line"><span class="cl">cpanm MooseX::StrictConstructor
+</span></span><span class="line"><span class="cl">cpanm Path::Tiny
+</span></span><span class="line"><span class="cl">cpanm Type::Tiny
+</span></span><span class="line"><span class="cl">cpanm Type::Tiny::XS
+</span></span><span class="line"><span class="cl">cpanm JSON::XS
+</span></span><span class="line"><span class="cl">cpanm Class::Accessor
+</span></span><span class="line"><span class="cl">cpanm Class::Accessor::Fast
+</span></span><span class="line"><span class="cl">  cpanm File::Copy::Recursive <span class="c1"># if not explicitly installed; DateTime will fail</span>
+</span></span><span class="line"><span class="cl">  cpanm Class::Tiny           <span class="c1"># if not explicitly installed; DateTime will fail</span>
+</span></span><span class="line"><span class="cl">  cpanm DateTime
+</span></span><span class="line"><span class="cl">cpanm Devel::NYTProf
+</span></span><span class="line"><span class="cl">cpanm Perl::Critic
+</span></span><span class="line"><span class="cl">cpanm Perl::Tidy
+</span></span><span class="line"><span class="cl">cpanm namespace::autoclean
+</span></span><span class="line"><span class="cl">cpanm LWP::UserAgent
+</span></span><span class="line"><span class="cl">cpanm WWW::Mechanize
+</span></span><span class="line"><span class="cl">cpanm Template
+</span></span><span class="line"><span class="cl">cpanm List::MoreUtils
+</span></span><span class="line"><span class="cl">cpanm List::MoreUtils::XS
+</span></span><span class="line"><span class="cl">cpanm Chart::Clicker
+</span></span><span class="line"><span class="cl">cpanm Curses
+</span></span><span class="line"><span class="cl">cpanm File::Slurp
+</span></span><span class="line"><span class="cl">cpanm IPC::Run
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Don&rsquo;t forget to use the following shebang line in your scripts.</p>
+<pre tabindex="0"><code>#!/usr/bin/env perl
+</code></pre><p>instead of directly picking a path to a specific perl version, or otherwise
+your scripts will not use your newly installed Perl.</p>
+<p>Have fun coding!</p>
+
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents"></nav> </aside>
+
+    </body>
+</html>
