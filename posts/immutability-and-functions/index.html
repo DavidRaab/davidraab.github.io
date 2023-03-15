@@ -463,7 +463,7 @@ change to the program</em>.</p>
 we see <code>readFile &quot;file.txt&quot;</code> we could replace all calls to <code>readFile &quot;file.txt&quot;</code> by the value
 that the first function call would produce. This also explains better why a <code>readFile &quot;file.txt&quot;</code>
 would be impure. If we call <code>readFile</code> and some time later once again, we would assume that it
-returns the new current state of the file. It also could yield an error if the function in the
+returns the new current state of the file. It also could yield an error if the file in the
 mean time was deleted. The point is, we expect that the function can return something
 different every time we call it.</p>
 <p>But this kind of description also eliminates some additional behaviour.</p>
