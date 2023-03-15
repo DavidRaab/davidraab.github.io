@@ -8,7 +8,11 @@ function add_toggles() {
         toggle.querySelectorAll(".buttons > button").forEach(button => {
             let lang = button.dataset.lang;
             let code = toggle.querySelector(".code." + lang);
-            blocks.push([button,code]);
+
+            // only add to blocks if both button and code block was found
+            if ( lang !== undefined && code !== undefined ) {
+                blocks.push([button,code]);
+            }
         });
 
         // Activate the first code block by default
@@ -19,15 +23,15 @@ function add_toggles() {
         // function to deactive all code blocks
         let deactivateAll = function() {
             blocks.forEach(block => {
-            block.forEach(x => x.classList.remove("active"));
+                block.forEach(x => x.classList.remove("active"));
             });
         };
 
         // Add EventListener to every button to activate code-block
         blocks.forEach(block => {
             block[0].addEventListener("click", function() {
-            deactivateAll();
-            block.forEach(x => x.classList.add("active"));
+                deactivateAll();
+                block.forEach(x => x.classList.add("active"));
             });
         });
     });
