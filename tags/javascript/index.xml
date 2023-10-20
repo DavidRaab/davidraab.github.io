@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>javascript on David Raab</title>
+    <link>https://davidraab.github.io/tags/javascript/</link>
+    <description>Recent content in javascript on David Raab</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 20 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Perl vs. JavaScript: Scalar and List Context</title>
+      <link>https://davidraab.github.io/posts/perl-vs-javascript-scalar-and-list-context/</link>
+      <pubDate>Fri, 20 Oct 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/perl-vs-javascript-scalar-and-list-context/</guid>
+      <description>Something I like in Perl, and also dislike sometimes, is Perl distinction between Scalar- and List Context. Something I haven&amp;rsquo;t seen in any other language so far. In Perl any function call can happen in two different context. And depending on the context a function can return different things, or even behave differently. But it also effects how arguments are passed to a function.
+Let&amp;rsquo;s see an example. I want to write an easy sum function that sums up all numbers given to it.</description>
+    </item>
+    
+  </channel>
+</rss>

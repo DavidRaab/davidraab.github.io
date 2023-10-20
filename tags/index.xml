@@ -6,7 +6,43 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 17 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 20 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>javascript</title>
+      <link>https://davidraab.github.io/tags/javascript/</link>
+      <pubDate>Fri, 20 Oct 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/javascript/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>language-design</title>
+      <link>https://davidraab.github.io/tags/language-design/</link>
+      <pubDate>Fri, 20 Oct 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/language-design/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>perl</title>
+      <link>https://davidraab.github.io/tags/perl/</link>
+      <pubDate>Fri, 20 Oct 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/perl/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>perl-contexts</title>
+      <link>https://davidraab.github.io/tags/perl-contexts/</link>
+      <pubDate>Fri, 20 Oct 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/perl-contexts/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>administration</title>
       <link>https://davidraab.github.io/tags/administration/</link>
@@ -22,15 +58,6 @@
       <pubDate>Fri, 17 Feb 2023 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>perl</title>
-      <link>https://davidraab.github.io/tags/perl/</link>
-      <pubDate>Fri, 17 Feb 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/perl/</guid>
       <description></description>
     </item>
     

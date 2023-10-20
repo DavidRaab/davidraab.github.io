@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>Perl vs. JavaScript: Scalar and List Context // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="How Perl&#39;s scalar and List Context translate into different languages." />
+        <link rel="stylesheet" href="/css/main.min.433c9a8e29da9030db65a2481a6c1e52aa51bada073895968e834a2addffdd31.css" />
+        <script src="/static/code-toggle.js"></script>
+
+        
+        <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Perl vs. JavaScript: Scalar and List Context"/>
+<meta name="twitter:description" content="How Perl&#39;s scalar and List Context translate into different languages."/>
+
+        <meta property="og:title" content="Perl vs. JavaScript: Scalar and List Context" />
+<meta property="og:description" content="How Perl&#39;s scalar and List Context translate into different languages." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/perl-vs-javascript-scalar-and-list-context/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-10-20T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-10-20T00:00:00+00:00" />
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>My personal Blog. Writing about programming and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Perl vs. JavaScript: Scalar and List Context</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Oct 20, 2023
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    10 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+                            <a class="tag" href="https://davidraab.github.io/tags/perl/">perl</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/javascript/">javascript</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/perl-contexts/">perl-contexts</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/language-design/">language-design</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>Something I like in Perl, and also dislike sometimes, is Perl distinction between <em>Scalar-</em> and <em>List Context</em>. Something I haven&rsquo;t seen in any other language so far. In Perl any function call can happen in two different context. And depending on the context a function can return different things, or even behave differently. But it also effects how arguments are passed to a function.</p>
+<p>Let&rsquo;s see an example. I want to write an easy <code>sum</code> function that sums up all numbers given to it. In Perl I would write it like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">sum</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="k">my</span> <span class="nv">$x</span> <span class="p">(</span> <span class="nv">@_</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$sum</span> <span class="o">+=</span> <span class="nv">$x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nv">$sum</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Because Perl automatically has a <em>List Context</em> for all function parameters. You always can pass as many arguments as you want. In other languages this is often seen as <em>vararg</em> or something similar. All arguments end up in the special <code>@_</code> array. So you can just work with all arguments as if you have gotten an array.</p>
+<p>As an example i now can call <code>my $sum = sum(1, 2, 3, 4, 5);</code> to get the result of <code>15</code>. But it also allows many other different calling styles.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">@arr1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>          <span class="c1"># array</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">@arr2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">result1</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span> <span class="p">}</span> <span class="c1"># function returning multiple values</span>
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">result2</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>        <span class="c1"># 15</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="n">sum</span><span class="p">(</span><span class="nv">@arr1</span><span class="p">);</span>                <span class="c1"># 10</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="n">sum</span><span class="p">(</span><span class="nv">@arr1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>    <span class="c1"># 36</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="n">sum</span><span class="p">(</span><span class="nv">@arr1</span><span class="p">,</span> <span class="nv">@arr2</span><span class="p">);</span>         <span class="c1"># 36</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="n">sum</span><span class="p">(</span><span class="n">result1</span><span class="p">());</span>            <span class="c1"># 10</span>
+</span></span><span class="line"><span class="cl"><span class="n">say</span> <span class="n">sum</span><span class="p">(</span><span class="n">result1</span><span class="p">(),</span> <span class="n">result2</span><span class="p">());</span> <span class="c1"># 36</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In some way you can think of it, that Perl doesn&rsquo;t pass an array as a data-structure to a function. Instead it will expand the array into all its values. So calling <code>sum(@arr1)</code> is really just the same as writing <code>sum($arr1[0], $arr1[1], $arr1[2], $arr1[3], $arr1[4])</code>. The beauty of it is that it becomes very flexible. You can easily call multiple functions and sum up the result of a multiple function calls. You can have multiple arrays, sum them up, add additional values to it, and so on.</p>
+<p>The bad part is, you pay for it, with performance. As every array get expanded, passing it this way can be expensive. If you have an array with 1,000 elements then you really are calling <code>sum</code> and pass it 1,000 arguments. This is slower as just passing a whole array. Or as many other languages do, they just pass a reference to an array. Well, you can do the same in Perl. But you have to explicitly create a reference to an Array; Python developers will love Perl obviously!</p>
+<p>Compared to JavaScript, C#, Java, Python, &hellip; you have an explicit distinction between a value and a reference pointing to it. Like you can see in <code>C</code> or <code>C++</code>. In &ldquo;modern&rdquo; languages like JavaScript, C#, Java, Python, &hellip; on the other hand you also have this distinction. In C# for example you must learn the distinction between a <em>Value Type</em> and a <em>Reference Type</em>. Java names it <em>Primitive Types</em> and so on. But that distinction is somehow hidden from you. Not visible in the source code or type you use.</p>
+<p>Let&rsquo;s see the same in JavaScript</p>
+<h1 id="javascript-sum-function">JavaScript sum function</h1>
+<p>In JavaScript I would write the <code>sum()</code> function like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">sumA</span><span class="p">(</span><span class="nx">array</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">array</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">sum</span> <span class="o">+=</span> <span class="nx">array</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">sum</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Here it will take an array. Let&rsquo;s compare the different calling styles to Perl.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">arr1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">arr2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">return1</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">];</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">return2</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">];</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span> <span class="nx">sumA</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>   <span class="p">);</span>          <span class="c1">// 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span> <span class="nx">sumA</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span> <span class="p">);</span>          <span class="c1">// 15
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span> <span class="nx">sumA</span><span class="p">(</span><span class="nx">arr1</span><span class="p">)</span> <span class="p">);</span>                 <span class="c1">// 10
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span> <span class="nx">sumA</span><span class="p">(</span><span class="nx">arr1</span><span class="p">,</span> <span class="nx">arr2</span><span class="p">)</span> <span class="p">);</span>           <span class="c1">// 10
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span> <span class="nx">sumA</span><span class="p">(</span><span class="nx">return1</span><span class="p">())</span> <span class="p">);</span>            <span class="c1">// 10
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span> <span class="nx">sumA</span><span class="p">(</span><span class="nx">return1</span><span class="p">(),</span> <span class="nx">return2</span><span class="p">())</span> <span class="p">);</span> <span class="c1">// 10
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>First of, functions in JavaScript cannot return multiple values. From the standpoint of Perl we can say, it only has <em>Scalar context</em>. It only can return a single value. To return multiple values we <strong>must</strong> return an array instead.</p>
+<p>A call like <code>sumA(1,2,3,4,5)</code> doesn&rsquo;t work as intended. I executed the code with <code>Node.js</code> and it returns <code>0</code>. Actually I expected an error. But, who cares? Me not.</p>
+<p>Obviously we need to pass an array instead, so at least call <code>sumA([1,2,3,4,5])</code>. All other functions just return <code>10</code> because we just iterate over the first argument (the array) and just sum those values up. Ignoring all other additional arguments/arrays. Actually, it even pisses me off that it is not an error to pass more than one argument. Yes, Perl do the same, but in Perl I also
+don&rsquo;t define a function signature! And when I do (added as loadable feature with Perl 5.36) it will throw an error on invalid ariety.</p>
+<p>But, we also could have chosen another implementation of the <code>sum</code> function. In Perl we had the special variable <code>@_</code> that is technically all arguments as a single array. JavaScript offers the same, it has a special <code>arguments</code> variable containing all passed arguments. So we can use this instead.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">sumB</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">arguments</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">sum</span> <span class="o">+=</span> <span class="nx">arguments</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">sum</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But doing so, is in my opinion counterproductive in JavaScript. Now we get the following results.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span> <span class="nx">sumB</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>   <span class="p">);</span>          <span class="c1">// 15
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span> <span class="nx">sumB</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span> <span class="p">);</span>          <span class="c1">// 01,2,3,4,5
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span> <span class="nx">sumB</span><span class="p">(</span><span class="nx">arr1</span><span class="p">)</span> <span class="p">);</span>                 <span class="c1">// 01,2,3,4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span> <span class="nx">sumB</span><span class="p">(</span><span class="nx">arr1</span><span class="p">,</span> <span class="nx">arr2</span><span class="p">)</span> <span class="p">);</span>           <span class="c1">// 01,2,3,45,6,7,8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span> <span class="nx">sumB</span><span class="p">(</span><span class="nx">return1</span><span class="p">())</span> <span class="p">);</span>            <span class="c1">// 01,2,3,4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span> <span class="nx">sumB</span><span class="p">(</span><span class="nx">return1</span><span class="p">(),</span> <span class="nx">return2</span><span class="p">())</span> <span class="p">);</span> <span class="c1">// 01,2,3,45,6,7,8
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Only the first call now works. All other calls actually do garbage. I guess JavaScript is doing string concatenation when you do <code>+</code> on whole Arrays. Whoever thought this is useful in any way.</p>
+<p>You still could <em>fix</em> all of the calls and make them work. And this is possible for both implementations of <code>sum()</code>. For example instead of calling <code>sumA(arr1, arr2)</code> we could first concatenate both arrays and then pass it to <code>sumA</code>. So instead of
+<code>sumA(arr1, arr2)</code> that didn&rsquo;t worked, we need to write <code>sumA(arr1.concat(arr2))</code>. We need to concatenate all arrays into a single array before passing.</p>
+<p>How do we make the <code>sumB</code> call work? There are two solutions. One solutions that is older, and i consider <em>more right</em> is:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">sumB</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Or since EcmaScript 6 we also can use array expansion.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">sumB</span><span class="p">(...</span><span class="nx">arr1</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>I guess calling it with <code>apply</code> compared to the array expansion is faster. But i don&rsquo;t know, also could be that those JavaScript compilers optimize it. Maybe you are asking why we should ever implement <code>sum</code> like in <code>sumB</code> or why we ever should do it this way?</p>
+<h1 id="mathmax">Math.max</h1>
+<p>This is just an example. But you see quite often that some APIs, functions or libraries chose a variable amount of arguments. A built-in example in JavaScript is <code>Math.max</code>. The JavaScript developers have chosen an API with variable arguments. So you call.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="c1">// 4
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>But at least when i write code. I usually have an array instead of passing multiple arguments. I guess you also probably have come across functions that you want to pass an array instead of multiple values. And <code>apply</code> fixes this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">someArray</span> <span class="o">=</span> <span class="cm">/* from some function call */</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">someArray</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>At least in JavaScript it is always bothersome if you have APIs that expect <em>variable arguments</em> because nearly 99% of the JavaScript APIs work with Arrays and return Arrays. At least, that is my perception, not something i can, or want to proof.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Maybe you are asking why I write about it. First of, it isn&rsquo;t about which language is better or worse and so on. Here is how I think about it: As soon a language introduces the concept of <em>variable arguments</em>. It also makes some parts of the language more difficult or easier.</p>
+<p>In Perl basically every function call is <em>variable arguments</em>. With it&rsquo;s <em>scalar-</em> and <em>list-context</em> it tries to cope with this feature. But how do you pass two distinct arrays in Perl? In Perl you must explicitly create references instead. So passing two distinct arrays in Perl becomes <code>sum(\@arr1, \@arr2)</code> instead of <code>sum(@arr1, @arr2)</code>. Perl have chosen that variable arguments and expansion of arrays is easy, while passing references is harder.</p>
+<p>Most other languages do the opposite. They make passing references easier, as everything is a reference by default, and make expansion harder. But as soon this feature is added in a language, you will face one of the following problems:</p>
+<ol>
+<li>You either have an array and want to pass it to a function with <em>variable arguments</em>.</li>
+<li>You have a bunch of variables and are forced to pass it as an Array/List.</li>
+</ol>
+<p>Because arrays are some kind of reference type in most languages, those languages need special treatment like the <code>apply</code> function in JavaScript. Or array expansion <code>...array</code>. It makes passing an array as variable arguments harder. (<code>apply</code> originates from <a href="https://docs.racket-lang.org/guide/application.html#%28part._apply%29">Lisp/Scheme</a> btw.)</p>
+<p>The second problem is not a real problem in some languages. In Perl and JavaScript you just write <code>[1,2,3,4]</code> to create arrays as references. So those languages offers a built-in way in the syntax to create arrays. But not every languages offers an easy way to create List/Arrays. <code>C</code> doesn&rsquo;t. Even as far as I know you must create a List/Array separately in <code>C#</code> and <code>C++</code> or it is more bothersome to create. But maybe it got added in those as well, I didn&rsquo;t track any language feature, <code>C++</code> is anyway crazy.</p>
+<p>There also can be other reasons why you want to use <code>apply</code>. For example it happens a lot when you create wrapper functions that wraps other functions, and do something before and/or after another call. In this you often need a generic way to pass all arguments from one function to the next function call. All of that stuff becomes very is in Perl. In JavaScript it sometime a complete pain. But depending on which feature is easier in a given language, it also depends how people will use the language, or how different APIs look in different languages! Small features can have a great impact on the API design.</p>
+<h1 id="my-opinion">My Opinion</h1>
+<p>After working with different styles I think that languages should just ditch <em>variable arguments</em> at all. Instead languages should just work with arrays/lists. Let&rsquo;s pick F# as an example. Sure it does support <em>variable arguments</em> because it is running on .Net and needs interoperability with other languages like C#. But this feature is restricted to the <em>Object-Oriented</em> part of the language. In the <em>functional</em> part of the language, you don&rsquo;t have variable arguments. For example <code>Math.max</code> becomes:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">max</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It also somehow makes sense that the <code>max</code> function is part as a <code>List</code> function, and not part of the <code>Math</code> package if you think about it. There also could be different <code>max</code> functions for different data-structures or not?</p>
+<p>If everything only takes list, and returns list, then the language becomes much more simpler. As always, adding more features to a language just makes a language more complex.</p>
+<p>In F# it also allows another feature instead. <em>Partial application</em> in a language like F# is only possible because:</p>
+<ol>
+<li>Every function only takes one argument.</li>
+<li>Variable arguments are not possible.</li>
+</ol>
+<p>You cannot have all features in a single programming language. Some language features are just incompatible. Did you ever questioned why a specific feature in a language exist, if it is even useful or makes other parts of the language just harder? Did you ever ask yourself if a language can get better by removing features? Instead of constantly adding one feature after another, like most languages do today.</p>
+<p>A language is simple if it has as few features as possible. Not more or less as needed.</p>
+<p>The problem is, everybody has a different opinion of what is needed, and what not.</p>
+
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#javascript-sum-function">JavaScript sum function</a></li>
+    <li><a href="#mathmax">Math.max</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#my-opinion">My Opinion</a></li>
+  </ul>
+</nav> </aside>
+
+    </body>
+</html>
