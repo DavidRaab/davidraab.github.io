@@ -6,7 +6,17 @@
     <description>Recent content in closure on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 15 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/closure/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 25 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/closure/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Special values in Perl</title>
+      <link>https://davidraab.github.io/posts/special-values-in-perl/</link>
+      <pubDate>Wed, 25 Oct 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/special-values-in-perl/</guid>
+      <description>Sometimes in programming we want to create special values that are distinct to anything else. Consider the following problem. We want to create a print_colored function, that can be given special values to change the terminal color. Here is one way to do it:
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 use Term::ANSIColor qw(color); my $red = &amp;#34;RED&amp;#34;; my $green = &amp;#34;GREEN&amp;#34;; my $blue = &amp;#34;BLUE&amp;#34;; sub print_colored { for my $line ( @_ ) { print(color(&amp;#39;red&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $red; print(color(&amp;#39;green&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $green; print(color(&amp;#39;blue&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $blue; print $line; } } print_colored($green, &amp;#34;red&amp;#34;, &amp;#34;\n&amp;#34;, $blue, &amp;#34;foo\n&amp;#34;); This solution successfully prints the string &amp;ldquo;red&amp;rdquo; in the green color and &amp;ldquo;foo&amp;rdquo; in the blue color.</description>
+    </item>
+    
     <item>
       <title>Closures in F#, C#, Perl, JavaScript and Racket</title>
       <link>https://davidraab.github.io/posts/closures-in-fsharp-csharp-perl-javascript-and-racket/</link>
