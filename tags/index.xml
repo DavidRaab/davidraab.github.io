@@ -6,31 +6,40 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 25 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>closure</title>
-      <link>https://davidraab.github.io/tags/closure/</link>
-      <pubDate>Wed, 25 Oct 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/closure/</guid>
-      <description></description>
-    </item>
-    
+    <lastBuildDate>Thu, 26 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>design-pattern</title>
       <link>https://davidraab.github.io/tags/design-pattern/</link>
-      <pubDate>Wed, 25 Oct 2023 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 26 Oct 2023 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/design-pattern/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>metaprogramming</title>
+      <link>https://davidraab.github.io/tags/metaprogramming/</link>
+      <pubDate>Thu, 26 Oct 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/metaprogramming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>perl</title>
       <link>https://davidraab.github.io/tags/perl/</link>
-      <pubDate>Wed, 25 Oct 2023 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 26 Oct 2023 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/perl/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>closure</title>
+      <link>https://davidraab.github.io/tags/closure/</link>
+      <pubDate>Wed, 25 Oct 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/closure/</guid>
       <description></description>
     </item>
     

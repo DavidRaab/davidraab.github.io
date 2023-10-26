@@ -6,7 +6,17 @@
     <description>Recent content in perl on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 25 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/perl/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 26 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/perl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Meta-Programming in Perl</title>
+      <link>https://davidraab.github.io/posts/meta-programming-in-perl/</link>
+      <pubDate>Thu, 26 Oct 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/meta-programming-in-perl/</guid>
+      <description>In my last article about Special Values in Perl I explained how we can create true distinct values that can be safely distinguished by other values. The final result looked like this:
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 use Scalar::Util qw(refaddr reftype); # Special values Red, Green and Blue { # &amp;lt;-- this creates a new lexical-scope my ($red, $green, $blue) = ([], [], []); sub red { $red } sub green { $green } sub blue { $blue } my $is_color = sub { my ($source, $color) = @_; my $type = reftype($source) // &amp;#39;&amp;#39;; return ( $type eq &amp;#39;ARRAY&amp;#39; and refaddr($source) == refaddr($color) ) ?</description>
+    </item>
+    
     <item>
       <title>Special values in Perl</title>
       <link>https://davidraab.github.io/posts/special-values-in-perl/</link>
