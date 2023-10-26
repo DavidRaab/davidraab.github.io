@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>patterns on David Raab</title>
-    <link>https://davidraab.github.io/tags/patterns/</link>
-    <description>Recent content in patterns on David Raab</description>
+    <title>design-pattern on David Raab</title>
+    <link>https://davidraab.github.io/tags/design-pattern/</link>
+    <description>Recent content in design-pattern on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 25 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/patterns/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 25 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/design-pattern/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Special values in Perl</title>
       <link>https://davidraab.github.io/posts/special-values-in-perl/</link>

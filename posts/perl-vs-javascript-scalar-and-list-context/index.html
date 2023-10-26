@@ -83,6 +83,7 @@
                             <a class="tag" href="https://davidraab.github.io/tags/javascript/">javascript</a>
                             <a class="tag" href="https://davidraab.github.io/tags/perl-contexts/">perl-contexts</a>
                             <a class="tag" href="https://davidraab.github.io/tags/language-design/">language-design</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/varargs/">varargs</a>
                 </div>
             </div>
         </header>
@@ -294,7 +295,7 @@ don&rsquo;t define a function signature! And when I do (added as loadable featur
 <p>The second problem is not a real problem in some languages. In Perl and JavaScript you just write <code>[1,2,3,4]</code> to create arrays as references. So those languages offers a built-in way in the syntax to create arrays. But not every languages offers an easy way to create List/Arrays. <code>C</code> doesn&rsquo;t. Even as far as I know you must create a List/Array separately in <code>C#</code> and <code>C++</code> or it is more bothersome to create. But maybe it got added in those as well, I didn&rsquo;t track any language feature, <code>C++</code> is anyway crazy.</p>
 <p>There also can be other reasons why you want to use <code>apply</code>. For example it happens a lot when you create wrapper functions that wraps other functions, and do something before and/or after another call. In this you often need a generic way to pass all arguments from one function to the next function call. All of that stuff becomes very is in Perl. In JavaScript it sometime a complete pain. But depending on which feature is easier in a given language, it also depends how people will use the language, or how different APIs look in different languages! Small features can have a great impact on the API design.</p>
 <h1 id="my-opinion">My Opinion</h1>
-<p>After working with different styles I think that languages should just ditch <em>variable arguments</em> at all. Instead languages should just work with arrays/lists. Let&rsquo;s pick F# as an example. Sure it does support <em>variable arguments</em> because it is running on .Net and needs interoperability with other languages like C#. But this feature is restricted to the <em>Object-Oriented</em> part of the language. In the <em>functional</em> part of the language, you don&rsquo;t have variable arguments. For example <code>Math.max</code> becomes:</p>
+<p>After working with different styles I think that languages should just ditch <em>variable arguments</em> at all. Instead languages should just work with arrays/lists. Let&rsquo;s pick F# as an example. <a href="https://davidraab.github.io/posts/variable-arguments-in-fsharp/">Sure it does support <em>variable arguments</em></a> because it is running on .Net and needs interoperability with other languages like C#. But this feature is restricted to the <em>Object-Oriented</em> part of the language. In the <em>functional</em> part of the language, you don&rsquo;t have variable arguments. For example <code>Math.max</code> becomes:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
