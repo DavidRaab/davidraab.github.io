@@ -6,7 +6,18 @@
     <description>Recent content in data on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 28 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/data/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 29 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/data/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Creating a real enum Type in Perl</title>
+      <link>https://davidraab.github.io/posts/creating-a-real-enum-type-in-perl/</link>
+      <pubDate>Sun, 29 Oct 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/creating-a-real-enum-type-in-perl/</guid>
+      <description>In my previous article about Metaprogramming in Perl I show how to implement an enum() function that creates real special values that are distinct from each other.
+When I called enum(&#39;red&#39;, &#39;green&#39;, &#39;blue&#39;) it created two functions for every passed string. red() and is_red() for the red string. red() returns the special value and is_red($value) checks if $value is our special value.
+But currently it does not completely satisfy being an enum.</description>
+    </item>
+    
     <item>
       <title>Catamorphisms</title>
       <link>https://davidraab.github.io/posts/catamorphisms/</link>

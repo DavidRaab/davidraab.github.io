@@ -1,0 +1,990 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>Creating a real enum Type in Perl // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="With the help of metaprogramming I create enum function to create real enums." />
+        <link rel="stylesheet" href="/css/main.min.433c9a8e29da9030db65a2481a6c1e52aa51bada073895968e834a2addffdd31.css" />
+        <script src="/static/code-toggle.js"></script>
+
+        
+        <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Creating a real enum Type in Perl"/>
+<meta name="twitter:description" content="With the help of metaprogramming I create enum function to create real enums."/>
+
+        <meta property="og:title" content="Creating a real enum Type in Perl" />
+<meta property="og:description" content="With the help of metaprogramming I create enum function to create real enums." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/creating-a-real-enum-type-in-perl/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-10-29T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-10-29T00:00:00+00:00" />
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>My personal Blog. Writing about programming and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Creating a real enum Type in Perl</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Oct 29, 2023
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    15 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+                            <a class="tag" href="https://davidraab.github.io/tags/perl/">perl</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/metaprogramming/">metaprogramming</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/enum/">enum</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/data/">data</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>In my previous article about <a href="https://davidraab.github.io/posts/meta-programming-in-perl/">Metaprogramming in Perl</a> I show how to implement an <code>enum()</code> function that creates real special values that are distinct from each other.</p>
+<p>When I called <code>enum('red', 'green', 'blue')</code> it created two functions for every passed string. <code>red()</code> and <code>is_red()</code> for the <code>red</code> string. <code>red()</code> returns the special value and <code>is_red($value)</code> checks if <code>$value</code> is our special value.</p>
+<p>But currently it does not completely satisfy being an <em>enum</em>. For example when I call:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">enum</span><span class="p">(</span><span class="sx">qw/red blue green/</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">enum</span><span class="p">(</span><span class="sx">qw/true false/</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>then it creates 5 different special values. But none of the special value are related to each other. For example I have no direct way to check if a color was passed. I could write a function like <code>is_color</code> that checks if a value satisfies one
+of <code>is_red</code>, <code>is_blue</code>, <code>is_green</code>. But writing them is boilerplate.</p>
+<p>Instead I want to create such a function automatically.</p>
+<p>But first I think about how the API of the function <code>enum</code> should be changed. For example it would make sense to add a value to provide a type. I could for example expect that the enum function works this way.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">enum</span><span class="p">(</span><span class="s">&#39;color&#39;</span><span class="p">,</span> <span class="s">&#39;red&#39;</span><span class="p">,</span> <span class="s">&#39;blue&#39;</span><span class="p">,</span> <span class="s">&#39;green&#39;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>One feature I like in Perl is the <code>=&gt;</code> operator. Actually it is the same as <code>,</code> but considers everything on his left-side as a string. This way we don&rsquo;t need to put quotes around a string. So we can write:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">enum</span><span class="p">(</span><span class="n">color</span> <span class="o">=&gt;</span> <span class="s">&#39;red&#39;</span><span class="p">,</span> <span class="s">&#39;blue&#39;</span><span class="p">,</span> <span class="s">&#39;green&#39;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This looks pretty good for defining an <code>color</code> enum. This function could for example create an <code>is_color()</code> function that returns a truish-value when we pass it <code>red</code>, <code>blue</code> or <code>green</code>.</p>
+<p>But what happens when we have something like this?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">enum</span><span class="p">(</span><span class="n">color</span> <span class="o">=&gt;</span> <span class="s">&#39;red&#39;</span><span class="p">,</span> <span class="s">&#39;blue&#39;</span><span class="p">,</span> <span class="s">&#39;green&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">enum</span><span class="p">(</span><span class="n">error</span> <span class="o">=&gt;</span> <span class="s">&#39;red&#39;</span><span class="p">,</span> <span class="s">&#39;yellow&#39;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we have two different enums, but both use the name <code>red</code>. The problem is, that we have a collision of names. Maybe it would be even better, when we prefix all generated functions! So for example the first call to <code>enum</code> creates the following functions: <code>is_color</code>, <code>color_red</code>, <code>is_color_red</code>, <code>color_blue</code>, <code>is_color_blue</code>, <code>color_green</code> and <code>is_color_green</code>.</p>
+<p>The second call to enum creates: <code>is_error</code>, <code>error_red</code>, <code>is_error_red</code>, <code>error_yellow</code> and <code>is_error_yellow</code>.</p>
+<p>This way we can avoid collision with names. One last thing I would change, from my experience, is to not use variable arguments. Variable arguments have the problem to make the API of a function less extendable.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">enum</span><span class="p">(</span><span class="n">color</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s">&#39;red&#39;</span><span class="p">,</span> <span class="s">&#39;blue&#39;</span><span class="p">,</span> <span class="s">&#39;green&#39;</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl"><span class="n">enum</span><span class="p">(</span><span class="n">error</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s">&#39;red&#39;</span><span class="p">,</span> <span class="s">&#39;yellow&#39;</span><span class="p">]);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So instead of using variable arguments I would expect an array-reference as the second argument to our <code>enum</code> function. But thinking about the design doesn&rsquo;t stop here. Positional arguments are not so common in Perl. We find them in the built-in functions, but most modules rather use named arguments. So we also could use the following API.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">enum</span><span class="p">({</span> <span class="n">type</span> <span class="o">=&gt;</span> <span class="s">&#34;color&#34;</span><span class="p">,</span> <span class="nb">values</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s">&#39;red&#39;</span><span class="p">,</span> <span class="s">&#39;blue&#39;</span><span class="p">,</span> <span class="s">&#39;green&#39;</span><span class="p">]</span> <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="n">enum</span><span class="p">({</span> <span class="n">type</span> <span class="o">=&gt;</span> <span class="s">&#34;error&#34;</span><span class="p">,</span> <span class="nb">values</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s">&#39;red&#39;</span><span class="p">,</span> <span class="s">&#39;yellow&#39;</span><span class="p">]</span>        <span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>For Perl it is not uncommon to use such kinds of APIs. The advantage? It is better to read as each parameter explains itself. On top it can be better extended. Now we have two unpositional arguments. When we feel like it, we can easily add new named arguments and provide default values for those.</p>
+<p>This style is so common in Perl because Perl don&rsquo;t have method overloading. We even can go one step further. Why even bother of calling <code>enum</code> multiple times? We also could choose this kind of API.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">enum</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">type</span> <span class="o">=&gt;</span> <span class="s">&#34;color&#34;</span><span class="p">,</span> <span class="nb">values</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s">&#39;red&#39;</span><span class="p">,</span> <span class="s">&#39;blue&#39;</span><span class="p">,</span> <span class="s">&#39;green&#39;</span><span class="p">]</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">type</span> <span class="o">=&gt;</span> <span class="s">&#34;error&#34;</span><span class="p">,</span> <span class="nb">values</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s">&#39;red&#39;</span><span class="p">,</span> <span class="s">&#39;yellow&#39;</span><span class="p">]</span>        <span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">]);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This way we can define all enums all at once. Actually we can even allow both!</p>
+<p>When the <code>enum</code> functions get passed a hash-reference, we assume
+that we only want a single enum to be created. When we pass it an
+array-reference we assume an array of hash-references that initialize multiple enums at once.</p>
+<p>Always remember: There is more than one way to do it. Like when we have sex. We don&rsquo;t want only one way to fuck, we want multiple ways and not a dictator telling us how we are allowed and supposed to fuck.</p>
+<h1 id="implementing-enum">Implementing enum</h1>
+<p>I decided I want to implement the latest API I described. Here is how I start. First of, even the fact that I know what my goal is, I don&rsquo;t start there.</p>
+<p>First I will try to just implement <code>enum(color =&gt; ['red', 'blue', 'green']);</code> and make the function work. That means, creating a function that creates <code>is_color</code>, <code>color_red</code>, <code>is_color_red</code> and so one &hellip;</p>
+<h1 id="first-iteration">First iteration</h1>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">enum</span><span class="p">($type, $values) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">no</span> <span class="nn">strict</span> <span class="s">&#39;refs&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">@is_functions</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="k">my</span> <span class="nv">$name</span> <span class="p">(</span> <span class="nv">@$values</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># this creates the function name like &#34;color_red&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">my</span> <span class="nv">$fn_name</span> <span class="o">=</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s">&#34;%s_%s&#34;</span><span class="p">,</span> <span class="nv">$type</span><span class="p">,</span> <span class="nv">$name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># this then creates &#34;color_red&#34; and &#34;is_color_red&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">create_special</span><span class="p">(</span><span class="nv">$fn_name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># This way i get a reference to the created &#34;is_*&#34; function</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># and collect them in @is_functions</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">push</span> <span class="nv">@is_functions</span><span class="p">,</span> <span class="o">*</span><span class="p">{</span><span class="s">&#34;is_&#34;</span><span class="o">.</span><span class="nv">$fn_name</span><span class="p">}{</span><span class="n">CODE</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Now i want to create a new function `is_$type` that checks if any</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># value passed to it will return true for any function inside</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># @is_functions</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="o">*</span><span class="p">{</span> <span class="s">&#34;is_&#34;</span> <span class="o">.</span> <span class="nv">$type</span> <span class="p">}</span> <span class="o">=</span> <span class="k">sub</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">my</span> <span class="p">(</span><span class="nv">$value</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># we start with false</span>
+</span></span><span class="line"><span class="cl">        <span class="k">my</span> <span class="nv">$is_type</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="k">my</span> <span class="nv">$func</span> <span class="p">(</span> <span class="nv">@is_functions</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># we pass the $value to function</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">$is_type</span> <span class="o">=</span> <span class="nv">$func</span><span class="o">-&gt;</span><span class="p">(</span><span class="nv">$value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># and if it is true we abort the loop</span>
+</span></span><span class="line"><span class="cl">            <span class="k">last</span> <span class="k">if</span> <span class="nv">$is_type</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$is_type</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we can test our function:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">BEGIN</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">enum</span><span class="p">(</span><span class="n">color</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="sx">qw/red green blue/</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">enum</span><span class="p">(</span><span class="n">error</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="sx">qw/red yellow/</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># We create a color_red and an error_red value</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$cred</span> <span class="o">=</span> <span class="n">color_red</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$ered</span> <span class="o">=</span> <span class="n">error_red</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_color \$cred: %d\n&#34;</span><span class="p">,</span> <span class="n">is_color</span><span class="p">(</span><span class="nv">$cred</span><span class="p">));</span> <span class="c1"># 1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_color \$ered: %d\n&#34;</span><span class="p">,</span> <span class="n">is_color</span><span class="p">(</span><span class="nv">$ered</span><span class="p">));</span> <span class="c1"># 0</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;color red: %d\n&#34;</span><span class="p">,</span> <span class="n">is_color_red</span><span class="p">(</span><span class="nv">$cred</span><span class="p">));</span>   <span class="c1"># color red: 1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;color red: %d\n&#34;</span><span class="p">,</span> <span class="n">is_color_red</span><span class="p">(</span><span class="nv">$ered</span><span class="p">));</span>   <span class="c1"># color red: 0</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;error red: %d\n&#34;</span><span class="p">,</span> <span class="n">is_error_red</span><span class="p">(</span><span class="nv">$cred</span><span class="p">));</span>   <span class="c1"># error red: 0</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;error red: %d\n&#34;</span><span class="p">,</span> <span class="n">is_error_red</span><span class="p">(</span><span class="nv">$ered</span><span class="p">));</span>   <span class="c1"># error red: 1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As we can see the functions are created. Now we have an additional function to check the enum type itself.</p>
+<h1 id="second-iteration">Second iteration</h1>
+<p>The function works, now I want to implement the named arguments. I could change the <code>enum</code> function, but instead I decide to create a new one first. I name it <code>enum_named</code> and should be called like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">enum_named</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">    <span class="n">type</span>   <span class="o">=&gt;</span> <span class="s">&#39;color&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">values</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="sx">qw/red green blue/</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This is the implementation and the tests for it.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">enum_named</span><span class="p">($args) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$type</span>   <span class="o">=</span> <span class="nv">$args</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">type</span><span class="p">}</span>   <span class="sr">//</span> <span class="nb">die</span> <span class="s">&#34;Argument &#39;type&#39; not passed.\n&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$values</span> <span class="o">=</span> <span class="nv">$args</span><span class="o">-&gt;</span><span class="p">{</span><span class="nb">values</span><span class="p">}</span> <span class="sr">//</span> <span class="nb">die</span> <span class="s">&#34;Argument &#39;values&#39; not passed.\n&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">enum</span><span class="p">(</span><span class="nv">$type</span><span class="p">,</span> <span class="nv">$values</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># create our special values</span>
+</span></span><span class="line"><span class="cl"><span class="k">BEGIN</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">enum_named</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">        <span class="n">type</span>   <span class="o">=&gt;</span> <span class="s">&#39;color&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">values</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="sx">qw/red green blue/</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="n">enum_named</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">        <span class="n">type</span>   <span class="o">=&gt;</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">values</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="sx">qw/red yellow/</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$cred</span> <span class="o">=</span> <span class="n">color_red</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$ered</span> <span class="o">=</span> <span class="n">error_red</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;color red: %d\n&#34;</span><span class="p">,</span> <span class="n">is_color_red</span><span class="p">(</span><span class="nv">$cred</span><span class="p">));</span> <span class="c1"># color red: 1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;color red: %d\n&#34;</span><span class="p">,</span> <span class="n">is_color_red</span><span class="p">(</span><span class="nv">$ered</span><span class="p">));</span> <span class="c1"># color red: 0</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;error red: %d\n&#34;</span><span class="p">,</span> <span class="n">is_error_red</span><span class="p">(</span><span class="nv">$cred</span><span class="p">));</span> <span class="c1"># error red: 0</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;error red: %d\n&#34;</span><span class="p">,</span> <span class="n">is_error_red</span><span class="p">(</span><span class="nv">$ered</span><span class="p">));</span> <span class="c1"># error red: 1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The <code>enum_named</code> actually don&rsquo;t do much. I just add checks that ensures a user passes the required <code>type</code> and <code>values</code> key. If not, the function throws an exception aborting the program.</p>
+<p>When we want, we could add additional checks. For example if the user passed a string to the <code>type</code> argument. Or the argument to <code>values</code> is an array-ref. Or the string is valid and so on. But I think it is good enough.</p>
+<h1 id="third-iteration">Third iteration</h1>
+<p>Now I want to implement the final <code>enum</code> that i can either pass a hash-reference or an array of hash-references. Again, I create a new function for this. But before doing so I will rename the <code>enum</code> function i have so Far. I will rename <code>enum</code> to <code>enum_positional</code>. For this I also need to update <code>enum_named</code>. But once done I have two functions i can use. <code>enum_positional</code> and <code>enum_named</code>.</p>
+<p>Then I implement the new <code>enum</code> function to use those. Here is my implementation of it.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">enum</span><span class="p">($data) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$type</span> <span class="o">=</span> <span class="n">reftype</span><span class="p">(</span><span class="nv">$data</span><span class="p">)</span> <span class="sr">//</span> <span class="s">&#34;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># when user pass a single hash, just call enum_named</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="nv">$type</span> <span class="ow">eq</span> <span class="s">&#39;HASH&#39;</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">enum_named</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># when user passed an array</span>
+</span></span><span class="line"><span class="cl">    <span class="k">elsif</span> <span class="p">(</span> <span class="nv">$type</span> <span class="ow">eq</span> <span class="s">&#39;ARRAY&#39;</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># we call enum_named for every hash in the array</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="k">my</span> <span class="nv">$hash</span> <span class="p">(</span> <span class="nv">@$data</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">enum_named</span><span class="p">(</span><span class="nv">$hash</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">die</span> <span class="s">&#34;You need to either pass a hashref or arrayref to enum.\n&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The implementation is pretty easy for it. Now a user have multiple
+ways to create <em>enums</em>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">BEGIN</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">enum_positional</span><span class="p">(</span><span class="n">decision</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="sx">qw/yes no/</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">enum</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">        <span class="n">type</span>   <span class="o">=&gt;</span> <span class="s">&#34;bool&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">values</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="sx">qw/true false/</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="n">enum</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">type</span> <span class="o">=&gt;</span> <span class="s">&#39;color&#39;</span><span class="p">,</span> <span class="nb">values</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="sx">qw/red green blue/</span><span class="p">]</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">type</span> <span class="o">=&gt;</span> <span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="nb">values</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="sx">qw/red yellow/</span><span class="p">]</span>     <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$cred</span> <span class="o">=</span> <span class="n">color_red</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$ered</span> <span class="o">=</span> <span class="n">error_red</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;color red: %d\n&#34;</span><span class="p">,</span> <span class="n">is_color_red</span><span class="p">(</span><span class="nv">$cred</span><span class="p">));</span> <span class="c1"># color red: 1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;color red: %d\n&#34;</span><span class="p">,</span> <span class="n">is_color_red</span><span class="p">(</span><span class="nv">$ered</span><span class="p">));</span> <span class="c1"># color red: 0</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;error red: %d\n&#34;</span><span class="p">,</span> <span class="n">is_error_red</span><span class="p">(</span><span class="nv">$cred</span><span class="p">));</span> <span class="c1"># error red: 0</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;error red: %d\n&#34;</span><span class="p">,</span> <span class="n">is_error_red</span><span class="p">(</span><span class="nv">$ered</span><span class="p">));</span> <span class="c1"># error red: 1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_bool: %d\n&#34;</span><span class="p">,</span> <span class="n">is_bool</span><span class="p">(</span><span class="n">bool_true</span><span class="p">));</span>    <span class="c1"># is_bool: 1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_bool: %d\n&#34;</span><span class="p">,</span> <span class="n">is_bool</span><span class="p">(</span><span class="n">bool_false</span><span class="p">));</span>   <span class="c1"># is_bool: 1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_decision: %d\n&#34;</span><span class="p">,</span> <span class="n">is_decision</span><span class="p">(</span><span class="n">bool_true</span><span class="p">));</span>    <span class="c1"># is_decision: 0</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_decision: %d\n&#34;</span><span class="p">,</span> <span class="n">is_decision</span><span class="p">(</span><span class="n">decision_yes</span><span class="p">));</span> <span class="c1"># is_decision: 1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>With Perl I learned the following design principle. The function that you want a user to use, should be the shortest named function. All others have longer names indicating to the user he probably shouldn&rsquo;t use them.</p>
+<h1 id="fourth-iteration">Fourth iteration</h1>
+<p>While I have written the examples I somehow was annoyed about the <strong>Bool</strong> case. We now can create a boolean type with:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">enum</span><span class="p">({</span><span class="n">type</span> <span class="o">=&gt;</span> <span class="s">&#34;bool&#34;</span><span class="p">,</span> <span class="nb">values</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="sx">qw/true false/</span><span class="p">]});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>but isn&rsquo;t it annoying that we have to write <code>bool_true</code> and <code>bool_false</code> instead of just being able to write <code>true</code> and <code>false</code>?</p>
+<p>There was a reason for it why I prefixed all created functions with the type. By default for all kind of enums this is probably useful. But sometimes I want more control about the function name that is created. So i want to add this feature.</p>
+<p>At the moment we pass an arrayref to <code>values</code>. And this arrayref just contain every case we want to create. Instead we also could allow to pass an hash instead. When an hash is passed the function could be called like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">enum</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">    <span class="n">type</span>   <span class="o">=&gt;</span> <span class="s">&#34;bool&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">values</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">true</span>  <span class="o">=&gt;</span> <span class="p">{</span> <span class="n">value</span> <span class="o">=&gt;</span> <span class="s">&#39;true&#39;</span><span class="p">,</span>  <span class="n">check</span> <span class="o">=&gt;</span> <span class="s">&#39;is_true&#39;</span>  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="n">false</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="n">value</span> <span class="o">=&gt;</span> <span class="s">&#39;false&#39;</span><span class="p">,</span> <span class="n">check</span> <span class="o">=&gt;</span> <span class="s">&#39;is_false&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">   <span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>When the user passes a hash to <em>values</em> instead of an array then the keys of the hashes are the cases. One reason I don&rsquo;t like this is because the hash keys are actually never used and don&rsquo;t matter.</p>
+<p>Instead of an hash I can expect an Array of Hashes, like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">enum</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">    <span class="n">type</span>   <span class="o">=&gt;</span> <span class="s">&#34;bool&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">values</span> <span class="o">=&gt;</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">value</span> <span class="o">=&gt;</span> <span class="s">&#39;true&#39;</span><span class="p">,</span>  <span class="n">check</span> <span class="o">=&gt;</span> <span class="s">&#39;is_true&#39;</span>  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">value</span> <span class="o">=&gt;</span> <span class="s">&#39;false&#39;</span><span class="p">,</span> <span class="n">check</span> <span class="o">=&gt;</span> <span class="s">&#39;is_false&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>First i thought it is annoying to check if all values in an array are either a string or an hashref, but actually we can allow to pass either a string or an hashref. For example.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">enum</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">    <span class="n">type</span>   <span class="o">=&gt;</span> <span class="s">&#34;bool&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">values</span> <span class="o">=&gt;</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#34;true&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#34;false&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">value</span> <span class="o">=&gt;</span> <span class="s">&#39;true&#39;</span><span class="p">,</span>  <span class="n">check</span> <span class="o">=&gt;</span> <span class="s">&#39;is_true&#39;</span>  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">value</span> <span class="o">=&gt;</span> <span class="s">&#39;false&#39;</span><span class="p">,</span> <span class="n">check</span> <span class="o">=&gt;</span> <span class="s">&#39;is_false&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This would actually create four special values. Passing it a string works like we are used so far. Passing a hash allows to configure the function names being created.</p>
+<p>In this case the <em>bool</em> type would have four values instead of just two.</p>
+<p>The advantage of this design is that most of the time we just can use the default, and only for special reason we can overwrite the function names.</p>
+<p>How about defining multiple functions for a case? Could also be possible. Maybe like:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">enum</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">    <span class="n">type</span>   <span class="o">=&gt;</span> <span class="s">&#34;bool&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">values</span> <span class="o">=&gt;</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">value</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="sx">qw/t true/</span><span class="p">],</span> <span class="n">check</span> <span class="o">=&gt;</span> <span class="s">&#39;is_true&#39;</span>  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">value</span> <span class="o">=&gt;</span> <span class="s">&#39;false&#39;</span><span class="p">,</span>      <span class="n">check</span> <span class="o">=&gt;</span> <span class="s">&#39;is_false&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In that case we would create the function <code>t</code> and <code>true</code> for the
+same value. Could you come up with other descriptions and features?</p>
+<p>For my case I think i will stick with the idea that instead of just being able to pass strings I also can pass a hashref.</p>
+<p>To implement this I have done multiple changes.</p>
+<ol>
+<li><code>create_special</code> expect both function names to be passed.</li>
+<li>I renamed <code>enum_positional</code> to <code>enum_hash</code> and changed it to
+only accept array of hashes for the <code>values</code> parameter.</li>
+<li>I created a new function <code>enum_positional</code> that also allows <em>strings</em> to be passed. Strings will be converted to the hash that are then passed to the <code>enum_hash</code> function call.</li>
+</ol>
+<p>This is my final result.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="ch">#!/usr/bin/env perl</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nn">v5</span><span class="mf">.36</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nn">open</span> <span class="s">&#39;:std&#39;</span><span class="p">,</span> <span class="s">&#39;:encoding(UTF-8)&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nn">Scalar::Util</span> <span class="sx">qw(refaddr reftype)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># create_special(&#39;red&#39;, &#39;is_red&#39;);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Creates a special value and we pass it the function names it should create</span>
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">create_special</span><span class="p">($name, $is_name) {</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># disable strict refs inside this function</span>
+</span></span><span class="line"><span class="cl">    <span class="k">no</span> <span class="nn">strict</span> <span class="s">&#39;refs&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># the special value</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$special</span> <span class="o">=</span> <span class="o">[]</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># create $name function that returns the special value</span>
+</span></span><span class="line"><span class="cl">    <span class="o">*</span><span class="p">{</span> <span class="nv">$name</span> <span class="p">}</span> <span class="o">=</span> <span class="k">sub</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$special</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># create function to check if any value is $special</span>
+</span></span><span class="line"><span class="cl">    <span class="o">*</span><span class="p">{</span> <span class="nv">$is_name</span> <span class="p">}</span> <span class="o">=</span> <span class="k">sub</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">my</span> <span class="p">(</span><span class="nv">$value</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">my</span> <span class="nv">$type</span> <span class="o">=</span> <span class="n">reftype</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span> <span class="sr">//</span> <span class="s">&#34;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># check if arrayref was passed</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="nv">$type</span> <span class="ow">eq</span> <span class="s">&#39;ARRAY&#39;</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># check if adresses are the same</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span> <span class="n">refaddr</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span> <span class="o">==</span> <span class="n">refaddr</span><span class="p">(</span><span class="nv">$special</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># enum_hash(color =&gt; [{value =&gt; &#34;red&#34;, check =&gt; &#34;is_red&#34;}]);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># $values must be an array of hashes (AoH)</span>
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">enum_hash</span><span class="p">($type, $values) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">no</span> <span class="nn">strict</span> <span class="s">&#39;refs&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">@is_functions</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="k">my</span> <span class="nv">$hash</span> <span class="p">(</span> <span class="nv">@$values</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># this creates both functions</span>
+</span></span><span class="line"><span class="cl">        <span class="n">create_special</span><span class="p">(</span><span class="nv">$hash</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">value</span><span class="p">},</span> <span class="nv">$hash</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">check</span><span class="p">});</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># This way i get a reference to the created check function</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># and collect them in @is_functions</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">push</span> <span class="nv">@is_functions</span><span class="p">,</span> <span class="o">*</span><span class="p">{</span> <span class="nv">$hash</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">check</span><span class="p">}</span> <span class="p">}{</span><span class="n">CODE</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Now i want to create a new function `is_$type` that checks if any</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># value passed to it will return true for any function inside</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># @is_functions</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="o">*</span><span class="p">{</span> <span class="s">&#34;is_&#34;</span> <span class="o">.</span> <span class="nv">$type</span> <span class="p">}</span> <span class="o">=</span> <span class="k">sub</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">my</span> <span class="p">(</span><span class="nv">$value</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># we call every check function and return 1 if one</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># of those function returns a truish value</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="k">my</span> <span class="nv">$func</span> <span class="p">(</span> <span class="nv">@is_functions</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="nv">$func</span><span class="o">-&gt;</span><span class="p">(</span><span class="nv">$value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># enum_positional(color =&gt; [&#34;red&#34;, &#34;green&#34;, {value =&gt; &#34;yellow&#34;, check =&gt; &#34;is_yellow&#34;}])</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># In the arrayref of enum_positional there can be passed a string or</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># a hash. strings that are passed are converted to the hash-call</span>
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">enum_positional</span><span class="p">($type, $arrayref) {</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Create a new arrayref with all string converted to a hash</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$args</span> <span class="o">=</span> <span class="p">[</span><span class="nb">map</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">my</span> <span class="nv">$ref</span> <span class="o">=</span> <span class="n">reftype</span><span class="p">(</span><span class="nv">$_</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># when not defined - the value $_ is a string/float</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="ow">not</span> <span class="nb">defined</span> <span class="nv">$ref</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">value</span> <span class="o">=&gt;</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s">&#34;%s_%s&#34;</span><span class="p">,</span>    <span class="nv">$type</span><span class="p">,</span> <span class="nv">$_</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                <span class="n">check</span> <span class="o">=&gt;</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s">&#34;is_%s_%s&#34;</span><span class="p">,</span> <span class="nv">$type</span><span class="p">,</span> <span class="nv">$_</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># when already a hash - keep it unchanged</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elsif</span> <span class="p">(</span> <span class="nv">$ref</span> <span class="ow">eq</span> <span class="s">&#39;HASH&#39;</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">$_</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># throw error in all other cases</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">die</span> <span class="s">&#34;enum_positional only expect string or hashref.\n&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="nv">@$arrayref</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># call enum_hash with the newly created $args</span>
+</span></span><span class="line"><span class="cl">    <span class="n">enum_hash</span><span class="p">(</span><span class="nv">$type</span><span class="p">,</span> <span class="nv">$args</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">enum_named</span><span class="p">($args) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$type</span>   <span class="o">=</span> <span class="nv">$args</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">type</span><span class="p">}</span>   <span class="sr">//</span> <span class="nb">die</span> <span class="s">&#34;Argument &#39;type&#39; not passed.\n&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$values</span> <span class="o">=</span> <span class="nv">$args</span><span class="o">-&gt;</span><span class="p">{</span><span class="nb">values</span><span class="p">}</span> <span class="sr">//</span> <span class="nb">die</span> <span class="s">&#34;Argument &#39;values&#39; not passed.\n&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">enum_positional</span><span class="p">(</span><span class="nv">$type</span><span class="p">,</span> <span class="nv">$values</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">enum</span><span class="p">($data) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$type</span> <span class="o">=</span> <span class="n">reftype</span><span class="p">(</span><span class="nv">$data</span><span class="p">)</span> <span class="sr">//</span> <span class="s">&#34;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="nv">$type</span> <span class="ow">eq</span> <span class="s">&#39;HASH&#39;</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">enum_named</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">elsif</span> <span class="p">(</span> <span class="nv">$type</span> <span class="ow">eq</span> <span class="s">&#39;ARRAY&#39;</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="k">my</span> <span class="nv">$hash</span> <span class="p">(</span> <span class="nv">@$data</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">enum_named</span><span class="p">(</span><span class="nv">$hash</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">die</span> <span class="s">&#34;You need to either pass a hashref or arrayref to enum.\n&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And here is how all of it will be used:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="c1"># create our special values</span>
+</span></span><span class="line"><span class="cl"><span class="k">BEGIN</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">enum_positional</span><span class="p">(</span><span class="n">decision</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="sx">qw/yes no/</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">enum_positional</span><span class="p">(</span><span class="n">option</span> <span class="o">=&gt;</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">value</span> <span class="o">=&gt;</span> <span class="s">&#34;some&#34;</span><span class="p">,</span> <span class="n">check</span> <span class="o">=&gt;</span> <span class="s">&#39;is_some&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#34;none&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Creates one enum</span>
+</span></span><span class="line"><span class="cl">    <span class="n">enum</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">        <span class="n">type</span>   <span class="o">=&gt;</span> <span class="s">&#34;bool&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">values</span> <span class="o">=&gt;</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span> <span class="n">value</span> <span class="o">=&gt;</span> <span class="s">&#39;true&#39;</span><span class="p">,</span>  <span class="n">check</span> <span class="o">=&gt;</span> <span class="s">&#39;is_true&#39;</span>  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span> <span class="n">value</span> <span class="o">=&gt;</span> <span class="s">&#39;false&#39;</span><span class="p">,</span> <span class="n">check</span> <span class="o">=&gt;</span> <span class="s">&#39;is_false&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Creates multiple enums at once</span>
+</span></span><span class="line"><span class="cl">    <span class="n">enum</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">type</span> <span class="o">=&gt;</span> <span class="s">&#39;color&#39;</span><span class="p">,</span> <span class="nb">values</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="sx">qw/red green blue/</span><span class="p">]</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">type</span> <span class="o">=&gt;</span> <span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="nb">values</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="sx">qw/red yellow/</span><span class="p">]</span>     <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">type</span> <span class="o">=&gt;</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>  <span class="nb">values</span> <span class="o">=&gt;</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span> <span class="n">value</span> <span class="o">=&gt;</span> <span class="s">&#39;ok&#39;</span><span class="p">,</span> <span class="n">check</span> <span class="o">=&gt;</span> <span class="s">&#39;is_ok&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">            <span class="s">&#39;err&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">]},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$cred</span> <span class="o">=</span> <span class="n">color_red</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$ered</span> <span class="o">=</span> <span class="n">error_red</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_color \$cred: %d\n&#34;</span><span class="p">,</span> <span class="n">is_color</span><span class="p">(</span><span class="nv">$cred</span><span class="p">));</span>     <span class="c1"># 1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_color \$ered: %d\n&#34;</span><span class="p">,</span> <span class="n">is_color</span><span class="p">(</span><span class="nv">$ered</span><span class="p">));</span>     <span class="c1"># 0</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_cred \$cred: %d\n&#34;</span><span class="p">,</span>  <span class="n">is_color_red</span><span class="p">(</span><span class="nv">$cred</span><span class="p">));</span> <span class="c1"># 1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_cred \$ered: %d\n&#34;</span><span class="p">,</span>  <span class="n">is_color_red</span><span class="p">(</span><span class="nv">$ered</span><span class="p">));</span> <span class="c1"># 0</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_ered \$cred: %d\n&#34;</span><span class="p">,</span>  <span class="n">is_error_red</span><span class="p">(</span><span class="nv">$cred</span><span class="p">));</span> <span class="c1"># 0</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_ered \$ered: %d\n&#34;</span><span class="p">,</span>  <span class="n">is_error_red</span><span class="p">(</span><span class="nv">$ered</span><span class="p">));</span> <span class="c1"># 1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_bool true:  %d\n&#34;</span><span class="p">,</span>  <span class="n">is_bool</span><span class="p">(</span><span class="n">true</span><span class="p">));</span>  <span class="c1"># 1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_bool false: %d\n&#34;</span><span class="p">,</span>  <span class="n">is_bool</span><span class="p">(</span><span class="n">false</span><span class="p">));</span> <span class="c1"># 1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_bool \$cred: %d\n&#34;</span><span class="p">,</span> <span class="n">is_bool</span><span class="p">(</span><span class="nv">$cred</span><span class="p">));</span> <span class="c1"># 0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_decision true: %d\n&#34;</span><span class="p">,</span>         <span class="n">is_decision</span><span class="p">(</span><span class="n">true</span><span class="p">));</span>         <span class="c1"># 0</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_decision decision_yes: %d\n&#34;</span><span class="p">,</span> <span class="n">is_decision</span><span class="p">(</span><span class="n">decision_yes</span><span class="p">));</span> <span class="c1"># 1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$some</span> <span class="o">=</span> <span class="n">some</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$none</span> <span class="o">=</span> <span class="n">option_none</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_some \$some: %d\n&#34;</span><span class="p">,</span>   <span class="n">is_some</span><span class="p">(</span><span class="nv">$some</span><span class="p">));</span>        <span class="c1"># 1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_none \$none: %d\n&#34;</span><span class="p">,</span>   <span class="n">is_option_none</span><span class="p">(</span><span class="nv">$none</span><span class="p">));</span> <span class="c1"># 1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_option \$some: %d\n&#34;</span><span class="p">,</span> <span class="n">is_option</span><span class="p">(</span><span class="nv">$some</span><span class="p">));</span>      <span class="c1"># 1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_option \$none: %d\n&#34;</span><span class="p">,</span> <span class="n">is_option</span><span class="p">(</span><span class="nv">$none</span><span class="p">));</span>      <span class="c1"># 1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$ok</span>  <span class="o">=</span> <span class="n">ok</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$err</span> <span class="o">=</span> <span class="n">fail_err</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_fail \$ok: %d\n&#34;</span><span class="p">,</span>    <span class="n">is_fail</span><span class="p">(</span><span class="nv">$ok</span><span class="p">));</span>  <span class="c1"># 1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span><span class="p">(</span><span class="s">&#34;is_fail \$error: %d\n&#34;</span><span class="p">,</span> <span class="n">is_fail</span><span class="p">(</span><span class="nv">$err</span><span class="p">));</span> <span class="c1"># 1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>I hope you liked the content. Are there things you would have done differently? What did you like, what do you don&rsquo;t like? Other suggestions or comments? Share your opinion!</p>
+
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#implementing-enum">Implementing enum</a></li>
+    <li><a href="#first-iteration">First iteration</a></li>
+    <li><a href="#second-iteration">Second iteration</a></li>
+    <li><a href="#third-iteration">Third iteration</a></li>
+    <li><a href="#fourth-iteration">Fourth iteration</a></li>
+  </ul>
+</nav> </aside>
+
+    </body>
+</html>
