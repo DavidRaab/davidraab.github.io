@@ -72,7 +72,7 @@
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-                    7 min read
+                    8 min read
                 </div>
                 <div>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
@@ -258,7 +258,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><code>gcc</code> procudes the following warning.</p>
+</div><p><code>gcc</code> produces the following warning.</p>
 <pre tabindex="0"><code>vector2.c: In function ‘vector2_new’:
 vector2.c:11:12: warning: function returns address of local variable [-Wreturn-local-addr]
    11 |     return &amp;v;
@@ -320,7 +320,8 @@ vector2.c:11:12: warning: function returns address of local variable [-Wreturn-l
 </div><p>and it will print:</p>
 <pre tabindex="0"><code>X=1; Y=1
 X=4; Y=1
-</code></pre><p>But remember. C does not have <em>automatic memory-management</em>. It doesn&rsquo;t automatically free any memory. You must explicitly free memory calling the <code>free()</code> function. If you don&rsquo;t do this, you will have <a href="https://en.wikipedia.org/wiki/Memory_leak">Memory Leaks</a> in your program. Also be aware if you <code>free()</code> memory and still try to access (Read/Write) to a pointer, bad things will happen.</p>
+</code></pre><p>But remember. C does not have <em>automatic memory-management</em>. It doesn&rsquo;t automatically free any memory. You must explicitly free memory calling the <code>free()</code> function. This is an example I prefer to be implicit instead of being <em>explicit</em>.</p>
+<p>If you don&rsquo;t free the memory, you will have <a href="https://en.wikipedia.org/wiki/Memory_leak">Memory Leaks</a> in your program. Also be aware if you <code>free()</code> memory and still try to access (Read/Write) to a pointer, bad things will happen.</p>
 <p>Here is a full example.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -376,6 +377,9 @@ X=4; Y=1
 </span><span class="lnt">50
 </span><span class="lnt">51
 </span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
@@ -427,6 +431,9 @@ X=4; Y=1
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c1">// Prints: Length=3.162278
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Length=%f</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">length</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Free memory -- when v not needed anymore
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">free</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
