@@ -103,8 +103,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>When you know C#, you are already familiar with a <code>struct</code>. A <code>struct</code> is a value-type in C. It always gets copied as a whole. In C# we have a class that is a <em>reference-type</em> but this doesn&rsquo;t exist in C. But, we can make one. In C we always can create a <em>Pointer</em> to any value. A <em>pointer</em> is like a <em>reference</em> you are used in more &ldquo;modern&rdquo; languages.</p>
-<p>In C we can do <em>pointer-arithemtic</em> and add, subtract or change a <em>pointer</em>, but here we will not do this.</p>
-<p>This is how you can define an instance of the <code>Vector2</code> struct.</p>
+<p>In C we can do <em>pointer-arithmetic</em> and add, subtract or change a <em>pointer</em>, but here we will not do this. On a <em>reference</em> this is forbidden. But still the concept behind it is the same.</p>
+<p>Creating an instance of <code>Vector2</code> becomes:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -113,7 +113,7 @@
 <pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">Vector2</span> <span class="n">v1</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span> <span class="p">};</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>First i want an easy way to just print an vector. This is how the method <code>vector2_show()</code> will look.</p>
+</div><p>Now I want to add an easy way to just print an vector. This is how the method <code>vector2_show()</code> will look.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -182,7 +182,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>The reason for this is as you guessed. Because <code>Vector2</code> is a <em>value-type</em> and not a reference type. So instead of directly passing a <code>Vector2</code> as a copy, we just want to pass it a <em>pointer</em> to a <code>Vector2</code> instead. A pointer-type in C are declared with an additional <code>*</code>.</p>
-<p>We can get a pointer to any variable by just adding a <code>&amp;</code> before it. So we can do the following.</p>
+<p>We can get a pointer to any variable by just adding a <code>&amp;</code> (<em>address-operator</em>) before it. So we can do the following.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -193,7 +193,7 @@
 </span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">Vector2</span> <span class="o">*</span><span class="n">pv1</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">v1</span><span class="p">;</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>Here <code>pv1</code> is now a pointer to <code>v1</code>. But we cannot pass a pointer to the <code>vector2_set_x()</code> or <code>vector2_show()</code> methods we implemented so far because <code>vector2_show()</code> expexted a <code>Vector2</code> not a <em>pointer</em> to a <code>Vector2</code>.</p>
+</div><p>Here <code>pv1</code> is now a pointer to <code>v1</code>. But we cannot pass a pointer to the <code>vector2_set_x()</code> or <code>vector2_show()</code> methods we implemented so far because <code>vector2_show()</code> expected a <code>Vector2</code> not a <em>pointer</em> to a <code>Vector2</code>.</p>
 <p>Additionaly when we pass a pointer, we need to <em>de-reference</em> the pointer to the actual value. How do we do this? Perl programmers are familiar with this. We <em>de-reference</em> a pointer with the arrow <code>-&gt;</code> operator.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -449,12 +449,12 @@ X=4; Y=1
 <p>Object-Orientation was basically just a pattern in C. At some time people decided that instead of a <em>Design Pattern</em> it should be a language feature.</p>
 <p>For better or for worse. I think <em>object-orientation</em> made programming a lot more worse. People acted as as if it would be something never seen. Fanatics all over the world started to came upon there graves telling that everything not object-oriented must be bad, and must be converted. The dark ages of programming started.</p>
 <p><em>Object-orientation</em> is useful and has it purpose. It fits the time perfectly. When you have limited memory and computational resources, it makes sense to pass pointers instead of copying structs over and over again.</p>
-<p>And still, when you look to the C# community as an example, those programmers start to realize more and more the importance of allocating things on the Stack. Why it is important to also be able to allocate classes on the <em>Stack</em> instead of always
+<p>And still, when you look to the C# community as an example, those programmers start to realize more and more the importance of allocating things on the Stack and why it is important to also be able to allocate classes on the <em>Stack</em> instead of always
 allocating them in the <em>Heap</em>. Bypassing the garbage collector for performance.</p>
-<p>C# started by making the distinction not be seen by a user. But still the distinction exists. Starting programmers <strong>must</strong> learn the distinction between <em>Value-Type</em> and a <em>Reference-type</em> in C#. Otherwise there will have a bad time.</p>
+<p>C# started by making the distinction not be seen by a user. But still the distinction exists. Starting programmers <strong>must</strong> learn the distinction between <em>Value-Type</em> and a <em>Reference-type</em> in C#. Otherwise there will have a really bad time.</p>
 <p>C# nowadays adds back a lot of the stuff to create a class on the stack. Returning reference on structs and so on. After they dismissed the features from <code>C</code>, decades later they started to re-implement then again. How ironic.</p>
 <p>Doesn&rsquo;t this make you think. Wasn&rsquo;t it better how <code>C</code> made it? I really think that making stuff <em>explicit</em> is at some cases better. Handling of pointers is such a case.</p>
-<p>It also shows you one of the most important aspect of what <em>object-orientied</em> programming really is.</p>
+<p>It also shows you one of the most important aspect of what <em>object-oriented</em> programming really is.</p>
 <p>*<em>Object-oriented</em> programming is nothing more than passing a data-structure to a function and directly mutate the structure.</p>
 <p>&ldquo;Modern&rdquo; languages like C# just have a different syntax. Instead of</p>
 <div class="highlight"><div class="chroma">
