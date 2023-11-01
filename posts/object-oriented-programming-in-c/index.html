@@ -459,10 +459,10 @@ X=4; Y=1
 <p>And still, when you look to the C# community as an example, those programmers start to realize more and more the importance of allocating things on the Stack and why it is important to also be able to allocate classes on the <em>Stack</em> instead of always
 allocating them in the <em>Heap</em>. Bypassing the garbage collector for performance.</p>
 <p>C# started by making the distinction not be seen by a user. But still the distinction exists. Starting programmers <strong>must</strong> learn the distinction between <em>Value-Type</em> and a <em>Reference-type</em> in C#. Otherwise there will have a really bad time.</p>
-<p>C# nowadays adds back a lot of the stuff to create a class on the stack. Returning reference on structs and so on. After they dismissed the features from <code>C</code>, decades later they started to re-implement then again. How ironic.</p>
+<p>C# nowadays adds back a lot of the stuff to create a class on the stack. Returning reference on structs and so on. After they dismissed the features from <code>C</code>, decades later they started to re-implement then again. <a href="https://www.youtube.com/watch?v=Jne9t8sHpUc">How ironic</a>.</p>
 <p>Doesn&rsquo;t this make you think. Wasn&rsquo;t it better how <code>C</code> made it? I really think that making stuff <em>explicit</em> is at some cases better. Handling of pointers is such a case.</p>
 <p>It also shows you one of the most important aspect of what <em>object-oriented</em> programming really is.</p>
-<p>*<em>Object-oriented</em> programming is nothing more than passing a data-structure to a function and directly mutate the structure.</p>
+<p><strong>Object-oriented</strong> programming is nothing more than passing a data-structure to a function and directly mutate the structure.</p>
 <p>&ldquo;Modern&rdquo; languages like C# just have a different syntax. Instead of</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -495,7 +495,7 @@ allocating them in the <em>Heap</em>. Bypassing the garbage collector for perfor
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>Now you probably understand why you write <code>this int i</code> as the first argument.</p>
+</div><p>Now you probably understand why you write <code>this int i</code> as the first argument. In C, you don&rsquo;t even <strong>need</strong> this <em>feature</em>.</p>
 
         </div>
         <div class="post-footer">
