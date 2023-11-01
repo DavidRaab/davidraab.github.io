@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>Object-Oriented Programming in C // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="Explains how object-orientation is done in C. And what object-orientation is all about." />
+        <link rel="stylesheet" href="/css/main.min.8789d420e03d4fa11ece70c1734c295cb6a1a4130095cc936ac690b218b63360.css" />
+        <script src="/static/code-toggle.js"></script>
+
+        
+        <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Object-Oriented Programming in C"/>
+<meta name="twitter:description" content="Explains how object-orientation is done in C. And what object-orientation is all about."/>
+
+        <meta property="og:title" content="Object-Oriented Programming in C" />
+<meta property="og:description" content="Explains how object-orientation is done in C. And what object-orientation is all about." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/object-oriented-programming-in-c/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-11-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-11-01T00:00:00+00:00" />
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>My personal Blog. Writing about programming and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Object-Oriented Programming in C</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Nov 1, 2023
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    7 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+                            <a class="tag" href="https://davidraab.github.io/tags/oop/">oop</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/c/">c</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/csharp/">CSharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/design-pattern/">design-pattern</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>Let&rsquo;s do object-oriented programming in C. First of I am creating an easy example for an Vector2 type. To define a Vector2 in C we use a <em>struct</em>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">Vector2</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">X</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">Y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>When you know C#, you are already familiar with a <code>struct</code>. A <code>struct</code> is a value-type in C. It always gets copied as a whole. In C# we have a class that is a <em>reference-type</em> but this doesn&rsquo;t exist in C. But, we can make one. In C we always can create a <em>Pointer</em> to any value. A <em>pointer</em> is like a <em>reference</em> you are used in more &ldquo;modern&rdquo; languages.</p>
+<p>In C we can do <em>pointer-arithemtic</em> and add, subtract or change a <em>pointer</em>, but here we will not do this.</p>
+<p>This is how you can define an instance of the <code>Vector2</code> struct.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">Vector2</span> <span class="n">v1</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span> <span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>First i want an easy way to just print an vector. This is how the method <code>vector2_show()</code> will look.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">vector2_show</span><span class="p">(</span><span class="k">struct</span> <span class="n">Vector2</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;X=%d; Y=%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">v</span><span class="p">.</span><span class="n">X</span><span class="p">,</span> <span class="n">v</span><span class="p">.</span><span class="n">Y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we can do:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">Vector2</span> <span class="n">v1</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="nf">vector2_show</span><span class="p">(</span><span class="n">v1</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>it will print &hellip;</p>
+<pre tabindex="0"><code>X=3; Y=4
+</code></pre><p>&hellip; to the console.</p>
+<p>Let&rsquo;s add an setter to change <code>X</code> value of an <code>Vector2</code>. We implement it like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">vector2_setX_1</span><span class="p">(</span><span class="k">struct</span> <span class="n">Vector2</span> <span class="n">v</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">v</span><span class="p">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>but somehow this doesn&rsquo;t work as expected. When we write the following code.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">Vector2</span> <span class="n">v1</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="nf">vector2_show</span><span class="p">(</span><span class="n">v1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">vector2_set_x</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nf">vector2_show</span><span class="p">(</span><span class="n">v1</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>no change has been happening. It will just print the same vector twice.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">X</span><span class="o">=</span><span class="mi">3</span><span class="p">;</span> <span class="n">Y</span><span class="o">=</span><span class="mi">4</span>
+</span></span><span class="line"><span class="cl"><span class="n">X</span><span class="o">=</span><span class="mi">3</span><span class="p">;</span> <span class="n">Y</span><span class="o">=</span><span class="mi">4</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The reason for this is as you guessed. Because <code>Vector2</code> is a <em>value-type</em> and not a reference type. So instead of directly passing a <code>Vector2</code> as a copy, we just want to pass it a <em>pointer</em> to a <code>Vector2</code> instead. A pointer-type in C are declared with an additional <code>*</code>.</p>
+<p>We can get a pointer to any variable by just adding a <code>&amp;</code> before it. So we can do the following.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">Vector2</span>   <span class="n">v1</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">Vector2</span> <span class="o">*</span><span class="n">pv1</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">v1</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Here <code>pv1</code> is now a pointer to <code>v1</code>. But we cannot pass a pointer to the <code>vector2_set_x()</code> or <code>vector2_show()</code> methods we implemented so far because <code>vector2_show()</code> expexted a <code>Vector2</code> not a <em>pointer</em> to a <code>Vector2</code>.</p>
+<p>Additionaly when we pass a pointer, we need to <em>de-reference</em> the pointer to the actual value. How do we do this? Perl programmers are familiar with this. We <em>de-reference</em> a pointer with the arrow <code>-&gt;</code> operator.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">vector2_show</span><span class="p">(</span><span class="k">struct</span> <span class="n">Vector2</span> <span class="o">*</span><span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;X=%d; Y=%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">X</span><span class="p">,</span> <span class="n">v</span><span class="o">-&gt;</span><span class="n">Y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">vector2_set_x</span><span class="p">(</span><span class="k">struct</span> <span class="n">Vector2</span> <span class="o">*</span><span class="n">v</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">v</span><span class="o">-&gt;</span><span class="n">X</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we can do the following.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">Vector2</span>   <span class="n">v1</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">Vector2</span> <span class="o">*</span><span class="n">pv1</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">v1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">vector2_set_x</span><span class="p">(</span><span class="n">pv1</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nf">vector2_show</span><span class="p">(</span><span class="n">pv1</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Running this code will print us.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">X</span><span class="o">=</span><span class="mi">3</span><span class="p">;</span> <span class="n">Y</span><span class="o">=</span><span class="mi">4</span>
+</span></span><span class="line"><span class="cl"><span class="n">X</span><span class="o">=</span><span class="mi">4</span><span class="p">;</span> <span class="n">Y</span><span class="o">=</span><span class="mi">4</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But when I want to add a constructor this way, it will not work.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">Vector2</span><span class="o">*</span> <span class="nf">vector2_new</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">Vector2</span> <span class="n">v</span> <span class="o">=</span> <span class="p">{</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="o">&amp;</span><span class="n">v</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>gcc</code> procudes the following warning.</p>
+<pre tabindex="0"><code>vector2.c: In function ‘vector2_new’:
+vector2.c:11:12: warning: function returns address of local variable [-Wreturn-local-addr]
+   11 |     return &amp;v;
+      |            ^~
+</code></pre><p>Trying to run the compiled program produces a <em>Segmentation Fault</em> on my machine. But behavior could be different. C is actually <strong>not</strong> a very strongly typed language.</p>
+<p>Why does the constructor not work? Because we are creating a local variable. And those local variables are created on the <em>Stack</em> not in the <em>Heap</em>. A <em>Stack</em> variable will be freed after the function finish. So we cannot return a pointer to a <em>local</em> variable. This will cause problems.</p>
+<p>Instead we need to create a <code>Vector2</code> in the <em>Heap</em>. Then we are allowed to return a pointer. Actually the function <code>malloc</code> in C does that. It allocates memory on the <em>Heap</em> and return a pointer to the allocated memory. Here are all the corrected constructor and methods so far.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">Vector2</span><span class="o">*</span> <span class="nf">vector2_new</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">Vector2</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="nf">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">Vector2</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">obj</span><span class="o">-&gt;</span><span class="n">X</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">obj</span><span class="o">-&gt;</span><span class="n">Y</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">obj</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">vector2_show</span><span class="p">(</span><span class="k">struct</span> <span class="n">Vector2</span> <span class="o">*</span><span class="n">this</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;X=%d; Y=%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">this</span><span class="o">-&gt;</span><span class="n">X</span><span class="p">,</span> <span class="n">this</span><span class="o">-&gt;</span><span class="n">Y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">vector2_set_x</span><span class="p">(</span><span class="k">struct</span> <span class="n">Vector2</span> <span class="o">*</span><span class="n">this</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">this</span><span class="o">-&gt;</span><span class="n">X</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we can write:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">Vector2</span> <span class="o">*</span><span class="n">p_v</span> <span class="o">=</span> <span class="nf">vector2_new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nf">vector2_show</span><span class="p">(</span><span class="n">p_v</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">vector2_set_x</span><span class="p">(</span><span class="n">p_v</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nf">vector2_show</span><span class="p">(</span><span class="n">p_v</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and it will print:</p>
+<pre tabindex="0"><code>X=1; Y=1
+X=4; Y=1
+</code></pre><p>But remember. C does not have <em>automatic memory-management</em>. It doesn&rsquo;t automatically free any memory. You must explicitly free memory calling the <code>free()</code> function. If you don&rsquo;t do this, you will have <a href="https://en.wikipedia.org/wiki/Memory_leak">Memory Leaks</a> in your program. Also be aware if you <code>free()</code> memory and still try to access (Read/Write) to a pointer, bad things will happen.</p>
+<p>Here is a full example.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;math.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">Vector2</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">X</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">Y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">Vector2</span><span class="o">*</span> <span class="nf">vector2_new</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">Vector2</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="nf">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">Vector2</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">obj</span><span class="o">-&gt;</span><span class="n">X</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">obj</span><span class="o">-&gt;</span><span class="n">Y</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">obj</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">vector2_show</span><span class="p">(</span><span class="k">struct</span> <span class="n">Vector2</span> <span class="o">*</span><span class="n">this</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;X=%d; Y=%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">this</span><span class="o">-&gt;</span><span class="n">X</span><span class="p">,</span> <span class="n">this</span><span class="o">-&gt;</span><span class="n">Y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">vector2_set_x</span><span class="p">(</span><span class="k">struct</span> <span class="n">Vector2</span> <span class="o">*</span><span class="n">this</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">this</span><span class="o">-&gt;</span><span class="n">X</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">vector2_set_y</span><span class="p">(</span><span class="k">struct</span> <span class="n">Vector2</span> <span class="o">*</span><span class="n">this</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">this</span><span class="o">-&gt;</span><span class="n">Y</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">double</span> <span class="nf">vector2_length</span><span class="p">(</span><span class="k">struct</span> <span class="n">Vector2</span> <span class="o">*</span><span class="n">this</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nf">sqrt</span><span class="p">((</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">X</span> <span class="o">*</span> <span class="n">this</span><span class="o">-&gt;</span><span class="n">X</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">Y</span> <span class="o">*</span> <span class="n">this</span><span class="o">-&gt;</span><span class="n">Y</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">Vector2</span> <span class="o">*</span><span class="n">v</span> <span class="o">=</span> <span class="nf">vector2_new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// This prints X=1; Y=1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">vector2_show</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Setting X to 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">vector2_set_x</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// prints X=3; Y=1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">vector2_show</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// calculating length of vector2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">double</span> <span class="n">length</span> <span class="o">=</span> <span class="nf">vector2_length</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Prints: Length=3.162278
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Length=%f</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">length</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>You can compile this file with <code>gcc vector2.c -o vector -lm</code>. When running, it will print.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">X</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">Y</span><span class="o">=</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="n">X</span><span class="o">=</span><span class="mi">3</span><span class="p">;</span> <span class="n">Y</span><span class="o">=</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="n">Length</span><span class="o">=</span><span class="mf">3.162278</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="what-is-object-orientation">What is object-orientation?</h1>
+<p>Object-Orientation was basically just a pattern in C. At some time people decided that instead of a <em>Design Pattern</em> it should be a language feature.</p>
+<p>For better or for worse. I think <em>object-orientation</em> made programming a lot more worse. People acted as as if it would be something never seen. Fanatics all over the world started to came upon there graves telling that everything not object-oriented must be bad, and must be converted. The dark ages of programming started.</p>
+<p><em>Object-orientation</em> is useful and has it purpose. It fits the time perfectly. When you have limited memory and computational resources, it makes sense to pass pointers instead of copying structs over and over again.</p>
+<p>And still, when you look to the C# community as an example, those programmers start to realize more and more the importance of allocating things on the Stack. Why it is important to also be able to allocate classes on the <em>Stack</em> instead of always
+allocating them in the <em>Heap</em>. Bypassing the garbage collector for performance.</p>
+<p>C# started by making the distinction not be seen by a user. But still the distinction exists. Starting programmers <strong>must</strong> learn the distinction between <em>Value-Type</em> and a <em>Reference-type</em> in C#. Otherwise there will have a bad time.</p>
+<p>C# nowadays adds back a lot of the stuff to create a class on the stack. Returning reference on structs and so on. After they dismissed the features from <code>C</code>, decades later they started to re-implement then again. How ironic.</p>
+<p>Doesn&rsquo;t this make you think. Wasn&rsquo;t it better how <code>C</code> made it? I really think that making stuff <em>explicit</em> is at some cases better. Handling of pointers is such a case.</p>
+<p>It also shows you one of the most important aspect of what <em>object-orientied</em> programming really is.</p>
+<p>*<em>Object-oriented</em> programming is nothing more than passing a data-structure to a function and directly mutate the structure.</p>
+<p>&ldquo;Modern&rdquo; languages like C# just have a different syntax. Instead of</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="nf">vector2_length</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>now it becomes</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="n">obj</span><span class="p">.</span><span class="n">length</span><span class="p">();</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>but under the hood, nothing really changed at all. Both are functions getting <code>obj</code> as the first argument. That&rsquo;s why in <em>Perl</em> or <em>Python</em> you explicitly have <code>$self</code> as an argument on every method.</p>
+<p><code>C#</code> hides it, but it gives you the special <code>this</code> variable instead. Did you ever implemented a <em>Extension Method</em> in C#? For example.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="kt">bool</span> <span class="n">IsGreaterThan</span><span class="p">(</span><span class="k">this</span> <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="kt">int</span> <span class="k">value</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">i</span> <span class="p">&gt;</span> <span class="k">value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now you probably understand why you write <code>this int i</code> as the first argument.</p>
+
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-is-object-orientation">What is object-orientation?</a></li>
+  </ul>
+</nav> </aside>
+
+    </body>
+</html>

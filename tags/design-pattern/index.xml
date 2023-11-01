@@ -6,7 +6,17 @@
     <description>Recent content in design-pattern on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/design-pattern/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 01 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/design-pattern/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Object-Oriented Programming in C</title>
+      <link>https://davidraab.github.io/posts/object-oriented-programming-in-c/</link>
+      <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/object-oriented-programming-in-c/</guid>
+      <description>Let&amp;rsquo;s do object-oriented programming in C. First of I am creating an easy example for an Vector2 type. To define a Vector2 in C we use a struct.
+1 2 3 4 struct Vector2 { int X; int Y; }; When you know C#, you are already familiar with a struct. A struct is a value-type in C. It always gets copied as a whole. In C# we have a class that is a reference-type but this doesn&amp;rsquo;t exist in C.</description>
+    </item>
+    
     <item>
       <title>Meta-Programming in Perl</title>
       <link>https://davidraab.github.io/posts/meta-programming-in-perl/</link>

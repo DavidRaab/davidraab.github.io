@@ -6,7 +6,43 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 29 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 01 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>c</title>
+      <link>https://davidraab.github.io/tags/c/</link>
+      <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/c/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CSharp</title>
+      <link>https://davidraab.github.io/tags/csharp/</link>
+      <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/csharp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>design-pattern</title>
+      <link>https://davidraab.github.io/tags/design-pattern/</link>
+      <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/design-pattern/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>oop</title>
+      <link>https://davidraab.github.io/tags/oop/</link>
+      <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/oop/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>data</title>
       <link>https://davidraab.github.io/tags/data/</link>
@@ -40,15 +76,6 @@
       <pubDate>Sun, 29 Oct 2023 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/perl/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>design-pattern</title>
-      <link>https://davidraab.github.io/tags/design-pattern/</link>
-      <pubDate>Thu, 26 Oct 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/design-pattern/</guid>
       <description></description>
     </item>
     
@@ -112,15 +139,6 @@
       <pubDate>Fri, 17 Feb 2023 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>CSharp</title>
-      <link>https://davidraab.github.io/tags/csharp/</link>
-      <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/csharp/</guid>
       <description></description>
     </item>
     
@@ -427,15 +445,6 @@
       <pubDate>Thu, 24 Mar 2016 00:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/polymorphism/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>oop</title>
-      <link>https://davidraab.github.io/tags/oop/</link>
-      <pubDate>Mon, 14 Mar 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/oop/</guid>
       <description></description>
     </item>
     
