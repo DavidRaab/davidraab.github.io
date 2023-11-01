@@ -320,7 +320,7 @@ vector2.c:11:12: warning: function returns address of local variable [-Wreturn-l
 </div><p>and it will print:</p>
 <pre tabindex="0"><code>X=1; Y=1
 X=4; Y=1
-</code></pre><p>But remember. C does not have <em>automatic memory-management</em>. It doesn&rsquo;t automatically free any memory. You must explicitly free memory calling the <code>free()</code> function. This is an example I prefer to be implicit instead of being <em>explicit</em>.</p>
+</code></pre><p>But remember. C does not have <em>automatic memory-management</em>. It doesn&rsquo;t automatically free any memory. You must explicitly free memory calling the <code>free()</code> function. This is an example I prefer to be implicit instead of being <em>explicit</em>. Other programmers will have a different opinion about this.</p>
 <p>If you don&rsquo;t free the memory, you will have <a href="https://en.wikipedia.org/wiki/Memory_leak">Memory Leaks</a> in your program. Also be aware if you <code>free()</code> memory and still try to access (Read/Write) to a pointer, bad things will happen.</p>
 <p>Here is a full example.</p>
 <div class="highlight"><div class="chroma">
