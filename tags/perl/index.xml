@@ -6,7 +6,18 @@
     <description>Recent content in perl on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 29 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/perl/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 04 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/perl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Searching for a Linux Command</title>
+      <link>https://davidraab.github.io/posts/searching-for-a-linux-command/</link>
+      <pubDate>Sat, 04 Nov 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/searching-for-a-linux-command/</guid>
+      <description>Lately I wanted to search for a Linux Command.
+I didn&amp;rsquo;t knew the exact command, only that there must be a &amp;ldquo;wacom&amp;rdquo; in it. A configuration tool to set some more details of my wacom tablet. So I thought.
+Hey, just collect all binary files in all the directores in the PATH Environment of Linux. The Path environment is divided with colons. Just let me give it a Regex it can match against.</description>
+    </item>
+    
     <item>
       <title>Creating a real enum Type in Perl</title>
       <link>https://davidraab.github.io/posts/creating-a-real-enum-type-in-perl/</link>

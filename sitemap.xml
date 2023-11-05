@@ -2,13 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://davidraab.github.io/</loc>
+    <lastmod>2023-11-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/linux/</loc>
+    <lastmod>2023-11-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/perl/</loc>
+    <lastmod>2023-11-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/posts/</loc>
+    <lastmod>2023-11-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/posts/searching-for-a-linux-command/</loc>
+    <lastmod>2023-11-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/</loc>
+    <lastmod>2023-11-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/tool/</loc>
+    <lastmod>2023-11-04T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://davidraab.github.io/tags/c/</loc>
     <lastmod>2023-11-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/csharp/</loc>
-    <lastmod>2023-11-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/</loc>
     <lastmod>2023-11-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/design-pattern/</loc>
@@ -18,12 +36,6 @@
     <lastmod>2023-11-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/oop/</loc>
-    <lastmod>2023-11-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/posts/</loc>
-    <lastmod>2023-11-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/</loc>
     <lastmod>2023-11-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/creating-a-real-enum-type-in-perl/</loc>
@@ -36,9 +48,6 @@
     <lastmod>2023-10-29T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/metaprogramming/</loc>
-    <lastmod>2023-10-29T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/perl/</loc>
     <lastmod>2023-10-29T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/meta-programming-in-perl/</loc>
@@ -69,9 +78,6 @@
     <lastmod>2023-02-17T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/installing-perl-with-perlbrew/</loc>
-    <lastmod>2023-02-17T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/linux/</loc>
     <lastmod>2023-02-17T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/closures-in-fsharp-csharp-perl-javascript-and-racket/</loc>
