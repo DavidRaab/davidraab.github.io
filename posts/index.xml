@@ -8,6 +8,17 @@
     <language>en-us</language>
     <lastBuildDate>Sat, 18 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Assigning variables</title>
+      <link>https://davidraab.github.io/posts/assigning-variables/</link>
+      <pubDate>Sat, 18 Nov 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/assigning-variables/</guid>
+      <description>This is how you assign a value from right to left.
+1 my $x = 1; this is how you assign a value from left to right.
+Perl 1 do_something(12, sub ($x) { ... }); JavaScript 1 2 var x = 1; do_something(1, function(x) { ... }) F# 1 2 let x = 1 doSomething 1 (fun x -&amp;gt; ... ) </description>
+    </item>
+    
+    <item>
       <title>Lazy Sequence in Perl: Three ways of doing Fibonacci</title>
       <link>https://davidraab.github.io/posts/lazy-sequence-in-perl-three-ways-of-doing-fibonacci/</link>
       <pubDate>Sat, 18 Nov 2023 00:00:00 +0000</pubDate>
