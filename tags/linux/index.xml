@@ -6,15 +6,16 @@
     <description>Recent content in linux on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 18 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 18 Nov 2023 01:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Lazy Sequence in Perl: Three ways of doing Fibonacci</title>
       <link>https://davidraab.github.io/posts/lazy-sequence-in-perl-three-ways-of-doing-fibonacci/</link>
-      <pubDate>Sat, 18 Nov 2023 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 18 Nov 2023 01:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/posts/lazy-sequence-in-perl-three-ways-of-doing-fibonacci/</guid>
-      <description>Hi there, I am developing a module for fun at the moment. Here is my &amp;lsquo;Seq&amp;rsquo; module. I am showing hot it is used. Here are three ways of doing Fibonacci numbers. Snippets from Tests so far.
-First solution 1 2 3 4 5 6 7 8 9 10 11 12 13 my $fib = Seq-&amp;gt;concat( Seq-&amp;gt;wrap(1,1), Seq-&amp;gt;unfold([1,1], sub($state) { my $next = $state-&amp;gt;[0] + $state-&amp;gt;[1]; return $next, [$state-&amp;gt;[1],$next]; }) ); is( $fib-&amp;gt;take(20)-&amp;gt;to_array, [1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,1597,2584,4181,6765], &amp;#39;First 20 Fibonacci numbers&amp;#39;); Second Solution 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 # Same Fibonacci as above but unfold does not create a new arrayref on every # iteration.</description>
+      <description>Hi there, I am developing a new Perl module to bring a lazy Sequence to Perl.
+It should provide the functionaly you see in C# LINQ or Java 8 Stream. The origin of those interfaces comes from functional programming. Thus i decided to primarily pick the F# API and port it to Perl.
+I already implemented a useful set of functions. Here is an example of the module and what you can do with it.</description>
     </item>
     
     <item>
