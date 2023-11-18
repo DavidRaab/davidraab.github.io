@@ -14,7 +14,7 @@
       
       <guid>https://davidraab.github.io/posts/assigning-variables/</guid>
       <description>This is how you assign a value from right to left.
-1 my $x = 1; this is how you assign a value from left to right.
+1 2 my $x = 1; ... this is how you assign a value from left to right.
 Perl 1 do_something(12, sub ($x) { ... }); JavaScript 1 do_something(1, function(x) { ... }) F# 1 doSomething 1 (fun x -&amp;gt; ... ) </description>
     </item>
     
