@@ -6,7 +6,19 @@
     <description>Recent content in perl on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 19 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/perl/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 19 Nov 2023 02:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/perl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Perl Seq Module: bind &amp; flatten</title>
+      <link>https://davidraab.github.io/posts/perl-seq-module-bind-flatten/</link>
+      <pubDate>Sun, 19 Nov 2023 02:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/perl-seq-module-bind-flatten/</guid>
+      <description>I implemented the bind function in my Perl Seq Module. bind is a very useful function. For example here is flatten that I implemented with it.
+flatten Flatten takes a sequence of sequences and returns a single sequence.
+1 2 3 4 5 6 my $flattened = Seq-&amp;gt;wrap( Seq-&amp;gt;wrap(1,1), Seq-&amp;gt;wrap(2,3,5,8,13), ) -&amp;gt;flatten; This is how a non-lazy Perl implemenation would look like:
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 # Implementation sub flatten($aoa) { my @flattened; for my $outer ( @$aoa ) { for my $inner ( @$outer ) { push @flattened, $inner; } } return \@flattened; }; # Usage my $flattened = flatten([ [1,1], [2,3,5,8,13], ]) This is how flatten is implemented in Seq.</description>
+    </item>
+    
     <item>
       <title>Shape of my Heart</title>
       <link>https://davidraab.github.io/posts/shape-of-my-heart/</link>

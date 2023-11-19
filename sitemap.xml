@@ -3,24 +3,27 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://davidraab.github.io/</loc>
-    <lastmod>2023-11-19T00:00:00+00:00</lastmod>
+    <lastmod>2023-11-19T02:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/perl/</loc>
-    <lastmod>2023-11-19T00:00:00+00:00</lastmod>
+    <lastmod>2023-11-19T02:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/posts/perl-seq-module-bind-flatten/</loc>
+    <lastmod>2023-11-19T02:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/perl-seq/</loc>
-    <lastmod>2023-11-19T00:00:00+00:00</lastmod>
+    <lastmod>2023-11-19T02:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/</loc>
-    <lastmod>2023-11-19T00:00:00+00:00</lastmod>
+    <lastmod>2023-11-19T02:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/</loc>
+    <lastmod>2023-11-19T02:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/sequence/</loc>
     <lastmod>2023-11-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/shape-of-my-heart/</loc>
-    <lastmod>2023-11-19T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/</loc>
     <lastmod>2023-11-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/assigning-variables/</loc>
