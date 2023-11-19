@@ -6,7 +6,34 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 18 Nov 2023 02:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 19 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>perl</title>
+      <link>https://davidraab.github.io/tags/perl/</link>
+      <pubDate>Sun, 19 Nov 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/perl/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>perl-seq</title>
+      <link>https://davidraab.github.io/tags/perl-seq/</link>
+      <pubDate>Sun, 19 Nov 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/perl-seq/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sequence</title>
+      <link>https://davidraab.github.io/tags/sequence/</link>
+      <pubDate>Sun, 19 Nov 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/tags/sequence/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>general-concepts</title>
       <link>https://davidraab.github.io/tags/general-concepts/</link>
@@ -22,33 +49,6 @@
       <pubDate>Sat, 18 Nov 2023 01:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/tags/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>perl</title>
-      <link>https://davidraab.github.io/tags/perl/</link>
-      <pubDate>Sat, 18 Nov 2023 01:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/perl/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>perl-seq</title>
-      <link>https://davidraab.github.io/tags/perl-seq/</link>
-      <pubDate>Sat, 18 Nov 2023 01:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/perl-seq/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>sequence</title>
-      <link>https://davidraab.github.io/tags/sequence/</link>
-      <pubDate>Sat, 18 Nov 2023 01:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/sequence/</guid>
       <description></description>
     </item>
     
