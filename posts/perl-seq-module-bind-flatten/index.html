@@ -204,8 +204,8 @@ assignment. It binds one value from the <code>$iter</code> <em>sequence</em> to 
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>consider <code>for</code> as a function. It binds one value of <code>@$iter</code> to <code>$x</code> and executes
-the function we pass with <code>{ ... }</code>. But it does in a non-lazy way. It computes
-all values at once. Even if you only want to acces the first value of it.</p>
+the function we pass with <code>{ ... }</code>. But a <em>for-loop</em> does it in a non-lazy way.
+It computes all values at once. Even if you only want to acces the first value of it.</p>
 <p><code>Seq-&gt;flatten</code> instead creates a new <em>sequence</em> without doing anything as long
 you never ask it to evaluate.</p>
 <p>Inside the <em>lambda</em> we passed to <code>flatten</code> we must return another <em>sequence</em>.
