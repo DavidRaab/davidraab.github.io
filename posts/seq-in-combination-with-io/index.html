@@ -20,8 +20,8 @@
 <meta property="og:description" content="Fixing the multi-millard dollar bug" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://davidraab.github.io/posts/seq-in-combination-with-io/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-11-20T00:00:00+00:00" />
-<meta property="article:modified_time" content="2023-11-20T00:00:00+00:00" />
+<meta property="article:published_time" content="2023-11-20T01:00:00+00:00" />
+<meta property="article:modified_time" content="2023-11-20T18:40:00+00:00" />
 
 
     </head>
@@ -85,12 +85,13 @@
             </div>
         </header>
         <div class="post-content">
-            <p>In one of my scripts I am already using my module. I created a script
-to faster create new test-files. From all files in that directory
-I needed to pick the filename with the highest number so far.</p>
-<p>So here is how i read all files from disk and only pick files matching pattern
-&ldquo;%d-$title.t&rdquo;. Then i want the maximum.</p>
-<p>It shows how you can &ldquo;connect&rdquo; to other modules to use them. In this example
+            <p>In one of my programs I already use my module. This program creates
+a new test-file in the &rsquo;t&rsquo; folder from a template. From all files in that directory
+I want to automatically pick the next highest number. I don&rsquo;t want to search
+for the number myself.</p>
+<p>So here is how i read all files from disk and only pick files matching the pattern
+&ldquo;%d-$title.t&rdquo;. Then i want the maximum number.</p>
+<p>This example shows how you can &ldquo;connect&rdquo; to other modules to use them. In this example
 its <code>Path::Tiny</code>.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -109,46 +110,51 @@ its <code>Path::Tiny</code>.</p>
 </span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="n">wrap</span><span class="p">(</span>   <span class="n">path</span><span class="p">(</span><span class="s">&#39;t&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">children</span> <span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="nb">map</span><span class="p">(</span>    <span class="n">sub</span><span class="p">(</span><span class="nv">$x</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$x</span><span class="o">-&gt;</span><span class="n">basename</span> <span class="p">})</span>
 </span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="n">choose</span><span class="p">(</span> <span class="n">sub</span><span class="p">(</span><span class="nv">$x</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$x</span> <span class="o">=~</span> <span class="sr">m/\A(\d+) .* \.t\z/xms</span> <span class="p">?</span> <span class="nv">$1</span> <span class="p">:</span> <span class="nb">undef</span> <span class="p">}</span> <span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="n">max</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="n">max</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Here is how it works.</p>
 <ol>
 <li>It begins with <code>max</code>.</li>
-<li><code>max</code> wants to know the highest numerical value. So he ask <code>choose</code> for the first value.</li>
-<li><code>choose</code> also don&rsquo;t know abbout any, he ask <code>map</code> to give him one.</li>
+<li><code>max</code> wants to know the highest numerical value. So he ask <code>choose</code> for the next value.</li>
+<li><code>choose</code> also don&rsquo;t know abbout any value, he ask <code>map</code> to give him one.</li>
 <li><code>map</code> also don&rsquo;t know about any value, so he ask <code>wrap</code> about one.</li>
-<li><code>wrap</code> finally knows about a value. He gives him the first one, and asks Do you want this?</li>
+<li><code>wrap</code> finally knows about a value. He gives him the next one, and asks Do you want this?</li>
 <li><code>map</code> looks at it. He says, yes i take all. Then he asks <code>choose</code> is this the <em>basename</em> you wanted?</li>
-<li><code>choose</code> looks at it. He runs a regex on it to proof the correct format.
+<li><code>choose</code> looks at it. He runs a regex on it to proof the correct format, and extract the number from the <em>basename</em>.
 <ol>
 <li>When it is the correct format, he gives <code>max</code> the requested file. (goto #8)</li>
 <li>When it not the correct format, he throws it away, and asks <code>map</code> again for the next value. (goto #4)</li>
 </ol>
 </li>
-<li><code>max</code> stores the first value as the maximum value. Then he ask again for the next value (goto 2).
+<li><code>max</code> stores the first value as the maximum value. Then he ask again for the next value (goto #2).
 He continues as long <code>choose</code> returns an item itself. And <code>choose</code> continues as long he gets
 one from <code>map</code> and so on &hellip;</li>
+<li>When <code>choose</code> does not return a value anymore. <code>max</code> returns the maximum value he stored so far. When <code>choose</code> does not give him a single value. He choose <code>0</code> as the default to return.</li>
 </ol>
 <p>So <code>max</code> starts the evaluation. It bubbles back to <code>wrap</code>. So execution is basically
 written in reverse. In the case of <code>max</code> all items must be scanned.</p>
-<p>There could be multiple different ways to optimze it by performance. But, you
-probably always will start with <code>wrap</code>.</p>
-<p>When you give <code>wrap</code> all items at once. It internally creates an array and serves
-all request from it. This is the operation that block. But only once, and at the
+<p>There could be multiple different ways to optimze its performance. But, you
+probably always will start with replacing/optimizing <code>wrap</code>.</p>
+<p>When you give <code>wrap</code> all items at once it internally creates an array and serves
+all request from it. This is the operation that blocks. But only once, and at the
 very beginning.</p>
-<p>Theoretically there is only way to fix it. You just give it a function
+<p>Theoretically there is only one way to fix it. You just give it a function
 that works like a sequence. You can pass it any function that returns another
 function.</p>
-<p>That is the internal. But there are multiple different helpers (Constructors)
-to help you create such an construct.</p>
+<p>This is how the internals of <em>sequence</em> works. But there are multiple different
+helpers (Constructors) to help you create such an construct.</p>
 <p>Throughout the system, <code>undef</code> is used like an optional. When you return it,
-its considered the end of the iterator. So <code>undef</code> values basically disappear
-as long you use <code>Seq</code>.</p>
+its considered the end of the iterator. Or in some functions returning <code>undef</code>
+means = skip this item. So <code>undef</code> values basically disappear as long you use
+<code>Seq</code>.</p>
 <p>Here a funny part. <code>Seq</code> can return <code>undef</code>. It&rsquo;s like talking with others.
 Inside <code>Seq</code> there is no <code>undef</code>. But it returns it, just like it keeps getting one
 from the outside itself.</p>
-<p>So i am basically fixing &ldquo;The multi-millard dollar-bug&rdquo;. Everything as a Perl
+<p>Like <code>max</code> that can return an <code>undef</code> when the sequence not only contains a single
+value. Luckily <code>max</code> can be given a default value that in that case is returned
+instead of an <code>undef</code>.</p>
+<p>So I am basically fixing &ldquo;The multi-millard dollar-bug&rdquo;. Everything as a Perl
 module to load.</p>
 <p>Or at least, an attempt.</p>
 

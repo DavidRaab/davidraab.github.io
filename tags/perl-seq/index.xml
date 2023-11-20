@@ -6,16 +6,15 @@
     <description>Recent content in perl-seq on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 20 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/perl-seq/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 20 Nov 2023 01:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/perl-seq/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Seq in Combination with I/O</title>
       <link>https://davidraab.github.io/posts/seq-in-combination-with-io/</link>
-      <pubDate>Mon, 20 Nov 2023 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 20 Nov 2023 01:00:00 +0000</pubDate>
       
       <guid>https://davidraab.github.io/posts/seq-in-combination-with-io/</guid>
-      <description>In one of my scripts I am already using my module. I created a script to faster create new test-files. From all files in that directory I needed to pick the filename with the highest number so far.
-So here is how i read all files from disk and only pick files matching pattern &amp;ldquo;%d-$title.t&amp;rdquo;. Then i want the maximum.
-It shows how you can &amp;ldquo;connect&amp;rdquo; to other modules to use them.</description>
+      <description>In one of my programs I already use my module. This program creates a new test-file in the &amp;rsquo;t&amp;rsquo; folder from a template. From all files in that directory I want to automatically pick the next highest number. I don&amp;rsquo;t want to search for the number myself.
+So here is how i read all files from disk and only pick files matching the pattern &amp;ldquo;%d-$title.t&amp;rdquo;. Then i want the maximum number.</description>
     </item>
     
     <item>
