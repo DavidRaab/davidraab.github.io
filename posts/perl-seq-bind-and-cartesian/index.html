@@ -72,7 +72,7 @@
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-                    1 min read
+                    2 min read
                 </div>
                 <div>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
@@ -156,18 +156,20 @@ Perl data-structure.</p>
 <p>This is how you can implement cartesian in a non-lazy way.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">cartesian</span><span class="p">($arrayA, $arrayB) {</span>
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="c1"># cartesian : Array&lt;&#39;a&gt; -&gt; Array&lt;&#39;b&gt; -&gt; Array&lt;&#39;a * &#39;b&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">cartesian</span><span class="p">($arrayA, $arrayB) {</span>
 </span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">@output</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="k">my</span> <span class="nv">$a</span> <span class="p">(</span> <span class="nv">@$arrayA</span> <span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="k">my</span> <span class="nv">$b</span> <span class="p">(</span> <span class="nv">@$arrayB</span> <span class="p">)</span> <span class="p">{</span>
@@ -176,6 +178,23 @@ Perl data-structure.</p>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="o">\</span><span class="nv">@output</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and call it.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$data</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cartesian</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="sx">qw/clubs spades hearts diamond/</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="sx">qw/7 8 9 10 B D K A/</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="related-posts">Related Posts</h2>
