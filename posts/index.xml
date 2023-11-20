@@ -6,9 +6,20 @@
     <description>Recent content in Posts on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 20 Nov 2023 01:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 20 Nov 2023 20:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Seq in Combination with I/O</title>
+      <title>Perl Seq: bind &amp; cartesian</title>
+      <link>https://davidraab.github.io/posts/perl-seq-bind-and-cartesian/</link>
+      <pubDate>Mon, 20 Nov 2023 20:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/perl-seq-bind-and-cartesian/</guid>
+      <description>The cartesian function returns the Cartesian Product. The Cartesian Product is the combination of all possible values.
+1 2 3 4 5 my $data = Seq::cartesian( Seq-&amp;gt;wrap(qw/clubs spades hearts diamond/), Seq-&amp;gt;wrap(qw/7 8 9 10 B D K A/), )-&amp;gt;to_array; Calling to_array will evaluate the expression and generates the following Perl data-structure.
+1 2 3 4 5 6 7 8 9 10 [ [&amp;#39;clubs&amp;#39; ,&amp;#39;7&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;8&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;9&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;10&amp;#39;], [&amp;#39;clubs&amp;#39; ,&amp;#39;B&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;D&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;K&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;A&amp;#39; ], [&amp;#39;spades&amp;#39; ,&amp;#39;7&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;8&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;9&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;10&amp;#39;], [&amp;#39;spades&amp;#39; ,&amp;#39;B&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;D&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;K&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;A&amp;#39; ], [&amp;#39;hearts&amp;#39; ,&amp;#39;7&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;8&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;9&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;10&amp;#39;], [&amp;#39;hearts&amp;#39; ,&amp;#39;B&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;D&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;K&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;A&amp;#39; ], [&amp;#39;diamond&amp;#39;,&amp;#39;7&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;8&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;9&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;10&amp;#39;], [&amp;#39;diamond&amp;#39;,&amp;#39;B&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;D&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;K&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;A&amp;#39; ], ] The implementation of Seq::cartesian.</description>
+    </item>
+    
+    <item>
+      <title>Perl Seq: Combination with I/O</title>
       <link>https://davidraab.github.io/posts/seq-in-combination-with-io/</link>
       <pubDate>Mon, 20 Nov 2023 01:00:00 +0000</pubDate>
       
@@ -18,7 +29,7 @@ So here is how i read all files from disk and only pick files matching the patte
     </item>
     
     <item>
-      <title>Perl Seq Module: bind &amp; flatten</title>
+      <title>Perl Seq: bind &amp; flatten</title>
       <link>https://davidraab.github.io/posts/perl-seq-module-bind-flatten/</link>
       <pubDate>Sun, 19 Nov 2023 02:00:00 +0000</pubDate>
       
@@ -52,7 +63,7 @@ Perl 1 do_something(12, sub ($x) { ... }); JavaScript 1 do_something(1, function
     </item>
     
     <item>
-      <title>Lazy Sequence in Perl: Three ways of doing Fibonacci</title>
+      <title>Perl Seq: Three ways of doing Fibonacci</title>
       <link>https://davidraab.github.io/posts/lazy-sequence-in-perl-three-ways-of-doing-fibonacci/</link>
       <pubDate>Sat, 18 Nov 2023 01:00:00 +0000</pubDate>
       
