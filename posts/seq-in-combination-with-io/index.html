@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>Seq in Combination with I/O // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="Fixing the multi-millard dollar bug" />
+        <link rel="stylesheet" href="/css/main.min.0fa334c3f2650e7000dfc8e81f59d23191e59e78f62c565a598f4dc557c92abe.css" />
+        <script src="/static/code-toggle.js"></script>
+
+        
+        <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Seq in Combination with I/O"/>
+<meta name="twitter:description" content="Fixing the multi-millard dollar bug"/>
+
+        <meta property="og:title" content="Seq in Combination with I/O" />
+<meta property="og:description" content="Fixing the multi-millard dollar bug" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/seq-in-combination-with-io/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-11-20T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-11-20T00:00:00+00:00" />
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>My personal Blog. Writing about programming and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Seq in Combination with I/O</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Nov 20, 2023
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    3 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+                            <a class="tag" href="https://davidraab.github.io/tags/perl/">perl</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/perl-seq/">perl-seq</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>In one of my scripts I am already using my module. I created a script
+to faster create new test-files. From all files in that directory
+I needed to pick the filename with the highest number so far.</p>
+<p>So here is how i read all files from disk and only pick files matching pattern
+&ldquo;%d-$title.t&rdquo;. Then i want the maximum.</p>
+<p>It shows how you can &ldquo;connect&rdquo; to other modules to use them. In this example
+its <code>Path::Tiny</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="c1"># get the maximum id from test-files so far</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$maximum_id</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Seq</span>
+</span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="n">wrap</span><span class="p">(</span>   <span class="n">path</span><span class="p">(</span><span class="s">&#39;t&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">children</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="nb">map</span><span class="p">(</span>    <span class="n">sub</span><span class="p">(</span><span class="nv">$x</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$x</span><span class="o">-&gt;</span><span class="n">basename</span> <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="n">choose</span><span class="p">(</span> <span class="n">sub</span><span class="p">(</span><span class="nv">$x</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$x</span> <span class="o">=~</span> <span class="sr">m/\A(\d+) .* \.t\z/xms</span> <span class="p">?</span> <span class="nv">$1</span> <span class="p">:</span> <span class="nb">undef</span> <span class="p">}</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="n">max</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Here is how it works.</p>
+<ol>
+<li>It begins with <code>max</code>.</li>
+<li><code>max</code> wants to know the highest numerical value. So he ask <code>choose</code> for the first value.</li>
+<li><code>choose</code> also don&rsquo;t know abbout any, he ask <code>map</code> to give him one.</li>
+<li><code>map</code> also don&rsquo;t know about any value, so he ask <code>wrap</code> about one.</li>
+<li><code>wrap</code> finally knows about a value. He gives him the first one, and asks Do you want this?</li>
+<li><code>map</code> looks at it. He says, yes i take all. Then he asks <code>choose</code> is this the <em>basename</em> you wanted?</li>
+<li><code>choose</code> looks at it. He runs a regex on it to proof the correct format.
+<ol>
+<li>When it is the correct format, he gives <code>max</code> the requested file. (goto #8)</li>
+<li>When it not the correct format, he throws it away, and asks <code>map</code> again for the next value. (goto #4)</li>
+</ol>
+</li>
+<li><code>max</code> stores the first value as the maximum value. Then he ask again for the next value (goto 2).
+He continues as long <code>choose</code> returns an item itself. And <code>choose</code> continues as long he gets
+one from <code>map</code> and so on &hellip;</li>
+</ol>
+<p>So <code>max</code> starts the evaluation. It bubbles back to <code>wrap</code>. So execution is basically
+written in reverse. In the case of <code>max</code> all items must be scanned.</p>
+<p>There could be multiple different ways to optimze it by performance. But, you
+probably always will start with <code>wrap</code>.</p>
+<p>When you give <code>wrap</code> all items at once. It internally creates an array and serves
+all request from it. This is the operation that block. But only once, and at the
+very beginning.</p>
+<p>Theoretically there is only way to fix it. You just give it a function
+that works like a sequence. You can pass it any function that returns another
+function.</p>
+<p>That is the internal. But there are multiple different helpers (Constructors)
+to help you create such an construct.</p>
+<p>Throughout the system, <code>undef</code> is used like an optional. When you return it,
+its considered the end of the iterator. So <code>undef</code> values basically disappear
+as long you use <code>Seq</code>.</p>
+<p>Here a funny part. <code>Seq</code> can return <code>undef</code>. It&rsquo;s like talking with others.
+Inside <code>Seq</code> there is no <code>undef</code>. But it returns it, just like it keeps getting one
+from the outside itself.</p>
+<p>So i am basically fixing &ldquo;The multi-millard dollar-bug&rdquo;. Everything as a Perl
+module to load.</p>
+<p>Or at least, an attempt.</p>
+
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents"></nav> </aside>
+
+    </body>
+</html>
