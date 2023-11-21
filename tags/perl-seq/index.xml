@@ -6,7 +6,19 @@
     <description>Recent content in perl-seq on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 20 Nov 2023 20:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/perl-seq/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 21 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/perl-seq/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Seq::Manual::FromSub</title>
+      <link>https://davidraab.github.io/posts/perl-seq-seq-manual-fromsub/</link>
+      <pubDate>Tue, 21 Nov 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://davidraab.github.io/posts/perl-seq-seq-manual-fromsub/</guid>
+      <description>Seq::Manual::FromSub A deeper explanation how Seq-&amp;gt;from_sub works.
+THE PROBLEM You could write the following in Perl
+1 Seq-&amp;gt;wrap(1 .. 10_000_000) but it would be a bad idea. Perls range operator is non-lazy. When you call the above code perl will create an array with 10 Mio numbers and then pass that 10 Mio numbers to Seq-&amp;gt;wrap.
+This is not only time-consuming, it will also use a lot of memory. Maybe with a bigger number your program or your computer could even crash with out of memory.</description>
+    </item>
+    
     <item>
       <title>Perl Seq: bind &amp; cartesian</title>
       <link>https://davidraab.github.io/posts/perl-seq-bind-and-cartesian/</link>
