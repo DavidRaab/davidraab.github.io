@@ -235,6 +235,23 @@ the same value forever.</p>
 </div><p>to just get an array <code>[1,1,1,1,1,1,1,1,1,1]</code>. Don&rsquo;t forget the <code>take(10)</code>
 otherwise the sequence will run forever until all your computer memory
 is exhausted and your program or computer crashes.</p>
+<p>But you could do</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="vg">$|</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$always</span><span class="o">-&gt;</span><span class="n">iter</span><span class="p">(</span><span class="n">sub</span><span class="p">(</span><span class="nv">$x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">print</span> <span class="s">&#39;.&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and it will run in an endless-loop, forever printing dots until you abort
+the program.</p>
 
         </div>
         <div class="post-footer">
