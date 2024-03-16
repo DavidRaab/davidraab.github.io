@@ -1,163 +1,117 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>perl on David Raab</title>
+    <title>Perl on David Raab</title>
     <link>https://davidraab.github.io/tags/perl/</link>
-    <description>Recent content in perl on David Raab</description>
+    <description>Recent content in Perl on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 21 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/perl/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 16 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/perl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Insanity of Object-Oriented Programming</title>
+      <link>https://davidraab.github.io/posts/insanity-of-oo/</link>
+      <pubDate>Sat, 16 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/insanity-of-oo/</guid>
+      <description>The insanity of Object-Oriented Programming I started programming back in the 1990s. My first language I learned was QBasic and after 2 days of learning it, i switched to C. Back in these days there was no Internet. Okay, it existed but was not so common as today. Most people still didn&amp;rsquo;t even had computers.&#xA;I picked and learned C because when you got to the programming section in a store it was full of C books.</description>
+    </item>
     <item>
       <title>Seq::Manual::FromSub</title>
       <link>https://davidraab.github.io/posts/perl-seq-seq-manual-fromsub/</link>
       <pubDate>Tue, 21 Nov 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/perl-seq-seq-manual-fromsub/</guid>
-      <description>Seq::Manual::FromSub A deeper explanation how Seq-&amp;gt;from_sub works.
-THE PROBLEM You could write the following in Perl
-1 Seq-&amp;gt;wrap(1 .. 10_000_000) but it would be a bad idea. Perls range operator is non-lazy. When you call the above code perl will create an array with 10 Mio numbers and then pass that 10 Mio numbers to Seq-&amp;gt;wrap.
-This is not only time-consuming, it will also use a lot of memory. Maybe with a bigger number your program or your computer could even crash with out of memory.</description>
+      <description>Seq::Manual::FromSub A deeper explanation how Seq-&amp;gt;from_sub works.&#xA;THE PROBLEM You could write the following in Perl&#xA;1 Seq-&amp;gt;wrap(1 .. 10_000_000) but it would be a bad idea. Perls range operator is non-lazy. When you call the above code perl will create an array with 10 Mio numbers and then pass that 10 Mio numbers to Seq-&amp;gt;wrap.&#xA;This is not only time-consuming, it will also use a lot of memory. Maybe with a bigger number your program or your computer could even crash with out of memory.</description>
     </item>
-    
     <item>
       <title>Perl Seq: bind &amp; cartesian</title>
       <link>https://davidraab.github.io/posts/perl-seq-bind-and-cartesian/</link>
       <pubDate>Mon, 20 Nov 2023 20:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/perl-seq-bind-and-cartesian/</guid>
-      <description>The cartesian function returns the Cartesian Product. The Cartesian Product is the combination of all possible values.
-1 2 3 4 5 my $data = Seq::cartesian( Seq-&amp;gt;wrap(qw/clubs spades hearts diamond/), Seq-&amp;gt;wrap(qw/7 8 9 10 B D K A/), )-&amp;gt;to_array; Calling to_array will evaluate the expression and generates the following Perl data-structure.
-1 2 3 4 5 6 7 8 9 10 [ [&amp;#39;clubs&amp;#39; ,&amp;#39;7&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;8&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;9&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;10&amp;#39;], [&amp;#39;clubs&amp;#39; ,&amp;#39;B&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;D&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;K&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;A&amp;#39; ], [&amp;#39;spades&amp;#39; ,&amp;#39;7&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;8&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;9&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;10&amp;#39;], [&amp;#39;spades&amp;#39; ,&amp;#39;B&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;D&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;K&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;A&amp;#39; ], [&amp;#39;hearts&amp;#39; ,&amp;#39;7&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;8&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;9&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;10&amp;#39;], [&amp;#39;hearts&amp;#39; ,&amp;#39;B&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;D&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;K&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;A&amp;#39; ], [&amp;#39;diamond&amp;#39;,&amp;#39;7&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;8&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;9&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;10&amp;#39;], [&amp;#39;diamond&amp;#39;,&amp;#39;B&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;D&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;K&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;A&amp;#39; ], ] The implementation of Seq::cartesian.</description>
+      <description>The cartesian function returns the Cartesian Product. The Cartesian Product is the combination of all possible values.&#xA;1 2 3 4 5 my $data = Seq::cartesian( Seq-&amp;gt;wrap(qw/clubs spades hearts diamond/), Seq-&amp;gt;wrap(qw/7 8 9 10 B D K A/), )-&amp;gt;to_array; Calling to_array will evaluate the expression and generates the following Perl data-structure.&#xA;1 2 3 4 5 6 7 8 9 10 [ [&amp;#39;clubs&amp;#39; ,&amp;#39;7&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;8&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;9&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;10&amp;#39;], [&amp;#39;clubs&amp;#39; ,&amp;#39;B&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;D&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;K&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;A&amp;#39; ], [&amp;#39;spades&amp;#39; ,&amp;#39;7&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;8&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;9&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;10&amp;#39;], [&amp;#39;spades&amp;#39; ,&amp;#39;B&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;D&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;K&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;A&amp;#39; ], [&amp;#39;hearts&amp;#39; ,&amp;#39;7&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;8&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;9&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;10&amp;#39;], [&amp;#39;hearts&amp;#39; ,&amp;#39;B&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;D&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;K&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;A&amp;#39; ], [&amp;#39;diamond&amp;#39;,&amp;#39;7&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;8&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;9&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;10&amp;#39;], [&amp;#39;diamond&amp;#39;,&amp;#39;B&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;D&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;K&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;A&amp;#39; ], ] The implementation of Seq::cartesian.</description>
     </item>
-    
     <item>
       <title>Perl Seq: Combination with I/O</title>
       <link>https://davidraab.github.io/posts/seq-in-combination-with-io/</link>
       <pubDate>Mon, 20 Nov 2023 01:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/seq-in-combination-with-io/</guid>
-      <description>In one of my programs I already use my module. This program creates a new test-file in the &amp;rsquo;t&amp;rsquo; folder from a template. From all files in that directory I want to automatically pick the next highest number. I don&amp;rsquo;t want to search for the number myself.
-So here is how i read all files from disk and only pick files matching the pattern &amp;ldquo;%d-$title.t&amp;rdquo;. Then i want the maximum number.</description>
+      <description>In one of my programs I already use my module. This program creates a new test-file in the &amp;rsquo;t&amp;rsquo; folder from a template. From all files in that directory I want to automatically pick the next highest number. I don&amp;rsquo;t want to search for the number myself.&#xA;So here is how i read all files from disk and only pick files matching the pattern &amp;ldquo;%d-$title.t&amp;rdquo;. Then i want the maximum number.</description>
     </item>
-    
     <item>
       <title>Perl Seq: bind &amp; flatten</title>
       <link>https://davidraab.github.io/posts/perl-seq-module-bind-flatten/</link>
       <pubDate>Sun, 19 Nov 2023 02:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/perl-seq-module-bind-flatten/</guid>
-      <description>I implemented the bind function in my Perl Seq Module. bind is a very useful function. For example here is flatten that I implemented with it.
-flatten Flatten takes a sequence of sequences and returns a single sequence.
-1 2 3 4 5 6 my $flattened = Seq-&amp;gt;wrap( Seq-&amp;gt;wrap(1,1), Seq-&amp;gt;wrap(2,3,5,8,13), ) -&amp;gt;flatten; This is how a non-lazy Perl implemenation would look like:
-1 2 3 4 5 6 7 8 9 sub flatten($aoa) { my @flattened; for my $outer ( @$aoa ) { for my $inner ( @$outer ) { push @flattened, $inner; } } return \@flattened; }; Using it looks very similar.</description>
+      <description>I implemented the bind function in my Perl Seq Module. bind is a very useful function. For example here is flatten that I implemented with it.&#xA;flatten Flatten takes a sequence of sequences and returns a single sequence.&#xA;1 2 3 4 5 6 my $flattened = Seq-&amp;gt;wrap( Seq-&amp;gt;wrap(1,1), Seq-&amp;gt;wrap(2,3,5,8,13), ) -&amp;gt;flatten; This is how a non-lazy Perl implemenation would look like:&#xA;1 2 3 4 5 6 7 8 9 sub flatten($aoa) { my @flattened; for my $outer ( @$aoa ) { for my $inner ( @$outer ) { push @flattened, $inner; } } return \@flattened; }; Using it looks very similar.</description>
     </item>
-    
     <item>
       <title>Shape of my Heart</title>
       <link>https://davidraab.github.io/posts/shape-of-my-heart/</link>
       <pubDate>Sun, 19 Nov 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/shape-of-my-heart/</guid>
-      <description>Here are two programs that produces the same result.
-This is something I would have written without my Seq module.
-1 2 3 4 5 6 [ (map { [clubs =&amp;gt; $_ ] } qw/7 8 9 10 B D K A/), (map { [spades =&amp;gt; $_ ] } qw/7 8 9 10 B D K A/), (map { [hearts =&amp;gt; $_ ] } qw/7 8 9 10 B D K A/), (map { [diamond =&amp;gt; $_ ] } qw/7 8 9 10 B D K A/), ] With my module, i now can write the same in this way.</description>
+      <description>Here are two programs that produces the same result.&#xA;This is something I would have written without my Seq module.&#xA;1 2 3 4 5 6 [ (map { [clubs =&amp;gt; $_ ] } qw/7 8 9 10 B D K A/), (map { [spades =&amp;gt; $_ ] } qw/7 8 9 10 B D K A/), (map { [hearts =&amp;gt; $_ ] } qw/7 8 9 10 B D K A/), (map { [diamond =&amp;gt; $_ ] } qw/7 8 9 10 B D K A/), ] With my module, i now can write the same in this way.</description>
     </item>
-    
     <item>
       <title>Perl Seq: Three ways of doing Fibonacci</title>
       <link>https://davidraab.github.io/posts/lazy-sequence-in-perl-three-ways-of-doing-fibonacci/</link>
       <pubDate>Sat, 18 Nov 2023 01:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/lazy-sequence-in-perl-three-ways-of-doing-fibonacci/</guid>
-      <description>Hi there, I am developing a new Perl module to bring a lazy Sequence to Perl.
-It should provide the functionaly you see in C# LINQ or Java 8 Stream. The origin of those interfaces comes from functional programming. Thus i decided to primarily pick the F# API and port it to Perl.
-I already implemented a useful set of functions. Here is an example of the module and what you can do with it.</description>
+      <description>Hi there, I am developing a new Perl module to bring a lazy Sequence to Perl.&#xA;It should provide the functionaly you see in C# LINQ or Java 8 Stream. The origin of those interfaces comes from functional programming. Thus i decided to primarily pick the F# API and port it to Perl.&#xA;I already implemented a useful set of functions. Here is an example of the module and what you can do with it.</description>
     </item>
-    
     <item>
       <title>Searching for a Linux Command</title>
       <link>https://davidraab.github.io/posts/searching-for-a-linux-command/</link>
       <pubDate>Sat, 04 Nov 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/searching-for-a-linux-command/</guid>
-      <description>Lately I wanted to search for a Linux Command.
-I didn&amp;rsquo;t knew the exact command, only that there must be a &amp;ldquo;wacom&amp;rdquo; in it. A configuration tool to set some more details of my wacom tablet. So I thought.
-Hey, just collect all binary files in all the directores in the PATH Environment of Linux. The Path environment is divided with colons. Just let me give it a Regex it can match against.</description>
+      <description>Lately I wanted to search for a Linux Command.&#xA;I didn&amp;rsquo;t knew the exact command, only that there must be a &amp;ldquo;wacom&amp;rdquo; in it. A configuration tool to set some more details of my wacom tablet. So I thought.&#xA;Hey, just collect all binary files in all the directores in the PATH Environment of Linux. The Path environment is divided with colons. Just let me give it a Regex it can match against.</description>
     </item>
-    
     <item>
       <title>Creating a real enum Type in Perl</title>
       <link>https://davidraab.github.io/posts/creating-a-real-enum-type-in-perl/</link>
       <pubDate>Sun, 29 Oct 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/creating-a-real-enum-type-in-perl/</guid>
-      <description>In my previous article about Metaprogramming in Perl I show how to implement an enum() function that creates real special values that are distinct from each other.
-When I called enum(&#39;red&#39;, &#39;green&#39;, &#39;blue&#39;) it created two functions for every passed string. red() and is_red() for the red string. red() returns the special value and is_red($value) checks if $value is our special value.
-But currently it does not completely satisfy being an enum.</description>
+      <description>In my previous article about Metaprogramming in Perl I show how to implement an enum() function that creates real special values that are distinct from each other.&#xA;When I called enum(&#39;red&#39;, &#39;green&#39;, &#39;blue&#39;) it created two functions for every passed string. red() and is_red() for the red string. red() returns the special value and is_red($value) checks if $value is our special value.&#xA;But currently it does not completely satisfy being an enum.</description>
     </item>
-    
     <item>
       <title>Meta-Programming in Perl</title>
       <link>https://davidraab.github.io/posts/meta-programming-in-perl/</link>
       <pubDate>Thu, 26 Oct 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/meta-programming-in-perl/</guid>
-      <description>In my last article about Special Values in Perl I explained how we can create true distinct values that can be safely distinguished by other values. The final result looked like this:
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 use Scalar::Util qw(refaddr reftype); # Special values Red, Green and Blue { # &amp;lt;-- this creates a new lexical-scope my ($red, $green, $blue) = ([], [], []); sub red { $red } sub green { $green } sub blue { $blue } my $is_color = sub { my ($source, $color) = @_; my $type = reftype($source) // &amp;#39;&amp;#39;; return ( $type eq &amp;#39;ARRAY&amp;#39; and refaddr($source) == refaddr($color) ) ?</description>
+      <description>In my last article about Special Values in Perl I explained how we can create true distinct values that can be safely distinguished by other values. The final result looked like this:&#xA;1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 use Scalar::Util qw(refaddr reftype); # Special values Red, Green and Blue { # &amp;lt;-- this creates a new lexical-scope my ($red, $green, $blue) = ([], [], []); sub red { $red } sub green { $green } sub blue { $blue } my $is_color = sub { my ($source, $color) = @_; my $type = reftype($source) // &amp;#39;&amp;#39;; return ( $type eq &amp;#39;ARRAY&amp;#39; and refaddr($source) == refaddr($color) ) ?</description>
     </item>
-    
     <item>
       <title>Special values in Perl</title>
       <link>https://davidraab.github.io/posts/special-values-in-perl/</link>
       <pubDate>Wed, 25 Oct 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/special-values-in-perl/</guid>
-      <description>Sometimes in programming we want to create special values that are distinct to anything else. Consider the following problem. We want to create a print_colored function, that can be given special values to change the terminal color. Here is one way to do it:
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 use Term::ANSIColor qw(color); my $red = &amp;#34;RED&amp;#34;; my $green = &amp;#34;GREEN&amp;#34;; my $blue = &amp;#34;BLUE&amp;#34;; sub print_colored { for my $line ( @_ ) { print(color(&amp;#39;red&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $red; print(color(&amp;#39;green&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $green; print(color(&amp;#39;blue&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $blue; print $line; } } print_colored($green, &amp;#34;red&amp;#34;, &amp;#34;\n&amp;#34;, $blue, &amp;#34;foo\n&amp;#34;); This solution successfully prints the string &amp;ldquo;red&amp;rdquo; in the green color and &amp;ldquo;foo&amp;rdquo; in the blue color.</description>
+      <description>Sometimes in programming we want to create special values that are distinct to anything else. Consider the following problem. We want to create a print_colored function, that can be given special values to change the terminal color. Here is one way to do it:&#xA;1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 use Term::ANSIColor qw(color); my $red = &amp;#34;RED&amp;#34;; my $green = &amp;#34;GREEN&amp;#34;; my $blue = &amp;#34;BLUE&amp;#34;; sub print_colored { for my $line ( @_ ) { print(color(&amp;#39;red&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $red; print(color(&amp;#39;green&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $green; print(color(&amp;#39;blue&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $blue; print $line; } } print_colored($green, &amp;#34;red&amp;#34;, &amp;#34;\n&amp;#34;, $blue, &amp;#34;foo\n&amp;#34;); This solution successfully prints the string &amp;ldquo;red&amp;rdquo; in the green color and &amp;ldquo;foo&amp;rdquo; in the blue color.</description>
     </item>
-    
     <item>
       <title>Perl vs. JavaScript: Scalar and List Context</title>
       <link>https://davidraab.github.io/posts/perl-vs-javascript-scalar-and-list-context/</link>
       <pubDate>Fri, 20 Oct 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/perl-vs-javascript-scalar-and-list-context/</guid>
-      <description>Something I like in Perl, and also dislike sometimes, is Perl distinction between Scalar- and List Context. Something I haven&amp;rsquo;t seen in any other language so far. In Perl any function call can happen in two different context. And depending on the context a function can return different things, or even behave differently. But it also effects how arguments are passed to a function.
-Let&amp;rsquo;s see an example. I want to write an easy sum function that sums up all numbers given to it.</description>
+      <description>Something I like in Perl, and also dislike sometimes, is Perl distinction between Scalar- and List Context. Something I haven&amp;rsquo;t seen in any other language so far. In Perl any function call can happen in two different context. And depending on the context a function can return different things, or even behave differently. But it also effects how arguments are passed to a function.&#xA;Let&amp;rsquo;s see an example. I want to write an easy sum function that sums up all numbers given to it.</description>
     </item>
-    
     <item>
       <title>Installing perl with perlbrew</title>
       <link>https://davidraab.github.io/posts/installing-perl-with-perlbrew/</link>
       <pubDate>Fri, 17 Feb 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/installing-perl-with-perlbrew/</guid>
-      <description>Today every Linux system mostly already ships Perl including a lot of modules. While this can be totally fine sometimes maybe you want to switch to a newer Perl version. Or maybe even an older version to test a module with an older Perl version for compatibility?
-perlbrew is a tool that helps installing multiple Perl environments and gives you the ability to switch between them. Installing your own Perl also means you don&amp;rsquo;t mess with the system installed Perl and you are able to install any new module directly from CPAN.</description>
+      <description>Today every Linux system mostly already ships Perl including a lot of modules. While this can be totally fine sometimes maybe you want to switch to a newer Perl version. Or maybe even an older version to test a module with an older Perl version for compatibility?&#xA;perlbrew is a tool that helps installing multiple Perl environments and gives you the ability to switch between them. Installing your own Perl also means you don&amp;rsquo;t mess with the system installed Perl and you are able to install any new module directly from CPAN.</description>
     </item>
-    
     <item>
       <title>Closures in F#, C#, Perl, JavaScript and Racket</title>
       <link>https://davidraab.github.io/posts/closures-in-fsharp-csharp-perl-javascript-and-racket/</link>
       <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/closures-in-fsharp-csharp-perl-javascript-and-racket/</guid>
-      <description>Today, more and more languages supports functions as first-class values. This means a function is just a value like any other. You can pass functions as arguments to functions, but you are also able to create functions and return them from functions.
-Whenever this is done we have to think about the life-time of variables. Usually all variables are lexical scoped. Consider the following example.
-F# C# Perl JavaScript Racket 1 2 3 let add10 y = let x = 10 x + y 1 2 3 4 public static int Add10(int y) { var x = 10; return x + y; } 1 2 3 4 sub add10($y) { my $x = 10; return $x + $y; } 1 2 3 4 function add10(y) { const x = 10; return x + y; } 1 2 3 4 (define (add10 y) (define x 10) (+ x y) ) In the example the variable x is created only temporary when the function is being executed.</description>
+      <description>Today, more and more languages supports functions as first-class values. This means a function is just a value like any other. You can pass functions as arguments to functions, but you are also able to create functions and return them from functions.&#xA;Whenever this is done we have to think about the life-time of variables. Usually all variables are lexical scoped. Consider the following example.&#xA;F# C# Perl JavaScript Racket 1 2 3 let add10 y = let x = 10 x + y 1 2 3 4 public static int Add10(int y) { var x = 10; return x + y; } 1 2 3 4 sub add10($y) { my $x = 10; return $x + $y; } 1 2 3 4 function add10(y) { const x = 10; return x + y; } 1 2 3 4 (define (add10 y) (define x 10) (+ x y) ) In the example the variable x is created only temporary when the function is being executed.</description>
     </item>
-    
     <item>
       <title>Perl Regex Parsing with the g option</title>
       <link>https://davidraab.github.io/posts/perl-regex-parsing-with-g-option/</link>
       <pubDate>Sat, 07 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/perl-regex-parsing-with-g-option/</guid>
-      <description>Perl regexes have the /g modifier that is worth knowing about, as you can do a lot of advanced things with this modifier. But here are the basics first.
-Context First we need to understand that Perl has two different contexts and in both contexts the /g modifier works differently.
-List context Let&amp;rsquo;s see list context first. We can enforce list context by assigning to an array.
-Without the /g option a regex just finds its first match and just returns it.</description>
+      <description>Perl regexes have the /g modifier that is worth knowing about, as you can do a lot of advanced things with this modifier. But here are the basics first.&#xA;Context First we need to understand that Perl has two different contexts and in both contexts the /g modifier works differently.&#xA;List context Let&amp;rsquo;s see list context first. We can enforce list context by assigning to an array.&#xA;Without the /g option a regex just finds its first match and just returns it.</description>
     </item>
-    
   </channel>
 </rss>

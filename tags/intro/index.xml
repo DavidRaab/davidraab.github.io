@@ -1,31 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>intro on David Raab</title>
+    <title>Intro on David Raab</title>
     <link>https://davidraab.github.io/tags/intro/</link>
-    <description>Recent content in intro on David Raab</description>
+    <description>Recent content in Intro on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 11 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/intro/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 11 May 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/intro/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introduction to Functional Programming</title>
       <link>https://davidraab.github.io/posts/introduction-to-functional-programming/</link>
       <pubDate>Wed, 11 May 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/introduction-to-functional-programming/</guid>
-      <description>In this article I want to give a general introduction to some of the fundamental ideas of functional programming. I just start with the idea of function as data, and explain why functions are viewed as data and why it makes sense to pass functions as arguments.
-When we understand this concept, I start explaining lambda expression, currying, partial application and closures. All of this ideas built on each other.</description>
+      <description>In this article I want to give a general introduction to some of the fundamental ideas of functional programming. I just start with the idea of function as data, and explain why functions are viewed as data and why it makes sense to pass functions as arguments.&#xA;When we understand this concept, I start explaining lambda expression, currying, partial application and closures. All of this ideas built on each other.</description>
     </item>
-    
     <item>
       <title>Introduction to F#</title>
       <link>https://davidraab.github.io/posts/introduction-fsharp/</link>
       <pubDate>Thu, 10 Mar 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/introduction-fsharp/</guid>
-      <description>When I remember the first time I looked at functional(-first) languages like F#, ML, Haskell and others. The typical reaction that I had, and I always see from other people is: This is unreadable, it must be hard to read, it feels complicated and hard.
-After spending some time in F# I cannot agree to that at all anymore. Often the syntax itself is easier (for example compared to C#), shorter and in my opinion more readable.</description>
+      <description>When I remember the first time I looked at functional(-first) languages like F#, ML, Haskell and others. The typical reaction that I had, and I always see from other people is: This is unreadable, it must be hard to read, it feels complicated and hard.&#xA;After spending some time in F# I cannot agree to that at all anymore. Often the syntax itself is easier (for example compared to C#), shorter and in my opinion more readable.</description>
     </item>
-    
   </channel>
 </rss>

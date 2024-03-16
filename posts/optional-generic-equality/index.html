@@ -4,7 +4,7 @@
         <title>Optional Generic Equality on a Data-Type in F# // David Raab</title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta charset="utf-8" />
-        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="generator" content="Hugo 0.123.1">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="David Raab" />
         <meta name="description" content="Implementing an optional Generic Equality" />
@@ -12,8 +12,7 @@
         <script src="/static/code-toggle.js"></script>
 
         
-        <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Optional Generic Equality on a Data-Type in F#"/>
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Optional Generic Equality on a Data-Type in F#"/>
 <meta name="twitter:description" content="Implementing an optional Generic Equality"/>
 
         <meta property="og:title" content="Optional Generic Equality on a Data-Type in F#" />
@@ -24,10 +23,11 @@
 <meta property="article:modified_time" content="2022-10-25T00:00:00+00:00" />
 
 
+
     </head>
     <body>
         <header class="app-header">
-            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
             <span class="app-header-title">David Raab</span>
             <nav class="app-header-menu">
                     <a class="app-header-menu-item" href="/">Home</a>
@@ -79,9 +79,9 @@
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/equality/">equality</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/generics/">generics</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">Fsharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/equality/">Equality</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/generics/">Generics</a>
                 </div>
             </div>
         </header>
@@ -99,7 +99,7 @@ realize it until I tried to implement a Queue with equality myself.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>In F# you can compare two lists (Something you cannot do in C# for example).
@@ -112,7 +112,7 @@ depends on the type inside the list. In the above example it is <code>int</code>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">double</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">double</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span>
 </span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">id</span><span class="o">;</span><span class="kt">double</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="n">id</span><span class="o">;</span><span class="kt">double</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -181,10 +181,10 @@ our own <code>List</code> to see the problem more clear and how to solve this.</
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>      <span class="o">-&gt;</span> <span class="n">Empty</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">xs</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">cons</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span> <span class="o">(</span><span class="n">map</span> <span class="n">f</span> <span class="n">xs</span><span class="o">))</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">xs</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">1</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">2</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">3</span> <span class="n">empty</span><span class="o">)))</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">ys</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">2</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">4</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">6</span> <span class="n">empty</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">xs</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="n">1</span> <span class="o">(</span><span class="n">cons</span> <span class="n">2</span> <span class="o">(</span><span class="n">cons</span> <span class="n">3</span> <span class="n">empty</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">ys</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="n">2</span> <span class="o">(</span><span class="n">cons</span> <span class="n">4</span> <span class="o">(</span><span class="n">cons</span> <span class="n">6</span> <span class="n">empty</span><span class="o">)))</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">equal</span> <span class="o">(</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="o">)</span> <span class="n">xs</span><span class="o">)</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">2</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">4</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">6</span> <span class="n">empty</span><span class="o">))))</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">equal</span> <span class="o">(</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span><span class="o">)</span> <span class="n">xs</span><span class="o">)</span> <span class="o">(</span><span class="n">cons</span> <span class="n">2</span> <span class="o">(</span><span class="n">cons</span> <span class="n">4</span> <span class="o">(</span><span class="n">cons</span> <span class="n">6</span> <span class="n">empty</span><span class="o">))))</span>
 </span></span><span class="line"><span class="cl"><span class="k">then</span> <span class="n">printfn</span> <span class="s">&#34;Equal&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="n">printfn</span> <span class="s">&#34;Not Equal&#34;</span>
 </span></span></code></pre></td></tr></table>
@@ -197,7 +197,7 @@ list that contains functions without a problem.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">double</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">double</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">fs</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="n">id</span> <span class="o">(</span><span class="n">cons</span> <span class="kt">double</span> <span class="n">empty</span><span class="o">))</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -443,11 +443,11 @@ on those with equality you also can use <code>=</code>.</p>
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="o">)</span> <span class="n">xs</span><span class="o">)</span> <span class="o">=</span> <span class="n">ys</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span><span class="o">)</span> <span class="n">xs</span><span class="o">)</span> <span class="o">=</span> <span class="n">ys</span>
 </span></span><span class="line"><span class="cl"><span class="k">then</span> <span class="n">printfn</span> <span class="s">&#34;Equal&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="n">printfn</span> <span class="s">&#34;Not Equal&#34;</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">double</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">double</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">fs</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="n">id</span> <span class="o">(</span><span class="n">cons</span> <span class="kt">double</span> <span class="n">empty</span><span class="o">))</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -460,7 +460,7 @@ look at my <a href="https://github.com/DavidRaab/Queue/blob/master/lib/Queue.fs"
         </div>
         <div class="post-footer">
             <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     

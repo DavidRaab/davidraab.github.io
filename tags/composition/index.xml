@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>composition on David Raab</title>
+    <title>Composition on David Raab</title>
     <link>https://davidraab.github.io/tags/composition/</link>
-    <description>Recent content in composition on David Raab</description>
+    <description>Recent content in Composition on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 25 Sep 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/composition/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 25 Sep 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/composition/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Function Application and Composition</title>
       <link>https://davidraab.github.io/posts/function-application-and-composition/</link>
       <pubDate>Sun, 25 Sep 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/function-application-and-composition/</guid>
-      <description>Function application is probably one of those terms in functional programming that sounds more scarier as the topic really is. The idea behind functional application just means that we execute a function to get the result. Let&amp;rsquo;s take the example of calculating the square root of 2.0. We can write the following in F# to do that:
-1 let x = sqrt 2.0 The interesting part is how we read this example.</description>
+      <description>Function application is probably one of those terms in functional programming that sounds more scarier as the topic really is. The idea behind functional application just means that we execute a function to get the result. Let&amp;rsquo;s take the example of calculating the square root of 2.0. We can write the following in F# to do that:&#xA;1 let x = sqrt 2.0 The interesting part is how we read this example.</description>
     </item>
-    
   </channel>
 </rss>

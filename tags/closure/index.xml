@@ -1,42 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>closure on David Raab</title>
+    <title>Closure on David Raab</title>
     <link>https://davidraab.github.io/tags/closure/</link>
-    <description>Recent content in closure on David Raab</description>
+    <description>Recent content in Closure on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 25 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/closure/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 25 Oct 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/closure/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Special values in Perl</title>
       <link>https://davidraab.github.io/posts/special-values-in-perl/</link>
       <pubDate>Wed, 25 Oct 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/special-values-in-perl/</guid>
-      <description>Sometimes in programming we want to create special values that are distinct to anything else. Consider the following problem. We want to create a print_colored function, that can be given special values to change the terminal color. Here is one way to do it:
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 use Term::ANSIColor qw(color); my $red = &amp;#34;RED&amp;#34;; my $green = &amp;#34;GREEN&amp;#34;; my $blue = &amp;#34;BLUE&amp;#34;; sub print_colored { for my $line ( @_ ) { print(color(&amp;#39;red&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $red; print(color(&amp;#39;green&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $green; print(color(&amp;#39;blue&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $blue; print $line; } } print_colored($green, &amp;#34;red&amp;#34;, &amp;#34;\n&amp;#34;, $blue, &amp;#34;foo\n&amp;#34;); This solution successfully prints the string &amp;ldquo;red&amp;rdquo; in the green color and &amp;ldquo;foo&amp;rdquo; in the blue color.</description>
+      <description>Sometimes in programming we want to create special values that are distinct to anything else. Consider the following problem. We want to create a print_colored function, that can be given special values to change the terminal color. Here is one way to do it:&#xA;1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 use Term::ANSIColor qw(color); my $red = &amp;#34;RED&amp;#34;; my $green = &amp;#34;GREEN&amp;#34;; my $blue = &amp;#34;BLUE&amp;#34;; sub print_colored { for my $line ( @_ ) { print(color(&amp;#39;red&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $red; print(color(&amp;#39;green&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $green; print(color(&amp;#39;blue&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $blue; print $line; } } print_colored($green, &amp;#34;red&amp;#34;, &amp;#34;\n&amp;#34;, $blue, &amp;#34;foo\n&amp;#34;); This solution successfully prints the string &amp;ldquo;red&amp;rdquo; in the green color and &amp;ldquo;foo&amp;rdquo; in the blue color.</description>
     </item>
-    
     <item>
       <title>Closures in F#, C#, Perl, JavaScript and Racket</title>
       <link>https://davidraab.github.io/posts/closures-in-fsharp-csharp-perl-javascript-and-racket/</link>
       <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/closures-in-fsharp-csharp-perl-javascript-and-racket/</guid>
-      <description>Today, more and more languages supports functions as first-class values. This means a function is just a value like any other. You can pass functions as arguments to functions, but you are also able to create functions and return them from functions.
-Whenever this is done we have to think about the life-time of variables. Usually all variables are lexical scoped. Consider the following example.
-F# C# Perl JavaScript Racket 1 2 3 let add10 y = let x = 10 x + y 1 2 3 4 public static int Add10(int y) { var x = 10; return x + y; } 1 2 3 4 sub add10($y) { my $x = 10; return $x + $y; } 1 2 3 4 function add10(y) { const x = 10; return x + y; } 1 2 3 4 (define (add10 y) (define x 10) (+ x y) ) In the example the variable x is created only temporary when the function is being executed.</description>
+      <description>Today, more and more languages supports functions as first-class values. This means a function is just a value like any other. You can pass functions as arguments to functions, but you are also able to create functions and return them from functions.&#xA;Whenever this is done we have to think about the life-time of variables. Usually all variables are lexical scoped. Consider the following example.&#xA;F# C# Perl JavaScript Racket 1 2 3 let add10 y = let x = 10 x + y 1 2 3 4 public static int Add10(int y) { var x = 10; return x + y; } 1 2 3 4 sub add10($y) { my $x = 10; return $x + $y; } 1 2 3 4 function add10(y) { const x = 10; return x + y; } 1 2 3 4 (define (add10 y) (define x 10) (+ x y) ) In the example the variable x is created only temporary when the function is being executed.</description>
     </item>
-    
     <item>
       <title>Introduction to Functional Programming</title>
       <link>https://davidraab.github.io/posts/introduction-to-functional-programming/</link>
       <pubDate>Wed, 11 May 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/introduction-to-functional-programming/</guid>
-      <description>In this article I want to give a general introduction to some of the fundamental ideas of functional programming. I just start with the idea of function as data, and explain why functions are viewed as data and why it makes sense to pass functions as arguments.
-When we understand this concept, I start explaining lambda expression, currying, partial application and closures. All of this ideas built on each other.</description>
+      <description>In this article I want to give a general introduction to some of the fundamental ideas of functional programming. I just start with the idea of function as data, and explain why functions are viewed as data and why it makes sense to pass functions as arguments.&#xA;When we understand this concept, I start explaining lambda expression, currying, partial application and closures. All of this ideas built on each other.</description>
     </item>
-    
   </channel>
 </rss>

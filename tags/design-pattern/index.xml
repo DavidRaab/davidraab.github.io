@@ -1,51 +1,40 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>design-pattern on David Raab</title>
+    <title>Design-Pattern on David Raab</title>
     <link>https://davidraab.github.io/tags/design-pattern/</link>
-    <description>Recent content in design-pattern on David Raab</description>
+    <description>Recent content in Design-Pattern on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 01 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/design-pattern/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 01 Nov 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/design-pattern/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Object-Oriented Programming in C</title>
       <link>https://davidraab.github.io/posts/object-oriented-programming-in-c/</link>
       <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/object-oriented-programming-in-c/</guid>
-      <description>Let&amp;rsquo;s do object-oriented programming in C. First of I am creating an easy example for an Vector2 type. To define a Vector2 in C we use a struct.
-1 2 3 4 struct Vector2 { int X; int Y; }; When you know C#, you are already familiar with a struct. A struct is a value-type in C. It always gets copied as a whole. In C# we have a class that is a reference-type but this doesn&amp;rsquo;t exist in C.</description>
+      <description>Let&amp;rsquo;s do object-oriented programming in C. First of I am creating an easy example for an Vector2 type. To define a Vector2 in C we use a struct.&#xA;1 2 3 4 struct Vector2 { int X; int Y; }; When you know C#, you are already familiar with a struct. A struct is a value-type in C. It always gets copied as a whole. In C# we have a class that is a reference-type but this doesn&amp;rsquo;t exist in C.</description>
     </item>
-    
     <item>
       <title>Meta-Programming in Perl</title>
       <link>https://davidraab.github.io/posts/meta-programming-in-perl/</link>
       <pubDate>Thu, 26 Oct 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/meta-programming-in-perl/</guid>
-      <description>In my last article about Special Values in Perl I explained how we can create true distinct values that can be safely distinguished by other values. The final result looked like this:
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 use Scalar::Util qw(refaddr reftype); # Special values Red, Green and Blue { # &amp;lt;-- this creates a new lexical-scope my ($red, $green, $blue) = ([], [], []); sub red { $red } sub green { $green } sub blue { $blue } my $is_color = sub { my ($source, $color) = @_; my $type = reftype($source) // &amp;#39;&amp;#39;; return ( $type eq &amp;#39;ARRAY&amp;#39; and refaddr($source) == refaddr($color) ) ?</description>
+      <description>In my last article about Special Values in Perl I explained how we can create true distinct values that can be safely distinguished by other values. The final result looked like this:&#xA;1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 use Scalar::Util qw(refaddr reftype); # Special values Red, Green and Blue { # &amp;lt;-- this creates a new lexical-scope my ($red, $green, $blue) = ([], [], []); sub red { $red } sub green { $green } sub blue { $blue } my $is_color = sub { my ($source, $color) = @_; my $type = reftype($source) // &amp;#39;&amp;#39;; return ( $type eq &amp;#39;ARRAY&amp;#39; and refaddr($source) == refaddr($color) ) ?</description>
     </item>
-    
     <item>
       <title>Special values in Perl</title>
       <link>https://davidraab.github.io/posts/special-values-in-perl/</link>
       <pubDate>Wed, 25 Oct 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/special-values-in-perl/</guid>
-      <description>Sometimes in programming we want to create special values that are distinct to anything else. Consider the following problem. We want to create a print_colored function, that can be given special values to change the terminal color. Here is one way to do it:
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 use Term::ANSIColor qw(color); my $red = &amp;#34;RED&amp;#34;; my $green = &amp;#34;GREEN&amp;#34;; my $blue = &amp;#34;BLUE&amp;#34;; sub print_colored { for my $line ( @_ ) { print(color(&amp;#39;red&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $red; print(color(&amp;#39;green&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $green; print(color(&amp;#39;blue&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $blue; print $line; } } print_colored($green, &amp;#34;red&amp;#34;, &amp;#34;\n&amp;#34;, $blue, &amp;#34;foo\n&amp;#34;); This solution successfully prints the string &amp;ldquo;red&amp;rdquo; in the green color and &amp;ldquo;foo&amp;rdquo; in the blue color.</description>
+      <description>Sometimes in programming we want to create special values that are distinct to anything else. Consider the following problem. We want to create a print_colored function, that can be given special values to change the terminal color. Here is one way to do it:&#xA;1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 use Term::ANSIColor qw(color); my $red = &amp;#34;RED&amp;#34;; my $green = &amp;#34;GREEN&amp;#34;; my $blue = &amp;#34;BLUE&amp;#34;; sub print_colored { for my $line ( @_ ) { print(color(&amp;#39;red&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $red; print(color(&amp;#39;green&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $green; print(color(&amp;#39;blue&amp;#39;)) &amp;amp;&amp;amp; next if $line eq $blue; print $line; } } print_colored($green, &amp;#34;red&amp;#34;, &amp;#34;\n&amp;#34;, $blue, &amp;#34;foo\n&amp;#34;); This solution successfully prints the string &amp;ldquo;red&amp;rdquo; in the green color and &amp;ldquo;foo&amp;rdquo; in the blue color.</description>
     </item>
-    
     <item>
       <title>What is Dependency injection?</title>
       <link>https://davidraab.github.io/posts/what-is-dependency-injection/</link>
       <pubDate>Wed, 11 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/what-is-dependency-injection/</guid>
-      <description>On Reddit i came to a question about someone who had problems understanding Dependency Injection. He provided the following code.
-1 2 3 4 5 6 7 8 9 10 11 12 public class Wheel { public Wheel() {} public void moveleft() {} } public class Car { private Wheel wheel; public Car (Wheel wheel) { this.wheel = wheel; } } The question is: Is this usage of Wheel in Car Dependency injection?</description>
+      <description>On Reddit i came to a question about someone who had problems understanding Dependency Injection. He provided the following code.&#xA;1 2 3 4 5 6 7 8 9 10 11 12 public class Wheel { public Wheel() {} public void moveleft() {} } public class Car { private Wheel wheel; public Car (Wheel wheel) { this.wheel = wheel; } } The question is: Is this usage of Wheel in Car Dependency injection?</description>
     </item>
-    
   </channel>
 </rss>

@@ -1,31 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>types on David Raab</title>
+    <title>Types on David Raab</title>
     <link>https://davidraab.github.io/tags/types/</link>
-    <description>Recent content in types on David Raab</description>
+    <description>Recent content in Types on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 28 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/types/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 28 May 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/types/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Catamorphisms</title>
       <link>https://davidraab.github.io/posts/catamorphisms/</link>
       <pubDate>Sat, 28 May 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/catamorphisms/</guid>
-      <description>Up to this point I created various articles about fold, in my Series I also created a category named Fold (Catamorphisms) but up till now I didn&amp;rsquo;t explained how this articles related to each other, or what Catamorphisms mean. In this article I want to talk about the remaining parts.
-The List Catamorphisms is a generalization that emerged from the list data-structure. The list data-structure, how it is found in functional programming, is usually build as a single linked list.</description>
+      <description>Up to this point I created various articles about fold, in my Series I also created a category named Fold (Catamorphisms) but up till now I didn&amp;rsquo;t explained how this articles related to each other, or what Catamorphisms mean. In this article I want to talk about the remaining parts.&#xA;The List Catamorphisms is a generalization that emerged from the list data-structure. The list data-structure, how it is found in functional programming, is usually build as a single linked list.</description>
     </item>
-    
     <item>
       <title>Algebraic Data-Types</title>
       <link>https://davidraab.github.io/posts/algebraic-data-types/</link>
       <pubDate>Tue, 26 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/algebraic-data-types/</guid>
-      <description>When we work in a programming language we usually have some primitive data-types likes int, float, string, bool and so on. All of those are important, but when we need to create more advanced logic we usually want to create our own data-types and group/compose different types together to create new data-types.
-In an algebraic type-system there exists two different ways in how we can compose types. They are named Product-types and Sum-type.</description>
+      <description>When we work in a programming language we usually have some primitive data-types likes int, float, string, bool and so on. All of those are important, but when we need to create more advanced logic we usually want to create our own data-types and group/compose different types together to create new data-types.&#xA;In an algebraic type-system there exists two different ways in how we can compose types. They are named Product-types and Sum-type.</description>
     </item>
-    
   </channel>
 </rss>

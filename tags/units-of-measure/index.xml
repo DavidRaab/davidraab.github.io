@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>units-of-measure on David Raab</title>
+    <title>Units-of-Measure on David Raab</title>
     <link>https://davidraab.github.io/tags/units-of-measure/</link>
-    <description>Recent content in units-of-measure on David Raab</description>
+    <description>Recent content in Units-of-Measure on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 26 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/units-of-measure/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 26 Apr 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/units-of-measure/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Algebraic Data-Types</title>
       <link>https://davidraab.github.io/posts/algebraic-data-types/</link>
       <pubDate>Tue, 26 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/algebraic-data-types/</guid>
-      <description>When we work in a programming language we usually have some primitive data-types likes int, float, string, bool and so on. All of those are important, but when we need to create more advanced logic we usually want to create our own data-types and group/compose different types together to create new data-types.
-In an algebraic type-system there exists two different ways in how we can compose types. They are named Product-types and Sum-type.</description>
+      <description>When we work in a programming language we usually have some primitive data-types likes int, float, string, bool and so on. All of those are important, but when we need to create more advanced logic we usually want to create our own data-types and group/compose different types together to create new data-types.&#xA;In an algebraic type-system there exists two different ways in how we can compose types. They are named Product-types and Sum-type.</description>
     </item>
-    
   </channel>
 </rss>

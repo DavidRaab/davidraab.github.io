@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>Insanity of Object-Oriented Programming // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.123.1">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="Describes why object-orientation is insanity." />
+        <link rel="stylesheet" href="/css/main.min.0fa334c3f2650e7000dfc8e81f59d23191e59e78f62c565a598f4dc557c92abe.css" />
+        <script src="/static/code-toggle.js"></script>
+
+        
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Insanity of Object-Oriented Programming"/>
+<meta name="twitter:description" content="Describes why object-orientation is insanity."/>
+
+        <meta property="og:title" content="Insanity of Object-Oriented Programming" />
+<meta property="og:description" content="Describes why object-orientation is insanity." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/insanity-of-oo/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-03-16T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-03-16T00:00:00+00:00" />
+
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>My personal Blog. Writing about programming and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Insanity of Object-Oriented Programming</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Mar 16, 2024
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    12 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+                            <a class="tag" href="https://davidraab.github.io/tags/perl/">Perl</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/oop/">Oop</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/data/">Data</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <h1 id="the-insanity-of-object-oriented-programming">The insanity of Object-Oriented Programming</h1>
+<p>I started programming back in the 1990s. My first language I learned
+was QBasic and after 2 days of learning it, i switched to C. Back in these
+days there was no Internet. Okay, it existed but was not so common as today.
+Most people still didn&rsquo;t even had computers.</p>
+<p>I picked and learned C because when you got to the programming section in a store
+it was full of C books. Learning C was really hard, especially because all I got
+was a single book and nobody to ask for (nobody else that i knew did programming,
+and no internet). When I didn&rsquo;t understand something I had to redo it, until I
+could explain it to myself. Usually with trial and error.</p>
+<p>Some years after I learned C and did some programming with it, the book shelf&rsquo;s
+changed. Now it was full of C++ books. So I started to learn C++. I picked up some
+C++ books, Visual C++ and so on. Did some MFC-GUI Applications and so on.</p>
+<p>The books all started the same. Somehow they explained that the old-style C
+programming (procedural-programming) was dead, and now everything has to be
+object-oriented. Object-Orientation was the new standard, everything not OO
+must be bad.</p>
+<p>But you know what. I had a hard time understanding OO. In my career as a programmer
+I maybe had like six moments where I thought: Oh, now I finally understand OO.</p>
+<p>Today i just think that OO is maybe the worst crap I learned just wasting many of
+my years as a programmer that I could have spent learning something better. But
+anyway while those C++ and later Java books was full of its classes and design
+patterns I once again learned another language.</p>
+<p>In the year 2003 I started a apprenticeship as a system-administrator. Mostly I
+learned Linux. And the language I came into contact was Perl. Maybe the most
+used language in that field at that time. Not only for system administration, parsing,
+but also for work as database and web development. I worked around 10 years
+with Perl as a web developer. The importance of Perl is interesting for many reasons.</p>
+<p>First of, Perl was designed for C programmers, it still has a procedural background
+not an object-oriented on.</p>
+<p>Second, Perl is actually a high-level (functional) language. It has many concepts
+you will find in functional languages like LISP. Also automatic memory management
+was a blessing in my opinion.</p>
+<p>But the most important one is that is has two built-in data-structures. The built-in
+self expanding <code>Array</code> and a <code>Hash</code>. And the <code>Hash</code> is what was changing the way how
+I programmed the most.</p>
+<p>For example I can build the following data-structure in Perl.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$album</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">artist</span> <span class="o">=&gt;</span> <span class="s">&#39;Michael Jackson&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span>  <span class="o">=&gt;</span> <span class="s">&#39;Thriller&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tracks</span> <span class="o">=&gt;</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">name</span> <span class="o">=&gt;</span> <span class="s">&#39;Baby Be Mine&#39;</span><span class="p">,</span>                <span class="n">duration</span> <span class="o">=&gt;</span> <span class="s">&#39;04:20&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">name</span> <span class="o">=&gt;</span> <span class="s">&#39;The Girl Is Mine&#39;</span><span class="p">,</span>            <span class="n">duration</span> <span class="o">=&gt;</span> <span class="s">&#39;03:42&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">name</span> <span class="o">=&gt;</span> <span class="s">&#39;Thriller&#39;</span><span class="p">,</span>                    <span class="n">duration</span> <span class="o">=&gt;</span> <span class="s">&#39;05:57&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">name</span> <span class="o">=&gt;</span> <span class="s">&#39;Beat It&#39;</span><span class="p">,</span>                     <span class="n">duration</span> <span class="o">=&gt;</span> <span class="s">&#39;04:18&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">name</span> <span class="o">=&gt;</span> <span class="s">&#39;Billie Jean&#39;</span><span class="p">,</span>                 <span class="n">duration</span> <span class="o">=&gt;</span> <span class="s">&#39;04:54&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">name</span> <span class="o">=&gt;</span> <span class="s">&#39;Human Nature&#39;</span><span class="p">,</span>                <span class="n">duration</span> <span class="o">=&gt;</span> <span class="s">&#39;04:06&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">name</span> <span class="o">=&gt;</span> <span class="s">&#39;P.Y.T. (Pretty Young Thing)&#39;</span><span class="p">,</span> <span class="n">duration</span> <span class="o">=&gt;</span> <span class="s">&#39;03:59&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">name</span> <span class="o">=&gt;</span> <span class="s">&#39;The Lady in My Life&#39;</span><span class="p">,</span>         <span class="n">duration</span> <span class="o">=&gt;</span> <span class="s">&#39;05:00&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>What does it represent? Sure the Michael Jackson Thriller Album. I guess even
+non-programmers can understand it. Back in the year 2003 this was awesome.
+Perl programming was really about reading/parsing data, turning it into a
+useful data-structure that you need, for whatever you are doing, and then
+working with it.</p>
+<p>Working this way is easy, understandable and you can get a lot of stuff done pretty
+fast. It also works great for debugging and testing. There is nothing better than
+just printing a data-structure. And when you can print it, you also can write
+a test for it. I guess that&rsquo;s also the reason why testing was more common
+in languages like Perl.</p>
+<p>What you see above is probably what you have seen today in programming and
+will remind you on JSON. Only difference is that it took another 15 years
+for the <em>enterprise elite programmers</em> to know about something like that
+(including the importance of testing).</p>
+<p>But sadly, the object-orientation mess did not stay away from Perl. And sure,
+we can make out some shortcoming with the above code. A hash is completely untyped.
+Instead of <code>artist</code> as a key name someone also could provide a key-name with
+<code>Artist</code> or maybe <code>atrist</code> without that the program throws any errors. Or at the
+wrong places.</p>
+<p>So for me as a Perl programmer it was totally normal to work with data-structures,
+but because of these <em>problems</em> people started to turn every bit into its own class.</p>
+<p>They did what programmers do that only know about classes and arrays, they write
+classes!</p>
+<p>So instead of a hash containing data, they write a <code>Album</code> class. And sure
+it cannot just be an array of hashes. All must be an Array of <code>Track</code>. So
+they create a <code>Track</code> class.</p>
+<p>In the end they write something like that:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">package</span> <span class="nn">Track</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nn">Moose</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">has</span> <span class="s">&#39;name&#39;</span>     <span class="o">=&gt;</span> <span class="p">(</span> <span class="n">is</span> <span class="o">=&gt;</span> <span class="s">&#39;rw&#39;</span><span class="p">,</span> <span class="n">isa</span> <span class="o">=&gt;</span> <span class="s">&#39;Str&#39;</span><span class="p">,</span> <span class="n">required</span> <span class="o">=&gt;</span> <span class="mi">1</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">has</span> <span class="s">&#39;duration&#39;</span> <span class="o">=&gt;</span> <span class="p">(</span> <span class="n">is</span> <span class="o">=&gt;</span> <span class="s">&#39;rw&#39;</span><span class="p">,</span> <span class="n">isa</span> <span class="o">=&gt;</span> <span class="s">&#39;Str&#39;</span><span class="p">,</span> <span class="n">required</span> <span class="o">=&gt;</span> <span class="mi">1</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">package</span> <span class="nn">Album</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nn">Moose</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">has</span> <span class="s">&#39;artist&#39;</span> <span class="o">=&gt;</span> <span class="p">(</span> <span class="n">is</span> <span class="o">=&gt;</span> <span class="s">&#39;rw&#39;</span><span class="p">,</span> <span class="n">isa</span> <span class="o">=&gt;</span> <span class="s">&#39;Str&#39;</span><span class="p">,</span> <span class="n">required</span> <span class="o">=&gt;</span> <span class="mi">1</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">has</span> <span class="s">&#39;title&#39;</span>  <span class="o">=&gt;</span> <span class="p">(</span> <span class="n">is</span> <span class="o">=&gt;</span> <span class="s">&#39;rw&#39;</span><span class="p">,</span> <span class="n">isa</span> <span class="o">=&gt;</span> <span class="s">&#39;Str&#39;</span><span class="p">,</span> <span class="n">required</span> <span class="o">=&gt;</span> <span class="mi">1</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">has</span> <span class="s">&#39;tracks&#39;</span> <span class="o">=&gt;</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">is</span>       <span class="o">=&gt;</span> <span class="s">&#39;rw&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">isa</span>      <span class="o">=&gt;</span> <span class="s">&#39;ArrayRef[Track]&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">required</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">default</span>  <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span> <span class="o">[]</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">add_track</span><span class="p">($self, $track) {</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">push</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="nn">tracks</span><span class="o">-&gt;</span><span class="nv">@</span><span class="err">*</span><span class="p">,</span> <span class="nv">$track</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and with those two classes now you can re-create the Album like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$album</span> <span class="o">=</span> <span class="nn">Album</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">artist</span> <span class="o">=&gt;</span> <span class="s">&#39;Michael Jackson&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span>  <span class="o">=&gt;</span> <span class="s">&#39;Thriller&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$album</span><span class="o">-&gt;</span><span class="n">add_track</span><span class="p">(</span><span class="nn">Track</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="n">name</span> <span class="o">=&gt;</span> <span class="s">&#39;Baybe Be Mine&#39;</span><span class="p">,</span>               <span class="n">duration</span> <span class="o">=&gt;</span> <span class="s">&#39;04:20&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$album</span><span class="o">-&gt;</span><span class="n">add_track</span><span class="p">(</span><span class="nn">Track</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="n">name</span> <span class="o">=&gt;</span> <span class="s">&#39;The Girl Is Mine&#39;</span><span class="p">,</span>            <span class="n">duration</span> <span class="o">=&gt;</span> <span class="s">&#39;03:42&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$album</span><span class="o">-&gt;</span><span class="n">add_track</span><span class="p">(</span><span class="nn">Track</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="n">name</span> <span class="o">=&gt;</span> <span class="s">&#39;Thriller&#39;</span><span class="p">,</span>                    <span class="n">duration</span> <span class="o">=&gt;</span> <span class="s">&#39;05:57&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$album</span><span class="o">-&gt;</span><span class="n">add_track</span><span class="p">(</span><span class="nn">Track</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="n">name</span> <span class="o">=&gt;</span> <span class="s">&#39;Beat It&#39;</span><span class="p">,</span>                     <span class="n">duration</span> <span class="o">=&gt;</span> <span class="s">&#39;04:18&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$album</span><span class="o">-&gt;</span><span class="n">add_track</span><span class="p">(</span><span class="nn">Track</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="n">name</span> <span class="o">=&gt;</span> <span class="s">&#39;Billie Jean&#39;</span><span class="p">,</span>                 <span class="n">duration</span> <span class="o">=&gt;</span> <span class="s">&#39;04:54&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$album</span><span class="o">-&gt;</span><span class="n">add_track</span><span class="p">(</span><span class="nn">Track</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="n">name</span> <span class="o">=&gt;</span> <span class="s">&#39;Human Nature&#39;</span><span class="p">,</span>                <span class="n">duration</span> <span class="o">=&gt;</span> <span class="s">&#39;04:06&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$album</span><span class="o">-&gt;</span><span class="n">add_track</span><span class="p">(</span><span class="nn">Track</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="n">name</span> <span class="o">=&gt;</span> <span class="s">&#39;P.Y.T. (Pretty Young Thing)&#39;</span><span class="p">,</span> <span class="n">duration</span> <span class="o">=&gt;</span> <span class="s">&#39;03:59&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$album</span><span class="o">-&gt;</span><span class="n">add_track</span><span class="p">(</span><span class="nn">Track</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="n">name</span> <span class="o">=&gt;</span> <span class="s">&#39;The Lady In My Life&#39;</span><span class="p">,</span>         <span class="n">duration</span> <span class="o">=&gt;</span> <span class="s">&#39;05:00&#39;</span><span class="p">));</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>I think it is worse because of multiple reasons.</p>
+<p>But first the benefit. The only real benefit you get is a little bit more
+<em>type-safety</em>. The classes created by <strong>Moose</strong> require the correct fields.
+So you cannot forget to instantiate an <em>Album</em> without an <code>artist</code> or <code>title</code>.
+This catches some typos.</p>
+<p>Now to some disadvantages. This style of programming forces you to
+turn every hash into a class. Maybe even the arrays are turned into classes
+or forces you to create a method on the class who uses that array.</p>
+<p>In my opinion it is just an awesome amount of boilerplate code you write again
+and again. You just build wrappers around already built-in functionality that
+exists.</p>
+<p>You see this perfectly with the <code>add_track</code> method. The <code>add_track</code> method
+is nothing else as just a wrapper around the <code>push</code> function to add an entry
+to an array.</p>
+<p>How about getting a Track by its index? Do you add an <code>get_track_by_index</code>,
+that is just a wrapper around the indexing for an array like <code>$self-&gt;tracks-&gt;[$index]</code>?</p>
+<p>And if you follow stupid laws like the <code>The Law of Demeter</code> you will create a
+lot of those stupid methods. Consider you want the total duration of an Album.</p>
+<p>With a pure data-structure I just go through the tracks and sum up the duration
+of every track. In a &ldquo;perfectly fine&rdquo; (whatever that means) class where every
+attribute is private (because people think it is dangerous to access data) they
+must provide a <code>duration</code> method on the <code>Album</code>. And what do they do in that method? They
+go through every track and sum the duration up.</p>
+<p>In a halfway good language that should be so easy that you simple don&rsquo;t need to
+provide such a method on a class.</p>
+<p>But what do you do if it is not provided by the <code>Album</code> class? I hope the
+<code>tracks</code> field is <em>public</em> and you can implement it yourself. But most of the
+time it is <em>private</em> (at least in other languages like Perl).</p>
+<p>But you maybe can re-implement it by using the <code>get_track_by_index</code> function.
+And anyway what is the point of making the <code>tracks</code> field <em>private</em> in a class
+when you provide a <code>get_track_by_index</code> method anyway?</p>
+<p>What is the point of making data private if you anyway provide all kinds of methods
+to access or change data?</p>
+<p>With the idea of private data and turning every hash into a class the amount
+of methods you have to provide and think about for your users just become
+totally insane. All you do is re-write all kind of data-structures functions
+again and again.</p>
+<p>In a Album/Tracks relationship you write <code>add_track</code>, <code>remove_track</code>, <code>track_by_index</code>, &hellip;</p>
+<p>In a Hospital/Patient relationship you write <code>add_patient</code>, <code>remove_patient</code>, <code>patient_by_index</code>, &hellip;</p>
+<p>And don&rsquo;t let&rsquo;s talk about testing. In Perl I can easily test if two data-structures
+are the same. Testing functions provides this methods. But I cannot test if two
+obects are the same. Not unless I implemented an equal method on that class.</p>
+<p>Readability and understand-ability is just worse. You cannot print or show a class.</p>
+<p>I started with the whole data-structure that was understandable on its own. But
+let&rsquo;s consider you get a pointer (that is what an object is) to an Album class
+that has methods like <code>name</code>, <code>duration</code>, <code>tracks</code> and <code>add_track</code> on it. Do you
+know what you got?</p>
+<p>Of course not. You know you got an Album. But which Album? Who knows! Maybe you
+want to implement a printing method that just prints the data in a class? Then
+why do you not use just data in the first place?</p>
+<p>Also creation of such objects is just worse. Data-structures are usually
+complex. Complex in the sense that they are nested. They can have hashes with
+field containing arrays containing hashes again. Perl, also JavaScript provides
+an easy language built-in to create and access such structures.</p>
+<p>But with classes you usually must create them <em>flat</em>. Like I showed above. You
+first create an <code>Album</code> and then add a single <code>Track</code> to it. The more complex
+your data-structure is, the worse it will get.</p>
+<p>It will even get more worse if you have immutable objects, because then you must
+them create inside-out. Meaning from the deepest level first. So you must
+create all <em>Tracks</em> before you can create the <em>Album</em> as the last step.</p>
+<h1 id="a-way-out">A way out</h1>
+<p>So what is a better approach to all that mess?</p>
+<p>In my opinion there is nothing wrong in directly using a data-structure. Yes
+it has some disadvantages as you can have some typos, but the disadvantages
+are less a problem of that class mess above that creates an explosion of
+boilerplate code.</p>
+<p>But there is still one thing you can or should do. Consider functions that works
+on whole data-structures, not just part of it. For example, you could create
+a <code>album</code> and a <code>add_track</code> function like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">album</span><span class="p">($artist, $name) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">artist</span> <span class="o">=&gt;</span> <span class="nv">$artist</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">name</span>   <span class="o">=&gt;</span> <span class="nv">$name</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tracks</span> <span class="o">=&gt;</span> <span class="o">[]</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">add_track</span><span class="p">($album, $name, $duration) {</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">push</span> <span class="nv">$album</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">tracks</span><span class="p">}</span><span class="o">-&gt;</span><span class="nv">@</span><span class="err">*</span><span class="p">,</span> <span class="p">{</span> <span class="n">name</span> <span class="o">=&gt;</span> <span class="nv">$name</span><span class="p">,</span> <span class="n">duration</span> <span class="o">=&gt;</span> <span class="nv">$duration</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This allows you to give you some type-safety. The function that create the
+data-structure creates it for you. In some sense it is still a lot comparable
+to the OO way. You can create the Album like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$album</span> <span class="o">=</span> <span class="n">album</span><span class="p">(</span><span class="s">&#39;Michael Jackson&#39;</span><span class="p">,</span> <span class="s">&#39;Thriller&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">add_track</span><span class="p">(</span><span class="nv">$album</span><span class="p">,</span> <span class="s">&#39;Baybe Be Mine&#39;</span><span class="p">,</span>               <span class="s">&#39;04:20&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">add_track</span><span class="p">(</span><span class="nv">$album</span><span class="p">,</span> <span class="s">&#39;The Girl Is Mine&#39;</span><span class="p">,</span>            <span class="s">&#39;03:42&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">add_track</span><span class="p">(</span><span class="nv">$album</span><span class="p">,</span> <span class="s">&#39;Thriller&#39;</span><span class="p">,</span>                    <span class="s">&#39;05:57&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">add_track</span><span class="p">(</span><span class="nv">$album</span><span class="p">,</span> <span class="s">&#39;Beat It&#39;</span><span class="p">,</span>                     <span class="s">&#39;04:18&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">add_track</span><span class="p">(</span><span class="nv">$album</span><span class="p">,</span> <span class="s">&#39;Billie Jean&#39;</span><span class="p">,</span>                 <span class="s">&#39;04:54&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">add_track</span><span class="p">(</span><span class="nv">$album</span><span class="p">,</span> <span class="s">&#39;Human Nature&#39;</span><span class="p">,</span>                <span class="s">&#39;04:06&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">add_track</span><span class="p">(</span><span class="nv">$album</span><span class="p">,</span> <span class="s">&#39;P.Y.T. (Pretty Young Thing)&#39;</span><span class="p">,</span> <span class="s">&#39;03:59&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">add_track</span><span class="p">(</span><span class="nv">$album</span><span class="p">,</span> <span class="s">&#39;The Lady In My Life&#39;</span><span class="p">,</span>         <span class="s">&#39;05:00&#39;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>but you are not forced to. You still can create the whole data-structure
+itself as shown in the beginning. It is up to you if you want to use those functions
+or bypass them.</p>
+<p>In this style you usually only provide new functions that are more complex and
+actually provide a real benefit of adding. I guess you maybe will not even
+create a <code>add_track</code> function. In the class based style on the other hand you
+must provide a method for basically any kind of primitive functionality.</p>
+<p>You also can just add an <code>is_album</code> function that checks for the validity
+of a data-structure of having all required fields. Something you maybe
+want to add anyway when your data comes from external sources like parsing
+from a file, JSON over a Socket and so on.</p>
+<h1 id="static-typed-languages">Static Typed Languages</h1>
+<p>Good static typed language also can help here. For example in F# i would write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Track</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Name</span>     <span class="o">:</span> <span class="kt">string</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">Duration</span> <span class="o">:</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Album</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Artist</span> <span class="o">:</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Title</span>  <span class="o">:</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Tracks</span> <span class="o">:</span> <span class="n">List</span><span class="o">[</span><span class="n">Track</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This kind of definition allows me to write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">album</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Artist</span> <span class="o">=</span> <span class="s">&#34;Michael Jackson&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Title</span>  <span class="o">=</span> <span class="s">&#34;Thriller&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Tracks</span> <span class="o">=</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">Baby</span> <span class="n">Be</span> <span class="n">Mine&#39;</span><span class="o">,</span>                <span class="n">Duration</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">04</span><span class="o">:</span><span class="n">20&#39;</span> <span class="o">},</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">The</span> <span class="n">Girl</span> <span class="n">Is</span> <span class="n">Mine&#39;</span><span class="o">,</span>            <span class="n">Duration</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">03</span><span class="o">:</span><span class="n">42&#39;</span> <span class="o">},</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">Thriller&#39;</span><span class="o">,</span>                    <span class="n">Duration</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">05</span><span class="o">:</span><span class="n">57&#39;</span> <span class="o">},</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">Beat</span> <span class="n">It&#39;</span><span class="o">,</span>                     <span class="n">Duration</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">04</span><span class="o">:</span><span class="n">18&#39;</span> <span class="o">},</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">Billie</span> <span class="n">Jean&#39;</span><span class="o">,</span>                 <span class="n">Duration</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">04</span><span class="o">:</span><span class="n">54&#39;</span> <span class="o">},</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">Human</span> <span class="n">Nature&#39;</span><span class="o">,</span>                <span class="n">Duration</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">04</span><span class="o">:</span><span class="n">06&#39;</span> <span class="o">},</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="nn">P</span><span class="p">.</span><span class="nn">Y</span><span class="p">.</span><span class="nn">T</span><span class="p">.</span> <span class="o">(</span><span class="n">Pretty</span> <span class="n">Young</span> <span class="n">Thing</span><span class="o">)</span><span class="k">&#39;</span><span class="o">,</span> <span class="n">Duration</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">03</span><span class="o">:</span><span class="n">59&#39;</span> <span class="o">},</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">The</span> <span class="n">Lady</span> <span class="k">in</span> <span class="n">My</span> <span class="n">Life&#39;</span><span class="o">,</span>         <span class="n">Duration</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">05</span><span class="o">:</span><span class="n">00&#39;</span> <span class="o">},</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and it is completely type-safe. The difference is that F# programmers still
+differentiate between data and code. The above are records comparable to hashes
+(but immutable). Not objects that try to mix up data with all kind of methods
+on it or trying to hide data (private fields) from it.</p>
+<p>And that is the essence. Consider your data and code separated, and your code
+will start to get less insane.</p>
+
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-insanity-of-object-oriented-programming">The insanity of Object-Oriented Programming</a></li>
+    <li><a href="#a-way-out">A way out</a></li>
+    <li><a href="#static-typed-languages">Static Typed Languages</a></li>
+  </ul>
+</nav> </aside>
+
+    </body>
+</html>

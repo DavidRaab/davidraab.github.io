@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>monoids on David Raab</title>
+    <title>Monoids on David Raab</title>
     <link>https://davidraab.github.io/tags/monoids/</link>
-    <description>Recent content in monoids on David Raab</description>
+    <description>Recent content in Monoids on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 24 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/monoids/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 24 May 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/monoids/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Monoids</title>
       <link>https://davidraab.github.io/posts/monoids/</link>
       <pubDate>Tue, 24 May 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/monoids/</guid>
-      <description>A monoid is a simple concept. It is a generalization of some patterns that you very likely already have seen. Being aware of those can help in designing some operations and can simplify things. Without much further ado let us look at three simple math equations.
-1 + 2 = 3 (1 + 2) + 3 = 1 + (2 + 3) 1 + 0 = 0 + 1 Table of Content Binary Operations Associativity Identity Monoids Subtraction Multiplication Division What is the purpose of all of this?</description>
+      <description>A monoid is a simple concept. It is a generalization of some patterns that you very likely already have seen. Being aware of those can help in designing some operations and can simplify things. Without much further ado let us look at three simple math equations.&#xA;1 + 2 = 3 (1 + 2) + 3 = 1 + (2 + 3) 1 + 0 = 0 + 1 Table of Content Binary Operations Associativity Identity Monoids Subtraction Multiplication Division What is the purpose of all of this?</description>
     </item>
-    
   </channel>
 </rss>

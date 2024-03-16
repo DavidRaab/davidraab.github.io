@@ -4,7 +4,7 @@
         <title>Catamorphisms // David Raab</title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta charset="utf-8" />
-        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="generator" content="Hugo 0.123.1">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="David Raab" />
         <meta name="description" content="Explains Catamorphisms in F#. That means the purpose of fold and foldBack." />
@@ -12,8 +12,7 @@
         <script src="/static/code-toggle.js"></script>
 
         
-        <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Catamorphisms"/>
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Catamorphisms"/>
 <meta name="twitter:description" content="Explains Catamorphisms in F#. That means the purpose of fold and foldBack."/>
 
         <meta property="og:title" content="Catamorphisms" />
@@ -24,10 +23,11 @@
 <meta property="article:modified_time" content="2016-05-28T00:00:00+00:00" />
 
 
+
     </head>
     <body>
         <header class="app-header">
-            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
             <span class="app-header-title">David Raab</span>
             <nav class="app-header-menu">
                     <a class="app-header-menu-item" href="/">Home</a>
@@ -79,12 +79,12 @@
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/fold/">fold</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/list/">list</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/data/">data</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/types/">types</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/recursion/">recursion</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">Fsharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fold/">Fold</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/list/">List</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/data/">Data</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/types/">Types</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/recursion/">Recursion</a>
                 </div>
             </div>
         </header>
@@ -137,8 +137,8 @@ build a list in such way.
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">xs</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">2</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">3</span> <span class="nb">empty</span><span class="p">))))</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">xs</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">2</span> <span class="p">(</span><span class="nb">cons</span> <span class="mi">3</span> <span class="nb">empty</span><span class="p">))))</span><span class="err">
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>with the helper functions we defined in F# it almost looks the same.</p>
 <div class="highlight"><div class="chroma">
@@ -146,7 +146,7 @@ build a list in such way.
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">xs</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">1</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">2</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">3</span> <span class="n">empty</span><span class="o">)))</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">xs</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="n">1</span> <span class="o">(</span><span class="n">cons</span> <span class="n">2</span> <span class="o">(</span><span class="n">cons</span> <span class="n">3</span> <span class="n">empty</span><span class="o">)))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div></div>
@@ -166,8 +166,8 @@ becomes easy. First, let&rsquo;s define some example data that we will use from 
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">l1</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">1</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">2</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">3</span> <span class="n">empty</span><span class="o">)))</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">l2</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">1</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">2</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">3</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">4</span> <span class="o">(</span><span class="n">cons</span> <span class="mi">5</span> <span class="n">empty</span><span class="o">)))))</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">l1</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="n">1</span> <span class="o">(</span><span class="n">cons</span> <span class="n">2</span> <span class="o">(</span><span class="n">cons</span> <span class="n">3</span> <span class="n">empty</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">l2</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="n">1</span> <span class="o">(</span><span class="n">cons</span> <span class="n">2</span> <span class="o">(</span><span class="n">cons</span> <span class="n">3</span> <span class="o">(</span><span class="n">cons</span> <span class="n">4</span> <span class="o">(</span><span class="n">cons</span> <span class="n">5</span> <span class="n">empty</span><span class="o">)))))</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">l3</span> <span class="o">=</span> <span class="o">(</span><span class="n">cons</span> <span class="s">&#34;Hello&#34;</span> <span class="o">(</span><span class="n">cons</span> <span class="s">&#34; &#34;</span> <span class="o">(</span><span class="n">cons</span> <span class="s">&#34;World!&#34;</span> <span class="n">empty</span><span class="o">)))</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -186,8 +186,8 @@ becomes easy. First, let&rsquo;s define some example data that we will use from 
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">listLength&#39;</span> <span class="kt">list</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="kt">list</span> <span class="k">with</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>     <span class="o">-&gt;</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">h</span><span class="o">,</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="mi">1</span> <span class="o">+</span> <span class="o">(</span><span class="n">listLength&#39;</span> <span class="n">t</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>     <span class="o">-&gt;</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">h</span><span class="o">,</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">1</span> <span class="o">+</span> <span class="o">(</span><span class="n">listLength&#39;</span> <span class="n">t</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">listLength&#39;</span> <span class="n">l1</span> <span class="c1">// 3
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listLength&#39;</span> <span class="n">l2</span> <span class="c1">// 5
@@ -210,7 +210,7 @@ get it.</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">listSum&#39;</span> <span class="o">=</span> <span class="k">function</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>     <span class="o">-&gt;</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>     <span class="o">-&gt;</span> <span class="n">0</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">h</span><span class="o">,</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">h</span> <span class="o">+</span> <span class="o">(</span><span class="n">listSum&#39;</span> <span class="n">t</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">listSum&#39;</span> <span class="n">l1</span> <span class="c1">// 6
@@ -269,7 +269,7 @@ appended.</p>
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>     <span class="o">-&gt;</span> <span class="o">(</span><span class="n">cons</span> <span class="n">x</span> <span class="n">empty</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span><span class="o">(</span><span class="n">h</span><span class="o">,</span><span class="n">t</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">cons</span> <span class="n">h</span> <span class="o">(</span><span class="n">listSnoc&#39;</span> <span class="n">x</span> <span class="n">t</span><span class="o">))</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">listSnoc&#39;</span> <span class="mi">4</span> <span class="n">l1</span>        <span class="c1">// Cons (1,Cons (2,Cons (3,Cons (4,Empty))))
+</span></span><span class="line"><span class="cl"><span class="n">listSnoc&#39;</span> <span class="n">4</span> <span class="n">l1</span>        <span class="c1">// Cons (1,Cons (2,Cons (3,Cons (4,Empty))))
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listSnoc&#39;</span> <span class="s">&#34;Kazom!&#34;</span> <span class="n">l3</span> <span class="c1">// Cons (&#34;Hello&#34;,Cons (&#34; &#34;,Cons (&#34;World!&#34;,Cons (&#34;Kazom!&#34;,Empty))))
 </span></span></span></code></pre></td></tr></table>
 </div>
@@ -329,7 +329,7 @@ defined with <code>cata</code> instead.</p>
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listLength</span><span class="k">&#39;&#39;</span> <span class="kt">list</span> <span class="o">=</span> <span class="n">listCata&#39;</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">(</span><span class="k">fun</span> <span class="n">h</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">t</span><span class="o">)</span> <span class="kt">list</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listLength</span><span class="k">&#39;&#39;</span> <span class="kt">list</span> <span class="o">=</span> <span class="n">listCata&#39;</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">(</span><span class="k">fun</span> <span class="n">h</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="n">1</span> <span class="o">+</span> <span class="n">t</span><span class="o">)</span> <span class="kt">list</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">listLength&#39;&#39;</span> <span class="n">l1</span> <span class="c1">// 3
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listLength&#39;&#39;</span> <span class="n">l2</span> <span class="c1">// 5
@@ -461,8 +461,8 @@ we created so far by using our abstraction. Here are the final list functions re
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listLength</span> <span class="kt">list</span> <span class="o">=</span> <span class="n">listCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listSum</span>    <span class="kt">list</span> <span class="o">=</span> <span class="n">listCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="mi">0</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listLength</span> <span class="kt">list</span> <span class="o">=</span> <span class="n">listCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">1</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listSum</span>    <span class="kt">list</span> <span class="o">=</span> <span class="n">listCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="n">0</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listMap</span> <span class="n">f</span>  <span class="kt">list</span> <span class="o">=</span> <span class="n">listCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">cons</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="n">empty</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listSnoc</span> <span class="n">x</span> <span class="kt">list</span> <span class="o">=</span> <span class="n">listCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">cons</span> <span class="n">x</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="o">(</span><span class="n">cons</span> <span class="n">x</span> <span class="n">empty</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
@@ -488,7 +488,7 @@ we created so far by using our abstraction. Here are the final list functions re
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listSum</span> <span class="n">l2</span>    <span class="c1">// 15
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listMap</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">)</span> <span class="n">l1</span> <span class="c1">// Cons (1,Cons (4,Cons (9,Empty)))
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listMap</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">)</span> <span class="n">l2</span> <span class="c1">// Cons (1,Cons (4,Cons (9,Cons (16,Cons (25,Empty)))))
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listSnoc</span> <span class="mi">4</span> <span class="n">l1</span>        <span class="c1">// Cons (1,Cons (2,Cons (3,Cons (4,Empty))))
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listSnoc</span> <span class="n">4</span> <span class="n">l1</span>        <span class="c1">// Cons (1,Cons (2,Cons (3,Cons (4,Empty))))
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">listSnoc</span> <span class="s">&#34;Kazoom&#34;</span> <span class="n">l3</span> <span class="c1">// Cons (&#34;Hello&#34;,Cons (&#34; &#34;,Cons (&#34;World!&#34;,Cons (&#34;Kazoom&#34;,Empty))))
 </span></span></span></code></pre></td></tr></table>
 </div>
@@ -590,8 +590,8 @@ Let&rsquo;s see the <code>cata</code> and <code>foldBack</code> directly to each
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listLength</span> <span class="kt">list</span> <span class="o">=</span> <span class="n">listFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listSum</span>    <span class="kt">list</span> <span class="o">=</span> <span class="n">listFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="mi">0</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listLength</span> <span class="kt">list</span> <span class="o">=</span> <span class="n">listFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">1</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listSum</span>    <span class="kt">list</span> <span class="o">=</span> <span class="n">listFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="n">0</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listMap</span> <span class="n">f</span>  <span class="kt">list</span> <span class="o">=</span> <span class="n">listFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">cons</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="n">empty</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">listSnoc</span> <span class="n">x</span> <span class="kt">list</span> <span class="o">=</span> <span class="n">listFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">cons</span> <span class="n">x</span> <span class="n">acc</span><span class="o">)</span> <span class="kt">list</span> <span class="o">(</span><span class="n">cons</span> <span class="n">x</span> <span class="n">empty</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
@@ -636,9 +636,9 @@ because it is very similar to a list. But let&rsquo;s see that in more detail:</
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">tree</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">    <span class="o">(</span><span class="n">node</span> <span class="mi">4</span>
-</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">node</span> <span class="mi">2</span> <span class="o">(</span><span class="n">endNode</span> <span class="mi">1</span><span class="o">)</span> <span class="o">(</span><span class="n">endNode</span> <span class="mi">3</span><span class="o">))</span>
-</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">node</span> <span class="mi">6</span> <span class="o">(</span><span class="n">endNode</span> <span class="mi">5</span><span class="o">)</span> <span class="o">(</span><span class="n">endNode</span> <span class="mi">7</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">(</span><span class="n">node</span> <span class="n">4</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">node</span> <span class="n">2</span> <span class="o">(</span><span class="n">endNode</span> <span class="n">1</span><span class="o">)</span> <span class="o">(</span><span class="n">endNode</span> <span class="n">3</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="n">node</span> <span class="n">6</span> <span class="o">(</span><span class="n">endNode</span> <span class="n">5</span><span class="o">)</span> <span class="o">(</span><span class="n">endNode</span> <span class="n">7</span><span class="o">)))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>So, why is a Tree similar to a list? Because the definition is nearly the same. If you look closer
@@ -749,8 +749,8 @@ expects the remaining tree. All in one, we now end with:</p>
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">treeLength</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">treeCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="o">)</span> <span class="n">tree</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">treeSum</span>    <span class="n">tree</span> <span class="o">=</span> <span class="n">treeCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="o">)</span> <span class="n">tree</span> <span class="mi">0</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">treeLength</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">treeCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">1</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="o">)</span> <span class="n">tree</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">treeSum</span>    <span class="n">tree</span> <span class="o">=</span> <span class="n">treeCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="o">)</span> <span class="n">tree</span> <span class="n">0</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">treeMap</span> <span class="n">f</span>  <span class="n">tree</span> <span class="o">=</span> <span class="n">treeCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">node</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span> <span class="n">l</span> <span class="n">r</span><span class="o">)</span> <span class="n">tree</span> <span class="n">Leaf</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// tree was:
@@ -817,7 +817,7 @@ what the <strong>folder-function</strong> sees. So when we sum all elements in a
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span> <span class="mi">0</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span> <span class="n">0</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>What does the <strong>folder-function</strong> <code>(fun acc x -&gt; acc + x)</code> sees exactly? Let&rsquo;s say <code>fold</code>
@@ -839,8 +839,8 @@ with some outer element.</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">mutable</span> <span class="n">acc</span> <span class="o">=</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">4</span><span class="o">]</span> <span class="k">do</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">mutable</span> <span class="n">acc</span> <span class="o">=</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">4</span><span class="o">]</span> <span class="k">do</span>
 </span></span><span class="line"><span class="cl">    <span class="n">acc</span> <span class="o">&lt;-</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">x</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -850,7 +850,7 @@ with some outer element.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">]</span> <span class="mi">0</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span> <span class="n">0</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We get the same result, because the order of <code>+</code> operation doesn&rsquo;t matter. But the behaviour
@@ -1101,8 +1101,8 @@ empty list.</p>
 <pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="n">tree</span> <span class="p">(</span><span class="k">quote</span> <span class="p">(</span><span class="mi">4</span> <span class="p">(</span><span class="mi">2</span> <span class="p">(</span><span class="mi">1</span> <span class="ss">empty</span> <span class="ss">empty</span><span class="p">)</span> <span class="p">(</span><span class="mi">3</span> <span class="ss">empty</span> <span class="ss">empty</span><span class="p">))</span> <span class="p">(</span><span class="mi">6</span> <span class="p">(</span><span class="mi">5</span> <span class="ss">empty</span> <span class="ss">empty</span><span class="p">)</span> <span class="p">(</span><span class="mi">7</span> <span class="ss">empty</span> <span class="ss">empty</span><span class="p">)))))</span>
 </span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">left</span> <span class="n">tree</span><span class="p">)</span>  <span class="p">(</span><span class="nb">car</span> <span class="p">(</span><span class="nb">cdr</span> <span class="n">tree</span><span class="p">)))</span>
 </span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">right</span> <span class="n">tree</span><span class="p">)</span> <span class="p">(</span><span class="nb">car</span> <span class="p">(</span><span class="nb">cdr</span> <span class="p">(</span><span class="nb">cdr</span> <span class="n">tree</span><span class="p">))))</span>
-</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">datum</span> <span class="n">tree</span><span class="p">)</span> <span class="p">(</span><span class="nb">car</span> <span class="n">tree</span><span class="p">))</span>
-</span></span></code></pre></td></tr></table>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">datum</span> <span class="n">tree</span><span class="p">)</span> <span class="p">(</span><span class="nb">car</span> <span class="n">tree</span><span class="p">))</span><span class="err">
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>and in the REPL:</p>
 <div class="highlight"><div class="chroma">
@@ -1116,8 +1116,8 @@ empty list.</p>
 <pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="n">datum</span> <span class="p">(</span><span class="n">left</span> <span class="p">(</span><span class="n">left</span> <span class="n">tree</span><span class="p">)))</span>
 </span></span><span class="line"><span class="cl"><span class="mi">1</span>
 </span></span><span class="line"><span class="cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="n">datum</span> <span class="p">(</span><span class="n">left</span> <span class="p">(</span><span class="n">right</span> <span class="n">tree</span><span class="p">)))</span>
-</span></span><span class="line"><span class="cl"><span class="mi">5</span>
-</span></span></code></pre></td></tr></table>
+</span></span><span class="line"><span class="cl"><span class="mi">5</span><span class="err">
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Nice, this is correct. For the last example let&rsquo;s look again at our example tree:</p>
 <div style="width:50%;margin: 0 auto">
@@ -1170,12 +1170,12 @@ as a result. When we search for <code>1</code> we get &ldquo;Left Left&rdquo; an
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="o">(</span><span class="k">true</span><span class="o">,</span> <span class="n">p</span><span class="o">)</span>  <span class="o">-&gt;</span> <span class="nn">String</span><span class="p">.</span><span class="n">concat</span> <span class="s">&#34; &#34;</span> <span class="n">p</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="o">(</span><span class="k">false</span><span class="o">,</span> <span class="o">_)</span> <span class="o">-&gt;</span> <span class="s">&#34;Not in Tree&#34;</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">path</span> <span class="mi">1</span> <span class="n">tree</span> <span class="c1">// &#34;Left Left&#34;
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">path</span> <span class="mi">2</span> <span class="n">tree</span> <span class="c1">// &#34;Left&#34;
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">path</span> <span class="mi">3</span> <span class="n">tree</span> <span class="c1">// &#34;Left Right&#34;
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">path</span> <span class="mi">4</span> <span class="n">tree</span> <span class="c1">// &#34;First Element&#34;
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">path</span> <span class="mi">5</span> <span class="n">tree</span> <span class="c1">// &#34;Right Left&#34;
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">path</span> <span class="mi">9</span> <span class="n">tree</span> <span class="c1">// &#34;Not in Tree&#34;
+</span></span><span class="line"><span class="cl"><span class="n">path</span> <span class="n">1</span> <span class="n">tree</span> <span class="c1">// &#34;Left Left&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">path</span> <span class="n">2</span> <span class="n">tree</span> <span class="c1">// &#34;Left&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">path</span> <span class="n">3</span> <span class="n">tree</span> <span class="c1">// &#34;Left Right&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">path</span> <span class="n">4</span> <span class="n">tree</span> <span class="c1">// &#34;First Element&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">path</span> <span class="n">5</span> <span class="n">tree</span> <span class="c1">// &#34;Right Left&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">path</span> <span class="n">9</span> <span class="n">tree</span> <span class="c1">// &#34;Not in Tree&#34;
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>In the solution I just transform every node into a tuple that contains two informations. A boolean that
@@ -1355,13 +1355,13 @@ that are harder to develop and probably even can be slower!</p>
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">createTree</span> <span class="n">builder</span> <span class="n">init</span> <span class="n">depth</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">count</span> <span class="n">tree</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span>   <span class="n">count</span> <span class="o">&lt;</span> <span class="n">depth</span>
-</span></span><span class="line"><span class="cl">        <span class="k">then</span> <span class="n">loop</span> <span class="o">(</span><span class="n">count</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span> <span class="o">(</span><span class="n">builder</span> <span class="n">tree</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">then</span> <span class="n">loop</span> <span class="o">(</span><span class="n">count</span><span class="o">+</span><span class="n">1</span><span class="o">)</span> <span class="o">(</span><span class="n">builder</span> <span class="n">tree</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="n">tree</span>
-</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="mi">1</span> <span class="n">init</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="n">1</span> <span class="n">init</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">createLeftTree</span>  <span class="o">=</span> <span class="n">createTree</span> <span class="o">(</span><span class="k">fun</span> <span class="n">tree</span> <span class="o">-&gt;</span> <span class="n">node</span> <span class="mi">1</span> <span class="n">tree</span> <span class="n">Leaf</span><span class="o">)</span> <span class="o">(</span><span class="n">endNode</span> <span class="mi">1</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">createRightTree</span> <span class="o">=</span> <span class="n">createTree</span> <span class="o">(</span><span class="k">fun</span> <span class="n">tree</span> <span class="o">-&gt;</span> <span class="n">node</span> <span class="mi">1</span> <span class="n">Leaf</span> <span class="n">tree</span><span class="o">)</span> <span class="o">(</span><span class="n">endNode</span> <span class="mi">1</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">createBalanced</span>  <span class="o">=</span> <span class="n">createTree</span> <span class="o">(</span><span class="k">fun</span> <span class="n">tree</span> <span class="o">-&gt;</span> <span class="n">node</span> <span class="mi">1</span> <span class="n">tree</span> <span class="n">tree</span><span class="o">)</span> <span class="o">(</span><span class="n">endNode</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">createLeftTree</span>  <span class="o">=</span> <span class="n">createTree</span> <span class="o">(</span><span class="k">fun</span> <span class="n">tree</span> <span class="o">-&gt;</span> <span class="n">node</span> <span class="n">1</span> <span class="n">tree</span> <span class="n">Leaf</span><span class="o">)</span> <span class="o">(</span><span class="n">endNode</span> <span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">createRightTree</span> <span class="o">=</span> <span class="n">createTree</span> <span class="o">(</span><span class="k">fun</span> <span class="n">tree</span> <span class="o">-&gt;</span> <span class="n">node</span> <span class="n">1</span> <span class="n">Leaf</span> <span class="n">tree</span><span class="o">)</span> <span class="o">(</span><span class="n">endNode</span> <span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">createBalanced</span>  <span class="o">=</span> <span class="n">createTree</span> <span class="o">(</span><span class="k">fun</span> <span class="n">tree</span> <span class="o">-&gt;</span> <span class="n">node</span> <span class="n">1</span> <span class="n">tree</span> <span class="n">tree</span><span class="o">)</span> <span class="o">(</span><span class="n">endNode</span> <span class="n">1</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>So let&rsquo;s create some small trees with 10K nodes.</p>
@@ -1371,8 +1371,8 @@ that are harder to develop and probably even can be slower!</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">smallL</span> <span class="o">=</span> <span class="n">createLeftTree</span>  <span class="mi">10000</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">smallR</span> <span class="o">=</span> <span class="n">createRightTree</span> <span class="mi">10000</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">smallL</span> <span class="o">=</span> <span class="n">createLeftTree</span>  <span class="n">10000</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">smallR</span> <span class="o">=</span> <span class="n">createRightTree</span> <span class="n">10000</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Those trees are not balanced, but they can still be handled by <code>cata</code> on my machine. But just benchmarking
@@ -1389,7 +1389,7 @@ one call is still too fast, so I create a <code>bench</code> function that calls
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">bench</span> <span class="n">times</span> <span class="n">f</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">sw</span> <span class="o">=</span> <span class="nn">Stopwatch</span><span class="p">.</span><span class="n">StartNew</span><span class="bp">()</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span> <span class="o">..</span> <span class="n">times</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">1</span> <span class="o">..</span> <span class="n">times</span> <span class="k">do</span>
 </span></span><span class="line"><span class="cl">        <span class="n">f</span> <span class="bp">()</span> <span class="o">|&gt;</span> <span class="n">ignore</span>
 </span></span><span class="line"><span class="cl">    <span class="n">sw</span><span class="o">.</span><span class="n">Stop</span><span class="bp">()</span>
 </span></span><span class="line"><span class="cl">    <span class="n">printfn</span> <span class="s">&#34;Timing: %O&#34;</span> <span class="n">sw</span><span class="o">.</span><span class="n">Elapsed</span>
@@ -1416,19 +1416,19 @@ get for <code>treeCata</code> and <code>foldBack</code>? I run every <code>bench
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">bench</span> <span class="mi">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="o">)</span> <span class="n">smallL</span> <span class="mi">0</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">bench</span> <span class="n">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="o">)</span> <span class="n">smallL</span> <span class="n">0</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:04.290, CPU: 00:00:04.296, GC gen0: 0, gen1: 0, gen2: 0
 </span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:04.292, CPU: 00:00:04.265, GC gen0: 0, gen1: 0, gen2: 0
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="n">bench</span> <span class="mi">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="o">)</span> <span class="n">smallR</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">bench</span> <span class="n">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeCata</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="o">)</span> <span class="n">smallR</span> <span class="n">0</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:04.145, CPU: 00:00:04.140, GC gen0: 0, gen1: 0, gen2: 0
 </span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:04.144, CPU: 00:00:04.140, GC gen0: 0, gen1: 0, gen2: 0
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="n">bench</span> <span class="mi">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="o">)</span> <span class="n">smallL</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">bench</span> <span class="n">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="o">)</span> <span class="n">smallL</span> <span class="n">0</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:07.518, CPU: 00:00:07.546, GC gen0: 1617, gen1: 1616, gen2: 1
 </span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:07.448, CPU: 00:00:07.437, GC gen0: 1621, gen1: 1621, gen2: 0
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="n">bench</span> <span class="mi">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="o">)</span> <span class="n">smallR</span> <span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">bench</span> <span class="n">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeFoldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="o">)</span> <span class="n">smallR</span> <span class="n">0</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:08.076, CPU: 00:00:08.078, GC gen0: 1628, gen1: 1628, gen2: 0
 </span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:08.146, CPU: 00:00:08.140, GC gen0: 1625, gen1: 1625, gen2: 0
 </span></span></span></code></pre></td></tr></table>
@@ -1452,11 +1452,11 @@ that can be done by <code>treeFold</code>, so how fast is <code>treeFold</code>?
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">bench</span> <span class="mi">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeFold</span> <span class="o">(+)</span> <span class="mi">0</span> <span class="n">smallL</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">bench</span> <span class="n">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeFold</span> <span class="o">(+)</span> <span class="n">0</span> <span class="n">smallL</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:02.882, CPU: 00:00:02.890, GC gen0: 508, gen1: 508, gen2: 0
 </span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:02.864, CPU: 00:00:02.859, GC gen0: 508, gen1: 508, gen2: 0
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="n">bench</span> <span class="mi">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeFold</span> <span class="o">(+)</span> <span class="mi">0</span> <span class="n">smallR</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">bench</span> <span class="n">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeFold</span> <span class="o">(+)</span> <span class="n">0</span> <span class="n">smallR</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:02.830, CPU: 00:00:02.812, GC gen0: 508, gen1: 508, gen2: 0
 </span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:02.824, CPU: 00:00:02.828, GC gen0: 509, gen1: 509, gen2: 0
 </span></span></span></code></pre></td></tr></table>
@@ -1489,7 +1489,7 @@ in <code>fold</code>. This makes the implementation a little bit harder again.</
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">acc</span> <span class="n">tree</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">        <span class="k">match</span> <span class="n">tree</span> <span class="k">with</span>
 </span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Leaf</span> <span class="o">-&gt;</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span>   <span class="n">stack</span><span class="o">.</span><span class="n">Count</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span>   <span class="n">stack</span><span class="o">.</span><span class="n">Count</span> <span class="o">&gt;</span> <span class="n">0</span>
 </span></span><span class="line"><span class="cl">            <span class="k">then</span> <span class="n">loop</span> <span class="n">acc</span> <span class="o">(</span><span class="n">stack</span><span class="o">.</span><span class="n">Pop</span><span class="bp">()</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">            <span class="k">else</span> <span class="n">acc</span>
 </span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">Node</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">r</span><span class="o">)</span> <span class="o">-&gt;</span>
@@ -1510,11 +1510,11 @@ in <code>fold</code>. This makes the implementation a little bit harder again.</
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">bench</span> <span class="mi">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeFoldStack</span> <span class="o">(+)</span> <span class="mi">0</span> <span class="n">smallL</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">bench</span> <span class="n">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeFoldStack</span> <span class="o">(+)</span> <span class="n">0</span> <span class="n">smallL</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:04.018, CPU: 00:00:04.015, GC gen0: 416, gen1: 416, gen2: 0
 </span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:04.029, CPU: 00:00:04.015, GC gen0: 416, gen1: 416, gen2: 0
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="n">bench</span> <span class="mi">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeFoldStack</span> <span class="o">(+)</span> <span class="mi">0</span> <span class="n">smallR</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">bench</span> <span class="n">10000</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">treeFoldStack</span> <span class="o">(+)</span> <span class="n">0</span> <span class="n">smallR</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:04.000, CPU: 00:00:03.984, GC gen0: 0, gen1: 0, gen2: 0
 </span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:03.994, CPU: 00:00:03.953, GC gen0: 0, gen1: 0, gen2: 0
 </span></span></span></code></pre></td></tr></table>
@@ -1548,22 +1548,22 @@ of 25 contains 33.554.431 entries. How are the timings here?</p>
 </span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">balanced25</span> <span class="o">=</span> <span class="n">createBalanced</span> <span class="mi">25</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">balanced25</span> <span class="o">=</span> <span class="n">createBalanced</span> <span class="n">25</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">treeCata</span> <span class="n">sum</span> <span class="n">balanced25</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">treeCata</span> <span class="n">sum</span> <span class="n">balanced25</span> <span class="n">0</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:01.242, CPU: 00:00:01.234, GC gen0: 0, gen1: 0, gen2: 0
 </span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:01.239, CPU: 00:00:01.218, GC gen0: 0, gen1: 0, gen2: 0
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="n">treeFoldBack</span> <span class="n">sum</span> <span class="n">balanced25</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">treeFoldBack</span> <span class="n">sum</span> <span class="n">balanced25</span> <span class="n">0</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:02.501, CPU: 00:00:02.500, GC gen0: 556, gen1: 555, gen2: 1
 </span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:02.451, CPU: 00:00:02.453, GC gen0: 555, gen1: 555, gen2: 0
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="n">treeFold</span> <span class="o">(+)</span> <span class="mi">0</span> <span class="n">balanced25</span>
+</span></span><span class="line"><span class="cl"><span class="n">treeFold</span> <span class="o">(+)</span> <span class="n">0</span> <span class="n">balanced25</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:01.000, CPU: 00:00:00.968, GC gen0: 171, gen1: 171, gen2: 0
 </span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:01.000, CPU: 00:00:01.000, GC gen0: 171, gen1: 171, gen2: 0
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="n">treeFoldStack</span> <span class="o">(+)</span> <span class="mi">0</span> <span class="n">balanced25</span>
+</span></span><span class="line"><span class="cl"><span class="n">treeFoldStack</span> <span class="o">(+)</span> <span class="n">0</span> <span class="n">balanced25</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:01.418, CPU: 00:00:01.421, GC gen0: 0, gen1: 0, gen2: 0
 </span></span></span><span class="line"><span class="cl"><span class="c1">// Real: 00:00:01.412, CPU: 00:00:01.406, GC gen0: 0, gen1: 0, gen2: 0
 </span></span></span></code></pre></td></tr></table>
@@ -1709,7 +1709,7 @@ is automatically better or faster.</p>
         </div>
         <div class="post-footer">
             <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     

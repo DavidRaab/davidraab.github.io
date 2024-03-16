@@ -4,7 +4,7 @@
         <title>Introduction to Functional Programming // David Raab</title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta charset="utf-8" />
-        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="generator" content="Hugo 0.123.1">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="David Raab" />
         <meta name="description" content="Gives an introduction to functional programming and shows how the ideas relates to object-oriented programming" />
@@ -12,8 +12,7 @@
         <script src="/static/code-toggle.js"></script>
 
         
-        <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Introduction to Functional Programming"/>
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Introduction to Functional Programming"/>
 <meta name="twitter:description" content="Gives an introduction to functional programming and shows how the ideas relates to object-oriented programming"/>
 
         <meta property="og:title" content="Introduction to Functional Programming" />
@@ -24,10 +23,11 @@
 <meta property="article:modified_time" content="2016-05-11T00:00:00+00:00" />
 
 
+
     </head>
     <body>
         <header class="app-header">
-            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
             <span class="app-header-title">David Raab</span>
             <nav class="app-header-menu">
                     <a class="app-header-menu-item" href="/">Home</a>
@@ -79,13 +79,13 @@
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/csharp/">CSharp</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/intro/">intro</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/data/">data</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">Fsharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/csharp/">Csharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/intro/">Intro</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/data/">Data</a>
                             <a class="tag" href="https://davidraab.github.io/tags/fpvsoo/">FPvsOO</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/currying/">currying</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/closure/">closure</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/currying/">Currying</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/closure/">Closure</a>
                 </div>
             </div>
         </header>
@@ -139,10 +139,10 @@ example we can think of a <code>square</code> function.</p>
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">square</span> <span class="mi">0</span>  <span class="c1">// 0
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">square</span> <span class="mi">1</span>  <span class="c1">// 1
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">square</span> <span class="mi">2</span>  <span class="c1">// 4
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">square</span> <span class="mi">3</span>  <span class="c1">// 9
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">square</span> <span class="n">0</span>  <span class="c1">// 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">square</span> <span class="n">1</span>  <span class="c1">// 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">square</span> <span class="n">2</span>  <span class="c1">// 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">square</span> <span class="n">3</span>  <span class="c1">// 9
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Despite its simpleness. There are two ways how we can interpret <code>square</code>.</p>
@@ -195,18 +195,18 @@ into the following way:</p>
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">squareM</span> <span class="n">x</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">output</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">        <span class="nn">Map</span><span class="p">.</span><span class="n">ofList</span> <span class="o">[</span>
-</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">4</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">9</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="mi">16</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="n">4</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="n">3</span><span class="o">,</span> <span class="n">9</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">(</span><span class="n">4</span><span class="o">,</span> <span class="n">16</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">        <span class="o">]</span>
-</span></span><span class="line"><span class="cl">    <span class="n">defaultArg</span> <span class="o">(</span><span class="nn">Map</span><span class="p">.</span><span class="n">tryFind</span> <span class="n">x</span> <span class="n">output</span><span class="o">)</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">defaultArg</span> <span class="o">(</span><span class="nn">Map</span><span class="p">.</span><span class="n">tryFind</span> <span class="n">x</span> <span class="n">output</span><span class="o">)</span> <span class="n">0</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">squareM</span> <span class="mi">1</span>  <span class="c1">// 1
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">squareM</span> <span class="mi">2</span>  <span class="c1">// 4
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">squareM</span> <span class="mi">3</span>  <span class="c1">// 9
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">squareM</span> <span class="mi">4</span>  <span class="c1">// 16
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">squareM</span> <span class="mi">5</span>  <span class="c1">// 0
+</span></span><span class="line"><span class="cl"><span class="n">squareM</span> <span class="n">1</span>  <span class="c1">// 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">squareM</span> <span class="n">2</span>  <span class="c1">// 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">squareM</span> <span class="n">3</span>  <span class="c1">// 9
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">squareM</span> <span class="n">4</span>  <span class="c1">// 16
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">squareM</span> <span class="n">5</span>  <span class="c1">// 0
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Okay, now you are probably saying that this is cheating and not the same. We also get
@@ -217,7 +217,7 @@ to four. But actually the previous version was also not <em>correct</em>. When w
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">square</span> <span class="mi">100000</span> <span class="c1">// 1410065408
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">square</span> <span class="n">100000</span> <span class="c1">// 1410065408
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>we also get a wrong result. The problem is that we have an integer overflow here.
@@ -277,7 +277,7 @@ This is the <code>List.map</code> function:</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">]</span> <span class="c1">// [1;4;9;16]
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span> <span class="c1">// [1;4;9;16]
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Without the ability to pass functions as values we just expect a <code>Map</code>
@@ -310,12 +310,12 @@ data-structure as the first argument instead.</p>
 </span></span><span class="line"><span class="cl"><span class="c1">// We pre-compute the squares from 1 to 10000
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">squares</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="nn">Map</span><span class="p">.</span><span class="n">ofList</span> <span class="o">[</span>
-</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="mi">1</span><span class="o">..</span><span class="mi">10000</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="n">1</span><span class="o">..</span><span class="n">10000</span> <span class="k">do</span>
 </span></span><span class="line"><span class="cl">            <span class="k">yield</span> <span class="n">x</span><span class="o">,</span> <span class="o">(</span><span class="n">square</span> <span class="n">x</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="o">]</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// Now we call map with our pre-computed values
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">map</span> <span class="n">squares</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">4</span><span class="o">;</span><span class="mi">20</span><span class="o">]</span> <span class="c1">// [1;16;400]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">map</span> <span class="n">squares</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">20</span><span class="o">]</span> <span class="c1">// [1;16;400]
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Instead of writing all possible value combinations ourself we even could use the <code>square</code>
@@ -378,15 +378,15 @@ that only calculates those things we truly need.</p>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">generateAdd</span> <span class="n">x</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="nn">Map</span><span class="p">.</span><span class="n">ofList</span> <span class="o">[</span>
-</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">..</span><span class="mi">5</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">1</span><span class="o">..</span><span class="n">5</span> <span class="k">do</span>
 </span></span><span class="line"><span class="cl">            <span class="k">yield</span> <span class="n">i</span><span class="o">,</span> <span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="o">]</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span> <span class="o">=</span> <span class="n">generateAdd</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span> <span class="o">=</span> <span class="n">generateAdd</span> <span class="n">10</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">add10</span><span class="o">.[</span><span class="mi">1</span><span class="o">]</span> <span class="c1">// 11
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add10</span><span class="o">.[</span><span class="mi">2</span><span class="o">]</span> <span class="c1">// 12
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add10</span><span class="o">.[</span><span class="mi">3</span><span class="o">]</span> <span class="c1">// 13
+</span></span><span class="line"><span class="cl"><span class="n">add10</span><span class="o">.[</span><span class="n">1</span><span class="o">]</span> <span class="c1">// 11
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add10</span><span class="o">.[</span><span class="n">2</span><span class="o">]</span> <span class="c1">// 12
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add10</span><span class="o">.[</span><span class="n">3</span><span class="o">]</span> <span class="c1">// 13
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>We have a function that returns a new Map structure. When we call <code>generateAdd 10</code> we get
@@ -396,7 +396,7 @@ the following Map data-structure back.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[(</span><span class="mi">1</span><span class="o">,</span><span class="mi">11</span><span class="o">);</span> <span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">12</span><span class="o">);</span> <span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="mi">13</span><span class="o">);</span> <span class="o">(</span><span class="mi">4</span><span class="o">,</span><span class="mi">14</span><span class="o">);</span> <span class="o">(</span><span class="mi">5</span><span class="o">,</span><span class="mi">15</span><span class="o">)]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[(</span><span class="n">1</span><span class="o">,</span><span class="n">11</span><span class="o">);</span> <span class="o">(</span><span class="n">2</span><span class="o">,</span><span class="n">12</span><span class="o">);</span> <span class="o">(</span><span class="n">3</span><span class="o">,</span><span class="n">13</span><span class="o">);</span> <span class="o">(</span><span class="n">4</span><span class="o">,</span><span class="n">14</span><span class="o">);</span> <span class="o">(</span><span class="n">5</span><span class="o">,</span><span class="n">15</span><span class="o">)]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>But we already have seen this kind of code before. This was the way how we turned
@@ -422,12 +422,12 @@ a function/lambda.</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">generateAdd</span> <span class="n">x</span> <span class="o">=</span> <span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">+</span> <span class="n">x</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span>         <span class="o">=</span> <span class="n">generateAdd</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span>         <span class="o">=</span> <span class="n">generateAdd</span> <span class="n">10</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">add10</span> <span class="mi">1</span>   <span class="c1">// 11
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add10</span> <span class="mi">2</span>   <span class="c1">// 12
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add10</span> <span class="mi">5</span>   <span class="c1">// 15
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add10</span> <span class="mi">100</span> <span class="c1">// 120
+</span></span><span class="line"><span class="cl"><span class="n">add10</span> <span class="n">1</span>   <span class="c1">// 11
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add10</span> <span class="n">2</span>   <span class="c1">// 12
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add10</span> <span class="n">5</span>   <span class="c1">// 15
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add10</span> <span class="n">100</span> <span class="c1">// 120
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Instead of pre-calculating <code>i + x</code> for a dozen of numbers, now we just return the whole
@@ -448,7 +448,7 @@ a name with <code>let</code>.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="mi">587452198</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">587452198</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Once we have written this kind of thing, we now can use <code>bigNumber</code>. But what happens exactly
@@ -469,7 +469,7 @@ with the number it stands for. And now we see something like:</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="mi">587452198</span> <span class="o">+</span> <span class="mi">587452198</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">587452198</span> <span class="o">+</span> <span class="n">587452198</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>After the <em>substitution</em> we can calculate the result <code>1174904396</code> and bind the result to <code>y</code>.
@@ -492,7 +492,7 @@ something different. How do we substitute it? We do it when we write:</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">square</span> <span class="mi">10</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">square</span> <span class="n">10</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We then say that <code>x</code> in <code>square</code> should be substituted with <code>10</code>. Instead of <code>x * x</code> it
@@ -532,9 +532,9 @@ But we already have seen what we do in such a case. We just bind it to a symbol 
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">square</span> <span class="mi">5</span>  <span class="c1">//  25
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">square</span> <span class="mi">10</span> <span class="c1">// 100
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">square</span> <span class="mi">25</span> <span class="c1">// 625
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">square</span> <span class="n">5</span>  <span class="c1">//  25
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">square</span> <span class="n">10</span> <span class="c1">// 100
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">square</span> <span class="n">25</span> <span class="c1">// 625
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Actually what really happens. <code>square</code> is just a symbol and it is once again substituted by
@@ -569,8 +569,8 @@ a function.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">squareA</span> <span class="mi">5</span> <span class="c1">// 25
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">squareB</span> <span class="mi">5</span> <span class="c1">// 25
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">squareA</span> <span class="n">5</span> <span class="c1">// 25
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">squareB</span> <span class="n">5</span> <span class="c1">// 25
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>It just shows that the second <code>let</code> definition that already includes the function arguments
@@ -595,8 +595,8 @@ example want to add two numbers?</p>
 </span></span><span class="line"><span class="cl">        <span class="k">fun</span> <span class="n">y</span> <span class="o">-&gt;</span>
 </span></span><span class="line"><span class="cl">            <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">add</span> <span class="mi">10</span> <span class="mi">20</span> <span class="c1">// 30
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add</span> <span class="mi">50</span> <span class="mi">50</span> <span class="c1">// 100
+</span></span><span class="line"><span class="cl"><span class="n">add</span> <span class="n">10</span> <span class="n">20</span> <span class="c1">// 30
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add</span> <span class="n">50</span> <span class="n">50</span> <span class="c1">// 100
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>But creating such kind of nested functions is quite annoying. So there is a shortcut. You just can
@@ -615,8 +615,8 @@ use <code>fun</code> with multiple arguments and it creates the nesting for you.
 </span></span><span class="line"><span class="cl">    <span class="k">fun</span> <span class="n">x</span> <span class="n">y</span> <span class="o">-&gt;</span>
 </span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">add&#39;</span> <span class="mi">10</span> <span class="mi">20</span> <span class="c1">// 30
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add&#39;</span> <span class="mi">50</span> <span class="mi">50</span> <span class="c1">// 100
+</span></span><span class="line"><span class="cl"><span class="n">add&#39;</span> <span class="n">10</span> <span class="n">20</span> <span class="c1">// 30
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add&#39;</span> <span class="n">50</span> <span class="n">50</span> <span class="c1">// 100
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>And there is once again a shortcut by just using <code>let</code></p>
@@ -630,8 +630,8 @@ use <code>fun</code> with multiple arguments and it creates the nesting for you.
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span><span class="k">&#39;&#39;</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">add&#39;&#39;</span> <span class="mi">10</span> <span class="mi">20</span> <span class="c1">// 30
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add&#39;&#39;</span> <span class="mi">50</span> <span class="mi">50</span> <span class="c1">// 100
+</span></span><span class="line"><span class="cl"><span class="n">add&#39;&#39;</span> <span class="n">10</span> <span class="n">20</span> <span class="c1">// 30
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add&#39;&#39;</span> <span class="n">50</span> <span class="n">50</span> <span class="c1">// 100
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>In practice you will usually only use the last way of defining a function. But it is quite
@@ -646,7 +646,7 @@ previously. Previously we wrote <code>add10</code> like this.</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">generateAdd</span> <span class="n">x</span> <span class="o">=</span> <span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">+</span> <span class="n">x</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span>         <span class="o">=</span> <span class="n">generateAdd</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span>         <span class="o">=</span> <span class="n">generateAdd</span> <span class="n">10</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>But this is the same as:</p>
@@ -660,10 +660,10 @@ previously. Previously we wrote <code>add10</code> like this.</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span>   <span class="o">=</span> <span class="n">add</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span>   <span class="o">=</span> <span class="n">add</span> <span class="n">10</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">add10</span> <span class="mi">5</span>  <span class="c1">// 15
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add10</span> <span class="mi">10</span> <span class="c1">// 20
+</span></span><span class="line"><span class="cl"><span class="n">add10</span> <span class="n">5</span>  <span class="c1">// 15
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add10</span> <span class="n">10</span> <span class="c1">// 20
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>It is quite important to understand what happens here. We start with <code>add</code>, but this is
@@ -703,13 +703,13 @@ a mutable variable.</p>
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span>       <span class="o">=</span> <span class="n">ref</span> <span class="mi">10</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span>       <span class="o">=</span> <span class="n">ref</span> <span class="n">10</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="o">!</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add10</span>   <span class="o">=</span> <span class="n">add</span> <span class="n">x</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">add10</span> <span class="mi">5</span> <span class="c1">// 15
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="o">:=</span> <span class="mi">5</span>
-</span></span><span class="line"><span class="cl"><span class="n">add10</span> <span class="mi">5</span> <span class="c1">// 10
+</span></span><span class="line"><span class="cl"><span class="n">add10</span> <span class="n">5</span> <span class="c1">// 15
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">x</span> <span class="o">:=</span> <span class="n">5</span>
+</span></span><span class="line"><span class="cl"><span class="n">add10</span> <span class="n">5</span> <span class="c1">// 10
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Because the value of <code>x</code> changes between both calls we now get <code>15</code> and <code>10</code>. The
@@ -787,10 +787,10 @@ input. In this case we just return <code>None</code>. We could write <code>small
 </span></span><span class="line"><span class="cl">        <span class="k">then</span> <span class="n">Some</span> <span class="n">number</span>
 </span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="n">None</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">smaller</span> <span class="mi">10</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">3</span><span class="o">)</span>  <span class="c1">// Some 3
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">smaller</span> <span class="mi">10</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">11</span><span class="o">)</span> <span class="c1">// None
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">greater</span> <span class="mi">10</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">3</span><span class="o">)</span>  <span class="c1">// None
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">greater</span> <span class="mi">10</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">11</span><span class="o">)</span> <span class="c1">// Some 11
+</span></span><span class="line"><span class="cl"><span class="n">smaller</span> <span class="n">10</span> <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>  <span class="c1">// Some 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">smaller</span> <span class="n">10</span> <span class="o">(</span><span class="n">Some</span> <span class="n">11</span><span class="o">)</span> <span class="c1">// None
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">greater</span> <span class="n">10</span> <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>  <span class="c1">// None
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">greater</span> <span class="n">10</span> <span class="o">(</span><span class="n">Some</span> <span class="n">11</span><span class="o">)</span> <span class="c1">// Some 11
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>But when we look closer, <code>smaller</code> and <code>greater</code> are nearly identical functions. The only
@@ -831,10 +831,10 @@ of <code>number -&gt; Bool</code>.</p>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">smaller</span> <span class="n">min</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">min</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">greater</span> <span class="n">max</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">max</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">is</span> <span class="o">(</span><span class="n">smaller</span> <span class="mi">10</span><span class="o">)</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">3</span><span class="o">)</span>  <span class="c1">// Some 3
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">is</span> <span class="o">(</span><span class="n">smaller</span> <span class="mi">10</span><span class="o">)</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">11</span><span class="o">)</span> <span class="c1">// None
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">is</span> <span class="o">(</span><span class="n">greater</span> <span class="mi">10</span><span class="o">)</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">3</span><span class="o">)</span>  <span class="c1">// None
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">is</span> <span class="o">(</span><span class="n">greater</span> <span class="mi">10</span><span class="o">)</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">11</span><span class="o">)</span> <span class="c1">// Some 11
+</span></span><span class="line"><span class="cl"><span class="n">is</span> <span class="o">(</span><span class="n">smaller</span> <span class="n">10</span><span class="o">)</span> <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>  <span class="c1">// Some 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">is</span> <span class="o">(</span><span class="n">smaller</span> <span class="n">10</span><span class="o">)</span> <span class="o">(</span><span class="n">Some</span> <span class="n">11</span><span class="o">)</span> <span class="c1">// None
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">is</span> <span class="o">(</span><span class="n">greater</span> <span class="n">10</span><span class="o">)</span> <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>  <span class="c1">// None
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">is</span> <span class="o">(</span><span class="n">greater</span> <span class="n">10</span><span class="o">)</span> <span class="o">(</span><span class="n">Some</span> <span class="n">11</span><span class="o">)</span> <span class="c1">// Some 11
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Now the whole code is written with currying in mind. <code>is</code> expects a function that turns
@@ -852,9 +852,9 @@ Lisp-like code.</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="n">is</span> <span class="o">(</span><span class="n">greater</span> <span class="mi">0</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">  <span class="o">(</span><span class="n">is</span> <span class="o">(</span><span class="n">smaller</span> <span class="mi">10</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">    <span class="o">(</span><span class="n">Some</span> <span class="mi">3</span><span class="o">)))</span> <span class="c1">// Some 3
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="n">is</span> <span class="o">(</span><span class="n">greater</span> <span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span><span class="n">is</span> <span class="o">(</span><span class="n">smaller</span> <span class="n">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)))</span> <span class="c1">// Some 3
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>At least in F# most people would prefer the piping idiom. With pipe we can write
@@ -867,9 +867,9 @@ more sequential way.</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="n">Some</span> <span class="mi">3</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">greater</span> <span class="mi">0</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">smaller</span> <span class="mi">10</span><span class="o">)</span> <span class="c1">// Some 3
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">greater</span> <span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">smaller</span> <span class="n">10</span><span class="o">)</span> <span class="c1">// Some 3
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>(Some 3)</code> is now the input to <code>is (greater 0)</code> the return value of this is then the input value
@@ -886,7 +886,7 @@ validation or filtering. For example:
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">;</span><span class="mi">5</span><span class="o">;</span><span class="mi">6</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span> <span class="c1">// [2;4;6]
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">;</span><span class="n">6</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span><span class="o">)</span> <span class="c1">// [2;4;6]
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div></div>
@@ -912,9 +912,9 @@ easily combine two predicates into a single new predicate.</p>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">between</span> <span class="n">min</span> <span class="n">max</span> <span class="o">=</span> <span class="o">(</span><span class="n">combine</span> <span class="o">(</span><span class="n">smaller</span> <span class="n">max</span><span class="o">)</span> <span class="o">(</span><span class="n">greater</span> <span class="n">min</span><span class="o">))</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="n">Some</span> <span class="mi">0</span><span class="o">)</span>  <span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="mi">0</span> <span class="mi">10</span><span class="o">)</span> <span class="c1">// None
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">Some</span> <span class="mi">3</span><span class="o">)</span>  <span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="mi">0</span> <span class="mi">10</span><span class="o">)</span> <span class="c1">// Some 3
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">Some</span> <span class="mi">11</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="mi">0</span> <span class="mi">10</span><span class="o">)</span> <span class="c1">// None
+</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="n">Some</span> <span class="n">0</span><span class="o">)</span>  <span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="n">0</span> <span class="n">10</span><span class="o">)</span> <span class="c1">// None
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>  <span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="n">0</span> <span class="n">10</span><span class="o">)</span> <span class="c1">// Some 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">Some</span> <span class="n">11</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="n">0</span> <span class="n">10</span><span class="o">)</span> <span class="c1">// None
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Once again you can see how we use currying. We don&rsquo;t provide the second argument to <code>smaller</code> or
@@ -951,14 +951,14 @@ into a single predicate.</p>
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">isEven</span> <span class="n">x</span>    <span class="o">=</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">evenAnd1To9</span> <span class="o">=</span> <span class="n">check</span> <span class="o">[</span><span class="n">greater</span> <span class="mi">0</span><span class="o">;</span> <span class="n">smaller</span> <span class="mi">10</span><span class="o">;</span> <span class="n">isEven</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">isEven</span> <span class="n">x</span>    <span class="o">=</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">evenAnd1To9</span> <span class="o">=</span> <span class="n">check</span> <span class="o">[</span><span class="n">greater</span> <span class="n">0</span><span class="o">;</span> <span class="n">smaller</span> <span class="n">10</span><span class="o">;</span> <span class="n">isEven</span><span class="o">]</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="n">Some</span> <span class="mi">0</span><span class="o">)</span>  <span class="o">|&gt;</span> <span class="n">is</span> <span class="n">evenAnd1To9</span> <span class="c1">// None
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">Some</span> <span class="mi">3</span><span class="o">)</span>  <span class="o">|&gt;</span> <span class="n">is</span> <span class="n">evenAnd1To9</span> <span class="c1">// None
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">Some</span> <span class="mi">4</span><span class="o">)</span>  <span class="o">|&gt;</span> <span class="n">is</span> <span class="n">evenAnd1To9</span> <span class="c1">// Some 4
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">Some</span> <span class="mi">6</span><span class="o">)</span>  <span class="o">|&gt;</span> <span class="n">is</span> <span class="n">evenAnd1To9</span> <span class="c1">// Some 6
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">Some</span> <span class="mi">11</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="n">is</span> <span class="n">evenAnd1To9</span> <span class="c1">// None
+</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="n">Some</span> <span class="n">0</span><span class="o">)</span>  <span class="o">|&gt;</span> <span class="n">is</span> <span class="n">evenAnd1To9</span> <span class="c1">// None
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>  <span class="o">|&gt;</span> <span class="n">is</span> <span class="n">evenAnd1To9</span> <span class="c1">// None
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">Some</span> <span class="n">4</span><span class="o">)</span>  <span class="o">|&gt;</span> <span class="n">is</span> <span class="n">evenAnd1To9</span> <span class="c1">// Some 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">Some</span> <span class="n">6</span><span class="o">)</span>  <span class="o">|&gt;</span> <span class="n">is</span> <span class="n">evenAnd1To9</span> <span class="c1">// Some 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">Some</span> <span class="n">11</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="n">is</span> <span class="n">evenAnd1To9</span> <span class="c1">// None
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>This idea of writing small functions, or basically decomposing a task into small functions and
@@ -1028,18 +1028,18 @@ we pass it a function like <code>square</code>?</p>
 </span><span class="lnt">20
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">interface</span> <span class="nc">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">&gt;</span> <span class="p">{</span>
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">interface</span> <span class="nc">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">&gt;</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">B</span> <span class="n">Call</span><span class="p">(</span><span class="n">A</span> <span class="n">a</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Square</span> <span class="p">:</span> <span class="n">IFunction</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">Call</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Square</span> <span class="p">:</span> <span class="n">IFunction</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">Call</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">x</span> <span class="p">*</span> <span class="n">x</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">List</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">B</span><span class="p">&gt;</span> <span class="n">map</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">&gt;(</span><span class="n">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">&gt;</span> <span class="n">func</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">A</span><span class="p">&gt;</span> <span class="n">values</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="k">class</span> <span class="nc">List</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">B</span><span class="p">&gt;</span> <span class="n">map</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">&gt;(</span><span class="n">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">&gt;</span> <span class="n">func</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">A</span><span class="p">&gt;</span> <span class="n">values</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">newList</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">B</span><span class="p">&gt;();</span>
 </span></span><span class="line"><span class="cl">        <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">x</span> <span class="k">in</span> <span class="n">values</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">            <span class="kt">var</span> <span class="n">mapping</span> <span class="p">=</span> <span class="n">func</span><span class="p">.</span><span class="n">Call</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
@@ -1100,12 +1100,12 @@ the first argument?</p>
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Add</span> <span class="p">:</span> <span class="n">IFunction</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">int</span> <span class="n">x</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Add</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Add</span> <span class="p">:</span> <span class="n">IFunction</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Add</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">x</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">Call</span><span class="p">(</span><span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">Call</span><span class="p">(</span><span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">x</span> <span class="p">+</span> <span class="n">y</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
@@ -1152,18 +1152,18 @@ like a <em>Tuple</em> or <em>Record</em> that contains those functions.</p>
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Counter</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">int</span> <span class="n">counter</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Counter</span><span class="p">(</span><span class="kt">int</span> <span class="k">init</span><span class="p">)</span> <span class="p">{</span>
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Counter</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">counter</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Counter</span><span class="p">(</span><span class="kt">int</span> <span class="k">init</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">counter</span> <span class="p">=</span> <span class="k">init</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">Current</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">Current</span><span class="p">()</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="n">counter</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">Increment</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">void</span> <span class="n">Increment</span><span class="p">()</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">counter</span> <span class="p">+=</span> <span class="m">1</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">Decrement</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">void</span> <span class="n">Decrement</span><span class="p">()</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">counter</span> <span class="p">-=</span> <span class="m">1</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
@@ -1218,8 +1218,8 @@ like a <em>Tuple</em> or <em>Record</em> that contains those functions.</p>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">counter</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">init</span>
 </span></span><span class="line"><span class="cl">    <span class="o">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">Current</span>   <span class="o">=</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="o">!</span><span class="n">counter</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">        <span class="n">Increment</span> <span class="o">=</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">counter</span> <span class="o">:=</span> <span class="o">!</span><span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">        <span class="n">Decrement</span> <span class="o">=</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">counter</span> <span class="o">:=</span> <span class="o">!</span><span class="n">counter</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Increment</span> <span class="o">=</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">counter</span> <span class="o">:=</span> <span class="o">!</span><span class="n">counter</span> <span class="o">+</span> <span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Decrement</span> <span class="o">=</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">counter</span> <span class="o">:=</span> <span class="o">!</span><span class="n">counter</span> <span class="o">-</span> <span class="n">1</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -1233,7 +1233,7 @@ like a <em>Tuple</em> or <em>Record</em> that contains those functions.</p>
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">count</span> <span class="o">=</span> <span class="n">counter</span> <span class="mi">10</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">count</span> <span class="o">=</span> <span class="n">counter</span> <span class="n">10</span>
 </span></span><span class="line"><span class="cl"><span class="n">count</span><span class="o">.</span><span class="n">Increment</span><span class="bp">()</span>
 </span></span><span class="line"><span class="cl"><span class="n">count</span><span class="o">.</span><span class="n">Increment</span><span class="bp">()</span>
 </span></span><span class="line"><span class="cl"><span class="n">count</span><span class="o">.</span><span class="n">Decrement</span><span class="bp">()</span>
@@ -1266,8 +1266,8 @@ much shorter.</p>
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">CounterClass</span><span class="o">(</span><span class="n">init</span><span class="o">:</span><span class="n">int</span><span class="o">)</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">mutable</span> <span class="n">counter</span> <span class="o">=</span> <span class="n">init</span>
 </span></span><span class="line"><span class="cl">    <span class="k">member</span> <span class="n">this</span><span class="p">.</span><span class="nf">Current</span>     <span class="o">=</span> <span class="n">counter</span>
-</span></span><span class="line"><span class="cl">    <span class="k">member</span> <span class="n">this</span><span class="p">.</span><span class="nf">Increment</span><span class="bp">()</span> <span class="o">=</span> <span class="n">counter</span> <span class="o">&lt;-</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl">    <span class="k">member</span> <span class="n">this</span><span class="p">.</span><span class="nf">Decrement</span><span class="bp">()</span> <span class="o">=</span> <span class="n">counter</span> <span class="o">&lt;-</span> <span class="n">counter</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">member</span> <span class="n">this</span><span class="p">.</span><span class="nf">Increment</span><span class="bp">()</span> <span class="o">=</span> <span class="n">counter</span> <span class="o">&lt;-</span> <span class="n">counter</span> <span class="o">+</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">member</span> <span class="n">this</span><span class="p">.</span><span class="nf">Decrement</span><span class="bp">()</span> <span class="o">=</span> <span class="n">counter</span> <span class="o">&lt;-</span> <span class="n">counter</span> <span class="o">-</span> <span class="n">1</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>The usage of a class in F# is actually nearly the same as the code with the record:</p>
@@ -1280,7 +1280,7 @@ much shorter.</p>
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">count</span> <span class="o">=</span> <span class="n">CounterClass</span> <span class="mi">10</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">count</span> <span class="o">=</span> <span class="n">CounterClass</span> <span class="n">10</span>
 </span></span><span class="line"><span class="cl"><span class="n">count</span><span class="o">.</span><span class="n">Increment</span><span class="bp">()</span>
 </span></span><span class="line"><span class="cl"><span class="n">count</span><span class="o">.</span><span class="n">Increment</span><span class="bp">()</span>
 </span></span><span class="line"><span class="cl"><span class="n">count</span><span class="o">.</span><span class="n">Decrement</span><span class="bp">()</span>
@@ -1319,8 +1319,8 @@ we create a function that expects two arguments in tupled form.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">add</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="mi">10</span><span class="o">)</span>  <span class="c1">// 13
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span><span class="mi">10</span><span class="o">)</span> <span class="c1">// 20
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">add</span><span class="o">(</span><span class="n">3</span><span class="o">,</span><span class="n">10</span><span class="o">)</span>  <span class="c1">// 13
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">add</span><span class="o">(</span><span class="n">10</span><span class="o">,</span><span class="n">10</span><span class="o">)</span> <span class="c1">// 20
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Probably at this point you will notice how similar this is to a function in a C-style language.
@@ -1361,8 +1361,8 @@ a curried function we can partial apply it.</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">addC</span>   <span class="o">=</span> <span class="n">curry</span> <span class="n">add</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">addC10</span> <span class="o">=</span> <span class="n">addC</span> <span class="mi">10</span>
-</span></span><span class="line"><span class="cl"><span class="n">addC10</span> <span class="mi">5</span> <span class="c1">// 15
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">addC10</span> <span class="o">=</span> <span class="n">addC</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl"><span class="n">addC10</span> <span class="n">5</span> <span class="c1">// 15
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>To be more formal. We started with a function signature that looked like this:</p>
@@ -1424,28 +1424,28 @@ could write it like that:</p>
 </span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">interface</span> <span class="nc">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">&gt;</span> <span class="p">{</span>
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">interface</span> <span class="nc">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">&gt;</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">B</span> <span class="n">Call</span><span class="p">(</span><span class="n">A</span> <span class="n">a</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">interface</span> <span class="nc">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">interface</span> <span class="nc">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">C</span> <span class="n">Call</span><span class="p">(</span><span class="n">A</span> <span class="n">a</span><span class="p">,</span> <span class="n">B</span> <span class="n">b</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Partial</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="p">:</span> <span class="n">IFunction</span><span class="p">&lt;</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">A</span> <span class="n">a</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="n">func</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Partial</span><span class="p">(</span><span class="n">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="n">func</span><span class="p">,</span> <span class="n">A</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Partial</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="p">:</span> <span class="n">IFunction</span><span class="p">&lt;</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">A</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="n">func</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Partial</span><span class="p">(</span><span class="n">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="n">func</span><span class="p">,</span> <span class="n">A</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">a</span> <span class="p">=</span> <span class="n">a</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">func</span> <span class="p">=</span> <span class="n">func</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">C</span> <span class="n">Call</span><span class="p">(</span><span class="n">B</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">C</span> <span class="n">Call</span><span class="p">(</span><span class="n">B</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="n">func</span><span class="p">.</span><span class="n">Call</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">Func</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="n">IFunction</span><span class="p">&lt;</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="k">partial</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;(</span><span class="n">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="n">func</span><span class="p">,</span> <span class="n">A</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="k">class</span> <span class="nc">Func</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">IFunction</span><span class="p">&lt;</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="kd">partial</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;(</span><span class="n">IFunction</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="n">func</span><span class="p">,</span> <span class="n">A</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">Partial</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;(</span><span class="n">func</span><span class="p">,</span> <span class="n">a</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
@@ -1464,8 +1464,8 @@ With such a setup we now can write our <code>Add</code> function like this.</p>
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Add</span> <span class="p">:</span> <span class="n">IFunction</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">Call</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">Add</span> <span class="p">:</span> <span class="n">IFunction</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">Call</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">x</span> <span class="p">+</span> <span class="n">y</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
@@ -1480,7 +1480,7 @@ With such a setup we now can write our <code>Add</code> function like this.</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">var</span> <span class="k">add</span>   <span class="p">=</span> <span class="k">new</span> <span class="n">Add</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">add10</span> <span class="p">=</span> <span class="n">Func</span><span class="p">.</span><span class="k">partial</span><span class="p">(</span><span class="k">add</span><span class="p">,</span> <span class="m">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">add10</span> <span class="p">=</span> <span class="n">Func</span><span class="p">.</span><span class="kd">partial</span><span class="p">(</span><span class="k">add</span><span class="p">,</span> <span class="m">10</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">add10</span><span class="p">.</span><span class="n">Call</span><span class="p">(</span><span class="m">5</span><span class="p">));</span> <span class="c1">// 15</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -1525,23 +1525,23 @@ We also can easily define <code>curry</code> functions.
 </span><span class="lnt">29
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">Lambda</span> <span class="p">{</span>
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="k">class</span> <span class="nc">Lambda</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="c1">// 2-args</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="n">Func</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;&gt;</span> <span class="n">Curry</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;(</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="n">func</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Func</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;&gt;</span> <span class="n">Curry</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;(</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">&gt;</span> <span class="n">func</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">a</span> <span class="p">=&gt;</span> <span class="n">b</span> <span class="p">=&gt;</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="c1">// 3-args</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="n">Func</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">B</span><span class="p">,</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">C</span><span class="p">,</span><span class="n">D</span><span class="p">&gt;&gt;&gt;</span> <span class="n">Curry</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">D</span><span class="p">&gt;(</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">D</span><span class="p">&gt;</span> <span class="n">func</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Func</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">B</span><span class="p">,</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">C</span><span class="p">,</span><span class="n">D</span><span class="p">&gt;&gt;&gt;</span> <span class="n">Curry</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">D</span><span class="p">&gt;(</span><span class="n">Func</span><span class="p">&lt;</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">D</span><span class="p">&gt;</span> <span class="n">func</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">a</span> <span class="p">=&gt;</span> <span class="n">b</span> <span class="p">=&gt;</span> <span class="n">c</span> <span class="p">=&gt;</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MainClass</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="n">Add</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="n">Add</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">x</span> <span class="p">+</span> <span class="n">y</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="k">void</span> <span class="n">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="c1">// We must specify the generic-types when we pass a static method</span>
 </span></span><span class="line"><span class="cl">        <span class="c1">// to the Curry() function as an argument</span>
 </span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="k">add</span> <span class="p">=</span> <span class="n">Lambda</span><span class="p">.</span><span class="n">Curry</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">&gt;(</span><span class="n">Add</span><span class="p">);</span>
@@ -1603,7 +1603,7 @@ of the concepts then there is no better way to somehow rewrite the given example
 </span></span><span class="line"><span class="cl"><span class="c1">// Predicates
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">smaller</span> <span class="n">min</span> <span class="n">x</span>   <span class="o">=</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">min</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">greater</span> <span class="n">max</span> <span class="n">x</span>   <span class="o">=</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">max</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">even</span> <span class="n">x</span>          <span class="o">=</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">even</span> <span class="n">x</span>          <span class="o">=</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">between</span> <span class="n">min</span> <span class="n">max</span> <span class="o">=</span> <span class="o">(</span><span class="n">combine</span> <span class="o">(</span><span class="n">smaller</span> <span class="n">max</span><span class="o">)</span> <span class="o">(</span><span class="n">greater</span> <span class="n">min</span><span class="o">))</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -1627,12 +1627,12 @@ currying this should be a two-argument function (returning a function).</p>
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="n">Some</span> <span class="mi">3</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="mi">0</span> <span class="mi">10</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="n">0</span> <span class="n">10</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">is</span> <span class="n">even</span> <span class="c1">// None
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="n">Some</span> <span class="mi">4</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="mi">0</span> <span class="mi">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="n">Some</span> <span class="n">4</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="n">0</span> <span class="n">10</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="o">|&gt;</span> <span class="n">is</span> <span class="n">even</span> <span class="c1">// Some 4
 </span></span></span></code></pre></td></tr></table>
 </div>
@@ -1648,13 +1648,13 @@ currying this should be a two-argument function (returning a function).</p>
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="mi">0</span> <span class="mi">10</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="n">0</span> <span class="n">10</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">  <span class="o">(</span><span class="n">is</span> <span class="n">even</span>
-</span></span><span class="line"><span class="cl">    <span class="o">(</span><span class="n">Some</span> <span class="mi">3</span><span class="o">)))</span> <span class="c1">// None
+</span></span><span class="line"><span class="cl">    <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)))</span> <span class="c1">// None
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="mi">0</span> <span class="mi">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="n">0</span> <span class="n">10</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">  <span class="o">(</span><span class="n">is</span> <span class="n">even</span>
-</span></span><span class="line"><span class="cl">    <span class="o">(</span><span class="n">Some</span> <span class="mi">4</span><span class="o">)))</span> <span class="c1">// Some 4
+</span></span><span class="line"><span class="cl">    <span class="o">(</span><span class="n">Some</span> <span class="n">4</span><span class="o">)))</span> <span class="c1">// Some 4
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>When you have problems to understand the nested-style. The only difference in C-Style code is
@@ -1719,7 +1719,7 @@ better, but also widen your view on object-oriented programming.</p>
         </div>
         <div class="post-footer">
             <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     

@@ -4,7 +4,7 @@
         <title>Continuations and foldBack // David Raab</title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta charset="utf-8" />
-        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="generator" content="Hugo 0.123.1">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="David Raab" />
         <meta name="description" content="This article shows how you can implement List.foldBack with a continuation function" />
@@ -12,8 +12,7 @@
         <script src="/static/code-toggle.js"></script>
 
         
-        <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Continuations and foldBack"/>
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Continuations and foldBack"/>
 <meta name="twitter:description" content="This article shows how you can implement List.foldBack with a continuation function"/>
 
         <meta property="og:title" content="Continuations and foldBack" />
@@ -24,10 +23,11 @@
 <meta property="article:modified_time" content="2016-04-16T00:00:00+00:00" />
 
 
+
     </head>
     <body>
         <header class="app-header">
-            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
             <span class="app-header-title">David Raab</span>
             <nav class="app-header-menu">
                     <a class="app-header-menu-item" href="/">Home</a>
@@ -79,11 +79,11 @@
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/fold/">fold</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/list/">list</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/cps/">cps</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/recursion/">recursion</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">Fsharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fold/">Fold</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/list/">List</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/cps/">Cps</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/recursion/">Recursion</a>
                 </div>
             </div>
         </header>
@@ -197,7 +197,7 @@ problem. Let&rsquo;s first focus on the behaviour of <code>foldBack</code> and h
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">f</span> <span class="n">x</span>     <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">squared</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="n">x</span> <span class="o">::</span> <span class="n">acc</span><span class="o">)</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">]</span> <span class="bp">[]</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">squared</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="n">x</span> <span class="o">::</span> <span class="n">acc</span><span class="o">)</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span> <span class="bp">[]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>The general <em>logic</em> is that we traverse a list backwards. Instead of starting with the initial
@@ -224,7 +224,7 @@ of our accumulation that was right of <code>2</code>. Let&rsquo;s assume we have
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">]</span> <span class="mi">0</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span> <span class="n">0</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>In that case when we reach <code>2</code> our <code>x</code> is once again <code>2</code> but our <code>acc</code> contains <code>7</code>, because so
@@ -294,7 +294,7 @@ call the <code>f</code> function.</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">newCont</span> <span class="n">racc</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">    <span class="n">f</span> <span class="mi">1</span> <span class="n">racc</span>
+</span></span><span class="line"><span class="cl">    <span class="n">f</span> <span class="n">1</span> <span class="n">racc</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We pass that function as <code>cont</code> to the next iteration. In the next recursion we extract <code>2</code>
@@ -306,7 +306,7 @@ from the remaining list <code>[2;3;4]</code>, now we create a new <code>newCont<
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">newCont</span> <span class="n">racc</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">    <span class="n">f</span> <span class="mi">2</span> <span class="n">racc</span>
+</span></span><span class="line"><span class="cl">    <span class="n">f</span> <span class="n">2</span> <span class="n">racc</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Then this new function is used as our <code>cont</code>. But this behaviour is wrong. We loop through
@@ -383,7 +383,7 @@ that expects the <em>right-accumulator</em> with this and the current <code>x</c
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont1</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="mi">1</span> <span class="n">racc</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont1</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="n">1</span> <span class="n">racc</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>In our second loop we basically do:</p>
@@ -392,7 +392,7 @@ that expects the <em>right-accumulator</em> with this and the current <code>x</c
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont2</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">cont1</span> <span class="o">(</span><span class="n">f</span> <span class="mi">2</span> <span class="n">racc</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont2</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">cont1</span> <span class="o">(</span><span class="n">f</span> <span class="n">2</span> <span class="n">racc</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Remember, we create a new function, but we call the previously <code>cont</code>. I used <code>cont1</code> to make
@@ -406,10 +406,10 @@ the previous <code>cont</code> function. If we expand it fully we basically have
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont1</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="mi">1</span> <span class="n">racc</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont2</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">cont1</span>    <span class="o">(</span><span class="n">f</span> <span class="mi">2</span> <span class="n">racc</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont3</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">cont2</span>    <span class="o">(</span><span class="n">f</span> <span class="mi">3</span> <span class="n">racc</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont4</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">cont3</span>    <span class="o">(</span><span class="n">f</span> <span class="mi">4</span> <span class="n">racc</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont1</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="n">1</span> <span class="n">racc</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont2</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">cont1</span>    <span class="o">(</span><span class="n">f</span> <span class="n">2</span> <span class="n">racc</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont3</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">cont2</span>    <span class="o">(</span><span class="n">f</span> <span class="n">3</span> <span class="n">racc</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont4</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">cont3</span>    <span class="o">(</span><span class="n">f</span> <span class="n">4</span> <span class="n">racc</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Every new function that we create contains the previous function as a closure. Actually let&rsquo;s
@@ -419,7 +419,7 @@ inline the whole functions step-by-step. First we inline <code>cont1</code> in o
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont2</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="mi">1</span> <span class="o">(</span><span class="n">f</span> <span class="mi">2</span> <span class="n">racc</span><span class="o">))</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont2</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="n">1</span> <span class="o">(</span><span class="n">f</span> <span class="n">2</span> <span class="n">racc</span><span class="o">))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>then we inline <code>cont2</code> into <code>cont3</code></p>
@@ -428,7 +428,7 @@ inline the whole functions step-by-step. First we inline <code>cont1</code> in o
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont3</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="mi">1</span> <span class="o">(</span><span class="n">f</span> <span class="mi">2</span> <span class="o">(</span><span class="n">f</span> <span class="mi">3</span> <span class="n">racc</span><span class="o">)))</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont3</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="n">1</span> <span class="o">(</span><span class="n">f</span> <span class="n">2</span> <span class="o">(</span><span class="n">f</span> <span class="n">3</span> <span class="n">racc</span><span class="o">)))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>finally <code>cont3</code> into <code>cont4</code></p>
@@ -437,7 +437,7 @@ inline the whole functions step-by-step. First we inline <code>cont1</code> in o
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont4</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="mi">1</span> <span class="o">(</span><span class="n">f</span> <span class="mi">2</span> <span class="o">(</span><span class="n">f</span> <span class="mi">3</span> <span class="o">(</span><span class="n">f</span> <span class="mi">4</span> <span class="n">racc</span><span class="o">))))</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont4</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="n">1</span> <span class="o">(</span><span class="n">f</span> <span class="n">2</span> <span class="o">(</span><span class="n">f</span> <span class="n">3</span> <span class="o">(</span><span class="n">f</span> <span class="n">4</span> <span class="n">racc</span><span class="o">))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>As we can see. With every loop iteration that we go forward, we build up a function. Every new
@@ -467,7 +467,7 @@ We already saw what kind of structure we build. In the end we just had</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont4</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="mi">1</span> <span class="o">(</span><span class="n">f</span> <span class="mi">2</span> <span class="o">(</span><span class="n">f</span> <span class="mi">3</span> <span class="o">(</span><span class="n">f</span> <span class="mi">4</span> <span class="n">racc</span><span class="o">))))</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont4</span> <span class="n">racc</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="n">1</span> <span class="o">(</span><span class="n">f</span> <span class="n">2</span> <span class="o">(</span><span class="n">f</span> <span class="n">3</span> <span class="o">(</span><span class="n">f</span> <span class="n">4</span> <span class="n">racc</span><span class="o">))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Once we reach the end of our data-structure in our example we provided the empty list <code>[]</code> as the
@@ -477,7 +477,7 @@ starting right accumulator. So we basically have.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont4</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="mi">1</span> <span class="o">(</span><span class="n">f</span> <span class="mi">2</span> <span class="o">(</span><span class="n">f</span> <span class="mi">3</span> <span class="o">(</span><span class="n">f</span> <span class="mi">4</span> <span class="bp">[]</span><span class="o">))))</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont4</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="n">1</span> <span class="o">(</span><span class="n">f</span> <span class="n">2</span> <span class="o">(</span><span class="n">f</span> <span class="n">3</span> <span class="o">(</span><span class="n">f</span> <span class="n">4</span> <span class="bp">[]</span><span class="o">))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>At this point, now our function starts its execution. First <code>f 4 []</code> is calculated and this will
@@ -487,7 +487,7 @@ return <code>[16]</code></p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont4</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="mi">1</span> <span class="o">(</span><span class="n">f</span> <span class="mi">2</span> <span class="o">(</span><span class="n">f</span> <span class="mi">3</span> <span class="o">[</span><span class="mi">16</span><span class="o">])))</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont4</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="n">1</span> <span class="o">(</span><span class="n">f</span> <span class="n">2</span> <span class="o">(</span><span class="n">f</span> <span class="n">3</span> <span class="o">[</span><span class="n">16</span><span class="o">])))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Now <code>f 3 [16]</code> executes and we get</p>
@@ -496,7 +496,7 @@ return <code>[16]</code></p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont4</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="mi">1</span> <span class="o">(</span><span class="n">f</span> <span class="mi">2</span> <span class="o">[</span><span class="mi">9</span><span class="o">;</span><span class="mi">16</span><span class="o">]))</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont4</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="n">1</span> <span class="o">(</span><span class="n">f</span> <span class="n">2</span> <span class="o">[</span><span class="n">9</span><span class="o">;</span><span class="n">16</span><span class="o">]))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Now it is <code>f 2 [9;16]</code> turn</p>
@@ -505,7 +505,7 @@ return <code>[16]</code></p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont4</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="mi">1</span> <span class="o">[</span><span class="mi">4</span><span class="o">;</span><span class="mi">9</span><span class="o">;</span><span class="mi">16</span><span class="o">])</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont4</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">(</span><span class="n">f</span> <span class="n">1</span> <span class="o">[</span><span class="n">4</span><span class="o">;</span><span class="n">9</span><span class="o">;</span><span class="n">16</span><span class="o">])</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>And finally we have</p>
@@ -514,7 +514,7 @@ return <code>[16]</code></p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont4</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">4</span><span class="o">;</span><span class="mi">9</span><span class="o">;</span><span class="mi">16</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">cont4</span> <span class="o">=</span> <span class="n">initCont</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">9</span><span class="o">;</span><span class="n">16</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Now <code>initCont</code> also must be a <em>function</em>. But what do we expect it to do? Well nothing!
@@ -552,13 +552,13 @@ we start our <code>loop</code> with <code>loop id list</code>.</p>
 </span></span><span class="line"><span class="cl">            <span class="n">loop</span> <span class="n">newCont</span> <span class="kt">list</span>
 </span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="n">id</span> <span class="kt">list</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">)</span> <span class="o">::</span> <span class="n">acc</span><span class="o">)</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">]</span> <span class="bp">[]</span>
+</span></span><span class="line"><span class="cl"><span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">)</span> <span class="o">::</span> <span class="n">acc</span><span class="o">)</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span> <span class="bp">[]</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// [1; 4; 9; 16]
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="o">]</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">10</span><span class="o">]</span> <span class="n">0</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// 55
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="kt">string</span> <span class="n">x</span><span class="o">)</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="o">]</span> <span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">foldBack</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">acc</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="kt">string</span> <span class="n">x</span><span class="o">)</span> <span class="o">+</span> <span class="n">acc</span><span class="o">)</span> <span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">10</span><span class="o">]</span> <span class="s">&#34;&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// &#34;1234568910&#34;
 </span></span></span></code></pre></td></tr></table>
 </div>
@@ -598,7 +598,7 @@ different scenarios.</p>
         </div>
         <div class="post-footer">
             <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     

@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>js on David Raab</title>
+    <title>Js on David Raab</title>
     <link>https://davidraab.github.io/tags/js/</link>
-    <description>Recent content in js on David Raab</description>
+    <description>Recent content in Js on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 15 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/js/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 15 Feb 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/js/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Closures in F#, C#, Perl, JavaScript and Racket</title>
       <link>https://davidraab.github.io/posts/closures-in-fsharp-csharp-perl-javascript-and-racket/</link>
       <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/closures-in-fsharp-csharp-perl-javascript-and-racket/</guid>
-      <description>Today, more and more languages supports functions as first-class values. This means a function is just a value like any other. You can pass functions as arguments to functions, but you are also able to create functions and return them from functions.
-Whenever this is done we have to think about the life-time of variables. Usually all variables are lexical scoped. Consider the following example.
-F# C# Perl JavaScript Racket 1 2 3 let add10 y = let x = 10 x + y 1 2 3 4 public static int Add10(int y) { var x = 10; return x + y; } 1 2 3 4 sub add10($y) { my $x = 10; return $x + $y; } 1 2 3 4 function add10(y) { const x = 10; return x + y; } 1 2 3 4 (define (add10 y) (define x 10) (+ x y) ) In the example the variable x is created only temporary when the function is being executed.</description>
+      <description>Today, more and more languages supports functions as first-class values. This means a function is just a value like any other. You can pass functions as arguments to functions, but you are also able to create functions and return them from functions.&#xA;Whenever this is done we have to think about the life-time of variables. Usually all variables are lexical scoped. Consider the following example.&#xA;F# C# Perl JavaScript Racket 1 2 3 let add10 y = let x = 10 x + y 1 2 3 4 public static int Add10(int y) { var x = 10; return x + y; } 1 2 3 4 sub add10($y) { my $x = 10; return $x + $y; } 1 2 3 4 function add10(y) { const x = 10; return x + y; } 1 2 3 4 (define (add10 y) (define x 10) (+ x y) ) In the example the variable x is created only temporary when the function is being executed.</description>
     </item>
-    
   </channel>
 </rss>

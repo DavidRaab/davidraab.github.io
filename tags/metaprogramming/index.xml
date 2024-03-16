@@ -1,32 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>metaprogramming on David Raab</title>
+    <title>Metaprogramming on David Raab</title>
     <link>https://davidraab.github.io/tags/metaprogramming/</link>
-    <description>Recent content in metaprogramming on David Raab</description>
+    <description>Recent content in Metaprogramming on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 29 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/metaprogramming/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 29 Oct 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/metaprogramming/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Creating a real enum Type in Perl</title>
       <link>https://davidraab.github.io/posts/creating-a-real-enum-type-in-perl/</link>
       <pubDate>Sun, 29 Oct 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/creating-a-real-enum-type-in-perl/</guid>
-      <description>In my previous article about Metaprogramming in Perl I show how to implement an enum() function that creates real special values that are distinct from each other.
-When I called enum(&#39;red&#39;, &#39;green&#39;, &#39;blue&#39;) it created two functions for every passed string. red() and is_red() for the red string. red() returns the special value and is_red($value) checks if $value is our special value.
-But currently it does not completely satisfy being an enum.</description>
+      <description>In my previous article about Metaprogramming in Perl I show how to implement an enum() function that creates real special values that are distinct from each other.&#xA;When I called enum(&#39;red&#39;, &#39;green&#39;, &#39;blue&#39;) it created two functions for every passed string. red() and is_red() for the red string. red() returns the special value and is_red($value) checks if $value is our special value.&#xA;But currently it does not completely satisfy being an enum.</description>
     </item>
-    
     <item>
       <title>Meta-Programming in Perl</title>
       <link>https://davidraab.github.io/posts/meta-programming-in-perl/</link>
       <pubDate>Thu, 26 Oct 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/meta-programming-in-perl/</guid>
-      <description>In my last article about Special Values in Perl I explained how we can create true distinct values that can be safely distinguished by other values. The final result looked like this:
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 use Scalar::Util qw(refaddr reftype); # Special values Red, Green and Blue { # &amp;lt;-- this creates a new lexical-scope my ($red, $green, $blue) = ([], [], []); sub red { $red } sub green { $green } sub blue { $blue } my $is_color = sub { my ($source, $color) = @_; my $type = reftype($source) // &amp;#39;&amp;#39;; return ( $type eq &amp;#39;ARRAY&amp;#39; and refaddr($source) == refaddr($color) ) ?</description>
+      <description>In my last article about Special Values in Perl I explained how we can create true distinct values that can be safely distinguished by other values. The final result looked like this:&#xA;1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 use Scalar::Util qw(refaddr reftype); # Special values Red, Green and Blue { # &amp;lt;-- this creates a new lexical-scope my ($red, $green, $blue) = ([], [], []); sub red { $red } sub green { $green } sub blue { $blue } my $is_color = sub { my ($source, $color) = @_; my $type = reftype($source) // &amp;#39;&amp;#39;; return ( $type eq &amp;#39;ARRAY&amp;#39; and refaddr($source) == refaddr($color) ) ?</description>
     </item>
-    
   </channel>
 </rss>

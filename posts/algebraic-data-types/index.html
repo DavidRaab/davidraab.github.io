@@ -4,7 +4,7 @@
         <title>Algebraic Data-Types // David Raab</title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta charset="utf-8" />
-        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="generator" content="Hugo 0.123.1">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="David Raab" />
         <meta name="description" content="An Introduction to algebraic data-types in F#" />
@@ -12,8 +12,7 @@
         <script src="/static/code-toggle.js"></script>
 
         
-        <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Algebraic Data-Types"/>
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Algebraic Data-Types"/>
 <meta name="twitter:description" content="An Introduction to algebraic data-types in F#"/>
 
         <meta property="og:title" content="Algebraic Data-Types" />
@@ -24,10 +23,11 @@
 <meta property="article:modified_time" content="2016-04-26T00:00:00+00:00" />
 
 
+
     </head>
     <body>
         <header class="app-header">
-            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
             <span class="app-header-title">David Raab</span>
             <nav class="app-header-menu">
                     <a class="app-header-menu-item" href="/">Home</a>
@@ -79,10 +79,10 @@
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/types/">types</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/data/">data</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/units-of-measure/">units-of-measure</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">Fsharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/types/">Types</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/data/">Data</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/units-of-measure/">Units-of-Measure</a>
                 </div>
             </div>
         </header>
@@ -126,8 +126,8 @@ variables with a comma.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">foo</span> <span class="o">=</span> <span class="s">&#34;David&#34;</span><span class="o">,</span> <span class="mi">123</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">bar</span> <span class="o">=</span> <span class="s">&#34;Foo&#34;</span><span class="o">,</span> <span class="s">&#34;Bar&#34;</span><span class="o">,</span> <span class="s">&#34;Baz&#34;</span><span class="o">,</span> <span class="mi">55</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">foo</span> <span class="o">=</span> <span class="s">&#34;David&#34;</span><span class="o">,</span> <span class="n">123</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">bar</span> <span class="o">=</span> <span class="s">&#34;Foo&#34;</span><span class="o">,</span> <span class="s">&#34;Bar&#34;</span><span class="o">,</span> <span class="s">&#34;Baz&#34;</span><span class="o">,</span> <span class="n">55</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We can extract values from a tuple with <em>Pattern Matching</em>.</p>
@@ -200,7 +200,7 @@ of second list, 2 element of 1 list, 2 element of 2 list, &hellip;) then we coul
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">doSomething</span> <span class="bp">()</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">    <span class="mi">5</span><span class="o">,</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">5</span><span class="o">,</span> <span class="n">10</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span><span class="o">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">doSomething</span> <span class="bp">()</span>
 </span></span></code></pre></td></tr></table>
@@ -271,8 +271,8 @@ let&rsquo;s improve that example by just using a Record.</p>
 </span></span><span class="line"><span class="cl">    <span class="n">FirstName</span> <span class="o">=</span> <span class="s">&#34;David&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">LastName</span>  <span class="o">=</span> <span class="s">&#34;Raab&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">HairColor</span> <span class="o">=</span> <span class="s">&#34;Blond&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Birthday</span>  <span class="o">=</span> <span class="n">DateTime</span><span class="o">(</span><span class="mi">1983</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">19</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Size</span>      <span class="o">=</span> <span class="mi">100</span><span class="o">.</span><span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Birthday</span>  <span class="o">=</span> <span class="n">DateTime</span><span class="o">(</span><span class="n">1983</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">19</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Size</span>      <span class="o">=</span> <span class="n">100</span><span class="o">.</span><span class="n">0</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -316,16 +316,16 @@ let&rsquo;s improve that example by just using a Record.</p>
 </span></span><span class="line"><span class="cl">    <span class="n">FirstName</span> <span class="o">=</span> <span class="s">&#34;David&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">LastName</span>  <span class="o">=</span> <span class="s">&#34;Raab&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">HairColor</span> <span class="o">=</span> <span class="s">&#34;Blond&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Birthday</span>  <span class="o">=</span> <span class="n">DateTime</span><span class="o">(</span><span class="mi">1983</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">19</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Size</span>      <span class="o">=</span> <span class="mi">100</span><span class="o">.</span><span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Birthday</span>  <span class="o">=</span> <span class="n">DateTime</span><span class="o">(</span><span class="n">1983</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">19</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Size</span>      <span class="o">=</span> <span class="n">100</span><span class="o">.</span><span class="n">0</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">markus</span> <span class="o">=</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">FirstName</span> <span class="o">=</span> <span class="s">&#34;Markus&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">LastName</span>  <span class="o">=</span> <span class="s">&#34;Schwarz&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">HairColor</span> <span class="o">=</span> <span class="s">&#34;Blond&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Birthday</span>  <span class="o">=</span> <span class="n">DateTime</span><span class="o">(</span><span class="mi">1983</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Size</span>      <span class="o">=</span> <span class="mi">160</span><span class="o">.</span><span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Birthday</span>  <span class="o">=</span> <span class="n">DateTime</span><span class="o">(</span><span class="n">1983</span><span class="o">,</span> <span class="n">6</span><span class="o">,</span> <span class="n">3</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Size</span>      <span class="o">=</span> <span class="n">160</span><span class="o">.</span><span class="n">0</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">me</span> <span class="o">=</span> <span class="n">otherMe</span> <span class="c1">// true
@@ -348,8 +348,8 @@ we can do is to create a new record. F# provides a <em>Copy-and-update</em> synt
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">me2</span>     <span class="o">=</span> <span class="o">{</span> <span class="n">me</span>     <span class="k">with</span> <span class="n">Size</span> <span class="o">=</span> <span class="mi">173</span><span class="o">.</span><span class="mi">0</span> <span class="o">}</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">markus2</span> <span class="o">=</span> <span class="o">{</span> <span class="n">markus</span> <span class="k">with</span> <span class="n">Birthday</span> <span class="o">=</span> <span class="n">DateTime</span><span class="o">(</span><span class="mi">1983</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">4</span><span class="o">);</span> <span class="n">Size</span> <span class="o">=</span> <span class="mi">173</span><span class="o">.</span><span class="mi">0</span> <span class="o">}</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">me2</span>     <span class="o">=</span> <span class="o">{</span> <span class="n">me</span>     <span class="k">with</span> <span class="n">Size</span> <span class="o">=</span> <span class="n">173</span><span class="o">.</span><span class="n">0</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">markus2</span> <span class="o">=</span> <span class="o">{</span> <span class="n">markus</span> <span class="k">with</span> <span class="n">Birthday</span> <span class="o">=</span> <span class="n">DateTime</span><span class="o">(</span><span class="n">1983</span><span class="o">,</span><span class="n">6</span><span class="o">,</span><span class="n">4</span><span class="o">);</span> <span class="n">Size</span> <span class="o">=</span> <span class="n">173</span><span class="o">.</span><span class="n">0</span> <span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">me</span> <span class="o">&lt;</span> <span class="n">me2</span> <span class="c1">// true -- because me2 has a bigger size
 </span></span></span></code></pre></td></tr></table>
@@ -376,7 +376,7 @@ field that uses three <code>int</code> to represent gold, silver and bronze.</p>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">richPlayer</span> <span class="o">=</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Name</span>  <span class="o">=</span> <span class="s">&#34;Foo&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Money</span> <span class="o">=</span> <span class="o">(</span><span class="mi">3000</span><span class="o">,</span> <span class="mi">200</span><span class="o">,</span> <span class="mi">100</span><span class="o">)</span> <span class="c1">// 3000 gold, 200 silver, 100 bronze
+</span></span><span class="line"><span class="cl">    <span class="n">Money</span> <span class="o">=</span> <span class="o">(</span><span class="n">3000</span><span class="o">,</span> <span class="n">200</span><span class="o">,</span> <span class="n">100</span><span class="o">)</span> <span class="c1">// 3000 gold, 200 silver, 100 bronze
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -403,13 +403,13 @@ field that uses three <code>int</code> to represent gold, silver and bronze.</p>
 </span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Rect</span>  <span class="o">=</span> <span class="o">{</span> <span class="n">TopLeft</span><span class="o">:</span><span class="n">Point</span><span class="o">;</span> <span class="n">BottomRight</span><span class="o">:</span><span class="n">Point</span> <span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">line</span> <span class="o">=</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">   <span class="n">Start</span> <span class="o">=</span> <span class="o">{</span> <span class="n">X</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">Y</span><span class="o">=</span><span class="mi">0</span>  <span class="o">}</span>
-</span></span><span class="line"><span class="cl">   <span class="n">Stop</span>  <span class="o">=</span> <span class="o">{</span> <span class="n">X</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">Y</span><span class="o">=</span><span class="mi">10</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">   <span class="n">Start</span> <span class="o">=</span> <span class="o">{</span> <span class="n">X</span><span class="o">=</span><span class="n">0</span><span class="o">;</span> <span class="n">Y</span><span class="o">=</span><span class="n">0</span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">   <span class="n">Stop</span>  <span class="o">=</span> <span class="o">{</span> <span class="n">X</span><span class="o">=</span><span class="n">0</span><span class="o">;</span> <span class="n">Y</span><span class="o">=</span><span class="n">10</span> <span class="o">}</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rect</span> <span class="o">=</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">   <span class="n">TopLeft</span>     <span class="o">=</span> <span class="o">{</span> <span class="n">X</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>  <span class="n">Y</span><span class="o">=</span><span class="mi">0</span>  <span class="o">}</span>
-</span></span><span class="line"><span class="cl">   <span class="n">BottomRight</span> <span class="o">=</span> <span class="o">{</span> <span class="n">X</span><span class="o">=</span><span class="mi">10</span><span class="o">;</span> <span class="n">Y</span><span class="o">=</span><span class="mi">10</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">   <span class="n">TopLeft</span>     <span class="o">=</span> <span class="o">{</span> <span class="n">X</span><span class="o">=</span><span class="n">0</span><span class="o">;</span>  <span class="n">Y</span><span class="o">=</span><span class="n">0</span>  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">   <span class="n">BottomRight</span> <span class="o">=</span> <span class="o">{</span> <span class="n">X</span><span class="o">=</span><span class="n">10</span><span class="o">;</span> <span class="n">Y</span><span class="o">=</span><span class="n">10</span> <span class="o">}</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -511,7 +511,7 @@ the <a href="https://en.wikipedia.org/wiki/JSON">JSON example on Wikipedia</a></
 </span></span><span class="line"><span class="cl">    <span class="n">FirstName</span> <span class="o">=</span> <span class="s">&#34;John&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">LastName</span>  <span class="o">=</span> <span class="s">&#34;Smith&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">IsAlive</span>   <span class="o">=</span> <span class="k">true</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Age</span>       <span class="o">=</span> <span class="mi">25</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Age</span>       <span class="o">=</span> <span class="n">25</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Address</span>   <span class="o">=</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">StreetAddress</span> <span class="o">=</span> <span class="s">&#34;21 2nd Street&#34;</span>
 </span></span><span class="line"><span class="cl">        <span class="n">City</span>          <span class="o">=</span> <span class="s">&#34;New York&#34;</span>
@@ -674,7 +674,7 @@ construct to.</p>
 </span></span><span class="line"><span class="cl">    <span class="n">FirstName</span> <span class="o">=</span> <span class="s">&#34;John&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">LastName</span>  <span class="o">=</span> <span class="s">&#34;Smith&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">IsAlive</span>   <span class="o">=</span> <span class="k">true</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Age</span>       <span class="o">=</span> <span class="mi">25</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Age</span>       <span class="o">=</span> <span class="n">25</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Address</span>   <span class="o">=</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">StreetAddress</span> <span class="o">=</span> <span class="s">&#34;21 2nd Street&#34;</span>
 </span></span><span class="line"><span class="cl">        <span class="n">City</span>          <span class="o">=</span> <span class="s">&#34;New York&#34;</span>
@@ -802,8 +802,8 @@ different types can represent the same data.</p>
 </span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">Line</span>  <span class="o">=</span> <span class="o">(</span><span class="n">int</span> <span class="o">*</span> <span class="n">int</span><span class="o">)</span> <span class="o">*</span> <span class="o">(</span><span class="n">int</span> <span class="o">*</span> <span class="n">int</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">Line2</span> <span class="o">=</span> <span class="n">int</span> <span class="o">*</span> <span class="n">int</span> <span class="o">*</span> <span class="n">int</span> <span class="o">*</span> <span class="n">int</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">line</span>  <span class="o">=</span> <span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">),</span> <span class="o">(</span><span class="mi">10</span><span class="o">,</span><span class="mi">10</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">line2</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">10</span><span class="o">,</span><span class="mi">10</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">line</span>  <span class="o">=</span> <span class="o">(</span><span class="n">0</span><span class="o">,</span><span class="n">0</span><span class="o">),</span> <span class="o">(</span><span class="n">10</span><span class="o">,</span><span class="n">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">line2</span> <span class="o">=</span> <span class="n">0</span><span class="o">,</span><span class="n">0</span><span class="o">,</span><span class="n">10</span><span class="o">,</span><span class="n">10</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>Line</code> and <code>Line2</code> are two different types.</p>
@@ -854,8 +854,8 @@ tuples in a <em>Single-case Discriminated Union</em> we get distinct types.</p>
 </span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">Line</span>  <span class="o">=</span> <span class="n">Line</span>  <span class="k">of</span> <span class="n">Point</span> <span class="o">*</span> <span class="n">Point</span>
 </span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="nc">Rect</span>  <span class="o">=</span> <span class="n">Rect</span>  <span class="k">of</span> <span class="n">Point</span> <span class="o">*</span> <span class="n">Point</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">p1</span>   <span class="o">=</span> <span class="n">Point</span> <span class="o">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">,</span> <span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">p2</span>   <span class="o">=</span> <span class="n">Point</span> <span class="o">(</span><span class="mi">5</span><span class="o">.</span><span class="mi">5</span><span class="o">,</span> <span class="mi">8</span><span class="o">.</span><span class="mi">8</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">p1</span>   <span class="o">=</span> <span class="n">Point</span> <span class="o">(</span><span class="n">0</span><span class="o">.</span><span class="n">0</span><span class="o">,</span> <span class="n">5</span><span class="o">.</span><span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">p2</span>   <span class="o">=</span> <span class="n">Point</span> <span class="o">(</span><span class="n">5</span><span class="o">.</span><span class="n">5</span><span class="o">,</span> <span class="n">8</span><span class="o">.</span><span class="n">8</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">line</span> <span class="o">=</span> <span class="n">Line</span> <span class="o">(</span><span class="n">p1</span><span class="o">,</span><span class="n">p2</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rect</span> <span class="o">=</span> <span class="n">Rect</span> <span class="o">(</span><span class="n">p1</span><span class="o">,</span><span class="n">p2</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
@@ -1053,8 +1053,8 @@ numbers. Because wrapping of numbers is such a common task, F# provides a featur
 </span></span><span class="line"><span class="cl"><span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span> <span class="k">type</span> <span class="nc">miles</span>
 </span></span><span class="line"><span class="cl"><span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span> <span class="k">type</span> <span class="nc">hour</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sizeA</span> <span class="o">=</span> <span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="o">&lt;</span><span class="n">meter</span><span class="o">&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sizeB</span> <span class="o">=</span> <span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="o">&lt;</span><span class="n">miles</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sizeA</span> <span class="o">=</span> <span class="n">10</span><span class="o">.</span><span class="n">0</span><span class="o">&lt;</span><span class="n">meter</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sizeB</span> <span class="o">=</span> <span class="n">10</span><span class="o">.</span><span class="n">0</span><span class="o">&lt;</span><span class="n">miles</span><span class="o">&gt;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>When we now do something like</p>
@@ -1075,9 +1075,9 @@ that we can work with those numbers without unwrapping them.</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">doubleSize</span>   <span class="o">=</span> <span class="n">sizeA</span> <span class="o">*</span> <span class="mi">2</span><span class="o">.</span><span class="mi">0</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">doubleSize</span>   <span class="o">=</span> <span class="n">sizeA</span> <span class="o">*</span> <span class="n">2</span><span class="o">.</span><span class="n">0</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">area</span>         <span class="o">=</span> <span class="n">sizeA</span> <span class="o">*</span> <span class="n">sizeA</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">meterPerHour</span> <span class="o">=</span> <span class="n">sizeA</span> <span class="o">/</span> <span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="o">&lt;</span><span class="n">hour</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">meterPerHour</span> <span class="o">=</span> <span class="n">sizeA</span> <span class="o">/</span> <span class="n">3</span><span class="o">.</span><span class="n">0</span><span class="o">&lt;</span><span class="n">hour</span><span class="o">&gt;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>It is quite interesting to look at the types we now get. <code>doubleSize</code> is <code>20.0&lt;meter&gt;</code>. But
@@ -1103,11 +1103,11 @@ to use <code>kilometer</code> and <code>kmh</code> (kilometer per hour) and <cod
 </span></span><span class="line"><span class="cl"><span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span> <span class="k">type</span> <span class="nc">kmh</span> <span class="o">=</span> <span class="n">km</span> <span class="o">/</span> <span class="n">hour</span>
 </span></span><span class="line"><span class="cl"><span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span> <span class="k">type</span> <span class="nc">mph</span> <span class="o">=</span> <span class="n">miles</span> <span class="o">/</span> <span class="n">hour</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">distance</span>  <span class="o">=</span> <span class="mi">320</span><span class="o">.</span><span class="mi">0</span><span class="o">&lt;</span><span class="n">km</span><span class="o">&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">timeTaken</span> <span class="o">=</span> <span class="mi">4</span><span class="o">.</span><span class="mi">5</span><span class="o">&lt;</span><span class="n">hour</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">distance</span>  <span class="o">=</span> <span class="n">320</span><span class="o">.</span><span class="n">0</span><span class="o">&lt;</span><span class="n">km</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">timeTaken</span> <span class="o">=</span> <span class="n">4</span><span class="o">.</span><span class="n">5</span><span class="o">&lt;</span><span class="n">hour</span><span class="o">&gt;</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">speed</span>     <span class="o">=</span> <span class="n">distance</span> <span class="o">/</span> <span class="n">timeTaken</span>  <span class="c1">// 71.1111111&lt;kmh&gt;
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">newSpeed</span>     <span class="o">=</span> <span class="n">speed</span> <span class="o">+</span> <span class="mi">30</span><span class="o">.</span><span class="mi">0</span><span class="o">&lt;</span><span class="n">kmh</span><span class="o">&gt;</span>   <span class="c1">// 101.1111111&lt;kmh&gt;
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">newSpeed</span>     <span class="o">=</span> <span class="n">speed</span> <span class="o">+</span> <span class="n">30</span><span class="o">.</span><span class="n">0</span><span class="o">&lt;</span><span class="n">kmh</span><span class="o">&gt;</span>   <span class="c1">// 101.1111111&lt;kmh&gt;
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">newTimeTaken</span> <span class="o">=</span> <span class="n">distance</span> <span class="o">/</span> <span class="n">newSpeed</span> <span class="c1">// 3.164835165&lt;hour&gt;
 </span></span></span></code></pre></td></tr></table>
 </div>
@@ -1170,7 +1170,7 @@ but whenever you want to wrap a number in a Single-case DU, you should consider 
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">richPlayer</span> <span class="o">=</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">Name</span>  <span class="o">=</span> <span class="s">&#34;Me&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="n">Money</span> <span class="o">=</span> <span class="mi">3000</span><span class="o">&lt;</span><span class="n">Gold</span><span class="o">&gt;,</span> <span class="mi">200</span><span class="o">&lt;</span><span class="n">Silver</span><span class="o">&gt;,</span> <span class="mi">100</span><span class="o">&lt;</span><span class="n">Bronze</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Money</span> <span class="o">=</span> <span class="n">3000</span><span class="o">&lt;</span><span class="n">Gold</span><span class="o">&gt;,</span> <span class="n">200</span><span class="o">&lt;</span><span class="n">Silver</span><span class="o">&gt;,</span> <span class="n">100</span><span class="o">&lt;</span><span class="n">Bronze</span><span class="o">&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -1203,7 +1203,7 @@ a DU with two cases. We either reached the end of a list or we have a single-ele
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">nums</span> <span class="o">=</span> <span class="n">Cons</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">Cons</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">Cons</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">Cons</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="n">Cons</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="n">Empty</span><span class="o">)))))</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">nums</span> <span class="o">=</span> <span class="n">Cons</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">Cons</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="n">Cons</span><span class="o">(</span><span class="n">3</span><span class="o">,</span> <span class="n">Cons</span><span class="o">(</span><span class="n">4</span><span class="o">,</span> <span class="n">Cons</span><span class="o">(</span><span class="n">5</span><span class="o">,</span> <span class="n">Empty</span><span class="o">)))))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>When that looks impractical, actually the built-in F# list is exactly defined like this. The only
@@ -1214,7 +1214,7 @@ infix it looks a little bit nicer, but overall it is the same.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">numsl</span> <span class="o">=</span> <span class="mi">1</span><span class="o">::</span><span class="mi">2</span><span class="o">::</span><span class="mi">3</span><span class="o">::</span><span class="mi">4</span><span class="o">::</span><span class="mi">5</span><span class="o">::</span><span class="bp">[]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">numsl</span> <span class="o">=</span> <span class="n">1</span><span class="o">::</span><span class="n">2</span><span class="o">::</span><span class="n">3</span><span class="o">::</span><span class="n">4</span><span class="o">::</span><span class="n">5</span><span class="o">::</span><span class="bp">[]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We also can easily create a <code>fold</code> function, for further information on how fold works
@@ -1293,13 +1293,13 @@ a single element and a Left and a Right Node.</p>
 </span></span></span><span class="line"><span class="cl"><span class="c1">// 1 3 5 7
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">tree</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Node</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span>
-</span></span><span class="line"><span class="cl">        <span class="n">Node</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span>
-</span></span><span class="line"><span class="cl">            <span class="n">Node</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">),</span>
-</span></span><span class="line"><span class="cl">            <span class="n">Node</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">)),</span>
-</span></span><span class="line"><span class="cl">        <span class="n">Node</span><span class="o">(</span><span class="mi">6</span><span class="o">,</span>
-</span></span><span class="line"><span class="cl">            <span class="n">Node</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">),</span>
-</span></span><span class="line"><span class="cl">            <span class="n">Node</span><span class="o">(</span><span class="mi">7</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span><span class="o">(</span><span class="n">4</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Node</span><span class="o">(</span><span class="n">2</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Node</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Node</span><span class="o">(</span><span class="n">3</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">)),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Node</span><span class="o">(</span><span class="n">6</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Node</span><span class="o">(</span><span class="n">5</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Node</span><span class="o">(</span><span class="n">7</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">,</span> <span class="n">Leaf</span><span class="o">)))</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">fold</span> <span class="n">f</span> <span class="n">acc</span> <span class="n">tree</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">acc</span> <span class="n">tree</span> <span class="o">=</span>
@@ -1517,7 +1517,7 @@ considers his code or his data structures more important.</p>
         </div>
         <div class="post-footer">
             <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     

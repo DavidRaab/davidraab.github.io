@@ -4,7 +4,7 @@
         <title>Optionals // David Raab</title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta charset="utf-8" />
-        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="generator" content="Hugo 0.123.1">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="David Raab" />
         <meta name="description" content="Describes Optionals as an alternative to null" />
@@ -12,8 +12,7 @@
         <script src="/static/code-toggle.js"></script>
 
         
-        <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Optionals"/>
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Optionals"/>
 <meta name="twitter:description" content="Describes Optionals as an alternative to null"/>
 
         <meta property="og:title" content="Optionals" />
@@ -24,10 +23,11 @@
 <meta property="article:modified_time" content="2016-04-11T00:00:00+00:00" />
 
 
+
     </head>
     <body>
         <header class="app-header">
-            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
             <span class="app-header-title">David Raab</span>
             <nav class="app-header-menu">
                     <a class="app-header-menu-item" href="/">Home</a>
@@ -79,9 +79,9 @@
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/null/">null</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/option/">option</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">Fsharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/null/">Null</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/option/">Option</a>
                 </div>
             </div>
         </header>
@@ -209,11 +209,11 @@ our function. This kind of stuff is what a <code>Option.map</code> does. So inst
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">Some</span> <span class="mi">10</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">Some</span> <span class="n">10</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">x</span> <span class="k">with</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">None</span>   <span class="o">-&gt;</span> <span class="n">None</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Some</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">Some</span> <span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">5</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Some</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">Some</span> <span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">5</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>we also can just write</p>
@@ -222,7 +222,7 @@ our function. This kind of stuff is what a <code>Option.map</code> does. So inst
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">5</span><span class="o">)</span> <span class="n">x</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">5</span><span class="o">)</span> <span class="n">x</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Now, we are forced to handle <code>option</code> values. But <code>option</code> itself is it&rsquo;s own type and we have
@@ -687,9 +687,9 @@ we just call <code>loop</code> again that recurs with the new <code>Map</code>.<
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">storage</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="nn">Map</span><span class="p">.</span><span class="n">ofList</span> <span class="o">[</span>
-</span></span><span class="line"><span class="cl">        <span class="mi">1</span><span class="o">,</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="mi">1</span> <span class="s">&#34;TV&#34;</span> <span class="mi">499</span><span class="o">.</span><span class="mi">99m</span>
-</span></span><span class="line"><span class="cl">        <span class="mi">2</span><span class="o">,</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="mi">2</span> <span class="s">&#34;A Book&#34;</span> <span class="mi">29</span><span class="o">.</span><span class="mi">99m</span>
-</span></span><span class="line"><span class="cl">        <span class="mi">3</span><span class="o">,</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="mi">3</span> <span class="s">&#34;Game Console&#34;</span> <span class="mi">349</span><span class="o">.</span><span class="mi">99m</span>
+</span></span><span class="line"><span class="cl">        <span class="n">1</span><span class="o">,</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="n">1</span> <span class="s">&#34;TV&#34;</span> <span class="n">499</span><span class="o">.</span><span class="n">99m</span>
+</span></span><span class="line"><span class="cl">        <span class="n">2</span><span class="o">,</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="n">2</span> <span class="s">&#34;A Book&#34;</span> <span class="n">29</span><span class="o">.</span><span class="n">99m</span>
+</span></span><span class="line"><span class="cl">        <span class="n">3</span><span class="o">,</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="n">3</span> <span class="s">&#34;Game Console&#34;</span> <span class="n">349</span><span class="o">.</span><span class="n">99m</span>
 </span></span><span class="line"><span class="cl">    <span class="o">]</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">main</span> <span class="n">storage</span>
@@ -900,7 +900,7 @@ start our whole application loop.</p>
 </span></span><span class="line"><span class="cl">        <span class="nn">Map</span><span class="p">.</span><span class="n">containsKey</span> <span class="n">id</span> <span class="n">db</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">nextId</span> <span class="n">db</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="nn">Map</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">k</span> <span class="n">v</span> <span class="o">-&gt;</span> <span class="n">max</span> <span class="n">acc</span> <span class="n">k</span><span class="o">)</span> <span class="mi">0</span> <span class="n">db</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="nn">Map</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">k</span> <span class="n">v</span> <span class="o">-&gt;</span> <span class="n">max</span> <span class="n">acc</span> <span class="n">k</span><span class="o">)</span> <span class="n">0</span> <span class="n">db</span><span class="o">)</span> <span class="o">+</span> <span class="n">1</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">insert</span> <span class="n">key</span> <span class="n">value</span> <span class="n">db</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">        <span class="c1">// Check if we have that key
@@ -1017,9 +1017,9 @@ start our whole application loop.</p>
 </span></span><span class="line"><span class="cl"><span class="c1">// Start with some default entries
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">storage</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="nn">Map</span><span class="p">.</span><span class="n">ofList</span> <span class="o">[</span>
-</span></span><span class="line"><span class="cl">        <span class="mi">1</span><span class="o">,</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="mi">1</span> <span class="s">&#34;TV&#34;</span> <span class="mi">499</span><span class="o">.</span><span class="mi">99m</span>
-</span></span><span class="line"><span class="cl">        <span class="mi">2</span><span class="o">,</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="mi">2</span> <span class="s">&#34;A Book&#34;</span> <span class="mi">29</span><span class="o">.</span><span class="mi">99m</span>
-</span></span><span class="line"><span class="cl">        <span class="mi">3</span><span class="o">,</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="mi">3</span> <span class="s">&#34;Game Console&#34;</span> <span class="mi">349</span><span class="o">.</span><span class="mi">99m</span>
+</span></span><span class="line"><span class="cl">        <span class="n">1</span><span class="o">,</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="n">1</span> <span class="s">&#34;TV&#34;</span> <span class="n">499</span><span class="o">.</span><span class="n">99m</span>
+</span></span><span class="line"><span class="cl">        <span class="n">2</span><span class="o">,</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="n">2</span> <span class="s">&#34;A Book&#34;</span> <span class="n">29</span><span class="o">.</span><span class="n">99m</span>
+</span></span><span class="line"><span class="cl">        <span class="n">3</span><span class="o">,</span> <span class="nn">Product</span><span class="p">.</span><span class="n">create</span> <span class="n">3</span> <span class="s">&#34;Game Console&#34;</span> <span class="n">349</span><span class="o">.</span><span class="n">99m</span>
 </span></span><span class="line"><span class="cl">    <span class="o">]</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// Start program loop
@@ -1030,7 +1030,7 @@ start our whole application loop.</p>
         </div>
         <div class="post-footer">
             <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     

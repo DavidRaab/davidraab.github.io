@@ -4,7 +4,7 @@
         <title>CPS fold -- fold with early exit // David Raab</title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta charset="utf-8" />
-        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="generator" content="Hugo 0.123.1">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="David Raab" />
         <meta name="description" content="Describes how to implement a CPS fold. A CPS fold supports early exit" />
@@ -12,8 +12,7 @@
         <script src="/static/code-toggle.js"></script>
 
         
-        <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="CPS fold -- fold with early exit"/>
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="CPS fold -- fold with early exit"/>
 <meta name="twitter:description" content="Describes how to implement a CPS fold. A CPS fold supports early exit"/>
 
         <meta property="og:title" content="CPS fold -- fold with early exit" />
@@ -24,10 +23,11 @@
 <meta property="article:modified_time" content="2016-05-07T00:00:00+00:00" />
 
 
+
     </head>
     <body>
         <header class="app-header">
-            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
             <span class="app-header-title">David Raab</span>
             <nav class="app-header-menu">
                     <a class="app-header-menu-item" href="/">Home</a>
@@ -79,11 +79,11 @@
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/list/">list</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/fold/">fold</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/cps/">cps</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/recursion/">recursion</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">Fsharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/list/">List</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fold/">Fold</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/cps/">Cps</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/recursion/">Recursion</a>
                 </div>
             </div>
         </header>
@@ -115,8 +115,8 @@ of just two.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span>   <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span> <span class="mi">0</span> <span class="c1">// 5050
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">foldk</span>     <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="n">k</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span> <span class="mi">0</span> <span class="c1">// 1
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span>   <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span> <span class="n">0</span> <span class="c1">// 5050
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">foldk</span>     <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="n">k</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span> <span class="n">0</span> <span class="c1">// 1
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>When we provide the same code then we already see how it differs. <code>fold</code> always runs through all
@@ -135,7 +135,7 @@ recurring should happen.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">foldk</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="n">k</span> <span class="o">-&gt;</span> <span class="n">k</span> <span class="o">(</span><span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">))</span> <span class="mi">0</span> <span class="c1">// 5050
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">foldk</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="n">k</span> <span class="o">-&gt;</span> <span class="n">k</span> <span class="o">(</span><span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">))</span> <span class="n">0</span> <span class="c1">// 5050
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>When we want to traverse all elements of our list, then we just call <code>k</code> with the next <em>accumulator</em>.
@@ -158,18 +158,18 @@ in comparison to <code>fold</code>.</p>
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="mi">5</span><span class="o">;</span><span class="mi">10</span><span class="o">;</span><span class="mi">15</span><span class="o">;</span><span class="mi">10</span><span class="o">;</span><span class="mi">5</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span>   <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">11</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">5</span><span class="o">;</span><span class="n">10</span><span class="o">;</span><span class="n">15</span><span class="o">;</span><span class="n">10</span><span class="o">;</span><span class="n">5</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span>   <span class="n">x</span> <span class="o">&lt;</span> <span class="n">11</span>
 </span></span><span class="line"><span class="cl">    <span class="k">then</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">x</span>
 </span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="n">acc</span>
-</span></span><span class="line"><span class="cl"><span class="o">)</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">)</span> <span class="n">0</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// 30
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="mi">5</span><span class="o">;</span><span class="mi">10</span><span class="o">;</span><span class="mi">15</span><span class="o">;</span><span class="mi">10</span><span class="o">;</span><span class="mi">5</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">foldk</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="n">k</span> <span class="o">-&gt;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span>   <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">11</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">5</span><span class="o">;</span><span class="n">10</span><span class="o">;</span><span class="n">15</span><span class="o">;</span><span class="n">10</span><span class="o">;</span><span class="n">5</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">foldk</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="n">k</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span>   <span class="n">x</span> <span class="o">&lt;</span> <span class="n">11</span>
 </span></span><span class="line"><span class="cl">    <span class="k">then</span> <span class="n">k</span> <span class="o">(</span><span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="n">acc</span>
-</span></span><span class="line"><span class="cl"><span class="o">)</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">)</span> <span class="n">0</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// 15
 </span></span></span></code></pre></td></tr></table>
 </div>
@@ -209,7 +209,7 @@ the next accumulator. As you can see, when the user decides to call <code>k</cod
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">foldk</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="n">k</span> <span class="o">-&gt;</span> <span class="n">k</span> <span class="o">(</span><span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">))</span> <span class="mi">0</span> <span class="c1">// 15
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">5</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">foldk</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="n">k</span> <span class="o">-&gt;</span> <span class="n">k</span> <span class="o">(</span><span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">))</span> <span class="n">0</span> <span class="c1">// 15
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>The result of our function is <code>15</code>. Let&rsquo;s see step-by-step how we got this result. When we call <code>foldk</code>
@@ -356,7 +356,7 @@ pattern matching in the <code>foldk</code> function.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">foldk</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="n">k</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">3</span> <span class="k">then</span> <span class="n">k</span> <span class="o">(</span><span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span> <span class="k">else</span> <span class="n">acc</span><span class="o">)</span> <span class="mi">0</span> <span class="c1">// 3
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">5</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">foldk</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="n">k</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">3</span> <span class="k">then</span> <span class="n">k</span> <span class="o">(</span><span class="n">acc</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span> <span class="k">else</span> <span class="n">acc</span><span class="o">)</span> <span class="n">0</span> <span class="c1">// 3
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><table>
@@ -464,9 +464,9 @@ pattern matching in the <code>foldk</code> function.</p>
 </span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="n">k</span> <span class="n">acc</span>
 </span></span><span class="line"><span class="cl">    <span class="o">)</span> <span class="n">None</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">tryPick</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span> <span class="c1">// Some 5
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">tryPick</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="o">)</span>    <span class="c1">// Some 11
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">tryPick</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1000</span><span class="o">)</span>  <span class="c1">// None
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">tryPick</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="n">5</span> <span class="o">=</span> <span class="n">0</span><span class="o">)</span> <span class="c1">// Some 5
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">tryPick</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">10</span><span class="o">)</span>    <span class="c1">// Some 11
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">tryPick</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">1000</span><span class="o">)</span>  <span class="c1">// None
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>We start with <code>None</code> as our default value. Once we found a matching <code>x</code> we just return it,
@@ -492,8 +492,8 @@ that still contains <code>None</code>.</p>
 </span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="n">k</span> <span class="n">acc</span>
 </span></span><span class="line"><span class="cl">    <span class="o">)</span> <span class="k">false</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">contains</span> <span class="mi">10</span> <span class="c1">// true
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">contains</span> <span class="mi">0</span>  <span class="c1">// false
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">contains</span> <span class="n">10</span> <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">contains</span> <span class="n">0</span>  <span class="c1">// false
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Very similar to <code>tryPick</code>. We start with <code>false</code> and return it when we reach the end
@@ -558,8 +558,8 @@ I think the rest of the function are nearly self-specking as they are all very s
 </span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="n">k</span> <span class="n">acc</span>
 </span></span><span class="line"><span class="cl">    <span class="o">)</span> <span class="k">false</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">exists</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">50</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span> <span class="c1">// true
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">exists</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span>      <span class="c1">// false
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">exists</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="n">50</span> <span class="o">=</span> <span class="n">0</span><span class="o">)</span> <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">exists</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span>      <span class="c1">// false
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
@@ -570,8 +570,8 @@ I think the rest of the function are nearly self-specking as they are all very s
 </span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="k">false</span>
 </span></span><span class="line"><span class="cl">    <span class="o">)</span> <span class="k">true</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="mi">2</span><span class="o">;</span><span class="mi">4</span><span class="o">;</span><span class="mi">6</span><span class="o">;</span><span class="mi">8</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">forall</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span> <span class="c1">// true
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="mi">2</span><span class="o">;</span><span class="mi">4</span><span class="o">;</span><span class="mi">6</span><span class="o">;</span><span class="mi">8</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">forall</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">1</span><span class="o">)</span> <span class="c1">// false
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">2</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">6</span><span class="o">;</span><span class="n">8</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">forall</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span><span class="o">)</span> <span class="c1">// true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="n">2</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">6</span><span class="o">;</span><span class="n">8</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">forall</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">1</span><span class="o">)</span> <span class="c1">// false
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
@@ -579,26 +579,26 @@ I think the rest of the function are nearly self-specking as they are all very s
 </span></span><span class="line"><span class="cl">    <span class="n">xs</span> <span class="o">|&gt;</span> <span class="n">foldk</span> <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">x</span> <span class="n">k</span> <span class="o">-&gt;</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span>   <span class="n">idx</span> <span class="o">=</span> <span class="n">acc</span>
 </span></span><span class="line"><span class="cl">        <span class="k">then</span> <span class="n">x</span>
-</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="n">k</span> <span class="o">(</span><span class="n">acc</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">    <span class="o">)</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="n">k</span> <span class="o">(</span><span class="n">acc</span> <span class="o">+</span> <span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span> <span class="n">0</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="mi">2</span><span class="o">..</span><span class="mi">2</span><span class="o">..</span><span class="mi">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">item</span> <span class="mi">0</span>  <span class="c1">// 2
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="mi">2</span><span class="o">..</span><span class="mi">2</span><span class="o">..</span><span class="mi">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">item</span> <span class="mi">1</span>  <span class="c1">// 4
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="mi">2</span><span class="o">..</span><span class="mi">2</span><span class="o">..</span><span class="mi">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">item</span> <span class="mi">2</span>  <span class="c1">// 6
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="mi">2</span><span class="o">..</span><span class="mi">2</span><span class="o">..</span><span class="mi">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">item</span> <span class="mi">10</span> <span class="c1">// 22
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">2</span><span class="o">..</span><span class="n">2</span><span class="o">..</span><span class="n">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">item</span> <span class="n">0</span>  <span class="c1">// 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="n">2</span><span class="o">..</span><span class="n">2</span><span class="o">..</span><span class="n">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">item</span> <span class="n">1</span>  <span class="c1">// 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="n">2</span><span class="o">..</span><span class="n">2</span><span class="o">..</span><span class="n">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">item</span> <span class="n">2</span>  <span class="c1">// 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="n">2</span><span class="o">..</span><span class="n">2</span><span class="o">..</span><span class="n">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">item</span> <span class="n">10</span> <span class="c1">// 22
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">take</span> <span class="n">amount</span> <span class="n">xs</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="n">xs</span> <span class="o">|&gt;</span> <span class="n">foldk</span> <span class="o">(</span><span class="k">fun</span> <span class="o">(</span><span class="n">collected</span><span class="o">,</span><span class="n">acc</span><span class="o">)</span> <span class="n">x</span> <span class="n">k</span> <span class="o">-&gt;</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span>   <span class="n">collected</span> <span class="o">&lt;</span> <span class="n">amount</span>
-</span></span><span class="line"><span class="cl">        <span class="k">then</span> <span class="n">k</span> <span class="o">(</span><span class="n">collected</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="n">x</span><span class="o">::</span><span class="n">acc</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">then</span> <span class="n">k</span> <span class="o">(</span><span class="n">collected</span><span class="o">+</span><span class="n">1</span><span class="o">,</span> <span class="n">x</span><span class="o">::</span><span class="n">acc</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="o">(</span><span class="n">collected</span><span class="o">,</span><span class="n">acc</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">    <span class="o">)</span> <span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="bp">[]</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="n">snd</span>  <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">rev</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span> <span class="o">(</span><span class="n">0</span><span class="o">,</span><span class="bp">[]</span><span class="o">)</span> <span class="o">|&gt;</span> <span class="n">snd</span>  <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">rev</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">take</span> <span class="mi">0</span>   <span class="c1">// []
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">take</span> <span class="mi">3</span>   <span class="c1">// [1;2;3]
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">3</span><span class="o">]</span>   <span class="o">|&gt;</span> <span class="n">take</span> <span class="mi">100</span> <span class="c1">// [1;2;3]
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">take</span> <span class="n">0</span>   <span class="c1">// []
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">100</span><span class="o">]</span> <span class="o">|&gt;</span> <span class="n">take</span> <span class="n">3</span>   <span class="c1">// [1;2;3]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">[</span><span class="n">1</span><span class="o">..</span><span class="n">3</span><span class="o">]</span>   <span class="o">|&gt;</span> <span class="n">take</span> <span class="n">100</span> <span class="c1">// [1;2;3]
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>The last line is btw. not the exact behaviour of <code>List.take</code>. The standard implementation throws
@@ -617,7 +617,7 @@ you have this ability and it works fine with immutable data-structures.</p>
         </div>
         <div class="post-footer">
             <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     

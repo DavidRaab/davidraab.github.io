@@ -4,7 +4,7 @@
         <title>The Option Module // David Raab</title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta charset="utf-8" />
-        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="generator" content="Hugo 0.123.1">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="David Raab" />
         <meta name="description" content="Explains some lesser known functions in the Option Module" />
@@ -12,8 +12,7 @@
         <script src="/static/code-toggle.js"></script>
 
         
-        <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="The Option Module"/>
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="The Option Module"/>
 <meta name="twitter:description" content="Explains some lesser known functions in the Option Module"/>
 
         <meta property="og:title" content="The Option Module" />
@@ -24,10 +23,11 @@
 <meta property="article:modified_time" content="2016-05-11T00:00:00+00:00" />
 
 
+
     </head>
     <body>
         <header class="app-header">
-            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
             <span class="app-header-title">David Raab</span>
             <nav class="app-header-menu">
                     <a class="app-header-menu-item" href="/">Home</a>
@@ -79,8 +79,8 @@
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/option/">option</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">Fsharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/option/">Option</a>
                 </div>
             </div>
         </header>
@@ -99,8 +99,8 @@ in the case we had no value.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">o1</span> <span class="o">=</span> <span class="n">defaultArg</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">10</span><span class="o">)</span> <span class="mi">0</span> <span class="c1">// 10
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">o2</span> <span class="o">=</span> <span class="n">defaultArg</span> <span class="o">(</span><span class="n">None</span><span class="o">)</span> <span class="mi">0</span>    <span class="c1">// 0
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">o1</span> <span class="o">=</span> <span class="n">defaultArg</span> <span class="o">(</span><span class="n">Some</span> <span class="n">10</span><span class="o">)</span> <span class="n">0</span> <span class="c1">// 10
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">o2</span> <span class="o">=</span> <span class="n">defaultArg</span> <span class="o">(</span><span class="n">None</span><span class="o">)</span> <span class="n">0</span>    <span class="c1">// 0
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>One think I dislike is the order of the arguments. Because the Option type is expected first
@@ -118,8 +118,8 @@ add a <code>orElse</code> function to the Option module myself.</p>
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">Option</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">orElse</span> <span class="n">x</span> <span class="n">o</span> <span class="o">=</span> <span class="n">defaultArg</span> <span class="n">o</span> <span class="n">x</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">Some</span> <span class="mi">10</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">orElse</span> <span class="mi">10</span> <span class="c1">// 10
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">None</span>    <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">orElse</span> <span class="mi">0</span>  <span class="c1">// 0
+</span></span><span class="line"><span class="cl"><span class="n">Some</span> <span class="n">10</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">orElse</span> <span class="n">10</span> <span class="c1">// 10
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">None</span>    <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">orElse</span> <span class="n">0</span>  <span class="c1">// 0
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><h1 id="exists--forall">exists &amp; forall</h1>
@@ -140,9 +140,9 @@ check a variable if some statement is true or false and you use that for branchi
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">input</span> <span class="o">=</span> <span class="mi">5</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">input</span> <span class="o">=</span> <span class="n">5</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">if</span>   <span class="n">input</span> <span class="o">&lt;</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span>   <span class="n">input</span> <span class="o">&lt;</span> <span class="n">10</span>
 </span></span><span class="line"><span class="cl"><span class="k">then</span> <span class="n">printfn</span> <span class="s">&#34;input smaller 10&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="n">printfn</span> <span class="s">&#34;Input must be smaller than 10&#34;</span>
 </span></span><span class="line"><span class="cl">
@@ -161,9 +161,9 @@ check a variable if some statement is true or false and you use that for branchi
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">input</span> <span class="o">=</span> <span class="n">Some</span> <span class="mi">5</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">input</span> <span class="o">=</span> <span class="n">Some</span> <span class="n">5</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">if</span>   <span class="n">input</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">exists</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span>   <span class="n">input</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">exists</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">10</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="k">then</span> <span class="n">printfn</span> <span class="s">&#34;input smaller 10&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="n">printfn</span> <span class="s">&#34;Input must be smaller than 10&#34;</span>
 </span></span><span class="line"><span class="cl">
@@ -191,9 +191,9 @@ the validation process.</p>
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">smaller</span> <span class="n">min</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">min</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">greater</span> <span class="n">max</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="n">max</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">input</span> <span class="o">=</span> <span class="n">Some</span> <span class="mi">5</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">input</span> <span class="o">=</span> <span class="n">Some</span> <span class="n">5</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">if</span>   <span class="n">input</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">exists</span> <span class="o">(</span><span class="n">greater</span> <span class="mi">0</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">input</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">exists</span> <span class="o">(</span><span class="n">smaller</span> <span class="mi">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span>   <span class="n">input</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">exists</span> <span class="o">(</span><span class="n">greater</span> <span class="n">0</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">input</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">exists</span> <span class="o">(</span><span class="n">smaller</span> <span class="n">10</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="k">then</span> <span class="n">printfn</span> <span class="s">&#34;input between 0 and 10&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="n">printfn</span> <span class="s">&#34;input not valid&#34;</span>
 </span></span><span class="line"><span class="cl">
@@ -227,12 +227,12 @@ unchanged. Otherwise we get <code>None</code>.</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">isValid</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">exists</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="k">true</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">isEven</span> <span class="n">x</span>  <span class="o">=</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">isEven</span> <span class="n">x</span>  <span class="o">=</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">input</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Some</span> <span class="mi">6</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="n">greater</span> <span class="mi">0</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="n">smaller</span> <span class="mi">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Some</span> <span class="n">6</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="n">greater</span> <span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="n">smaller</span> <span class="n">10</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">filter</span> <span class="n">isEven</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">if</span>   <span class="n">input</span> <span class="o">|&gt;</span> <span class="n">isValid</span>
@@ -249,8 +249,8 @@ unchanged. Otherwise we get <code>None</code>.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">Some</span> <span class="mi">1</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">filter</span> <span class="n">isEven</span> <span class="c1">// None
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">Some</span> <span class="mi">2</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">filter</span> <span class="n">isEven</span> <span class="c1">// Some 2
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">Some</span> <span class="n">1</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">filter</span> <span class="n">isEven</span> <span class="c1">// None
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">Some</span> <span class="n">2</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">filter</span> <span class="n">isEven</span> <span class="c1">// Some 2
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><h1 id="fold">fold</h1>
@@ -280,8 +280,8 @@ directly get the wrapped type back. It just means that whenever you use a <code>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">square</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">Some</span> <span class="mi">10</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">orElse</span> <span class="mi">0</span> <span class="c1">// 100
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">Some</span> <span class="mi">10</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">square</span> <span class="n">x</span><span class="o">)</span> <span class="mi">0</span>  <span class="c1">// 100
+</span></span><span class="line"><span class="cl"><span class="n">Some</span> <span class="n">10</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">orElse</span> <span class="n">0</span> <span class="c1">// 100
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">Some</span> <span class="n">10</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">square</span> <span class="n">x</span><span class="o">)</span> <span class="n">0</span>  <span class="c1">// 100
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Up to this point I always ignored the accumulator argument, and just used the accumulator
@@ -306,16 +306,16 @@ nicely together with binary functions.</p>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">swap</span> <span class="n">f</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">f</span> <span class="n">y</span> <span class="n">x</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="n">min</span> <span class="mi">0</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">100</span><span class="o">)</span> <span class="c1">// 0
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="n">max</span> <span class="mi">0</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">100</span><span class="o">)</span> <span class="c1">// 100
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="n">min</span> <span class="mi">0</span> <span class="o">(</span><span class="n">None</span><span class="o">)</span>     <span class="c1">// 0
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="n">max</span> <span class="mi">0</span> <span class="o">(</span><span class="n">None</span><span class="o">)</span>     <span class="c1">// 0
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="o">(+)</span> <span class="mi">0</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">100</span><span class="o">)</span> <span class="c1">// 100
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="o">(+)</span> <span class="mi">0</span> <span class="o">(</span><span class="n">None</span><span class="o">)</span>     <span class="c1">// 0
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="n">swap</span> <span class="nn">String</span><span class="p">.</span><span class="n">replicate</span><span class="o">)</span> <span class="s">&#34;x&#34;</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">5</span><span class="o">)</span> <span class="c1">// &#34;xxxxx&#34;
+</span></span><span class="line"><span class="cl"><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="n">min</span> <span class="n">0</span> <span class="o">(</span><span class="n">Some</span> <span class="n">100</span><span class="o">)</span> <span class="c1">// 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="n">max</span> <span class="n">0</span> <span class="o">(</span><span class="n">Some</span> <span class="n">100</span><span class="o">)</span> <span class="c1">// 100
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="n">min</span> <span class="n">0</span> <span class="o">(</span><span class="n">None</span><span class="o">)</span>     <span class="c1">// 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="n">max</span> <span class="n">0</span> <span class="o">(</span><span class="n">None</span><span class="o">)</span>     <span class="c1">// 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="o">(+)</span> <span class="n">0</span> <span class="o">(</span><span class="n">Some</span> <span class="n">100</span><span class="o">)</span> <span class="c1">// 100
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="o">(+)</span> <span class="n">0</span> <span class="o">(</span><span class="n">None</span><span class="o">)</span>     <span class="c1">// 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="n">swap</span> <span class="nn">String</span><span class="p">.</span><span class="n">replicate</span><span class="o">)</span> <span class="s">&#34;x&#34;</span> <span class="o">(</span><span class="n">Some</span> <span class="n">5</span><span class="o">)</span> <span class="c1">// &#34;xxxxx&#34;
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="n">swap</span> <span class="nn">String</span><span class="p">.</span><span class="n">replicate</span><span class="o">)</span> <span class="s">&#34;x&#34;</span> <span class="o">(</span><span class="n">None</span><span class="o">)</span>   <span class="c1">// &#34;x&#34;
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="nn">List</span><span class="p">.</span><span class="n">append</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">]</span> <span class="o">(</span><span class="n">Some</span> <span class="o">[</span><span class="mi">4</span><span class="o">;</span><span class="mi">5</span><span class="o">;</span><span class="mi">6</span><span class="o">])</span>   <span class="c1">// [1;2;3;4;5;6]
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="nn">List</span><span class="p">.</span><span class="n">append</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">]</span> <span class="o">(</span><span class="n">None</span><span class="o">)</span>           <span class="c1">// [1;2;3]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="nn">List</span><span class="p">.</span><span class="n">append</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">(</span><span class="n">Some</span> <span class="o">[</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">;</span><span class="n">6</span><span class="o">])</span>   <span class="c1">// [1;2;3;4;5;6]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Option</span><span class="p">.</span><span class="n">fold</span> <span class="nn">List</span><span class="p">.</span><span class="n">append</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">(</span><span class="n">None</span><span class="o">)</span>           <span class="c1">// [1;2;3]
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>We either execute our function with two arguments, or if the second argument is a <code>None</code> we return
@@ -380,7 +380,7 @@ Most of them are just other names instead of <code>map</code>, <code>filter</cod
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">smaller</span> <span class="n">min</span> <span class="n">x</span>   <span class="o">=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">min</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">greater</span> <span class="n">max</span> <span class="n">x</span>   <span class="o">=</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="n">max</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">between</span> <span class="n">min</span> <span class="n">max</span> <span class="o">=</span> <span class="o">(</span><span class="n">combine</span> <span class="o">(</span><span class="n">greater</span> <span class="n">min</span><span class="o">)</span> <span class="o">(</span><span class="n">smaller</span> <span class="n">max</span><span class="o">))</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">even</span> <span class="n">x</span>          <span class="o">=</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">even</span> <span class="n">x</span>          <span class="o">=</span> <span class="n">x</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// Mapping functions
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">square</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
@@ -389,10 +389,10 @@ Most of them are just other names instead of <code>map</code>, <code>filter</cod
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">transformInput</span> <span class="n">input</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="n">input</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">convert</span> <span class="n">toInt</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="mi">0</span> <span class="mi">100</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">is</span> <span class="o">(</span><span class="n">between</span> <span class="n">0</span> <span class="n">100</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">is</span> <span class="n">even</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">whenValid</span> <span class="n">square</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">orReturn</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">orReturn</span> <span class="n">0</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">transformInput</span> <span class="o">(</span><span class="n">Some</span> <span class="s">&#34;foo&#34;</span><span class="o">)</span> <span class="c1">// 0   -- not valid int
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">transformInput</span> <span class="o">(</span><span class="n">Some</span> <span class="s">&#34;2&#34;</span><span class="o">)</span>   <span class="c1">// 4
@@ -405,7 +405,7 @@ Most of them are just other names instead of <code>map</code>, <code>filter</cod
         </div>
         <div class="post-footer">
             <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     

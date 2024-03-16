@@ -4,7 +4,7 @@
         <title>Applicative Functors // David Raab</title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta charset="utf-8" />
-        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="generator" content="Hugo 0.123.1">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="David Raab" />
         <meta name="description" content="Explains the apply Function (Applicative Functors) with the option type" />
@@ -12,8 +12,7 @@
         <script src="/static/code-toggle.js"></script>
 
         
-        <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Applicative Functors"/>
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Applicative Functors"/>
 <meta name="twitter:description" content="Explains the apply Function (Applicative Functors) with the option type"/>
 
         <meta property="og:title" content="Applicative Functors" />
@@ -24,10 +23,11 @@
 <meta property="article:modified_time" content="2016-03-31T00:00:00+00:00" />
 
 
+
     </head>
     <body>
         <header class="app-header">
-            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
             <span class="app-header-title">David Raab</span>
             <nav class="app-header-menu">
                     <a class="app-header-menu-item" href="/">Home</a>
@@ -79,10 +79,10 @@
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/functor/">functor</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/applicative/">applicative</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/option/">option</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">Fsharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/functor/">Functor</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/applicative/">Applicative</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/option/">Option</a>
                 </div>
             </div>
         </header>
@@ -122,8 +122,8 @@ how we can work with them.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="mi">3</span> <span class="mi">7</span>        <span class="c1">// 21
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">repeat</span> <span class="mi">3</span> <span class="s">&#34;abc&#34;</span> <span class="c1">// &#34;abcabcabc&#34;
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="n">3</span> <span class="n">7</span>        <span class="c1">// 21
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">repeat</span> <span class="n">3</span> <span class="s">&#34;abc&#34;</span> <span class="c1">// &#34;abcabcabc&#34;
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><h1 id="currying-again">Currying again</h1>
@@ -181,10 +181,10 @@ that you can execute in the <code>Some</code> case.</p>
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">seven</span> <span class="o">=</span> <span class="n">optionMul</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">7</span><span class="o">)</span> <span class="c1">// returns: option&lt;(int -&gt; int)&gt;
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">seven</span> <span class="o">=</span> <span class="n">optionMul</span> <span class="o">(</span><span class="n">Some</span> <span class="n">7</span><span class="o">)</span> <span class="c1">// returns: option&lt;(int -&gt; int)&gt;
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">match</span> <span class="n">seven</span> <span class="k">with</span>
 </span></span><span class="line"><span class="cl"><span class="o">|</span> <span class="n">None</span>   <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;Nothing to do&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="o">|</span> <span class="n">Some</span> <span class="n">f</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;Executing f: %d&#34;</span> <span class="o">(</span><span class="n">f</span> <span class="mi">3</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">|</span> <span class="n">Some</span> <span class="n">f</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;Executing f: %d&#34;</span> <span class="o">(</span><span class="n">f</span> <span class="n">3</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// prints: Executing f: 21
 </span></span></span></code></pre></td></tr></table>
 </div>
@@ -220,7 +220,7 @@ first argument.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">optionRepeat3</span> <span class="o">=</span> <span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">repeat</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">3</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">optionRepeat3</span> <span class="o">=</span> <span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">repeat</span> <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>As we can see we start with a <code>int -&gt; string -&gt; string</code> function. But the interesting thing is, we
@@ -349,8 +349,8 @@ that will return us an <code>option&lt;int -&gt; int&gt;</code>, the result of t
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">optionMul2</span> <span class="o">=</span> <span class="n">optionMul</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">7</span><span class="o">)</span>        <span class="c1">// option&lt;(int -&gt; int)&gt;
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">resultMul</span>  <span class="o">=</span> <span class="n">apply</span> <span class="n">optionMul2</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">3</span><span class="o">)</span> <span class="c1">// option&lt;int&gt;
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">optionMul2</span> <span class="o">=</span> <span class="n">optionMul</span> <span class="o">(</span><span class="n">Some</span> <span class="n">7</span><span class="o">)</span>        <span class="c1">// option&lt;(int -&gt; int)&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">resultMul</span>  <span class="o">=</span> <span class="n">apply</span> <span class="n">optionMul2</span> <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span> <span class="c1">// option&lt;int&gt;
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>We also can write everything in one step, instead of creating the intermediate functions. Not only that,
@@ -360,7 +360,7 @@ let&rsquo;s even inline the <code>map</code> call.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">resultMul2</span> <span class="o">=</span> <span class="n">apply</span> <span class="o">(</span><span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">mul</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">7</span><span class="o">))</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">3</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">resultMul2</span> <span class="o">=</span> <span class="n">apply</span> <span class="o">(</span><span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">mul</span> <span class="o">(</span><span class="n">Some</span> <span class="n">7</span><span class="o">))</span> <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>This doesn&rsquo;t seems very readable, but we will work on that soon. Let&rsquo;s first understand what exactly happens.</p>
@@ -392,7 +392,7 @@ So instead of calling <code>Option.map f x</code> let&rsquo;s create an operator
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">7</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="o">(</span><span class="n">Some</span> <span class="n">7</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Our whole line turns now into</p>
@@ -401,7 +401,7 @@ So instead of calling <code>Option.map f x</code> let&rsquo;s create an operator
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">apply</span> <span class="o">(</span><span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">7</span><span class="o">))</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">3</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">apply</span> <span class="o">(</span><span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="o">(</span><span class="n">Some</span> <span class="n">7</span><span class="o">))</span> <span class="o">(</span><span class="n">Some</span> <span class="n">3</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>But once again. Writing <code>apply</code> in front looks ugly, so let&rsquo;s also create an operator for our
@@ -420,7 +420,7 @@ So instead of calling <code>Option.map f x</code> let&rsquo;s create an operator
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="n">Some</span> <span class="mi">7</span> <span class="o">&lt;*&gt;</span> <span class="n">Some</span> <span class="mi">3</span> <span class="c1">// Some 21
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="n">Some</span> <span class="n">7</span> <span class="o">&lt;*&gt;</span> <span class="n">Some</span> <span class="n">3</span> <span class="c1">// Some 21
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>The nice thing is now. With <code>&lt;!&gt;</code> we just can <code>map</code> a function (left-side) and on the right side
@@ -433,7 +433,7 @@ as the next value.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="mi">7</span> <span class="mi">3</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="n">7</span> <span class="n">3</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>But what happens if we have <code>optional</code> values? We just write</p>
@@ -442,7 +442,7 @@ as the next value.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="n">Some</span> <span class="mi">7</span> <span class="o">&lt;*&gt;</span> <span class="n">Some</span> <span class="mi">3</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="n">Some</span> <span class="n">7</span> <span class="o">&lt;*&gt;</span> <span class="n">Some</span> <span class="n">3</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Sure, normally you wouldn&rsquo;t wrap the values directly, you just would have variables that contain
@@ -542,7 +542,7 @@ this.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="n">retn</span> <span class="mi">7</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="mi">3</span> <span class="c1">// Some 21
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="n">retn</span> <span class="n">7</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="n">3</span> <span class="c1">// Some 21
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>This is probably not such a big surprise. But once again we should consider that <code>'a</code> also
@@ -580,7 +580,7 @@ the first inner value. So overal we also could just write.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">retn</span> <span class="n">mul</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="mi">7</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="mi">3</span> <span class="c1">// Some 21
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">retn</span> <span class="n">mul</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="n">7</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="n">3</span> <span class="c1">// Some 21
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>It basically means. <code>map</code> is the same as <code>retn</code> and <code>apply</code> once! We actually could have
@@ -636,8 +636,8 @@ annoying. So you end up with either.</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// Assume we have two optionals from somewhere else
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">Some</span> <span class="mi">3</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">Some</span> <span class="mi">7</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">Some</span> <span class="n">3</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">Some</span> <span class="n">7</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">match</span> <span class="n">x</span> <span class="k">with</span>
 </span></span><span class="line"><span class="cl"><span class="o">|</span> <span class="n">None</span>   <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s">&#34;None&#34;</span>
@@ -723,7 +723,7 @@ program, and it only contains a single <code>option</code> check at the end.</p>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">userInput</span> <span class="o">=</span> <span class="nn">System</span><span class="p">.</span><span class="nn">Console</span><span class="p">.</span><span class="n">ReadLine</span><span class="bp">()</span> <span class="o">|&gt;</span> <span class="n">parseInt</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">multipliedBy3</span> <span class="o">=</span> <span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="n">userInput</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">multipliedBy3</span> <span class="o">=</span> <span class="n">mul</span> <span class="o">&lt;!&gt;</span> <span class="n">userInput</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="n">3</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">repeatedAbc</span>   <span class="o">=</span> <span class="n">repeat</span> <span class="o">&lt;!&gt;</span> <span class="n">multipliedBy3</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="s">&#34;abc&#34;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">match</span> <span class="n">repeatedAbc</span> <span class="k">with</span>
@@ -756,7 +756,7 @@ function should not change the value. Because <code>map</code> can be implemente
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">Some</span> <span class="mi">10</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">Some</span> <span class="n">10</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">retn</span> <span class="n">id</span> <span class="o">&lt;*&gt;</span> <span class="n">x</span>
 </span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="c1">// comparing must be true -- here it will be (Some 10)
 </span></span></span></code></pre></td></tr></table>
@@ -771,8 +771,8 @@ and <code>x</code> separately, and then do the calculation</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">retn</span> <span class="o">(</span><span class="n">mul</span> <span class="mi">7</span> <span class="mi">3</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">retn</span> <span class="n">mul</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="mi">7</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="mi">3</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">retn</span> <span class="o">(</span><span class="n">mul</span> <span class="n">7</span> <span class="n">3</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">y</span> <span class="o">=</span> <span class="n">retn</span> <span class="n">mul</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="n">7</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="n">3</span>
 </span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="c1">// Both must be the same -- here it will be (Some 21)
 </span></span></span></code></pre></td></tr></table>
 </div>
@@ -804,11 +804,11 @@ the result should be the same. The same rule must hold when we additionally lift
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">ax</span> <span class="o">=</span> <span class="n">retn</span> <span class="n">repeat</span> <span class="o">&lt;*&gt;</span> <span class="n">Some</span> <span class="mi">3</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">ax</span> <span class="o">=</span> <span class="n">retn</span> <span class="n">repeat</span> <span class="o">&lt;*&gt;</span> <span class="n">Some</span> <span class="n">3</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span>  <span class="nv">x</span> <span class="o">=</span> <span class="n">ax</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="s">&#34;abc&#34;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">ay</span> <span class="o">=</span> <span class="n">retn</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">repeat</span> <span class="n">x</span> <span class="s">&#34;abc&#34;</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span>  <span class="nv">y</span> <span class="o">=</span> <span class="n">ay</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span>  <span class="nv">y</span> <span class="o">=</span> <span class="n">ay</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="n">3</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="c1">// Both must be the same -- Here it will be -- Some &#34;abcabcabc&#34;
 </span></span></span></code></pre></td></tr></table>
@@ -832,14 +832,14 @@ value. Or of you first compose both function and give it the value.</p>
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add1</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add2</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add1</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">add2</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">2</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// First executing add1, and pass the result to add2
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">nx</span> <span class="o">=</span> <span class="n">add2</span> <span class="o">(</span><span class="n">add1</span> <span class="mi">3</span><span class="o">)</span>       <span class="c1">// 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">nx</span> <span class="o">=</span> <span class="n">add2</span> <span class="o">(</span><span class="n">add1</span> <span class="n">3</span><span class="o">)</span>       <span class="c1">// 6
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl"><span class="c1">// First compose add1 and add2 then provide the value
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">ny</span> <span class="o">=</span> <span class="o">(</span><span class="n">add1</span> <span class="o">&gt;&gt;</span> <span class="n">add2</span><span class="o">)</span> <span class="mi">3</span>    <span class="c1">// 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">ny</span> <span class="o">=</span> <span class="o">(</span><span class="n">add1</span> <span class="o">&gt;&gt;</span> <span class="n">add2</span><span class="o">)</span> <span class="n">3</span>    <span class="c1">// 6
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl"><span class="n">nx</span> <span class="o">=</span> <span class="n">ny</span> <span class="c1">// Both must be the same
 </span></span></span></code></pre></td></tr></table>
@@ -885,14 +885,14 @@ functions still behaves the same, as if we just execute both functions directly 
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">oadd1</span> <span class="o">=</span> <span class="n">retn</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">oadd2</span> <span class="o">=</span> <span class="n">retn</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">oadd1</span> <span class="o">=</span> <span class="n">retn</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">oadd2</span> <span class="o">=</span> <span class="n">retn</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">2</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// First executing oadd1, and pass the result to oadd2
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">ox</span> <span class="o">=</span> <span class="n">oadd2</span> <span class="o">&lt;*&gt;</span> <span class="o">(</span><span class="n">oadd1</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="mi">3</span><span class="o">)</span> <span class="c1">// Some 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">ox</span> <span class="o">=</span> <span class="n">oadd2</span> <span class="o">&lt;*&gt;</span> <span class="o">(</span><span class="n">oadd1</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="n">3</span><span class="o">)</span> <span class="c1">// Some 6
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl"><span class="c1">// First compose oadd1 and oadd2 into a new function, then provide the value
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">oy</span> <span class="o">=</span> <span class="o">(</span><span class="n">retn</span> <span class="o">(&gt;&gt;)</span> <span class="o">&lt;*&gt;</span> <span class="n">oadd1</span> <span class="o">&lt;*&gt;</span> <span class="n">oadd2</span><span class="o">)</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="mi">3</span> <span class="c1">// Some 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">oy</span> <span class="o">=</span> <span class="o">(</span><span class="n">retn</span> <span class="o">(&gt;&gt;)</span> <span class="o">&lt;*&gt;</span> <span class="n">oadd1</span> <span class="o">&lt;*&gt;</span> <span class="n">oadd2</span><span class="o">)</span> <span class="o">&lt;*&gt;</span> <span class="n">retn</span> <span class="n">3</span> <span class="c1">// Some 6
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl"><span class="n">ox</span> <span class="o">=</span> <span class="n">oy</span> <span class="c1">// Both must be the same
 </span></span></span></code></pre></td></tr></table>
@@ -922,7 +922,7 @@ have written a solution to the <a href="https://davidraab.github.io/posts/null-i
         </div>
         <div class="post-footer">
             <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     

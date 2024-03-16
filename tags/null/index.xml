@@ -1,40 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>null on David Raab</title>
+    <title>Null on David Raab</title>
     <link>https://davidraab.github.io/tags/null/</link>
-    <description>Recent content in null on David Raab</description>
+    <description>Recent content in Null on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 11 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/null/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 11 Apr 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/null/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Optionals</title>
       <link>https://davidraab.github.io/posts/optionals-app/</link>
       <pubDate>Mon, 11 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/optionals-app/</guid>
       <description>In this post I want to talk about Optionals more deeply. I already wrote about null, but I noticed that it is still not immediately clear on why Optionals are better. Instead of focusing why null is bad, this time I want to focus why Optionals are good. For this purpose I also wrote a small application that I will cover. But first, let&amp;rsquo;s go over Optionals and see which benefits they have.</description>
     </item>
-    
     <item>
       <title>Exceptions are Evil</title>
       <link>https://davidraab.github.io/posts/exceptions-are-evil/</link>
       <pubDate>Fri, 25 Mar 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/exceptions-are-evil/</guid>
-      <description>Most people today agree that null is evil, and they try to get rid of them. One technique that most people prefer is to throw an exception in the case of an error, or if we cannot return a valid value from a function. The problem is, exceptions are not any kind better than null, and they don&amp;rsquo;t solve any problem that null introduced.
-In my previous post null is Evil i mentioned seven problems that null introduced.</description>
+      <description>Most people today agree that null is evil, and they try to get rid of them. One technique that most people prefer is to throw an exception in the case of an error, or if we cannot return a valid value from a function. The problem is, exceptions are not any kind better than null, and they don&amp;rsquo;t solve any problem that null introduced.&#xA;In my previous post null is Evil i mentioned seven problems that null introduced.</description>
     </item>
-    
     <item>
       <title>null is Evil</title>
       <link>https://davidraab.github.io/posts/null-is-evil/</link>
       <pubDate>Sun, 20 Mar 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/null-is-evil/</guid>
-      <description>Tony Hoare once said: I call it my billion-dollar mistake. It was the invention of the null reference in 1965. So, why did he added &amp;ldquo;null&amp;rdquo; in the first place? Why was it such a big mistake. And if it is such a big mistake, what are the alternatives?
-The purpose of null To understand why it was a mistake, let&amp;rsquo;s look why it was even added in the first place.</description>
+      <description>Tony Hoare once said: I call it my billion-dollar mistake. It was the invention of the null reference in 1965. So, why did he added &amp;ldquo;null&amp;rdquo; in the first place? Why was it such a big mistake. And if it is such a big mistake, what are the alternatives?&#xA;The purpose of null To understand why it was a mistake, let&amp;rsquo;s look why it was even added in the first place.</description>
     </item>
-    
   </channel>
 </rss>

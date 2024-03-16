@@ -6,510 +6,399 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 21 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 16 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>perl</title>
-      <link>https://davidraab.github.io/tags/perl/</link>
-      <pubDate>Tue, 21 Nov 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/perl/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>perl-seq</title>
-      <link>https://davidraab.github.io/tags/perl-seq/</link>
-      <pubDate>Tue, 21 Nov 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/perl-seq/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>sequence</title>
-      <link>https://davidraab.github.io/tags/sequence/</link>
-      <pubDate>Sun, 19 Nov 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/sequence/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>general-concepts</title>
-      <link>https://davidraab.github.io/tags/general-concepts/</link>
-      <pubDate>Sat, 18 Nov 2023 02:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/general-concepts/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>linux</title>
-      <link>https://davidraab.github.io/tags/linux/</link>
-      <pubDate>Sat, 18 Nov 2023 01:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>tool</title>
-      <link>https://davidraab.github.io/tags/tool/</link>
-      <pubDate>Sat, 04 Nov 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/tool/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>c</title>
-      <link>https://davidraab.github.io/tags/c/</link>
-      <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/c/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>CSharp</title>
-      <link>https://davidraab.github.io/tags/csharp/</link>
-      <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/csharp/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>design-pattern</title>
-      <link>https://davidraab.github.io/tags/design-pattern/</link>
-      <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/design-pattern/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>oop</title>
-      <link>https://davidraab.github.io/tags/oop/</link>
-      <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://davidraab.github.io/tags/oop/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>data</title>
+      <title>Data</title>
       <link>https://davidraab.github.io/tags/data/</link>
-      <pubDate>Sun, 29 Oct 2023 00:00:00 +0000</pubDate>
-      
+      <pubDate>Sat, 16 Mar 2024 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/tags/data/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>enum</title>
+      <title>Oop</title>
+      <link>https://davidraab.github.io/tags/oop/</link>
+      <pubDate>Sat, 16 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/oop/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Perl</title>
+      <link>https://davidraab.github.io/tags/perl/</link>
+      <pubDate>Sat, 16 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/perl/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Perl-Seq</title>
+      <link>https://davidraab.github.io/tags/perl-seq/</link>
+      <pubDate>Tue, 21 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/perl-seq/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Sequence</title>
+      <link>https://davidraab.github.io/tags/sequence/</link>
+      <pubDate>Sun, 19 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/sequence/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>General-Concepts</title>
+      <link>https://davidraab.github.io/tags/general-concepts/</link>
+      <pubDate>Sat, 18 Nov 2023 02:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/general-concepts/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Linux</title>
+      <link>https://davidraab.github.io/tags/linux/</link>
+      <pubDate>Sat, 18 Nov 2023 01:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tool</title>
+      <link>https://davidraab.github.io/tags/tool/</link>
+      <pubDate>Sat, 04 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/tool/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>C</title>
+      <link>https://davidraab.github.io/tags/c/</link>
+      <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/c/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Csharp</title>
+      <link>https://davidraab.github.io/tags/csharp/</link>
+      <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/csharp/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Design-Pattern</title>
+      <link>https://davidraab.github.io/tags/design-pattern/</link>
+      <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/design-pattern/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Enum</title>
       <link>https://davidraab.github.io/tags/enum/</link>
       <pubDate>Sun, 29 Oct 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/enum/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>metaprogramming</title>
+      <title>Metaprogramming</title>
       <link>https://davidraab.github.io/tags/metaprogramming/</link>
       <pubDate>Sun, 29 Oct 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/metaprogramming/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>closure</title>
+      <title>Closure</title>
       <link>https://davidraab.github.io/tags/closure/</link>
       <pubDate>Wed, 25 Oct 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/closure/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>javascript</title>
+      <title>Javascript</title>
       <link>https://davidraab.github.io/tags/javascript/</link>
       <pubDate>Fri, 20 Oct 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/javascript/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>language-design</title>
+      <title>Language-Design</title>
       <link>https://davidraab.github.io/tags/language-design/</link>
       <pubDate>Fri, 20 Oct 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/language-design/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>perl-contexts</title>
+      <title>Perl-Contexts</title>
       <link>https://davidraab.github.io/tags/perl-contexts/</link>
       <pubDate>Fri, 20 Oct 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/perl-contexts/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>varargs</title>
+      <title>Varargs</title>
       <link>https://davidraab.github.io/tags/varargs/</link>
       <pubDate>Fri, 20 Oct 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/varargs/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>administration</title>
+      <title>Administration</title>
       <link>https://davidraab.github.io/tags/administration/</link>
       <pubDate>Fri, 17 Feb 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/administration/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>FPvsOO</title>
       <link>https://davidraab.github.io/tags/fpvsoo/</link>
       <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/fpvsoo/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>FSharp</title>
+      <title>Fsharp</title>
       <link>https://davidraab.github.io/tags/fsharp/</link>
       <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/fsharp/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>iterator</title>
+      <title>Iterator</title>
       <link>https://davidraab.github.io/tags/iterator/</link>
       <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/iterator/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>js</title>
+      <title>Js</title>
       <link>https://davidraab.github.io/tags/js/</link>
       <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/js/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>racket</title>
+      <title>Racket</title>
       <link>https://davidraab.github.io/tags/racket/</link>
       <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/racket/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>dependency-injection</title>
+      <title>Dependency-Injection</title>
       <link>https://davidraab.github.io/tags/dependency-injection/</link>
       <pubDate>Wed, 11 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/dependency-injection/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>parsing</title>
+      <title>Parsing</title>
       <link>https://davidraab.github.io/tags/parsing/</link>
       <pubDate>Sat, 07 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/parsing/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>regex</title>
+      <title>Regex</title>
       <link>https://davidraab.github.io/tags/regex/</link>
       <pubDate>Sat, 07 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/regex/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>dynamic-typed</title>
+      <title>Dynamic-Typed</title>
       <link>https://davidraab.github.io/tags/dynamic-typed/</link>
       <pubDate>Fri, 02 Dec 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/dynamic-typed/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>static-typed</title>
+      <title>Static-Typed</title>
       <link>https://davidraab.github.io/tags/static-typed/</link>
       <pubDate>Fri, 02 Dec 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/static-typed/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>functor</title>
+      <title>Functor</title>
       <link>https://davidraab.github.io/tags/functor/</link>
       <pubDate>Thu, 27 Oct 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/functor/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>generics</title>
+      <title>Generics</title>
       <link>https://davidraab.github.io/tags/generics/</link>
       <pubDate>Thu, 27 Oct 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/generics/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>map</title>
+      <title>Map</title>
       <link>https://davidraab.github.io/tags/map/</link>
       <pubDate>Thu, 27 Oct 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/map/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>equality</title>
+      <title>Equality</title>
       <link>https://davidraab.github.io/tags/equality/</link>
       <pubDate>Tue, 25 Oct 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/equality/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>fold</title>
+      <title>Fold</title>
       <link>https://davidraab.github.io/tags/fold/</link>
       <pubDate>Sun, 19 Mar 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/fold/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>list</title>
+      <title>List</title>
       <link>https://davidraab.github.io/tags/list/</link>
       <pubDate>Sun, 19 Mar 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/list/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>comparison</title>
+      <title>Comparison</title>
       <link>https://davidraab.github.io/tags/comparison/</link>
       <pubDate>Mon, 27 Feb 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/comparison/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>immutability</title>
+      <title>Immutability</title>
       <link>https://davidraab.github.io/tags/immutability/</link>
       <pubDate>Mon, 27 Feb 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/immutability/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>composition</title>
+      <title>Composition</title>
       <link>https://davidraab.github.io/tags/composition/</link>
       <pubDate>Sun, 25 Sep 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/composition/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>piping</title>
+      <title>Piping</title>
       <link>https://davidraab.github.io/tags/piping/</link>
       <pubDate>Sun, 25 Sep 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/piping/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>recursion</title>
+      <title>Recursion</title>
       <link>https://davidraab.github.io/tags/recursion/</link>
       <pubDate>Sun, 25 Sep 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/recursion/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>types</title>
+      <title>Types</title>
       <link>https://davidraab.github.io/tags/types/</link>
       <pubDate>Sat, 28 May 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/types/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>monoids</title>
+      <title>Monoids</title>
       <link>https://davidraab.github.io/tags/monoids/</link>
       <pubDate>Tue, 24 May 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/monoids/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>currying</title>
+      <title>Currying</title>
       <link>https://davidraab.github.io/tags/currying/</link>
       <pubDate>Wed, 11 May 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/currying/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>intro</title>
+      <title>Intro</title>
       <link>https://davidraab.github.io/tags/intro/</link>
       <pubDate>Wed, 11 May 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/intro/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>option</title>
+      <title>Option</title>
       <link>https://davidraab.github.io/tags/option/</link>
       <pubDate>Wed, 11 May 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/option/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>cps</title>
+      <title>Cps</title>
       <link>https://davidraab.github.io/tags/cps/</link>
       <pubDate>Sat, 07 May 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/cps/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>units-of-measure</title>
+      <title>Units-of-Measure</title>
       <link>https://davidraab.github.io/tags/units-of-measure/</link>
       <pubDate>Tue, 26 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/units-of-measure/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>applicative</title>
+      <title>Applicative</title>
       <link>https://davidraab.github.io/tags/applicative/</link>
       <pubDate>Thu, 14 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/applicative/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>null</title>
+      <title>Null</title>
       <link>https://davidraab.github.io/tags/null/</link>
       <pubDate>Mon, 11 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/null/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>monad</title>
+      <title>Monad</title>
       <link>https://davidraab.github.io/tags/monad/</link>
       <pubDate>Sun, 03 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/monad/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>evil</title>
+      <title>Evil</title>
       <link>https://davidraab.github.io/tags/evil/</link>
       <pubDate>Fri, 25 Mar 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/evil/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>exceptions</title>
+      <title>Exceptions</title>
       <link>https://davidraab.github.io/tags/exceptions/</link>
       <pubDate>Fri, 25 Mar 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/exceptions/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>polymorphism</title>
+      <title>Polymorphism</title>
       <link>https://davidraab.github.io/tags/polymorphism/</link>
       <pubDate>Thu, 24 Mar 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/polymorphism/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>goto</title>
+      <title>Goto</title>
       <link>https://davidraab.github.io/tags/goto/</link>
       <pubDate>Wed, 09 Mar 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/goto/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>refactoring</title>
+      <title>Refactoring</title>
       <link>https://davidraab.github.io/tags/refactoring/</link>
       <pubDate>Wed, 09 Mar 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/refactoring/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>structured</title>
+      <title>Structured</title>
       <link>https://davidraab.github.io/tags/structured/</link>
       <pubDate>Wed, 09 Mar 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/tags/structured/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

@@ -4,7 +4,7 @@
         <title>Map operates on functions! // David Raab</title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta charset="utf-8" />
-        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="generator" content="Hugo 0.123.1">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="David Raab" />
         <meta name="description" content="map is for functions not for data-types." />
@@ -12,8 +12,7 @@
         <script src="/static/code-toggle.js"></script>
 
         
-        <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Map operates on functions!"/>
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Map operates on functions!"/>
 <meta name="twitter:description" content="map is for functions not for data-types."/>
 
         <meta property="og:title" content="Map operates on functions!" />
@@ -24,10 +23,11 @@
 <meta property="article:modified_time" content="2022-10-27T00:00:00+00:00" />
 
 
+
     </head>
     <body>
         <header class="app-header">
-            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
             <span class="app-header-title">David Raab</span>
             <nav class="app-header-menu">
                     <a class="app-header-menu-item" href="/">Home</a>
@@ -79,10 +79,10 @@
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/map/">map</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/generics/">generics</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/functor/">functor</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">Fsharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/map/">Map</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/generics/">Generics</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/functor/">Functor</a>
                 </div>
             </div>
         </header>
@@ -198,7 +198,7 @@ we still can think of it as a function transformer. Let&rsquo;s say we write</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">square</span> <span class="mi">4</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="n">square</span> <span class="n">4</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>to square a <code>4</code>. But what happens if you have a list of values? We write:</p>
@@ -207,7 +207,7 @@ we still can think of it as a function transformer. Let&rsquo;s say we write</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">xs</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">[</span><span class="mi">4</span><span class="o">;</span><span class="mi">5</span><span class="o">;</span><span class="mi">6</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">xs</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">[</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">;</span><span class="n">6</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Think of it the following way: You still execute <code>square</code> but the first argument of your function
@@ -222,10 +222,10 @@ also be a <code>list</code>.</p>
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span>            <span class="n">square</span>  <span class="mi">4</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span>   <span class="n">square</span> <span class="o">[</span><span class="mi">4</span><span class="o">;</span><span class="mi">8</span><span class="o">]</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">4</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="nn">Result</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">(</span><span class="n">Ok</span> <span class="mi">4</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span>            <span class="n">square</span>  <span class="n">4</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span>   <span class="n">square</span> <span class="o">[</span><span class="n">4</span><span class="o">;</span><span class="n">8</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">(</span><span class="n">Some</span> <span class="n">4</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">x</span> <span class="o">=</span> <span class="nn">Result</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">(</span><span class="n">Ok</span> <span class="n">4</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>In all those cases we just execute the <code>square</code> function and the argument we pass to <code>square</code> now can
@@ -239,8 +239,8 @@ be of type <code>F</code> whichever <code>F</code> we choose with <code>F.map</c
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">map</span>   <span class="n">square</span>  <span class="n">numbers</span>
-</span></span><span class="line"><span class="cl"><span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">(</span><span class="n">Some</span> <span class="mi">4</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="nn">Result</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">(</span><span class="n">Ok</span> <span class="mi">4</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nn">Option</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">(</span><span class="n">Some</span> <span class="n">4</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nn">Result</span><span class="p">.</span><span class="n">map</span> <span class="n">square</span> <span class="o">(</span><span class="n">Ok</span> <span class="n">4</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>instead of</p>
@@ -305,10 +305,10 @@ a <code>int</code> and a <code>string</code> as its arguments. So you can write.
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// &#34;BB&#34;
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">String</span><span class="p">.</span><span class="n">replicate</span> <span class="mi">2</span> <span class="s">&#34;B&#34;</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">String</span><span class="p">.</span><span class="n">replicate</span> <span class="n">2</span> <span class="s">&#34;B&#34;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// [&#34;A&#34;; &#34;BB&#34;; &#34;CCC&#34;]
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">map2</span> <span class="nn">String</span><span class="p">.</span><span class="n">replicate</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">]</span> <span class="o">[</span><span class="s">&#34;A&#34;</span><span class="o">;</span><span class="s">&#34;B&#34;</span><span class="o">;</span><span class="s">&#34;C&#34;</span><span class="o">]</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">map2</span> <span class="nn">String</span><span class="p">.</span><span class="n">replicate</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">[</span><span class="s">&#34;A&#34;</span><span class="o">;</span><span class="s">&#34;B&#34;</span><span class="o">;</span><span class="s">&#34;C&#34;</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>So the function you pass to <code>map</code> always just sees one of the inner type of <code>xs</code> and <code>ys</code>.</p>
@@ -327,7 +327,7 @@ about.</p>
         </div>
         <div class="post-footer">
             <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     

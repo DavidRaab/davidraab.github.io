@@ -4,7 +4,7 @@
         <title>Understanding bind // David Raab</title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta charset="utf-8" />
-        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="generator" content="Hugo 0.123.1">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="David Raab" />
         <meta name="description" content="Gives an introduction to the bind function" />
@@ -12,8 +12,7 @@
         <script src="/static/code-toggle.js"></script>
 
         
-        <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Understanding bind"/>
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Understanding bind"/>
 <meta name="twitter:description" content="Gives an introduction to the bind function"/>
 
         <meta property="og:title" content="Understanding bind" />
@@ -24,10 +23,11 @@
 <meta property="article:modified_time" content="2016-04-03T00:00:00+00:00" />
 
 
+
     </head>
     <body>
         <header class="app-header">
-            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
             <span class="app-header-title">David Raab</span>
             <nav class="app-header-menu">
                     <a class="app-header-menu-item" href="/">Home</a>
@@ -79,12 +79,12 @@
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/functor/">functor</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/applicative/">applicative</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/monad/">monad</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/option/">option</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/cps/">cps</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">Fsharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/functor/">Functor</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/applicative/">Applicative</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/monad/">Monad</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/option/">Option</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/cps/">Cps</a>
                 </div>
             </div>
         </header>
@@ -378,7 +378,7 @@ area of that circle.</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">retn</span> <span class="n">x</span> <span class="o">=</span> <span class="n">Some</span> <span class="n">x</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">circleArea</span> <span class="n">r</span> <span class="o">=</span> <span class="o">(</span><span class="n">r</span> <span class="o">**</span> <span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">)</span> <span class="o">*</span> <span class="nn">Math</span><span class="p">.</span><span class="n">PI</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">circleArea</span> <span class="n">r</span> <span class="o">=</span> <span class="o">(</span><span class="n">r</span> <span class="o">**</span> <span class="n">2</span><span class="o">.</span><span class="n">0</span><span class="o">)</span> <span class="o">*</span> <span class="nn">Math</span><span class="p">.</span><span class="n">PI</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">area</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="n">getUserInput</span> <span class="s">&#34;Enter radius&#34;</span> <span class="o">|&gt;</span> <span class="nn">Option</span><span class="p">.</span><span class="n">bind</span> <span class="o">(</span><span class="k">fun</span> <span class="n">userInput</span> <span class="o">-&gt;</span>
@@ -688,7 +688,7 @@ and <code>bind</code> (a Monad) also must satisfy three laws. In the following d
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">f</span>   <span class="o">=</span> <span class="nn">Double</span><span class="p">.</span><span class="n">tryParse</span> <span class="c1">// string -&gt; option&lt;float&gt;
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">g</span> <span class="n">x</span> <span class="o">=</span> <span class="n">retn</span> <span class="o">(</span><span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">)</span>  <span class="c1">// float  -&gt; option&lt;float&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">g</span> <span class="n">x</span> <span class="o">=</span> <span class="n">retn</span> <span class="o">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">2</span><span class="o">.</span><span class="n">0</span><span class="o">)</span>  <span class="c1">// float  -&gt; option&lt;float&gt;
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">x</span>   <span class="o">=</span> <span class="s">&#34;10&#34;</span>            <span class="c1">// string         -- unboxed value
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">m</span>   <span class="o">=</span> <span class="n">retn</span> <span class="s">&#34;10&#34;</span>       <span class="c1">// option&lt;string&gt; -- a boxed value
 </span></span></span></code></pre></td></tr></table>
@@ -807,7 +807,7 @@ we must return <em>boxed</em> values we usually use <code>return</code> to retur
         </div>
         <div class="post-footer">
             <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     

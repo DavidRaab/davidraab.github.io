@@ -4,7 +4,7 @@
         <title>Applying Structured Programming // David Raab</title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta charset="utf-8" />
-        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="generator" content="Hugo 0.123.1">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="David Raab" />
         <meta name="description" content="Shows how applying the idea of Structured Programming can improve the code" />
@@ -12,8 +12,7 @@
         <script src="/static/code-toggle.js"></script>
 
         
-        <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Applying Structured Programming"/>
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Applying Structured Programming"/>
 <meta name="twitter:description" content="Shows how applying the idea of Structured Programming can improve the code"/>
 
         <meta property="og:title" content="Applying Structured Programming" />
@@ -24,10 +23,11 @@
 <meta property="article:modified_time" content="2016-03-09T00:00:00+00:00" />
 
 
+
     </head>
     <body>
         <header class="app-header">
-            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
             <span class="app-header-title">David Raab</span>
             <nav class="app-header-menu">
                     <a class="app-header-menu-item" href="/">Home</a>
@@ -79,11 +79,11 @@
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/list/">list</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/refactoring/">refactoring</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/immutability/">immutability</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/structured/">structured</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">Fsharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/list/">List</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/refactoring/">Refactoring</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/immutability/">Immutability</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/structured/">Structured</a>
                 </div>
             </div>
         </header>
@@ -122,14 +122,14 @@ we really have around 16% or around 160 critical hits.</p>
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rng</span> <span class="o">=</span> <span class="nn">System</span><span class="p">.</span><span class="n">Random</span><span class="bp">()</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">calculateChance</span> <span class="n">chance</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">mutable</span> <span class="n">criticalHit</span> <span class="o">=</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">mutable</span> <span class="n">normalHit</span>   <span class="o">=</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span> <span class="o">..</span> <span class="mi">1000</span> <span class="k">do</span>
-</span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="nv">random</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">Next</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">100</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">mutable</span> <span class="n">criticalHit</span> <span class="o">=</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">mutable</span> <span class="n">normalHit</span>   <span class="o">=</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">1</span> <span class="o">..</span> <span class="n">1000</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="nv">random</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">Next</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">100</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">random</span> <span class="o">&lt;</span> <span class="n">chance</span> <span class="k">then</span>
-</span></span><span class="line"><span class="cl">            <span class="n">criticalHit</span> <span class="o">&lt;-</span> <span class="n">criticalHit</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">            <span class="n">criticalHit</span> <span class="o">&lt;-</span> <span class="n">criticalHit</span> <span class="o">+</span> <span class="n">1</span>
 </span></span><span class="line"><span class="cl">        <span class="k">else</span>
-</span></span><span class="line"><span class="cl">            <span class="n">normalHit</span> <span class="o">&lt;-</span> <span class="n">normalHit</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">            <span class="n">normalHit</span> <span class="o">&lt;-</span> <span class="n">normalHit</span> <span class="o">+</span> <span class="n">1</span>
 </span></span><span class="line"><span class="cl">    <span class="n">criticalHit</span><span class="o">,</span> <span class="n">normalHit</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -143,10 +143,10 @@ we really have around 16% or around 160 critical hits.</p>
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">percentage</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">100</span><span class="o">.</span><span class="mi">0</span> <span class="o">/</span> <span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">)</span> <span class="o">*</span> <span class="n">x</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">percentage</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">100</span><span class="o">.</span><span class="n">0</span> <span class="o">/</span> <span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">)</span> <span class="o">*</span> <span class="n">x</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">..</span><span class="mi">10</span> <span class="k">do</span>
-</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">crit</span><span class="o">,</span><span class="n">normal</span> <span class="o">=</span> <span class="n">calculateChance</span> <span class="mi">16</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">1</span><span class="o">..</span><span class="n">10</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">crit</span><span class="o">,</span><span class="n">normal</span> <span class="o">=</span> <span class="n">calculateChance</span> <span class="n">16</span>
 </span></span><span class="line"><span class="cl">    <span class="n">printfn</span> <span class="s">&#34;Crit: %d Normal: %d Percentage: %f&#34;</span> <span class="n">crit</span> <span class="n">normal</span> <span class="o">(</span><span class="n">percentage</span> <span class="o">(</span><span class="kt">float</span> <span class="n">crit</span><span class="o">)</span> <span class="o">(</span><span class="kt">float</span> <span class="n">normal</span><span class="o">))</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -192,14 +192,14 @@ loop into a recursive function and eliminate mutable variables all together.</p>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">calculateChance</span> <span class="n">chance</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">loop</span> <span class="n">count</span> <span class="n">criticalHit</span> <span class="n">normalHit</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="mi">1000</span> <span class="k">then</span>
-</span></span><span class="line"><span class="cl">            <span class="k">let</span> <span class="nv">random</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">Next</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">100</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="n">1000</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">            <span class="k">let</span> <span class="nv">random</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">Next</span><span class="o">(</span><span class="n">0</span><span class="o">,</span><span class="n">100</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">            <span class="k">match</span> <span class="n">random</span> <span class="o">&lt;</span> <span class="n">chance</span>  <span class="k">with</span>
-</span></span><span class="line"><span class="cl">            <span class="o">|</span> <span class="k">false</span> <span class="o">-&gt;</span> <span class="n">loop</span> <span class="o">(</span><span class="n">count</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span>  <span class="n">criticalHit</span>   <span class="o">(</span><span class="n">normalHit</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">            <span class="o">|</span> <span class="k">true</span>  <span class="o">-&gt;</span> <span class="n">loop</span> <span class="o">(</span><span class="n">count</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span> <span class="o">(</span><span class="n">criticalHit</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span> <span class="n">normalHit</span>
+</span></span><span class="line"><span class="cl">            <span class="o">|</span> <span class="k">false</span> <span class="o">-&gt;</span> <span class="n">loop</span> <span class="o">(</span><span class="n">count</span><span class="o">+</span><span class="n">1</span><span class="o">)</span>  <span class="n">criticalHit</span>   <span class="o">(</span><span class="n">normalHit</span><span class="o">+</span><span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">|</span> <span class="k">true</span>  <span class="o">-&gt;</span> <span class="n">loop</span> <span class="o">(</span><span class="n">count</span><span class="o">+</span><span class="n">1</span><span class="o">)</span> <span class="o">(</span><span class="n">criticalHit</span><span class="o">+</span><span class="n">1</span><span class="o">)</span> <span class="n">normalHit</span>
 </span></span><span class="line"><span class="cl">        <span class="k">else</span>
 </span></span><span class="line"><span class="cl">            <span class="n">criticalHit</span><span class="o">,</span> <span class="n">normalHit</span>
-</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="n">0</span> <span class="n">0</span> <span class="n">0</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We now eliminated all mutable variables and now provided an inner recursive function that replaces
@@ -265,13 +265,13 @@ left into a <code>fold</code> call.</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">calculateChance</span> <span class="n">chance</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">    <span class="n">randomSeq</span> <span class="mi">0</span> <span class="mi">100</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">take</span> <span class="mi">1000</span>
+</span></span><span class="line"><span class="cl">    <span class="n">randomSeq</span> <span class="n">0</span> <span class="n">100</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">take</span> <span class="n">1000</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">fold</span> <span class="o">(</span><span class="k">fun</span> <span class="o">(</span><span class="n">criticalHit</span><span class="o">,</span><span class="n">normalHit</span><span class="o">)</span> <span class="n">random</span> <span class="o">-&gt;</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span>   <span class="n">random</span> <span class="o">&lt;</span> <span class="n">chance</span>
-</span></span><span class="line"><span class="cl">        <span class="k">then</span> <span class="o">(</span><span class="n">criticalHit</span><span class="o">+</span><span class="mi">1</span><span class="o">),</span><span class="n">normalHit</span>
-</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="n">criticalHit</span><span class="o">,(</span><span class="n">normalHit</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">    <span class="o">)</span> <span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">then</span> <span class="o">(</span><span class="n">criticalHit</span><span class="o">+</span><span class="n">1</span><span class="o">),</span><span class="n">normalHit</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="n">criticalHit</span><span class="o">,(</span><span class="n">normalHit</span><span class="o">+</span><span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span> <span class="o">(</span><span class="n">0</span><span class="o">,</span><span class="n">0</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Looking at the current Solution i think we made our first improvements to our code. At first we
@@ -301,9 +301,9 @@ average we would automatically get a percentage that ranges bewteen <code>0.0</c
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">calculateChance</span> <span class="n">chance</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">    <span class="n">randomSeq</span> <span class="mi">0</span> <span class="mi">100</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">take</span> <span class="mi">1000</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">chance</span> <span class="k">then</span> <span class="mi">100</span><span class="o">.</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">randomSeq</span> <span class="n">0</span> <span class="n">100</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">take</span> <span class="n">1000</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">chance</span> <span class="k">then</span> <span class="n">100</span><span class="o">.</span><span class="n">0</span> <span class="k">else</span> <span class="n">0</span><span class="o">.</span><span class="n">0</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">average</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -317,9 +317,9 @@ average we would automatically get a percentage that ranges bewteen <code>0.0</c
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">calculateChance</span> <span class="n">chance</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">    <span class="n">randomSeq</span> <span class="mi">0</span> <span class="mi">100</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">take</span> <span class="mi">1000</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">averageBy</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">chance</span> <span class="k">then</span> <span class="mi">100</span><span class="o">.</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">randomSeq</span> <span class="n">0</span> <span class="n">100</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">take</span> <span class="n">1000</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">averageBy</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">chance</span> <span class="k">then</span> <span class="n">100</span><span class="o">.</span><span class="n">0</span> <span class="k">else</span> <span class="n">0</span><span class="o">.</span><span class="n">0</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h1 id="conclusion">Conclusion</h1>
@@ -350,20 +350,20 @@ average we would automatically get a percentage that ranges bewteen <code>0.0</c
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rng</span> <span class="o">=</span> <span class="nn">System</span><span class="p">.</span><span class="n">Random</span><span class="bp">()</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">calculateChance</span> <span class="n">chance</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">mutable</span> <span class="n">criticalHit</span> <span class="o">=</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">mutable</span> <span class="n">normalHit</span>   <span class="o">=</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span> <span class="o">..</span> <span class="mi">1000</span> <span class="k">do</span>
-</span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="nv">random</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">Next</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">100</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">mutable</span> <span class="n">criticalHit</span> <span class="o">=</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">mutable</span> <span class="n">normalHit</span>   <span class="o">=</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">1</span> <span class="o">..</span> <span class="n">1000</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="nv">random</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">Next</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">100</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">random</span> <span class="o">&lt;</span> <span class="n">chance</span> <span class="k">then</span>
-</span></span><span class="line"><span class="cl">            <span class="n">criticalHit</span> <span class="o">&lt;-</span> <span class="n">criticalHit</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">            <span class="n">criticalHit</span> <span class="o">&lt;-</span> <span class="n">criticalHit</span> <span class="o">+</span> <span class="n">1</span>
 </span></span><span class="line"><span class="cl">        <span class="k">else</span>
-</span></span><span class="line"><span class="cl">            <span class="n">normalHit</span> <span class="o">&lt;-</span> <span class="n">normalHit</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">            <span class="n">normalHit</span> <span class="o">&lt;-</span> <span class="n">normalHit</span> <span class="o">+</span> <span class="n">1</span>
 </span></span><span class="line"><span class="cl">    <span class="n">criticalHit</span><span class="o">,</span> <span class="n">normalHit</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">percentage</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">100</span><span class="o">.</span><span class="mi">0</span> <span class="o">/</span> <span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">)</span> <span class="o">*</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">percentage</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="n">100</span><span class="o">.</span><span class="n">0</span> <span class="o">/</span> <span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">)</span> <span class="o">*</span> <span class="n">x</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">..</span><span class="mi">10</span> <span class="k">do</span>
-</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">crit</span><span class="o">,</span><span class="n">normal</span> <span class="o">=</span> <span class="n">calculateChance</span> <span class="mi">16</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">1</span><span class="o">..</span><span class="n">10</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">crit</span><span class="o">,</span><span class="n">normal</span> <span class="o">=</span> <span class="n">calculateChance</span> <span class="n">16</span>
 </span></span><span class="line"><span class="cl">    <span class="n">printfn</span> <span class="s">&#34;Crit: %d Normal: %d Percentage: %f&#34;</span> <span class="n">crit</span> <span class="n">normal</span> <span class="o">(</span><span class="n">percentage</span> <span class="o">(</span><span class="kt">float</span> <span class="n">crit</span><span class="o">)</span> <span class="o">(</span><span class="kt">float</span> <span class="n">normal</span><span class="o">))</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -387,12 +387,12 @@ average we would automatically get a percentage that ranges bewteen <code>0.0</c
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">randomSeq</span> <span class="n">min</span> <span class="n">max</span> <span class="o">=</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">initInfinite</span> <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">rng</span><span class="o">.</span><span class="n">Next</span><span class="o">(</span><span class="n">min</span><span class="o">,</span> <span class="n">max</span><span class="o">))</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">calculateChance</span> <span class="n">chance</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">    <span class="n">randomSeq</span> <span class="mi">0</span> <span class="mi">100</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">take</span> <span class="mi">1000</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">averageBy</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">chance</span> <span class="k">then</span> <span class="mi">100</span><span class="o">.</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">randomSeq</span> <span class="n">0</span> <span class="n">100</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">take</span> <span class="n">1000</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">averageBy</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">chance</span> <span class="k">then</span> <span class="n">100</span><span class="o">.</span><span class="n">0</span> <span class="k">else</span> <span class="n">0</span><span class="o">.</span><span class="n">0</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">..</span><span class="mi">10</span> <span class="k">do</span>
-</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">percentage</span> <span class="o">=</span> <span class="n">calculateChance</span> <span class="mi">16</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">1</span><span class="o">..</span><span class="n">10</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">percentage</span> <span class="o">=</span> <span class="n">calculateChance</span> <span class="n">16</span>
 </span></span><span class="line"><span class="cl">    <span class="n">printfn</span> <span class="s">&#34;Percentage: %f&#34;</span> <span class="n">percentage</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -420,7 +420,7 @@ look into how you can abstract the lambda into a reusable function.</p>
         </div>
         <div class="post-footer">
             <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     

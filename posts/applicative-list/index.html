@@ -4,7 +4,7 @@
         <title>Applicative: Lists // David Raab</title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta charset="utf-8" />
-        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="generator" content="Hugo 0.123.1">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="David Raab" />
         <meta name="description" content="Building an Applicative Functor for the list type" />
@@ -12,8 +12,7 @@
         <script src="/static/code-toggle.js"></script>
 
         
-        <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Applicative: Lists"/>
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Applicative: Lists"/>
 <meta name="twitter:description" content="Building an Applicative Functor for the list type"/>
 
         <meta property="og:title" content="Applicative: Lists" />
@@ -24,10 +23,11 @@
 <meta property="article:modified_time" content="2016-04-13T00:00:00+00:00" />
 
 
+
     </head>
     <body>
         <header class="app-header">
-            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
             <span class="app-header-title">David Raab</span>
             <nav class="app-header-menu">
                     <a class="app-header-menu-item" href="/">Home</a>
@@ -79,9 +79,9 @@
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/applicative/">applicative</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/list/">list</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">Fsharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/applicative/">Applicative</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/list/">List</a>
                 </div>
             </div>
         </header>
@@ -179,9 +179,9 @@ as the second argument, and so on. We now can write something like this.</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">add2</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="mi">10</span><span class="o">;</span><span class="mi">20</span><span class="o">]</span>
-</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">add3</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="mi">10</span><span class="o">;</span><span class="mi">20</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="mi">5</span><span class="o">]</span>
-</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">add4</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="mi">10</span><span class="o">;</span><span class="mi">20</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="mi">5</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="mi">100</span><span class="o">;</span><span class="mi">200</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">add2</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">10</span><span class="o">;</span><span class="n">20</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">add3</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">10</span><span class="o">;</span><span class="n">20</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">5</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">add4</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">10</span><span class="o">;</span><span class="n">20</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">5</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">100</span><span class="o">;</span><span class="n">200</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Let&rsquo;s see what those function calls produces</p>
@@ -204,12 +204,12 @@ expands to:</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="mi">1</span> <span class="mi">10</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="mi">1</span> <span class="mi">20</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="mi">2</span> <span class="mi">10</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="mi">2</span> <span class="mi">20</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="mi">3</span> <span class="mi">10</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="mi">3</span> <span class="mi">20</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">1</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">1</span> <span class="n">20</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">2</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">2</span> <span class="n">20</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">3</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">3</span> <span class="n">20</span>
 </span></span><span class="line"><span class="cl"><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -223,7 +223,7 @@ first argument, and the thing on the right-side as the second argument. Instead 
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">f</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">f</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>we also could write</p>
@@ -232,7 +232,7 @@ first argument, and the thing on the right-side as the second argument. Instead 
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">apply</span> <span class="o">[</span><span class="n">f</span><span class="o">]</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">apply</span> <span class="o">[</span><span class="n">f</span><span class="o">]</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>When we have a term like <code>[add2] &lt;*&gt; [1;2;3] &lt;*&gt; [10;20]</code> it means, first <code>[add2] &lt;*&gt; [1;2;3]</code>
@@ -246,7 +246,7 @@ basically interpreted as</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span> <span class="o">[</span><span class="n">add2</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">]</span> <span class="o">)</span>     <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="mi">10</span><span class="o">;</span><span class="mi">20</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span> <span class="o">[</span><span class="n">add2</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">)</span>     <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">10</span><span class="o">;</span><span class="n">20</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>At first, our <code>apply</code> function is called with <code>[add2]</code> and <code>[1;2;3]</code> as its arguments.
@@ -262,9 +262,9 @@ function with a value. After <code>[add2] &lt;*&gt; [1;2;3]</code> we get a new 
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="mi">2</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">2</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">3</span>
 </span></span><span class="line"><span class="cl"><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -278,7 +278,7 @@ functions. We get:</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">add2</span> <span class="mi">1</span><span class="o">;</span> <span class="n">add2</span> <span class="mi">2</span><span class="o">;</span> <span class="n">add2</span> <span class="mi">3</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="mi">10</span><span class="o">;</span><span class="mi">20</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">add2</span> <span class="n">1</span><span class="o">;</span> <span class="n">add2</span> <span class="n">2</span><span class="o">;</span> <span class="n">add2</span> <span class="n">3</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">10</span><span class="o">;</span><span class="n">20</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>In other words, the new list is used as the first argument to the next <code>apply</code> call.
@@ -297,12 +297,12 @@ Once again we loop over the functions and call every function with every value. 
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="mi">1</span> <span class="mi">10</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="mi">1</span> <span class="mi">20</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="mi">2</span> <span class="mi">10</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="mi">2</span> <span class="mi">20</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="mi">3</span> <span class="mi">10</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="mi">3</span> <span class="mi">20</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">1</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">1</span> <span class="n">20</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">2</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">2</span> <span class="n">20</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">3</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add2</span> <span class="n">3</span> <span class="n">20</span>
 </span></span><span class="line"><span class="cl"><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -312,7 +312,7 @@ Once again we loop over the functions and call every function with every value. 
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="mi">11</span><span class="o">;</span> <span class="mi">21</span><span class="o">;</span> <span class="mi">12</span><span class="o">;</span> <span class="mi">22</span><span class="o">;</span> <span class="mi">13</span><span class="o">;</span> <span class="mi">23</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">11</span><span class="o">;</span> <span class="n">21</span><span class="o">;</span> <span class="n">12</span><span class="o">;</span> <span class="n">22</span><span class="o">;</span> <span class="n">13</span><span class="o">;</span> <span class="n">23</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>To get a hang of it, let&rsquo;s once again go through the <code>add4</code> example and visualize
@@ -322,7 +322,7 @@ every step. We start with</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">add4</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="mi">10</span><span class="o">;</span><span class="mi">20</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="mi">5</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="mi">100</span><span class="o">;</span><span class="mi">200</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">add4</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">10</span><span class="o">;</span><span class="n">20</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">5</span><span class="o">]</span> <span class="o">&lt;*&gt;</span> <span class="o">[</span><span class="n">100</span><span class="o">;</span><span class="n">200</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>The first <code>apply</code> call produces:</p>
@@ -336,9 +336,9 @@ every step. We start with</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">2</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">2</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">3</span>
 </span></span><span class="line"><span class="cl"><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -356,12 +356,12 @@ every step. We start with</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">1</span> <span class="mi">10</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">1</span> <span class="mi">20</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">2</span> <span class="mi">10</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">2</span> <span class="mi">20</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">3</span> <span class="mi">10</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">3</span> <span class="mi">20</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">1</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">1</span> <span class="n">20</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">2</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">2</span> <span class="n">20</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">3</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">3</span> <span class="n">20</span>
 </span></span><span class="line"><span class="cl"><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -379,12 +379,12 @@ every step. We start with</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">1</span> <span class="mi">10</span> <span class="mi">5</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">1</span> <span class="mi">20</span> <span class="mi">5</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">2</span> <span class="mi">10</span> <span class="mi">5</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">2</span> <span class="mi">20</span> <span class="mi">5</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">3</span> <span class="mi">10</span> <span class="mi">5</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">3</span> <span class="mi">20</span> <span class="mi">5</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">1</span> <span class="n">10</span> <span class="n">5</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">1</span> <span class="n">20</span> <span class="n">5</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">2</span> <span class="n">10</span> <span class="n">5</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">2</span> <span class="n">20</span> <span class="n">5</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">3</span> <span class="n">10</span> <span class="n">5</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">3</span> <span class="n">20</span> <span class="n">5</span>
 </span></span><span class="line"><span class="cl"><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -408,18 +408,18 @@ every step. We start with</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">1</span> <span class="mi">10</span> <span class="mi">5</span> <span class="mi">100</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">1</span> <span class="mi">10</span> <span class="mi">5</span> <span class="mi">200</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">1</span> <span class="mi">20</span> <span class="mi">5</span> <span class="mi">100</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">1</span> <span class="mi">20</span> <span class="mi">5</span> <span class="mi">200</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">2</span> <span class="mi">10</span> <span class="mi">5</span> <span class="mi">100</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">2</span> <span class="mi">10</span> <span class="mi">5</span> <span class="mi">200</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">2</span> <span class="mi">20</span> <span class="mi">5</span> <span class="mi">100</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">2</span> <span class="mi">20</span> <span class="mi">5</span> <span class="mi">200</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">3</span> <span class="mi">10</span> <span class="mi">5</span> <span class="mi">100</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">3</span> <span class="mi">10</span> <span class="mi">5</span> <span class="mi">200</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">3</span> <span class="mi">20</span> <span class="mi">5</span> <span class="mi">100</span>
-</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="mi">3</span> <span class="mi">20</span> <span class="mi">5</span> <span class="mi">200</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">1</span> <span class="n">10</span> <span class="n">5</span> <span class="n">100</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">1</span> <span class="n">10</span> <span class="n">5</span> <span class="n">200</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">1</span> <span class="n">20</span> <span class="n">5</span> <span class="n">100</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">1</span> <span class="n">20</span> <span class="n">5</span> <span class="n">200</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">2</span> <span class="n">10</span> <span class="n">5</span> <span class="n">100</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">2</span> <span class="n">10</span> <span class="n">5</span> <span class="n">200</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">2</span> <span class="n">20</span> <span class="n">5</span> <span class="n">100</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">2</span> <span class="n">20</span> <span class="n">5</span> <span class="n">200</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">3</span> <span class="n">10</span> <span class="n">5</span> <span class="n">100</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">3</span> <span class="n">10</span> <span class="n">5</span> <span class="n">200</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">3</span> <span class="n">20</span> <span class="n">5</span> <span class="n">100</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add4</span> <span class="n">3</span> <span class="n">20</span> <span class="n">5</span> <span class="n">200</span>
 </span></span><span class="line"><span class="cl"><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -429,7 +429,7 @@ every step. We start with</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="mi">116</span><span class="o">;</span> <span class="mi">216</span><span class="o">;</span> <span class="mi">126</span><span class="o">;</span> <span class="mi">226</span><span class="o">;</span> <span class="mi">117</span><span class="o">;</span> <span class="mi">217</span><span class="o">;</span> <span class="mi">127</span><span class="o">;</span> <span class="mi">227</span><span class="o">;</span> <span class="mi">118</span><span class="o">;</span> <span class="mi">218</span><span class="o">;</span> <span class="mi">128</span><span class="o">;</span> <span class="mi">228</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">116</span><span class="o">;</span> <span class="n">216</span><span class="o">;</span> <span class="n">126</span><span class="o">;</span> <span class="n">226</span><span class="o">;</span> <span class="n">117</span><span class="o">;</span> <span class="n">217</span><span class="o">;</span> <span class="n">127</span><span class="o">;</span> <span class="n">227</span><span class="o">;</span> <span class="n">118</span><span class="o">;</span> <span class="n">218</span><span class="o">;</span> <span class="n">128</span><span class="o">;</span> <span class="n">228</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h1 id="using-apply">Using <code>apply</code></h1>
@@ -566,18 +566,18 @@ create two lists that refers to each other, with <code>apply</code> we then can 
 </span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">create</span> <span class="n">pid</span> <span class="n">name</span> <span class="o">=</span> <span class="o">{</span><span class="n">PersonId</span><span class="o">=</span><span class="n">pid</span><span class="o">;</span> <span class="n">Name</span><span class="o">=</span><span class="n">name</span><span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">persons</span> <span class="o">=</span> <span class="o">[</span>
-</span></span><span class="line"><span class="cl">    <span class="nn">Person</span><span class="p">.</span><span class="n">create</span> <span class="mi">1</span> <span class="s">&#34;David&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="nn">Person</span><span class="p">.</span><span class="n">create</span> <span class="mi">2</span> <span class="s">&#34;Markus&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="nn">Person</span><span class="p">.</span><span class="n">create</span> <span class="mi">3</span> <span class="s">&#34;Björn&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Person</span><span class="p">.</span><span class="n">create</span> <span class="n">1</span> <span class="s">&#34;David&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Person</span><span class="p">.</span><span class="n">create</span> <span class="n">2</span> <span class="s">&#34;Markus&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Person</span><span class="p">.</span><span class="n">create</span> <span class="n">3</span> <span class="s">&#34;Björn&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="o">]</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">likes</span> <span class="o">=</span> <span class="o">[</span>
-</span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="mi">1</span> <span class="s">&#34;Pizza&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="mi">2</span> <span class="s">&#34;Pizza&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="mi">3</span> <span class="s">&#34;Pizza&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="mi">3</span> <span class="s">&#34;Coffee&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="mi">1</span> <span class="s">&#34;Tea&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="mi">2</span> <span class="s">&#34;Tea&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="n">1</span> <span class="s">&#34;Pizza&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="n">2</span> <span class="s">&#34;Pizza&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="n">3</span> <span class="s">&#34;Pizza&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="n">3</span> <span class="s">&#34;Coffee&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="n">1</span> <span class="s">&#34;Tea&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Like</span><span class="p">.</span><span class="n">create</span> <span class="n">2</span> <span class="s">&#34;Tea&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -622,7 +622,7 @@ C# LINQ Feature.</p>
         </div>
         <div class="post-footer">
             <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     

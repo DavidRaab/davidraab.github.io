@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>regex on David Raab</title>
+    <title>Regex on David Raab</title>
     <link>https://davidraab.github.io/tags/regex/</link>
-    <description>Recent content in regex on David Raab</description>
+    <description>Recent content in Regex on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 07 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/regex/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 09 Jan 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/regex/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Perl Regex Parsing with the g option</title>
       <link>https://davidraab.github.io/posts/perl-regex-parsing-with-g-option/</link>
       <pubDate>Sat, 07 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/perl-regex-parsing-with-g-option/</guid>
-      <description>Perl regexes have the /g modifier that is worth knowing about, as you can do a lot of advanced things with this modifier. But here are the basics first.
-Context First we need to understand that Perl has two different contexts and in both contexts the /g modifier works differently.
-List context Let&amp;rsquo;s see list context first. We can enforce list context by assigning to an array.
-Without the /g option a regex just finds its first match and just returns it.</description>
+      <description>Perl regexes have the /g modifier that is worth knowing about, as you can do a lot of advanced things with this modifier. But here are the basics first.&#xA;Context First we need to understand that Perl has two different contexts and in both contexts the /g modifier works differently.&#xA;List context Let&amp;rsquo;s see list context first. We can enforce list context by assigning to an array.&#xA;Without the /g option a regex just finds its first match and just returns it.</description>
     </item>
-    
   </channel>
 </rss>

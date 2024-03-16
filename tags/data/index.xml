@@ -1,52 +1,47 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>data on David Raab</title>
+    <title>Data on David Raab</title>
     <link>https://davidraab.github.io/tags/data/</link>
-    <description>Recent content in data on David Raab</description>
+    <description>Recent content in Data on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 29 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/data/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 16 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/data/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Insanity of Object-Oriented Programming</title>
+      <link>https://davidraab.github.io/posts/insanity-of-oo/</link>
+      <pubDate>Sat, 16 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/insanity-of-oo/</guid>
+      <description>The insanity of Object-Oriented Programming I started programming back in the 1990s. My first language I learned was QBasic and after 2 days of learning it, i switched to C. Back in these days there was no Internet. Okay, it existed but was not so common as today. Most people still didn&amp;rsquo;t even had computers.&#xA;I picked and learned C because when you got to the programming section in a store it was full of C books.</description>
+    </item>
     <item>
       <title>Creating a real enum Type in Perl</title>
       <link>https://davidraab.github.io/posts/creating-a-real-enum-type-in-perl/</link>
       <pubDate>Sun, 29 Oct 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/creating-a-real-enum-type-in-perl/</guid>
-      <description>In my previous article about Metaprogramming in Perl I show how to implement an enum() function that creates real special values that are distinct from each other.
-When I called enum(&#39;red&#39;, &#39;green&#39;, &#39;blue&#39;) it created two functions for every passed string. red() and is_red() for the red string. red() returns the special value and is_red($value) checks if $value is our special value.
-But currently it does not completely satisfy being an enum.</description>
+      <description>In my previous article about Metaprogramming in Perl I show how to implement an enum() function that creates real special values that are distinct from each other.&#xA;When I called enum(&#39;red&#39;, &#39;green&#39;, &#39;blue&#39;) it created two functions for every passed string. red() and is_red() for the red string. red() returns the special value and is_red($value) checks if $value is our special value.&#xA;But currently it does not completely satisfy being an enum.</description>
     </item>
-    
     <item>
       <title>Catamorphisms</title>
       <link>https://davidraab.github.io/posts/catamorphisms/</link>
       <pubDate>Sat, 28 May 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/catamorphisms/</guid>
-      <description>Up to this point I created various articles about fold, in my Series I also created a category named Fold (Catamorphisms) but up till now I didn&amp;rsquo;t explained how this articles related to each other, or what Catamorphisms mean. In this article I want to talk about the remaining parts.
-The List Catamorphisms is a generalization that emerged from the list data-structure. The list data-structure, how it is found in functional programming, is usually build as a single linked list.</description>
+      <description>Up to this point I created various articles about fold, in my Series I also created a category named Fold (Catamorphisms) but up till now I didn&amp;rsquo;t explained how this articles related to each other, or what Catamorphisms mean. In this article I want to talk about the remaining parts.&#xA;The List Catamorphisms is a generalization that emerged from the list data-structure. The list data-structure, how it is found in functional programming, is usually build as a single linked list.</description>
     </item>
-    
     <item>
       <title>Introduction to Functional Programming</title>
       <link>https://davidraab.github.io/posts/introduction-to-functional-programming/</link>
       <pubDate>Wed, 11 May 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/introduction-to-functional-programming/</guid>
-      <description>In this article I want to give a general introduction to some of the fundamental ideas of functional programming. I just start with the idea of function as data, and explain why functions are viewed as data and why it makes sense to pass functions as arguments.
-When we understand this concept, I start explaining lambda expression, currying, partial application and closures. All of this ideas built on each other.</description>
+      <description>In this article I want to give a general introduction to some of the fundamental ideas of functional programming. I just start with the idea of function as data, and explain why functions are viewed as data and why it makes sense to pass functions as arguments.&#xA;When we understand this concept, I start explaining lambda expression, currying, partial application and closures. All of this ideas built on each other.</description>
     </item>
-    
     <item>
       <title>Algebraic Data-Types</title>
       <link>https://davidraab.github.io/posts/algebraic-data-types/</link>
       <pubDate>Tue, 26 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/algebraic-data-types/</guid>
-      <description>When we work in a programming language we usually have some primitive data-types likes int, float, string, bool and so on. All of those are important, but when we need to create more advanced logic we usually want to create our own data-types and group/compose different types together to create new data-types.
-In an algebraic type-system there exists two different ways in how we can compose types. They are named Product-types and Sum-type.</description>
+      <description>When we work in a programming language we usually have some primitive data-types likes int, float, string, bool and so on. All of those are important, but when we need to create more advanced logic we usually want to create our own data-types and group/compose different types together to create new data-types.&#xA;In an algebraic type-system there exists two different ways in how we can compose types. They are named Product-types and Sum-type.</description>
     </item>
-    
   </channel>
 </rss>

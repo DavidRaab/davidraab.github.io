@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>map on David Raab</title>
+    <title>Map on David Raab</title>
     <link>https://davidraab.github.io/tags/map/</link>
-    <description>Recent content in map on David Raab</description>
+    <description>Recent content in Map on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 27 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/map/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 27 Oct 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/map/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Map operates on functions!</title>
       <link>https://davidraab.github.io/posts/map-operates-on-functions/</link>
       <pubDate>Thu, 27 Oct 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/map-operates-on-functions/</guid>
-      <description>map operates on functions not on data-types like list.
-When I started learning F# I had some problems understanding the map function. Don&amp;rsquo;t get me wrong. As a Perl programmer map is built into the core language (long before other languages adopted the idea) and I used and understanded it very well in Perl. This map is the same as List.map that I also immediately understood.
-But in F# you will encounter Result.</description>
+      <description>map operates on functions not on data-types like list.&#xA;When I started learning F# I had some problems understanding the map function. Don&amp;rsquo;t get me wrong. As a Perl programmer map is built into the core language (long before other languages adopted the idea) and I used and understanded it very well in Perl. This map is the same as List.map that I also immediately understood.&#xA;But in F# you will encounter Result.</description>
     </item>
-    
   </channel>
 </rss>

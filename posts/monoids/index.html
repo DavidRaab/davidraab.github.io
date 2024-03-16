@@ -4,7 +4,7 @@
         <title>Monoids // David Raab</title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta charset="utf-8" />
-        <meta name="generator" content="Hugo 0.109.0">
+        <meta name="generator" content="Hugo 0.123.1">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="David Raab" />
         <meta name="description" content="Describes Monoids in F#" />
@@ -12,8 +12,7 @@
         <script src="/static/code-toggle.js"></script>
 
         
-        <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Monoids"/>
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Monoids"/>
 <meta name="twitter:description" content="Describes Monoids in F#"/>
 
         <meta property="og:title" content="Monoids" />
@@ -24,10 +23,11 @@
 <meta property="article:modified_time" content="2016-05-24T00:00:00+00:00" />
 
 
+
     </head>
     <body>
         <header class="app-header">
-            <a href="https://davidraab.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
             <span class="app-header-title">David Raab</span>
             <nav class="app-header-menu">
                     <a class="app-header-menu-item" href="/">Home</a>
@@ -79,8 +79,8 @@
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">FSharp</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/monoids/">monoids</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">Fsharp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/monoids/">Monoids</a>
                 </div>
             </div>
         </header>
@@ -209,7 +209,7 @@ Then we just can write:</p>
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">xs</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span> <span class="o">..</span> <span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">xs</span> <span class="o">=</span> <span class="o">[</span><span class="n">1</span><span class="o">.</span><span class="n">0</span> <span class="o">..</span> <span class="n">10</span><span class="o">.</span><span class="n">0</span><span class="o">]</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">reduce</span> <span class="o">(+)</span> <span class="n">xs</span> <span class="c1">// 55.0
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">reduce</span> <span class="o">(-)</span> <span class="n">xs</span> <span class="c1">// -53.0
@@ -224,7 +224,7 @@ elements of a list, until you only have a single element left. When we use <code
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">;</span><span class="mi">5</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>it basically combines the first two elements. <code>1 + 2</code> and replaces it with <code>3</code>. So what happens is
@@ -238,11 +238,11 @@ just:</p>
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">;</span><span class="mi">5</span><span class="o">]</span>
-</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="mi">3</span><span class="o">;</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">;</span><span class="mi">5</span><span class="o">]</span>
-</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="mi">6</span><span class="o">;</span><span class="mi">4</span><span class="o">;</span><span class="mi">5</span><span class="o">]</span>
-</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="mi">10</span><span class="o">;</span><span class="mi">5</span><span class="o">]</span>
-</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="mi">15</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">3</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">6</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">10</span><span class="o">;</span><span class="n">5</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="n">15</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Once there is only a single result, it returns it.</p>
@@ -263,7 +263,7 @@ with four elements.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>CPU1 could start combining <code>1 + 2</code> while CPU2 starts combining <code>3 + 4</code>. Once both are finished
@@ -293,7 +293,7 @@ problems. We could for example use <a href="http://fsprojects.github.io/FSharp.C
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="c1">// Sequence of all number from 1 to 10.000.000
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">nums</span> <span class="o">=</span> <span class="o">[|</span> <span class="mi">1L</span> <span class="o">..</span> <span class="mi">10000000L</span> <span class="o">|]</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">let</span> <span class="nv">nums</span> <span class="o">=</span> <span class="o">[|</span> <span class="n">1L</span> <span class="o">..</span> <span class="n">10000000L</span> <span class="o">|]</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// Reduce just with one CPU
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">Seq</span><span class="p">.</span><span class="n">reduce</span> <span class="o">(+)</span> <span class="n">nums</span>
@@ -337,10 +337,10 @@ begin with. To solve the problem with <code>reduce</code> we can use <code>fold<
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(+)</span> <span class="mi">0</span> <span class="bp">[]</span>          <span class="c1">// 0
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(+)</span> <span class="mi">0</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">;</span><span class="mi">5</span><span class="o">]</span> <span class="c1">// 15
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(*)</span> <span class="mi">1</span> <span class="bp">[]</span>          <span class="c1">// 1
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(*)</span> <span class="mi">1</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">;</span><span class="mi">5</span><span class="o">]</span> <span class="c1">// 120
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(+)</span> <span class="n">0</span> <span class="bp">[]</span>          <span class="c1">// 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(+)</span> <span class="n">0</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">]</span> <span class="c1">// 15
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(*)</span> <span class="n">1</span> <span class="bp">[]</span>          <span class="c1">// 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="o">(*)</span> <span class="n">1</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">]</span> <span class="c1">// 120
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>The additional value we pass to <code>fold</code> acts in this case as the identity element.</p>
@@ -369,7 +369,7 @@ more simple monoids.</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="nn">List</span><span class="p">.</span><span class="n">append</span> <span class="bp">[]</span> <span class="o">[[</span><span class="s">&#34;foo&#34;</span><span class="o">];</span> <span class="o">[</span><span class="s">&#34;bar&#34;</span><span class="o">;</span> <span class="s">&#34;baz&#34;</span><span class="o">]]</span>   <span class="c1">// [&#34;foo&#34;; &#34;bar&#34;; &#34;baz&#34;]
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="nn">List</span><span class="p">.</span><span class="n">append</span> <span class="bp">[]</span> <span class="o">[[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">];</span> <span class="o">[</span><span class="mi">4</span><span class="o">;</span><span class="mi">5</span><span class="o">;</span><span class="mi">6</span><span class="o">];</span> <span class="o">[</span><span class="mi">7</span><span class="o">;</span><span class="mi">8</span><span class="o">;</span><span class="mi">9</span><span class="o">]]</span> <span class="c1">// [1;2;3;4;5;6;7;8;9]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">fold</span> <span class="nn">List</span><span class="p">.</span><span class="n">append</span> <span class="bp">[]</span> <span class="o">[[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">];</span> <span class="o">[</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">;</span><span class="n">6</span><span class="o">];</span> <span class="o">[</span><span class="n">7</span><span class="o">;</span><span class="n">8</span><span class="o">;</span><span class="n">9</span><span class="o">]]</span> <span class="c1">// [1;2;3;4;5;6;7;8;9]
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p><a name="mono-max-value"></a></p>
@@ -387,8 +387,8 @@ get the same result.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="n">max</span> <span class="o">(</span><span class="n">max</span> <span class="mi">1</span> <span class="mi">2</span><span class="o">)</span> <span class="mi">3</span><span class="o">)</span> <span class="c1">// 3
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">max</span> <span class="mi">1</span> <span class="o">(</span><span class="n">max</span> <span class="mi">2</span> <span class="mi">3</span><span class="o">))</span> <span class="c1">// 3
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="n">max</span> <span class="o">(</span><span class="n">max</span> <span class="n">1</span> <span class="n">2</span><span class="o">)</span> <span class="n">3</span><span class="o">)</span> <span class="c1">// 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">max</span> <span class="n">1</span> <span class="o">(</span><span class="n">max</span> <span class="n">2</span> <span class="n">3</span><span class="o">))</span> <span class="c1">// 3
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>or with reduce.</p>
@@ -398,7 +398,7 @@ get the same result.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">reduce</span> <span class="n">max</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">;</span><span class="mi">5</span><span class="o">;</span><span class="mi">6</span><span class="o">]</span>         <span class="c1">// 6
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">reduce</span> <span class="n">max</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">;</span><span class="n">5</span><span class="o">;</span><span class="n">6</span><span class="o">]</span>         <span class="c1">// 6
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">reduce</span> <span class="n">max</span> <span class="o">[</span><span class="s">&#34;foo&#34;</span><span class="o">;</span> <span class="s">&#34;abc&#34;</span><span class="o">;</span> <span class="s">&#34;zoo&#34;</span><span class="o">]</span> <span class="c1">// &#34;zoo&#34;
 </span></span></span></code></pre></td></tr></table>
 </div>
@@ -416,9 +416,9 @@ for <code>max</code> with the <code>int</code> type is <code>Int32.MinValue</cod
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">max</span> <span class="nn">Int32</span><span class="p">.</span><span class="n">MinValue</span> <span class="o">-</span><span class="mi">2147483648</span>    <span class="c1">// -2147483648
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">max</span> <span class="nn">Int32</span><span class="p">.</span><span class="n">MinValue</span> <span class="mi">0</span>              <span class="c1">// 0
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">max</span> <span class="nn">Int32</span><span class="p">.</span><span class="n">MinValue</span> <span class="mi">12345</span>          <span class="c1">// 12345
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">max</span> <span class="nn">Int32</span><span class="p">.</span><span class="n">MinValue</span> <span class="o">-</span><span class="n">2147483648</span>    <span class="c1">// -2147483648
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">max</span> <span class="nn">Int32</span><span class="p">.</span><span class="n">MinValue</span> <span class="n">0</span>              <span class="c1">// 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">max</span> <span class="nn">Int32</span><span class="p">.</span><span class="n">MinValue</span> <span class="n">12345</span>          <span class="c1">// 12345
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">max</span> <span class="nn">Int32</span><span class="p">.</span><span class="n">MinValue</span> <span class="nn">Int32</span><span class="p">.</span><span class="n">MaxValue</span> <span class="c1">// 2147483647
 </span></span></span></code></pre></td></tr></table>
 </div>
@@ -453,9 +453,9 @@ for <code>max</code> with the <code>int</code> type is <code>Int32.MinValue</cod
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sa</span> <span class="o">=</span> <span class="n">set</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">]</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sb</span> <span class="o">=</span> <span class="n">set</span> <span class="o">[</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">]</span>
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sc</span> <span class="o">=</span> <span class="n">set</span> <span class="o">[</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sa</span> <span class="o">=</span> <span class="n">set</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sb</span> <span class="o">=</span> <span class="n">set</span> <span class="o">[</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sc</span> <span class="o">=</span> <span class="n">set</span> <span class="o">[</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="o">(</span><span class="nn">Set</span><span class="p">.</span><span class="n">union</span> <span class="o">(</span><span class="nn">Set</span><span class="p">.</span><span class="n">union</span> <span class="n">sa</span> <span class="n">sb</span><span class="o">)</span> <span class="n">sc</span><span class="o">)</span> <span class="c1">// set [1;2;3;4]
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="nn">Set</span><span class="p">.</span><span class="n">union</span> <span class="n">sa</span> <span class="o">(</span><span class="nn">Set</span><span class="p">.</span><span class="n">union</span> <span class="n">sb</span> <span class="n">sc</span><span class="o">))</span> <span class="c1">// set [1;2;3;4]
@@ -492,9 +492,9 @@ we cannot do <code>(a + c) + b</code>. This will give us a completely different 
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">)</span> <span class="o">+</span> <span class="mi">3</span> <span class="c1">// 6
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="mi">1</span> <span class="o">+</span> <span class="o">(</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="o">)</span> <span class="c1">// 6
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">3</span><span class="o">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="c1">// 6
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="o">(</span><span class="n">1</span> <span class="o">+</span> <span class="n">2</span><span class="o">)</span> <span class="o">+</span> <span class="n">3</span> <span class="c1">// 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">1</span> <span class="o">+</span> <span class="o">(</span><span class="n">2</span> <span class="o">+</span> <span class="n">3</span><span class="o">)</span> <span class="c1">// 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">(</span><span class="n">1</span> <span class="o">+</span> <span class="n">3</span><span class="o">)</span> <span class="o">+</span> <span class="n">2</span> <span class="c1">// 6
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>We can even shuffle an array before summing it, it will always give us the same sum.
@@ -521,7 +521,7 @@ operation with the identity element in its own type.</p>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Sum</span> <span class="o">=</span> <span class="n">Sum</span> <span class="k">of</span> <span class="n">int</span> <span class="k">with</span>
 </span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="o">(+)</span> <span class="o">(</span><span class="n">Sum</span> <span class="n">x</span><span class="o">,</span> <span class="n">Sum</span> <span class="n">y</span><span class="o">)</span> <span class="o">=</span> <span class="n">Sum</span> <span class="o">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">Zero</span> <span class="o">=</span> <span class="n">Sum</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">Zero</span> <span class="o">=</span> <span class="n">Sum</span> <span class="n">0</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>The advantage is that we can use <code>List.sum</code> with such a type. <code>List.sum</code> adds all elements
@@ -533,8 +533,8 @@ it returns the <code>Zero</code> element.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">sum</span> <span class="o">[</span><span class="n">Sum</span> <span class="mi">1</span><span class="o">;</span> <span class="n">Sum</span> <span class="mi">2</span><span class="o">;</span> <span class="n">Sum</span> <span class="mi">3</span><span class="o">]</span>  <span class="c1">// Sum 6
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">sum</span> <span class="o">[</span><span class="n">Sum</span> <span class="mi">5</span><span class="o">;</span> <span class="n">Sum</span> <span class="mi">10</span><span class="o">;</span> <span class="n">Sum</span> <span class="mi">5</span><span class="o">]</span> <span class="c1">// Sum 20
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">sum</span> <span class="o">[</span><span class="n">Sum</span> <span class="n">1</span><span class="o">;</span> <span class="n">Sum</span> <span class="n">2</span><span class="o">;</span> <span class="n">Sum</span> <span class="n">3</span><span class="o">]</span>  <span class="c1">// Sum 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">sum</span> <span class="o">[</span><span class="n">Sum</span> <span class="n">5</span><span class="o">;</span> <span class="n">Sum</span> <span class="n">10</span><span class="o">;</span> <span class="n">Sum</span> <span class="n">5</span><span class="o">]</span> <span class="c1">// Sum 20
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>Defining a Sum type for <code>int</code> and <code>+</code> doesn&rsquo;t seems like much value, and it isn&rsquo;t. But it
@@ -554,10 +554,10 @@ is only one example to understand the concept. A Product for example seems much 
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Product</span> <span class="o">=</span> <span class="n">Product</span> <span class="k">of</span> <span class="n">int</span> <span class="k">with</span>
 </span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="o">(+)</span> <span class="o">(</span><span class="n">Product</span> <span class="n">x</span><span class="o">,</span> <span class="n">Product</span> <span class="n">y</span><span class="o">)</span> <span class="o">=</span> <span class="n">Product</span> <span class="o">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">Zero</span> <span class="o">=</span> <span class="n">Product</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">Zero</span> <span class="o">=</span> <span class="n">Product</span> <span class="n">1</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">sum</span> <span class="o">[</span><span class="n">Product</span> <span class="mi">5</span><span class="o">;</span> <span class="n">Product</span> <span class="mi">10</span><span class="o">;</span> <span class="n">Product</span> <span class="mi">3</span><span class="o">]</span> <span class="c1">// Product 150
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">sum</span> <span class="o">[</span><span class="n">Product</span> <span class="mi">3</span><span class="o">;</span> <span class="n">Product</span> <span class="mi">2</span><span class="o">]</span>             <span class="c1">// Product 6
+</span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">sum</span> <span class="o">[</span><span class="n">Product</span> <span class="n">5</span><span class="o">;</span> <span class="n">Product</span> <span class="n">10</span><span class="o">;</span> <span class="n">Product</span> <span class="n">3</span><span class="o">]</span> <span class="c1">// Product 150
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">sum</span> <span class="o">[</span><span class="n">Product</span> <span class="n">3</span><span class="o">;</span> <span class="n">Product</span> <span class="n">2</span><span class="o">]</span>             <span class="c1">// Product 6
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p><a name="type-ordering"></a></p>
@@ -580,10 +580,10 @@ is only one example to understand the concept. A Product for example seems much 
 </span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="o">(+)</span> <span class="o">(</span><span class="n">Order</span> <span class="n">xs</span> <span class="o">:</span> <span class="n">Order</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;,</span> <span class="n">Order</span> <span class="n">ys</span><span class="o">)</span> <span class="o">=</span> <span class="n">Order</span> <span class="o">(</span><span class="nn">List</span><span class="p">.</span><span class="n">sort</span> <span class="o">(</span><span class="nn">List</span><span class="p">.</span><span class="n">append</span> <span class="n">xs</span> <span class="n">ys</span><span class="o">))</span>
 </span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">member</span> <span class="n">Zero</span> <span class="o">:</span> <span class="n">Order</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">Order</span> <span class="bp">[]</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">Order</span> <span class="o">[</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">]</span> <span class="o">+</span> <span class="n">Order</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">]</span> <span class="o">+</span> <span class="n">Order</span> <span class="o">[</span><span class="mi">6</span><span class="o">;</span><span class="mi">6</span><span class="o">;</span><span class="mi">10</span><span class="o">]</span> <span class="c1">// [1;2;3;4;6;6;10]
+</span></span><span class="line"><span class="cl"><span class="n">Order</span> <span class="o">[</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span> <span class="o">+</span> <span class="n">Order</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">]</span> <span class="o">+</span> <span class="n">Order</span> <span class="o">[</span><span class="n">6</span><span class="o">;</span><span class="n">6</span><span class="o">;</span><span class="n">10</span><span class="o">]</span> <span class="c1">// [1;2;3;4;6;6;10]
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">Order</span> <span class="o">[</span><span class="s">&#34;foo&#34;</span><span class="o">;</span><span class="s">&#34;bar&#34;</span><span class="o">]</span> <span class="o">+</span> <span class="n">Order</span> <span class="o">[</span><span class="s">&#34;zoo&#34;</span><span class="o">]</span>        <span class="c1">// [&#34;bar&#34;; &#34;foo&#34;; &#34;zoo&#34;]
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">sum</span> <span class="o">[</span><span class="n">Order</span> <span class="o">[</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">];</span> <span class="n">Order</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">]]</span>           <span class="c1">// [1;2;3;4]
+</span></span><span class="line"><span class="cl"><span class="nn">List</span><span class="p">.</span><span class="n">sum</span> <span class="o">[</span><span class="n">Order</span> <span class="o">[</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">];</span> <span class="n">Order</span> <span class="o">[</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">]]</span>           <span class="c1">// [1;2;3;4]
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nn">List</span><span class="p">.</span><span class="n">sum</span> <span class="o">[</span><span class="n">Order</span> <span class="o">[</span><span class="s">&#34;foo&#34;</span><span class="o">;</span><span class="s">&#34;bar&#34;</span><span class="o">];</span> <span class="n">Order</span> <span class="o">[</span><span class="s">&#34;zoo&#34;</span><span class="o">]]</span> <span class="c1">// [&#34;bar&#34;; &#34;foo&#34;; &#34;zoo&#34;]
 </span></span></span></code></pre></td></tr></table>
 </div>
@@ -607,7 +607,7 @@ incrementally.</p>
         </div>
         <div class="post-footer">
             <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     

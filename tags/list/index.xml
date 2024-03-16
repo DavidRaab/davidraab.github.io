@@ -1,100 +1,75 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>list on David Raab</title>
+    <title>List on David Raab</title>
     <link>https://davidraab.github.io/tags/list/</link>
-    <description>Recent content in list on David Raab</description>
+    <description>Recent content in List on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 19 Mar 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/list/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 19 Mar 2017 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/list/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Understanding Fold</title>
       <link>https://davidraab.github.io/posts/understanding-fold/</link>
       <pubDate>Sun, 19 Mar 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/understanding-fold/</guid>
-      <description>A very important function in List-processing is the List.fold function. List.fold is a very powerful function that gives you a lot of flexibility to do any kind of list transformation. The disadvantage is that this kind of power makes understanding List.fold a lot harder. In this article we look at some visualizations to better understand List.fold.
-First we need to understand how we visualize a function. A function has some inputs and one output and we visualize it as a box with the inputs on the top and the output on the bottom.</description>
+      <description>A very important function in List-processing is the List.fold function. List.fold is a very powerful function that gives you a lot of flexibility to do any kind of list transformation. The disadvantage is that this kind of power makes understanding List.fold a lot harder. In this article we look at some visualizations to better understand List.fold.&#xA;First we need to understand how we visualize a function. A function has some inputs and one output and we visualize it as a box with the inputs on the top and the output on the bottom.</description>
     </item>
-    
     <item>
       <title>Catamorphisms</title>
       <link>https://davidraab.github.io/posts/catamorphisms/</link>
       <pubDate>Sat, 28 May 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/catamorphisms/</guid>
-      <description>Up to this point I created various articles about fold, in my Series I also created a category named Fold (Catamorphisms) but up till now I didn&amp;rsquo;t explained how this articles related to each other, or what Catamorphisms mean. In this article I want to talk about the remaining parts.
-The List Catamorphisms is a generalization that emerged from the list data-structure. The list data-structure, how it is found in functional programming, is usually build as a single linked list.</description>
+      <description>Up to this point I created various articles about fold, in my Series I also created a category named Fold (Catamorphisms) but up till now I didn&amp;rsquo;t explained how this articles related to each other, or what Catamorphisms mean. In this article I want to talk about the remaining parts.&#xA;The List Catamorphisms is a generalization that emerged from the list data-structure. The list data-structure, how it is found in functional programming, is usually build as a single linked list.</description>
     </item>
-    
     <item>
       <title>CPS fold -- fold with early exit</title>
       <link>https://davidraab.github.io/posts/cps-fold/</link>
       <pubDate>Sat, 07 May 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/cps-fold/</guid>
-      <description>The most general function to traverse a data-structures is the fold function. But fold has one problem that is sometimes not optimal. It always traverses the whole data-structure and we cannot abort the recusion early.
-But sometimes, that is exactly what we want to do. For example when we want to search for a specific element in a list, when we found it, we don&amp;rsquo;t want to go through the remaing list.</description>
+      <description>The most general function to traverse a data-structures is the fold function. But fold has one problem that is sometimes not optimal. It always traverses the whole data-structure and we cannot abort the recusion early.&#xA;But sometimes, that is exactly what we want to do. For example when we want to search for a specific element in a list, when we found it, we don&amp;rsquo;t want to go through the remaing list.</description>
     </item>
-    
     <item>
       <title>Continuations and foldBack</title>
       <link>https://davidraab.github.io/posts/continuations-and-foldback/</link>
       <pubDate>Sat, 16 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/continuations-and-foldback/</guid>
-      <description>In From mutable loops to immutable folds we implemented foldBack through rev and fold. In this post I show you how you can implement foldBack by using a continuation function.
-Functions Before we see how to implement foldBack, I want to give you analogy first. This analogy helped me in a lot of cases. I hope that this analogy will also help you in better understanding the further post, or probably even in other areas in programming in general.</description>
+      <description>In From mutable loops to immutable folds we implemented foldBack through rev and fold. In this post I show you how you can implement foldBack by using a continuation function.&#xA;Functions Before we see how to implement foldBack, I want to give you analogy first. This analogy helped me in a lot of cases. I hope that this analogy will also help you in better understanding the further post, or probably even in other areas in programming in general.</description>
     </item>
-    
     <item>
       <title>Sequence and Traverse</title>
       <link>https://davidraab.github.io/posts/sequence-and-traverse/</link>
       <pubDate>Thu, 14 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/sequence-and-traverse/</guid>
-      <description>One problem that appears from time to time is that we we have some kind of collection (I use list here) and we want to map every element with a monadic function &#39;a -&amp;gt; M&amp;lt;&#39;b&amp;gt;. This then returns a list&amp;lt;M&amp;lt;&#39;a&amp;gt;&amp;gt;. But often we want a M&amp;lt;list&amp;lt;&#39;a&amp;gt;&amp;gt;.
-To be more concrete. Let&amp;rsquo;s assume we want to turn a list of strings into integers. We could write a tryParseInt function that does string -&amp;gt; option&amp;lt;int&amp;gt;.</description>
+      <description>One problem that appears from time to time is that we we have some kind of collection (I use list here) and we want to map every element with a monadic function &#39;a -&amp;gt; M&amp;lt;&#39;b&amp;gt;. This then returns a list&amp;lt;M&amp;lt;&#39;a&amp;gt;&amp;gt;. But often we want a M&amp;lt;list&amp;lt;&#39;a&amp;gt;&amp;gt;.&#xA;To be more concrete. Let&amp;rsquo;s assume we want to turn a list of strings into integers. We could write a tryParseInt function that does string -&amp;gt; option&amp;lt;int&amp;gt;.</description>
     </item>
-    
     <item>
       <title>Applicative: Lists</title>
       <link>https://davidraab.github.io/posts/applicative-list/</link>
       <pubDate>Wed, 13 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/applicative-list/</guid>
-      <description>In Applicative Functors I primarily used the Option type to show how you implement and use an Applicative Functor. But the concept also works for any other type. This time I want to show you the idea of an Applicative with a list, what it means, what you can do with it and how apply works.
-Implementing apply Currently the List module don&amp;rsquo;t offer a apply function. So we must write it on our own.</description>
+      <description>In Applicative Functors I primarily used the Option type to show how you implement and use an Applicative Functor. But the concept also works for any other type. This time I want to show you the idea of an Applicative with a list, what it means, what you can do with it and how apply works.&#xA;Implementing apply Currently the List module don&amp;rsquo;t offer a apply function. So we must write it on our own.</description>
     </item>
-    
     <item>
       <title>From mutable loops to immutable folds</title>
       <link>https://davidraab.github.io/posts/loops-to-folds/</link>
       <pubDate>Tue, 05 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/loops-to-folds/</guid>
       <description>When we ask of key-features of functional programming, you will probably hear two things most often. Immutability and recursion. But why is that so? As Immutability also becomes more important in OO languages you will probably find a lot of reason for that one, but why are recursive functions so important? The short answer is, because of Immutability! To understand the connection between those, let&amp;rsquo;s start with some code that uses loops with mutation.</description>
     </item>
-    
     <item>
       <title>Understanding map</title>
       <link>https://davidraab.github.io/posts/understanding-map/</link>
       <pubDate>Sun, 27 Mar 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/understanding-map/</guid>
-      <description>One important function in functional programming is the map function. When I learned F# I must admit that I had some problems first, understanding it. The problem was, I already knew the map function from dozens of other languages. Or to say it correctly, I mostly learned a wrong explanation of map.
-The typical explanation I&amp;rsquo;m talking about often goes something like this: map takes a function and a list. It applies the function to every element in the list, and returns a new list.</description>
+      <description>One important function in functional programming is the map function. When I learned F# I must admit that I had some problems first, understanding it. The problem was, I already knew the map function from dozens of other languages. Or to say it correctly, I mostly learned a wrong explanation of map.&#xA;The typical explanation I&amp;rsquo;m talking about often goes something like this: map takes a function and a list. It applies the function to every element in the list, and returns a new list.</description>
     </item>
-    
     <item>
       <title>Applying Structured Programming</title>
       <link>https://davidraab.github.io/posts/applying-structured-programming/</link>
       <pubDate>Wed, 09 Mar 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/applying-structured-programming/</guid>
-      <description>In my previous post about Structured Programming I talked about that basic looping constructs fold. But this is still to powerful. In the sense of readability we should try to eliminate them with more specific ones. In this post I go through a toy example to show the various ways on how to refactor some code.
-The Toy Example Recently I had some conversation about code in a game and providing some kind of critical hit-chance in a game.</description>
+      <description>In my previous post about Structured Programming I talked about that basic looping constructs fold. But this is still to powerful. In the sense of readability we should try to eliminate them with more specific ones. In this post I go through a toy example to show the various ways on how to refactor some code.&#xA;The Toy Example Recently I had some conversation about code in a game and providing some kind of critical hit-chance in a game.</description>
     </item>
-    
   </channel>
 </rss>

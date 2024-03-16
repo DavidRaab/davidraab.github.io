@@ -1,61 +1,47 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>immutability on David Raab</title>
+    <title>Immutability on David Raab</title>
     <link>https://davidraab.github.io/tags/immutability/</link>
-    <description>Recent content in immutability on David Raab</description>
+    <description>Recent content in Immutability on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 27 Feb 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/immutability/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 27 Feb 2017 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/immutability/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Mutability vs. Immutability: Valid objects</title>
       <link>https://davidraab.github.io/posts/mutabaility-vs-immutability-validation/</link>
       <pubDate>Mon, 27 Feb 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/mutabaility-vs-immutability-validation/</guid>
-      <description>I already wrote an article that explains immutability, but one thing I hand-waved was the benefits of immutability and why you should program with immutable values.
-In this article I talk about those benefits by trying to maintaining valid objects at all time and show how we can achieve it with mutability and immutability.
-One question might be why I&amp;rsquo;m not just showing the immutable part. I could do this, but the problem I see is that it isn&amp;rsquo;t so obvious how hard the mutable part really is.</description>
+      <description>I already wrote an article that explains immutability, but one thing I hand-waved was the benefits of immutability and why you should program with immutable values.&#xA;In this article I talk about those benefits by trying to maintaining valid objects at all time and show how we can achieve it with mutability and immutability.&#xA;One question might be why I&amp;rsquo;m not just showing the immutable part. I could do this, but the problem I see is that it isn&amp;rsquo;t so obvious how hard the mutable part really is.</description>
     </item>
-    
     <item>
       <title>Function Application and Composition</title>
       <link>https://davidraab.github.io/posts/function-application-and-composition/</link>
       <pubDate>Sun, 25 Sep 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/function-application-and-composition/</guid>
-      <description>Function application is probably one of those terms in functional programming that sounds more scarier as the topic really is. The idea behind functional application just means that we execute a function to get the result. Let&amp;rsquo;s take the example of calculating the square root of 2.0. We can write the following in F# to do that:
-1 let x = sqrt 2.0 The interesting part is how we read this example.</description>
+      <description>Function application is probably one of those terms in functional programming that sounds more scarier as the topic really is. The idea behind functional application just means that we execute a function to get the result. Let&amp;rsquo;s take the example of calculating the square root of 2.0. We can write the following in F# to do that:&#xA;1 let x = sqrt 2.0 The interesting part is how we read this example.</description>
     </item>
-    
     <item>
       <title>From mutable loops to immutable folds</title>
       <link>https://davidraab.github.io/posts/loops-to-folds/</link>
       <pubDate>Tue, 05 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/loops-to-folds/</guid>
       <description>When we ask of key-features of functional programming, you will probably hear two things most often. Immutability and recursion. But why is that so? As Immutability also becomes more important in OO languages you will probably find a lot of reason for that one, but why are recursive functions so important? The short answer is, because of Immutability! To understand the connection between those, let&amp;rsquo;s start with some code that uses loops with mutation.</description>
     </item>
-    
     <item>
       <title>Understanding Immutability and Pure Functions (for OOP)</title>
       <link>https://davidraab.github.io/posts/immutability-and-functions/</link>
       <pubDate>Mon, 14 Mar 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/immutability-and-functions/</guid>
-      <description>One important concept in functional programming is immutability. But also in object-oriented programming immutability and so called immutable objects getting more attention. The problem that I see especially from object-oriented programmers are really bad explanations. A lot of explanation I had see described it like this: Just create a class and make all fields readonly (final or const) and you have an immutable object.
-Explanations like these are horrible. Such explanations are so simplified that I would even call them wrong.</description>
+      <description>One important concept in functional programming is immutability. But also in object-oriented programming immutability and so called immutable objects getting more attention. The problem that I see especially from object-oriented programmers are really bad explanations. A lot of explanation I had see described it like this: Just create a class and make all fields readonly (final or const) and you have an immutable object.&#xA;Explanations like these are horrible. Such explanations are so simplified that I would even call them wrong.</description>
     </item>
-    
     <item>
       <title>Applying Structured Programming</title>
       <link>https://davidraab.github.io/posts/applying-structured-programming/</link>
       <pubDate>Wed, 09 Mar 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/applying-structured-programming/</guid>
-      <description>In my previous post about Structured Programming I talked about that basic looping constructs fold. But this is still to powerful. In the sense of readability we should try to eliminate them with more specific ones. In this post I go through a toy example to show the various ways on how to refactor some code.
-The Toy Example Recently I had some conversation about code in a game and providing some kind of critical hit-chance in a game.</description>
+      <description>In my previous post about Structured Programming I talked about that basic looping constructs fold. But this is still to powerful. In the sense of readability we should try to eliminate them with more specific ones. In this post I go through a toy example to show the various ways on how to refactor some code.&#xA;The Toy Example Recently I had some conversation about code in a game and providing some kind of critical hit-chance in a game.</description>
     </item>
-    
   </channel>
 </rss>

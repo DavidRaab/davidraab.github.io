@@ -1,90 +1,68 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>option on David Raab</title>
+    <title>Option on David Raab</title>
     <link>https://davidraab.github.io/tags/option/</link>
-    <description>Recent content in option on David Raab</description>
+    <description>Recent content in Option on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 11 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/option/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 11 May 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/option/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>The Option Module</title>
       <link>https://davidraab.github.io/posts/option-module/</link>
       <pubDate>Wed, 11 May 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/option-module/</guid>
-      <description>The Option type is a well known and often used type, but at least for me, most of the time I just used Option.map and Option.bind and ignored functions like Option.exists, Option.filter, Option.fold and so on. I spent some time with those functions to understand when those are useful.
-defaultArg The first function i look at is actually not in the Option module. It is the defaultArg function. With defaultArg we can extract an option type and provide a default value in the case we had no value.</description>
+      <description>The Option type is a well known and often used type, but at least for me, most of the time I just used Option.map and Option.bind and ignored functions like Option.exists, Option.filter, Option.fold and so on. I spent some time with those functions to understand when those are useful.&#xA;defaultArg The first function i look at is actually not in the Option module. It is the defaultArg function. With defaultArg we can extract an option type and provide a default value in the case we had no value.</description>
     </item>
-    
     <item>
       <title>Sequence and Traverse</title>
       <link>https://davidraab.github.io/posts/sequence-and-traverse/</link>
       <pubDate>Thu, 14 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/sequence-and-traverse/</guid>
-      <description>One problem that appears from time to time is that we we have some kind of collection (I use list here) and we want to map every element with a monadic function &#39;a -&amp;gt; M&amp;lt;&#39;b&amp;gt;. This then returns a list&amp;lt;M&amp;lt;&#39;a&amp;gt;&amp;gt;. But often we want a M&amp;lt;list&amp;lt;&#39;a&amp;gt;&amp;gt;.
-To be more concrete. Let&amp;rsquo;s assume we want to turn a list of strings into integers. We could write a tryParseInt function that does string -&amp;gt; option&amp;lt;int&amp;gt;.</description>
+      <description>One problem that appears from time to time is that we we have some kind of collection (I use list here) and we want to map every element with a monadic function &#39;a -&amp;gt; M&amp;lt;&#39;b&amp;gt;. This then returns a list&amp;lt;M&amp;lt;&#39;a&amp;gt;&amp;gt;. But often we want a M&amp;lt;list&amp;lt;&#39;a&amp;gt;&amp;gt;.&#xA;To be more concrete. Let&amp;rsquo;s assume we want to turn a list of strings into integers. We could write a tryParseInt function that does string -&amp;gt; option&amp;lt;int&amp;gt;.</description>
     </item>
-    
     <item>
       <title>Optionals</title>
       <link>https://davidraab.github.io/posts/optionals-app/</link>
       <pubDate>Mon, 11 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/optionals-app/</guid>
       <description>In this post I want to talk about Optionals more deeply. I already wrote about null, but I noticed that it is still not immediately clear on why Optionals are better. Instead of focusing why null is bad, this time I want to focus why Optionals are good. For this purpose I also wrote a small application that I will cover. But first, let&amp;rsquo;s go over Optionals and see which benefits they have.</description>
     </item>
-    
     <item>
       <title>Understanding bind</title>
       <link>https://davidraab.github.io/posts/understanding-bind/</link>
       <pubDate>Sun, 03 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/understanding-bind/</guid>
-      <description>In Understanding map we learned that implementing a map function is what we call a Functor. In Applicative Functors we extended that idea with the return and apply function and we call the result an Applicative Functor. The next important function in our toolset is the bind function.
-Monads The combination of return and bind is what we call a Monad. But currently I will not consider this as an introduction to Monads at all.</description>
+      <description>In Understanding map we learned that implementing a map function is what we call a Functor. In Applicative Functors we extended that idea with the return and apply function and we call the result an Applicative Functor. The next important function in our toolset is the bind function.&#xA;Monads The combination of return and bind is what we call a Monad. But currently I will not consider this as an introduction to Monads at all.</description>
     </item>
-    
     <item>
       <title>Applicative Functors</title>
       <link>https://davidraab.github.io/posts/applicative-functors/</link>
       <pubDate>Thu, 31 Mar 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/applicative-functors/</guid>
-      <description>In my previous article Understanding map I introduced the map function and described that implementing map and fulfilling two laws we get what we call a Functor. In this Post we discuss the apply function that we can view as an extension to the map function.
-Problem with map It might be that you have noticed one problem with map. map only can work with one-argument functions! The definition of map expects a function &#39;a -&amp;gt; &#39;b as it&amp;rsquo;s first argument.</description>
+      <description>In my previous article Understanding map I introduced the map function and described that implementing map and fulfilling two laws we get what we call a Functor. In this Post we discuss the apply function that we can view as an extension to the map function.&#xA;Problem with map It might be that you have noticed one problem with map. map only can work with one-argument functions! The definition of map expects a function &#39;a -&amp;gt; &#39;b as it&amp;rsquo;s first argument.</description>
     </item>
-    
     <item>
       <title>Understanding map</title>
       <link>https://davidraab.github.io/posts/understanding-map/</link>
       <pubDate>Sun, 27 Mar 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/understanding-map/</guid>
-      <description>One important function in functional programming is the map function. When I learned F# I must admit that I had some problems first, understanding it. The problem was, I already knew the map function from dozens of other languages. Or to say it correctly, I mostly learned a wrong explanation of map.
-The typical explanation I&amp;rsquo;m talking about often goes something like this: map takes a function and a list. It applies the function to every element in the list, and returns a new list.</description>
+      <description>One important function in functional programming is the map function. When I learned F# I must admit that I had some problems first, understanding it. The problem was, I already knew the map function from dozens of other languages. Or to say it correctly, I mostly learned a wrong explanation of map.&#xA;The typical explanation I&amp;rsquo;m talking about often goes something like this: map takes a function and a list. It applies the function to every element in the list, and returns a new list.</description>
     </item>
-    
     <item>
       <title>Exceptions are Evil</title>
       <link>https://davidraab.github.io/posts/exceptions-are-evil/</link>
       <pubDate>Fri, 25 Mar 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/exceptions-are-evil/</guid>
-      <description>Most people today agree that null is evil, and they try to get rid of them. One technique that most people prefer is to throw an exception in the case of an error, or if we cannot return a valid value from a function. The problem is, exceptions are not any kind better than null, and they don&amp;rsquo;t solve any problem that null introduced.
-In my previous post null is Evil i mentioned seven problems that null introduced.</description>
+      <description>Most people today agree that null is evil, and they try to get rid of them. One technique that most people prefer is to throw an exception in the case of an error, or if we cannot return a valid value from a function. The problem is, exceptions are not any kind better than null, and they don&amp;rsquo;t solve any problem that null introduced.&#xA;In my previous post null is Evil i mentioned seven problems that null introduced.</description>
     </item>
-    
     <item>
       <title>null is Evil</title>
       <link>https://davidraab.github.io/posts/null-is-evil/</link>
       <pubDate>Sun, 20 Mar 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/null-is-evil/</guid>
-      <description>Tony Hoare once said: I call it my billion-dollar mistake. It was the invention of the null reference in 1965. So, why did he added &amp;ldquo;null&amp;rdquo; in the first place? Why was it such a big mistake. And if it is such a big mistake, what are the alternatives?
-The purpose of null To understand why it was a mistake, let&amp;rsquo;s look why it was even added in the first place.</description>
+      <description>Tony Hoare once said: I call it my billion-dollar mistake. It was the invention of the null reference in 1965. So, why did he added &amp;ldquo;null&amp;rdquo; in the first place? Why was it such a big mistake. And if it is such a big mistake, what are the alternatives?&#xA;The purpose of null To understand why it was a mistake, let&amp;rsquo;s look why it was even added in the first place.</description>
     </item>
-    
   </channel>
 </rss>

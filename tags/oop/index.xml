@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>oop on David Raab</title>
+    <title>Oop on David Raab</title>
     <link>https://davidraab.github.io/tags/oop/</link>
-    <description>Recent content in oop on David Raab</description>
+    <description>Recent content in Oop on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 01 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/oop/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 16 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/oop/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Insanity of Object-Oriented Programming</title>
+      <link>https://davidraab.github.io/posts/insanity-of-oo/</link>
+      <pubDate>Sat, 16 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/insanity-of-oo/</guid>
+      <description>The insanity of Object-Oriented Programming I started programming back in the 1990s. My first language I learned was QBasic and after 2 days of learning it, i switched to C. Back in these days there was no Internet. Okay, it existed but was not so common as today. Most people still didn&amp;rsquo;t even had computers.&#xA;I picked and learned C because when you got to the programming section in a store it was full of C books.</description>
+    </item>
     <item>
       <title>Object-Oriented Programming in C</title>
       <link>https://davidraab.github.io/posts/object-oriented-programming-in-c/</link>
       <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/object-oriented-programming-in-c/</guid>
-      <description>Let&amp;rsquo;s do object-oriented programming in C. First of I am creating an easy example for an Vector2 type. To define a Vector2 in C we use a struct.
-1 2 3 4 struct Vector2 { int X; int Y; }; When you know C#, you are already familiar with a struct. A struct is a value-type in C. It always gets copied as a whole. In C# we have a class that is a reference-type but this doesn&amp;rsquo;t exist in C.</description>
+      <description>Let&amp;rsquo;s do object-oriented programming in C. First of I am creating an easy example for an Vector2 type. To define a Vector2 in C we use a struct.&#xA;1 2 3 4 struct Vector2 { int X; int Y; }; When you know C#, you are already familiar with a struct. A struct is a value-type in C. It always gets copied as a whole. In C# we have a class that is a reference-type but this doesn&amp;rsquo;t exist in C.</description>
     </item>
-    
     <item>
       <title>Understanding Immutability and Pure Functions (for OOP)</title>
       <link>https://davidraab.github.io/posts/immutability-and-functions/</link>
       <pubDate>Mon, 14 Mar 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/immutability-and-functions/</guid>
-      <description>One important concept in functional programming is immutability. But also in object-oriented programming immutability and so called immutable objects getting more attention. The problem that I see especially from object-oriented programmers are really bad explanations. A lot of explanation I had see described it like this: Just create a class and make all fields readonly (final or const) and you have an immutable object.
-Explanations like these are horrible. Such explanations are so simplified that I would even call them wrong.</description>
+      <description>One important concept in functional programming is immutability. But also in object-oriented programming immutability and so called immutable objects getting more attention. The problem that I see especially from object-oriented programmers are really bad explanations. A lot of explanation I had see described it like this: Just create a class and make all fields readonly (final or const) and you have an immutable object.&#xA;Explanations like these are horrible. Such explanations are so simplified that I would even call them wrong.</description>
     </item>
-    
   </channel>
 </rss>

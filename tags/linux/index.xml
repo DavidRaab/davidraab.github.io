@@ -1,43 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>linux on David Raab</title>
+    <title>Linux on David Raab</title>
     <link>https://davidraab.github.io/tags/linux/</link>
-    <description>Recent content in linux on David Raab</description>
+    <description>Recent content in Linux on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 18 Nov 2023 01:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 18 Nov 2023 17:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Perl Seq: Three ways of doing Fibonacci</title>
       <link>https://davidraab.github.io/posts/lazy-sequence-in-perl-three-ways-of-doing-fibonacci/</link>
       <pubDate>Sat, 18 Nov 2023 01:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/lazy-sequence-in-perl-three-ways-of-doing-fibonacci/</guid>
-      <description>Hi there, I am developing a new Perl module to bring a lazy Sequence to Perl.
-It should provide the functionaly you see in C# LINQ or Java 8 Stream. The origin of those interfaces comes from functional programming. Thus i decided to primarily pick the F# API and port it to Perl.
-I already implemented a useful set of functions. Here is an example of the module and what you can do with it.</description>
+      <description>Hi there, I am developing a new Perl module to bring a lazy Sequence to Perl.&#xA;It should provide the functionaly you see in C# LINQ or Java 8 Stream. The origin of those interfaces comes from functional programming. Thus i decided to primarily pick the F# API and port it to Perl.&#xA;I already implemented a useful set of functions. Here is an example of the module and what you can do with it.</description>
     </item>
-    
     <item>
       <title>Searching for a Linux Command</title>
       <link>https://davidraab.github.io/posts/searching-for-a-linux-command/</link>
       <pubDate>Sat, 04 Nov 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/searching-for-a-linux-command/</guid>
-      <description>Lately I wanted to search for a Linux Command.
-I didn&amp;rsquo;t knew the exact command, only that there must be a &amp;ldquo;wacom&amp;rdquo; in it. A configuration tool to set some more details of my wacom tablet. So I thought.
-Hey, just collect all binary files in all the directores in the PATH Environment of Linux. The Path environment is divided with colons. Just let me give it a Regex it can match against.</description>
+      <description>Lately I wanted to search for a Linux Command.&#xA;I didn&amp;rsquo;t knew the exact command, only that there must be a &amp;ldquo;wacom&amp;rdquo; in it. A configuration tool to set some more details of my wacom tablet. So I thought.&#xA;Hey, just collect all binary files in all the directores in the PATH Environment of Linux. The Path environment is divided with colons. Just let me give it a Regex it can match against.</description>
     </item>
-    
     <item>
       <title>Installing perl with perlbrew</title>
       <link>https://davidraab.github.io/posts/installing-perl-with-perlbrew/</link>
       <pubDate>Fri, 17 Feb 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/installing-perl-with-perlbrew/</guid>
-      <description>Today every Linux system mostly already ships Perl including a lot of modules. While this can be totally fine sometimes maybe you want to switch to a newer Perl version. Or maybe even an older version to test a module with an older Perl version for compatibility?
-perlbrew is a tool that helps installing multiple Perl environments and gives you the ability to switch between them. Installing your own Perl also means you don&amp;rsquo;t mess with the system installed Perl and you are able to install any new module directly from CPAN.</description>
+      <description>Today every Linux system mostly already ships Perl including a lot of modules. While this can be totally fine sometimes maybe you want to switch to a newer Perl version. Or maybe even an older version to test a module with an older Perl version for compatibility?&#xA;perlbrew is a tool that helps installing multiple Perl environments and gives you the ability to switch between them. Installing your own Perl also means you don&amp;rsquo;t mess with the system installed Perl and you are able to install any new module directly from CPAN.</description>
     </item>
-    
   </channel>
 </rss>

@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>general-concepts on David Raab</title>
+    <title>General-Concepts on David Raab</title>
     <link>https://davidraab.github.io/tags/general-concepts/</link>
-    <description>Recent content in general-concepts on David Raab</description>
+    <description>Recent content in General-Concepts on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 18 Nov 2023 02:00:00 +0000</lastBuildDate><atom:link href="https://davidraab.github.io/tags/general-concepts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 18 Nov 2023 02:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/general-concepts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Assigning variables</title>
       <link>https://davidraab.github.io/posts/assigning-variables/</link>
       <pubDate>Sat, 18 Nov 2023 02:00:00 +0000</pubDate>
-      
       <guid>https://davidraab.github.io/posts/assigning-variables/</guid>
-      <description>This is how you assign a value from right to left.
-1 2 my $x = 1; ... this is how you assign a value from left to right.
-Perl 1 do_something(12, sub ($x) { ... }); JavaScript 1 do_something(1, function(x) { ... }) F# 1 doSomething 1 (fun x -&amp;gt; ... ) </description>
+      <description>This is how you assign a value from right to left.&#xA;1 2 my $x = 1; ... this is how you assign a value from left to right.&#xA;Perl 1 do_something(12, sub ($x) { ... }); JavaScript 1 do_something(1, function(x) { ... }) F# 1 doSomething 1 (fun x -&amp;gt; ... ) </description>
     </item>
-    
   </channel>
 </rss>
