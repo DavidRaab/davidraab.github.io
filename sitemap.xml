@@ -8,6 +8,9 @@
     <loc>https://davidraab.github.io/</loc>
     <lastmod>2024-03-16T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://davidraab.github.io/tags/fsharp/</loc>
+    <lastmod>2024-03-16T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://davidraab.github.io/posts/insanity-of-oo/</loc>
     <lastmod>2024-03-16T00:00:00+00:00</lastmod>
   </url><url>
@@ -107,9 +110,6 @@
     <loc>https://davidraab.github.io/tags/varargs/</loc>
     <lastmod>2023-10-20T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://davidraab.github.io/tags/administration/</loc>
-    <lastmod>2023-02-17T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://davidraab.github.io/posts/installing-perl-with-perlbrew/</loc>
     <lastmod>2023-02-17T00:00:00+00:00</lastmod>
   </url><url>
@@ -117,9 +117,6 @@
     <lastmod>2023-02-15T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/fpvsoo/</loc>
-    <lastmod>2023-02-15T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/fsharp/</loc>
     <lastmod>2023-02-15T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/iterator/</loc>
@@ -130,9 +127,6 @@
   </url><url>
     <loc>https://davidraab.github.io/tags/racket/</loc>
     <lastmod>2023-02-15T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/dependency-injection/</loc>
-    <lastmod>2023-01-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/what-is-dependency-injection/</loc>
     <lastmod>2023-01-11T00:00:00+00:00</lastmod>
@@ -161,9 +155,6 @@
     <loc>https://davidraab.github.io/tags/generics/</loc>
     <lastmod>2022-10-27T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://davidraab.github.io/tags/map/</loc>
-    <lastmod>2022-10-27T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://davidraab.github.io/posts/map-operates-on-functions/</loc>
     <lastmod>2022-10-27T00:00:00+00:00</lastmod>
   </url><url>
@@ -185,9 +176,6 @@
     <loc>https://davidraab.github.io/posts/variable-arguments-in-fsharp/</loc>
     <lastmod>2017-03-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://davidraab.github.io/tags/comparison/</loc>
-    <lastmod>2017-02-27T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://davidraab.github.io/tags/immutability/</loc>
     <lastmod>2017-02-27T00:00:00+00:00</lastmod>
   </url><url>
@@ -200,9 +188,6 @@
     <loc>https://davidraab.github.io/posts/function-application-and-composition/</loc>
     <lastmod>2016-09-25T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://davidraab.github.io/tags/piping/</loc>
-    <lastmod>2016-09-25T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://davidraab.github.io/tags/recursion/</loc>
     <lastmod>2016-09-25T00:00:00+00:00</lastmod>
   </url><url>
@@ -211,9 +196,6 @@
   </url><url>
     <loc>https://davidraab.github.io/tags/types/</loc>
     <lastmod>2016-05-28T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/monoids/</loc>
-    <lastmod>2016-05-24T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/monoids/</loc>
     <lastmod>2016-05-24T00:00:00+00:00</lastmod>
@@ -240,9 +222,6 @@
     <lastmod>2016-05-07T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/algebraic-data-types/</loc>
-    <lastmod>2016-04-26T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/units-of-measure/</loc>
     <lastmod>2016-04-26T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/continuations-and-foldback/</loc>
@@ -290,9 +269,6 @@
     <loc>https://davidraab.github.io/posts/higher-kinded-polymorphism/</loc>
     <lastmod>2016-03-24T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://davidraab.github.io/tags/polymorphism/</loc>
-    <lastmod>2016-03-24T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://davidraab.github.io/posts/null-is-evil/</loc>
     <lastmod>2016-03-20T00:00:00+00:00</lastmod>
   </url><url>
@@ -309,9 +285,6 @@
     <lastmod>2016-03-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/refactoring/</loc>
-    <lastmod>2016-03-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/structured/</loc>
     <lastmod>2016-03-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/structured-programming/</loc>

@@ -16,6 +16,13 @@
       <description></description>
     </item>
     <item>
+      <title>Fsharp</title>
+      <link>https://davidraab.github.io/tags/fsharp/</link>
+      <pubDate>Sat, 16 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/fsharp/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Oop</title>
       <link>https://davidraab.github.io/tags/oop/</link>
       <pubDate>Sat, 16 Mar 2024 00:00:00 +0000</pubDate>
@@ -135,24 +142,10 @@
       <description></description>
     </item>
     <item>
-      <title>Administration</title>
-      <link>https://davidraab.github.io/tags/administration/</link>
-      <pubDate>Fri, 17 Feb 2023 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/administration/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>FPvsOO</title>
       <link>https://davidraab.github.io/tags/fpvsoo/</link>
       <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/tags/fpvsoo/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Fsharp</title>
-      <link>https://davidraab.github.io/tags/fsharp/</link>
-      <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/fsharp/</guid>
       <description></description>
     </item>
     <item>
@@ -174,13 +167,6 @@
       <link>https://davidraab.github.io/tags/racket/</link>
       <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/tags/racket/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Dependency-Injection</title>
-      <link>https://davidraab.github.io/tags/dependency-injection/</link>
-      <pubDate>Wed, 11 Jan 2023 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/dependency-injection/</guid>
       <description></description>
     </item>
     <item>
@@ -226,13 +212,6 @@
       <description></description>
     </item>
     <item>
-      <title>Map</title>
-      <link>https://davidraab.github.io/tags/map/</link>
-      <pubDate>Thu, 27 Oct 2022 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/map/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Equality</title>
       <link>https://davidraab.github.io/tags/equality/</link>
       <pubDate>Tue, 25 Oct 2022 00:00:00 +0000</pubDate>
@@ -254,13 +233,6 @@
       <description></description>
     </item>
     <item>
-      <title>Comparison</title>
-      <link>https://davidraab.github.io/tags/comparison/</link>
-      <pubDate>Mon, 27 Feb 2017 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/comparison/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Immutability</title>
       <link>https://davidraab.github.io/tags/immutability/</link>
       <pubDate>Mon, 27 Feb 2017 00:00:00 +0000</pubDate>
@@ -275,13 +247,6 @@
       <description></description>
     </item>
     <item>
-      <title>Piping</title>
-      <link>https://davidraab.github.io/tags/piping/</link>
-      <pubDate>Sun, 25 Sep 2016 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/piping/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Recursion</title>
       <link>https://davidraab.github.io/tags/recursion/</link>
       <pubDate>Sun, 25 Sep 2016 00:00:00 +0000</pubDate>
@@ -293,13 +258,6 @@
       <link>https://davidraab.github.io/tags/types/</link>
       <pubDate>Sat, 28 May 2016 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/tags/types/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Monoids</title>
-      <link>https://davidraab.github.io/tags/monoids/</link>
-      <pubDate>Tue, 24 May 2016 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/monoids/</guid>
       <description></description>
     </item>
     <item>
@@ -328,13 +286,6 @@
       <link>https://davidraab.github.io/tags/cps/</link>
       <pubDate>Sat, 07 May 2016 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/tags/cps/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Units-of-Measure</title>
-      <link>https://davidraab.github.io/tags/units-of-measure/</link>
-      <pubDate>Tue, 26 Apr 2016 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/units-of-measure/</guid>
       <description></description>
     </item>
     <item>
@@ -373,13 +324,6 @@
       <description></description>
     </item>
     <item>
-      <title>Polymorphism</title>
-      <link>https://davidraab.github.io/tags/polymorphism/</link>
-      <pubDate>Thu, 24 Mar 2016 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/polymorphism/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Goto</title>
       <link>https://davidraab.github.io/tags/goto/</link>
       <pubDate>Wed, 09 Mar 2016 00:00:00 +0000</pubDate>
@@ -391,13 +335,6 @@
       <link>https://davidraab.github.io/tags/refactoring/</link>
       <pubDate>Wed, 09 Mar 2016 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/tags/refactoring/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Structured</title>
-      <link>https://davidraab.github.io/tags/structured/</link>
-      <pubDate>Wed, 09 Mar 2016 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/structured/</guid>
       <description></description>
     </item>
   </channel>

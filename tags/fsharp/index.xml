@@ -6,8 +6,15 @@
     <description>Recent content in Fsharp on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 15 Feb 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 16 Mar 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/tags/fsharp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Insanity of Object-Oriented Programming</title>
+      <link>https://davidraab.github.io/posts/insanity-of-oo/</link>
+      <pubDate>Sat, 16 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/insanity-of-oo/</guid>
+      <description>The insanity of Object-Oriented Programming I started programming back in the 1990s. My first language I learned was QBasic and after 2 days of learning it, i switched to C. Back in these days there was no Internet. Okay, it existed but was not so common as today. Most people still didn&amp;rsquo;t even had computers.&#xA;I picked and learned C because when you got to the programming section in a store it was full of C books.</description>
+    </item>
     <item>
       <title>Closures in F#, C#, Perl, JavaScript and Racket</title>
       <link>https://davidraab.github.io/posts/closures-in-fsharp-csharp-perl-javascript-and-racket/</link>

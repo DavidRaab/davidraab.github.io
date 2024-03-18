@@ -16,13 +16,6 @@
       <description>The Option type is a well known and often used type, but at least for me, most of the time I just used Option.map and Option.bind and ignored functions like Option.exists, Option.filter, Option.fold and so on. I spent some time with those functions to understand when those are useful.&#xA;defaultArg The first function i look at is actually not in the Option module. It is the defaultArg function. With defaultArg we can extract an option type and provide a default value in the case we had no value.</description>
     </item>
     <item>
-      <title>Sequence and Traverse</title>
-      <link>https://davidraab.github.io/posts/sequence-and-traverse/</link>
-      <pubDate>Thu, 14 Apr 2016 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/posts/sequence-and-traverse/</guid>
-      <description>One problem that appears from time to time is that we we have some kind of collection (I use list here) and we want to map every element with a monadic function &#39;a -&amp;gt; M&amp;lt;&#39;b&amp;gt;. This then returns a list&amp;lt;M&amp;lt;&#39;a&amp;gt;&amp;gt;. But often we want a M&amp;lt;list&amp;lt;&#39;a&amp;gt;&amp;gt;.&#xA;To be more concrete. Let&amp;rsquo;s assume we want to turn a list of strings into integers. We could write a tryParseInt function that does string -&amp;gt; option&amp;lt;int&amp;gt;.</description>
-    </item>
-    <item>
       <title>Optionals</title>
       <link>https://davidraab.github.io/posts/optionals-app/</link>
       <pubDate>Mon, 11 Apr 2016 00:00:00 +0000</pubDate>
@@ -35,13 +28,6 @@
       <pubDate>Sun, 03 Apr 2016 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/posts/understanding-bind/</guid>
       <description>In Understanding map we learned that implementing a map function is what we call a Functor. In Applicative Functors we extended that idea with the return and apply function and we call the result an Applicative Functor. The next important function in our toolset is the bind function.&#xA;Monads The combination of return and bind is what we call a Monad. But currently I will not consider this as an introduction to Monads at all.</description>
-    </item>
-    <item>
-      <title>Applicative Functors</title>
-      <link>https://davidraab.github.io/posts/applicative-functors/</link>
-      <pubDate>Thu, 31 Mar 2016 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/posts/applicative-functors/</guid>
-      <description>In my previous article Understanding map I introduced the map function and described that implementing map and fulfilling two laws we get what we call a Functor. In this Post we discuss the apply function that we can view as an extension to the map function.&#xA;Problem with map It might be that you have noticed one problem with map. map only can work with one-argument functions! The definition of map expects a function &#39;a -&amp;gt; &#39;b as it&amp;rsquo;s first argument.</description>
     </item>
     <item>
       <title>Understanding map</title>

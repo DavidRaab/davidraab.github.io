@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Administration on David Raab</title>
-    <link>https://davidraab.github.io/tags/administration/</link>
+    <link>http://localhost:1313/tags/administration/</link>
     <description>Recent content in Administration on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 17 Feb 2023 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://davidraab.github.io/tags/administration/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/administration/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Installing perl with perlbrew</title>
-      <link>https://davidraab.github.io/posts/installing-perl-with-perlbrew/</link>
+      <link>http://localhost:1313/posts/installing-perl-with-perlbrew/</link>
       <pubDate>Fri, 17 Feb 2023 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/posts/installing-perl-with-perlbrew/</guid>
+      <guid>http://localhost:1313/posts/installing-perl-with-perlbrew/</guid>
       <description>Today every Linux system mostly already ships Perl including a lot of modules. While this can be totally fine sometimes maybe you want to switch to a newer Perl version. Or maybe even an older version to test a module with an older Perl version for compatibility?&#xA;perlbrew is a tool that helps installing multiple Perl environments and gives you the ability to switch between them. Installing your own Perl also means you don&amp;rsquo;t mess with the system installed Perl and you are able to install any new module directly from CPAN.</description>
     </item>
   </channel>

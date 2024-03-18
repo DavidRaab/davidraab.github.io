@@ -37,13 +37,6 @@
       <description>In From mutable loops to immutable folds we implemented foldBack through rev and fold. In this post I show you how you can implement foldBack by using a continuation function.&#xA;Functions Before we see how to implement foldBack, I want to give you analogy first. This analogy helped me in a lot of cases. I hope that this analogy will also help you in better understanding the further post, or probably even in other areas in programming in general.</description>
     </item>
     <item>
-      <title>Sequence and Traverse</title>
-      <link>https://davidraab.github.io/posts/sequence-and-traverse/</link>
-      <pubDate>Thu, 14 Apr 2016 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/posts/sequence-and-traverse/</guid>
-      <description>One problem that appears from time to time is that we we have some kind of collection (I use list here) and we want to map every element with a monadic function &#39;a -&amp;gt; M&amp;lt;&#39;b&amp;gt;. This then returns a list&amp;lt;M&amp;lt;&#39;a&amp;gt;&amp;gt;. But often we want a M&amp;lt;list&amp;lt;&#39;a&amp;gt;&amp;gt;.&#xA;To be more concrete. Let&amp;rsquo;s assume we want to turn a list of strings into integers. We could write a tryParseInt function that does string -&amp;gt; option&amp;lt;int&amp;gt;.</description>
-    </item>
-    <item>
       <title>Applicative: Lists</title>
       <link>https://davidraab.github.io/posts/applicative-list/</link>
       <pubDate>Wed, 13 Apr 2016 00:00:00 +0000</pubDate>
