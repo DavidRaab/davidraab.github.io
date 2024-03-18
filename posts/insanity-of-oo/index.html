@@ -305,7 +305,7 @@ again and again.</p>
 <p>In a Album/Tracks relationship you write <code>add_track</code>, <code>remove_track</code>, <code>track_by_index</code>, &hellip;</p>
 <p>In a Hospital/Patient relationship you write <code>add_patient</code>, <code>remove_patient</code>, <code>patient_by_index</code>, &hellip;</p>
 <p>And don&rsquo;t let&rsquo;s talk about testing. In Perl I can easily test if two data-structures
-are the same. Testing functions provides this methods. But I cannot test if two
+are the same. Testing modules provide these functions. But I cannot test if two
 obects are the same. Not unless I implemented an equal method on that class.</p>
 <p>Readability and understand-ability is just worse. You cannot print or show a class.</p>
 <p>I started with the whole data-structure that was understandable on its own. But
@@ -317,13 +317,13 @@ want to implement a printing method that just prints the data in a class? Then
 why do you not use just data in the first place?</p>
 <p>Also creation of such objects is just worse. Data-structures are usually
 complex. Complex in the sense that they are nested. They can have hashes with
-field containing arrays containing hashes again. Perl, also JavaScript provides
-an easy language built-in to create and access such structures.</p>
+field containing arrays containing hashes again. Perl, and many other languages,
+provide an easy language built-in to create and access such structures.</p>
 <p>But with classes you usually must create them <em>flat</em>. Like I showed above. You
 first create an <code>Album</code> and then add a single <code>Track</code> to it. The more complex
 your data-structure is, the worse it will get.</p>
 <p>It will even get more worse if you have immutable objects, because then you must
-them create inside-out. Meaning from the deepest level first. So you must
+create them inside-out. Meaning from the deepest level first. So you must
 create all <em>Tracks</em> before you can create the <em>Album</em> as the last step.</p>
 <h1 id="a-way-out">A way out</h1>
 <p>So what is a better approach to all that mess?</p>
@@ -333,7 +333,7 @@ are less a problem of that class mess above that creates an explosion of
 boilerplate code.</p>
 <p>But there is still one thing you can or should do. Consider functions that works
 on whole data-structures, not just part of it. For example, you could create
-a <code>album</code> and a <code>add_track</code> function like this.</p>
+an <code>album</code> and a <code>add_track</code> function like this.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -366,7 +366,7 @@ a <code>album</code> and a <code>add_track</code> function like this.</p>
 </div>
 </div><p>This allows you to give you some type-safety. The function that create the
 data-structure creates it for you. In some sense it is still a lot comparable
-to the OO way. You can create the Album like this.</p>
+to the OO way. You can create the same Album like this.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -401,7 +401,7 @@ must provide a method for basically any kind of primitive functionality.</p>
 <p>You also can just add an <code>is_album</code> function that checks for the validity
 of a data-structure of having all required fields. Something you maybe
 want to add anyway when your data comes from external sources like parsing
-from a file, JSON over a Socket and so on.</p>
+from a file, JSON over a Socket, a database and so on.</p>
 <h1 id="static-typed-languages">Static Typed Languages</h1>
 <p>Good static typed language also can help here. For example in F# i would write.</p>
 <div class="highlight"><div class="chroma">
@@ -419,14 +419,14 @@ from a file, JSON over a Socket and so on.</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Track</span> <span class="o">=</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Name</span>     <span class="o">:</span> <span class="kt">string</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">Name</span>     <span class="o">:</span> <span class="kt">string</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Duration</span> <span class="o">:</span> <span class="kt">string</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Album</span> <span class="o">=</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Artist</span> <span class="o">:</span> <span class="kt">string</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Title</span>  <span class="o">:</span> <span class="kt">string</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Tracks</span> <span class="o">:</span> <span class="n">List</span><span class="o">[</span><span class="n">Track</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Tracks</span> <span class="o">:</span> <span class="n">Track</span> <span class="kt">list</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -453,14 +453,14 @@ from a file, JSON over a Socket and so on.</p>
 </span></span><span class="line"><span class="cl">    <span class="n">Artist</span> <span class="o">=</span> <span class="s">&#34;Michael Jackson&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Title</span>  <span class="o">=</span> <span class="s">&#34;Thriller&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Tracks</span> <span class="o">=</span> <span class="o">[</span>
-</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">Baby</span> <span class="n">Be</span> <span class="n">Mine&#39;</span><span class="o">,</span>                <span class="n">Duration</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">04</span><span class="o">:</span><span class="n">20&#39;</span> <span class="o">},</span>
-</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">The</span> <span class="n">Girl</span> <span class="n">Is</span> <span class="n">Mine&#39;</span><span class="o">,</span>            <span class="n">Duration</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">03</span><span class="o">:</span><span class="n">42&#39;</span> <span class="o">},</span>
-</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">Thriller&#39;</span><span class="o">,</span>                    <span class="n">Duration</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">05</span><span class="o">:</span><span class="n">57&#39;</span> <span class="o">},</span>
-</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">Beat</span> <span class="n">It&#39;</span><span class="o">,</span>                     <span class="n">Duration</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">04</span><span class="o">:</span><span class="n">18&#39;</span> <span class="o">},</span>
-</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">Billie</span> <span class="n">Jean&#39;</span><span class="o">,</span>                 <span class="n">Duration</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">04</span><span class="o">:</span><span class="n">54&#39;</span> <span class="o">},</span>
-</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">Human</span> <span class="n">Nature&#39;</span><span class="o">,</span>                <span class="n">Duration</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">04</span><span class="o">:</span><span class="n">06&#39;</span> <span class="o">},</span>
-</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="nn">P</span><span class="p">.</span><span class="nn">Y</span><span class="p">.</span><span class="nn">T</span><span class="p">.</span> <span class="o">(</span><span class="n">Pretty</span> <span class="n">Young</span> <span class="n">Thing</span><span class="o">)</span><span class="k">&#39;</span><span class="o">,</span> <span class="n">Duration</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">03</span><span class="o">:</span><span class="n">59&#39;</span> <span class="o">},</span>
-</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">The</span> <span class="n">Lady</span> <span class="k">in</span> <span class="n">My</span> <span class="n">Life&#39;</span><span class="o">,</span>         <span class="n">Duration</span> <span class="o">=&gt;</span> <span class="k">&#39;</span><span class="n">05</span><span class="o">:</span><span class="n">00&#39;</span> <span class="o">},</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=</span> <span class="k">&#39;</span><span class="n">Baby</span> <span class="n">Be</span> <span class="n">Mine&#39;</span><span class="o">;</span>                <span class="n">Duration</span> <span class="o">=</span> <span class="k">&#39;</span><span class="n">04</span><span class="o">:</span><span class="n">20&#39;</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=</span> <span class="k">&#39;</span><span class="n">The</span> <span class="n">Girl</span> <span class="n">Is</span> <span class="n">Mine&#39;</span><span class="o">;</span>            <span class="n">Duration</span> <span class="o">=</span> <span class="k">&#39;</span><span class="n">03</span><span class="o">:</span><span class="n">42&#39;</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=</span> <span class="k">&#39;</span><span class="n">Thriller&#39;</span><span class="o">;</span>                    <span class="n">Duration</span> <span class="o">=</span> <span class="k">&#39;</span><span class="n">05</span><span class="o">:</span><span class="n">57&#39;</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=</span> <span class="k">&#39;</span><span class="n">Beat</span> <span class="n">It&#39;</span><span class="o">;</span>                     <span class="n">Duration</span> <span class="o">=</span> <span class="k">&#39;</span><span class="n">04</span><span class="o">:</span><span class="n">18&#39;</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=</span> <span class="k">&#39;</span><span class="n">Billie</span> <span class="n">Jean&#39;</span><span class="o">;</span>                 <span class="n">Duration</span> <span class="o">=</span> <span class="k">&#39;</span><span class="n">04</span><span class="o">:</span><span class="n">54&#39;</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=</span> <span class="k">&#39;</span><span class="n">Human</span> <span class="n">Nature&#39;</span><span class="o">;</span>                <span class="n">Duration</span> <span class="o">=</span> <span class="k">&#39;</span><span class="n">04</span><span class="o">:</span><span class="n">06&#39;</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=</span> <span class="k">&#39;</span><span class="nn">P</span><span class="p">.</span><span class="nn">Y</span><span class="p">.</span><span class="nn">T</span><span class="p">.</span> <span class="o">(</span><span class="n">Pretty</span> <span class="n">Young</span> <span class="n">Thing</span><span class="o">)</span><span class="k">&#39;</span><span class="o">;</span> <span class="n">Duration</span> <span class="o">=</span> <span class="k">&#39;</span><span class="n">03</span><span class="o">:</span><span class="n">59&#39;</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Name</span> <span class="o">=</span> <span class="k">&#39;</span><span class="n">The</span> <span class="n">Lady</span> <span class="k">in</span> <span class="n">My</span> <span class="n">Life&#39;</span><span class="o">;</span>         <span class="n">Duration</span> <span class="o">=</span> <span class="k">&#39;</span><span class="n">05</span><span class="o">:</span><span class="n">00&#39;</span> <span class="o">}</span>
 </span></span><span class="line"><span class="cl">    <span class="o">]</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></td></tr></table>
@@ -469,8 +469,15 @@ from a file, JSON over a Socket and so on.</p>
 differentiate between data and code. The above are records comparable to hashes
 (but immutable). Not objects that try to mix up data with all kind of methods
 on it or trying to hide data (private fields) from it.</p>
-<p>And that is the essence. Consider your data and code separated, and your code
-will start to get less insane.</p>
+<p>There are two things I would suggest.</p>
+<ol>
+<li>Consider your data and code seperated.</li>
+<li>Write functions that operates on complex-data as a whole. Do not dissect
+data into thousand small pieces of classes.</li>
+</ol>
+<p>When you do that your code becomes less insane. But you maybe will lose
+your job as the <em>elite enterprise programmer</em>. They need at least another 10
+years to understand this.</p>
 
         </div>
         <div class="post-footer">
