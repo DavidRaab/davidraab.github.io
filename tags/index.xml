@@ -6,8 +6,22 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 16 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 15 Apr 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Oop</title>
+      <link>https://davidraab.github.io/tags/oop/</link>
+      <pubDate>Mon, 15 Apr 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/oop/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Perl</title>
+      <link>https://davidraab.github.io/tags/perl/</link>
+      <pubDate>Mon, 15 Apr 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/perl/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Data</title>
       <link>https://davidraab.github.io/tags/data/</link>
@@ -20,20 +34,6 @@
       <link>https://davidraab.github.io/tags/fsharp/</link>
       <pubDate>Sat, 16 Mar 2024 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/tags/fsharp/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Oop</title>
-      <link>https://davidraab.github.io/tags/oop/</link>
-      <pubDate>Sat, 16 Mar 2024 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/oop/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Perl</title>
-      <link>https://davidraab.github.io/tags/perl/</link>
-      <pubDate>Sat, 16 Mar 2024 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/perl/</guid>
       <description></description>
     </item>
     <item>

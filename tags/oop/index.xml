@@ -6,8 +6,15 @@
     <description>Recent content in Oop on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 16 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 15 Apr 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/tags/oop/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Why I Like Perl&#39;s OO</title>
+      <link>https://davidraab.github.io/posts/why-i-like-perls-oo/</link>
+      <pubDate>Mon, 15 Apr 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/why-i-like-perls-oo/</guid>
+      <description>I started programming with QBasic and later C. While it was difficult to learn those languages back then (with no internet and just some books) nothing felt &amp;ldquo;out of place&amp;rdquo; for me.&#xA;For example, when I learned about arrays the first time, it took some time to learn the concept of it, that it is a storage of multiple elements one after another. How it is used and what you can do with it.</description>
+    </item>
     <item>
       <title>Insanity of Object-Oriented Programming</title>
       <link>https://davidraab.github.io/posts/insanity-of-oo/</link>

@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>Why I Like Perl&#39;s OO // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.123.1">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="" />
+        <link rel="stylesheet" href="/css/main.min.0fa334c3f2650e7000dfc8e81f59d23191e59e78f62c565a598f4dc557c92abe.css" />
+        <script src="/static/code-toggle.js"></script>
+
+        
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Why I Like Perl&#39;s OO"/>
+<meta name="twitter:description" content="I started programming with QBasic and later C. While it was difficult to learn those languages back then (with no internet and just some books) nothing felt &ldquo;out of place&rdquo; for me.
+For example, when I learned about arrays the first time, it took some time to learn the concept of it, that it is a storage of multiple elements one after another. How it is used and what you can do with it."/>
+
+        <meta property="og:title" content="Why I Like Perl&#39;s OO" />
+<meta property="og:description" content="I started programming with QBasic and later C. While it was difficult to learn those languages back then (with no internet and just some books) nothing felt &ldquo;out of place&rdquo; for me.
+For example, when I learned about arrays the first time, it took some time to learn the concept of it, that it is a storage of multiple elements one after another. How it is used and what you can do with it." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/why-i-like-perls-oo/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-04-15T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-04-15T00:00:00+00:00" />
+
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>My personal Blog. Writing about programming and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Why I Like Perl&#39;s OO</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Apr 15, 2024
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    8 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+                            <a class="tag" href="https://davidraab.github.io/tags/perl/">Perl</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/oop/">Oop</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>I started programming with QBasic and later C. While it was difficult to learn
+those languages back then (with no internet and just some books) nothing felt
+&ldquo;out of place&rdquo; for me.</p>
+<p>For example, when I learned about arrays the first time, it took some time
+to learn the concept of it, that it is a storage of multiple elements one
+after another. How it is used and what you can do with it. But nothing
+of it feelt like magic without knowing what happens.</p>
+<p>But this was different to me when I started to learn object-orientation in C++.</p>
+<p>The first time I learned C++ I was teached that every class is like a template
+(no confusion with C++ template here) and whenever you use the <code>new</code> operator
+an instantiation of it was created. You have some member variables that are somehow
+unique to every object. You can write methods and those methods somehow access
+those member variables that are somehow different to every object.</p>
+<p>Then you get teached a lot of inheritance, and in my opinion just extremely bad
+examples of it. Yeah I somehow did understand the concept, I could do some stuff with
+it, but I often still wondered what really happens. Object-orientation almost
+looks like magic and I had zero clue about what really happens under the hood.</p>
+<p>This changed when I learned Perl object-orientation. It was one of my first moments
+where I thought. Hey, now i really understand OO! And this is the reason why I like Perl
+OO. It is sometimes criticized of being low-level. And while this might be true,
+this low-level is what made me better understand it.</p>
+<p>So here is some basic introductions to Perl&rsquo;s object-orientation and I hope it
+will help you the same as it helped me understanding OO better.</p>
+<h1 id="references">References</h1>
+<p>Different to most modern languages, references in Perl are explicit not implicit.
+This comes directly from C. You have a data-structure/variable and you can create
+a pointer to that data.</p>
+<p>In Perl it is the same. Only difference is that you get some more level of security
+compared to C, and automatic memory management.</p>
+<p>For example this is an array in Perl.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">@data</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>You could call a function this way.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">someFunc</span><span class="p">(</span><span class="nv">@data</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>but what happens here is that the array basically gets copied. Not only copied,
+the array is expanded. In reality you basically call <code>someFunc</code> with 5 elements.
+The above call is the same as calling.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">someFunc</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This is a lot different to most other languages. In most other languages arrays
+are pointer/references. For example in JavaScript you might write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="nx">someFunc</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But in JavaScript <code>data</code> is already a reference. It is a reference pointing to
+an array somewhere in the memory. That address is basically passed to <code>someFunc</code>
+here.</p>
+<p><code>someFunc</code> in JavaScript basically receives only one value. A reference to an array.</p>
+<p>You can achieve the same in Perl by creating a reference. You do that by adding
+<code>\</code> in front of any variable.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">@data</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">someFunc</span><span class="p">(</span><span class="o">\</span><span class="nv">@data</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we don&rsquo;t pass 5 values anymore, we pass a reference to <code>@data</code> to <code>someFunc</code>.</p>
+<p>Perl also has a built-in way to directly create an array as a reference. It looks
+the same as in JavaScript.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">someFunc</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In the above case <code>$data</code> is a reference to an array, and you pass a reference
+to <code>someFunc</code>. We also could have written.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">@data</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$data</span> <span class="o">=</span> <span class="o">\</span><span class="nv">@data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">someFunc</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>People coming to C, from other languages like C# or Java, often complainin that
+they don&rsquo;t understand pointers. But the interesting part is often that they are
+using pointers throughout the language without knowing. Whenever they create
+an array, hashes or any kind of object they basically working with pointers.</p>
+<p>But the interesting question is. Why do we pass pointers anyway?</p>
+<p>Okay that question is a big one and i could write a lot about it. A quick answer
+is that we don&rsquo;t want to pass copies. We want to pass a reference to data, and
+a function is able to manipulate the data.</p>
+<p>Or in other words. The reasons are for performance and mutability.</p>
+<p>Here is a quick example.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">@data</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">add10_array</span><span class="p">(@array) {</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">push</span> <span class="nv">@array</span><span class="p">,</span> <span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">add10_ref</span><span class="p">($array) {</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">push</span> <span class="nv">@$array</span><span class="p">,</span> <span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>For example calling <code>add10_array(@data)</code> would basically do nothing. You add
+<code>10</code> to the copy of <code>@data</code>.</p>
+<p>But calling <code>add10_ref(\@data)</code> would really add <code>10</code> to <code>@data</code> that is defined
+outside the scope of the function. Calling this function once changes <code>@data</code>
+to <code>1, 2, 3, 4, 5, 10</code>.</p>
+<p>The last behaviour is what you get by default from languages like JavaScript,
+C#, Java and so on.</p>
+<h1 id="dereferencing">dereferencing</h1>
+<p>As shown above there is a distinction between an array and a reference to an array
+in Perl. (We also can create references to hashes, subroutines, variables or other
+references again, &hellip;)</p>
+<p>A reference is basically just a pointer to some other memory address. But when
+we want to access where it points to, we need to de-reference it. In Perl
+there are multiple ways how to do that.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$first</span> <span class="o">=</span> <span class="nv">@</span><span class="p">{</span> <span class="nv">$data</span> <span class="p">}[</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$first</span> <span class="o">=</span> <span class="nv">@$data</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$first</span> <span class="o">=</span> <span class="nv">$data</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The typical and most often used way is by using the <code>-&gt;</code> operator. Also called
+the de-reference operator. It&rsquo;s an arrow that follows the address it is pointing
+to. Somehow makes sense that it is this symbol (instead of a dot).</p>
+<h1 id="packages">Packages</h1>
+<p>Packages are just Perls way of <em>namespaces</em>. By default when you don&rsquo;t define a
+package you are just in the <strong>main</strong> package. This is usually where you
+write your main program.</p>
+<p>Otherwise you always can switch to a different namespace by writing <code>package Foo;</code></p>
+<p>Every package can have its own functions, global variables and so on.</p>
+<p>For example we can do the following.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">package</span> <span class="nn">Foo</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">hello</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">print</span> <span class="s">&#34;I am Foo::hello\n&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">package</span> <span class="nn">Bar</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">hello</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">print</span> <span class="s">&#34;I am Bar::hello\n&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">package</span> <span class="nn">main</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nn">Foo::</span><span class="n">hello</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="nn">Bar::</span><span class="n">hello</span><span class="p">();</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Running this program would just print</p>
+<pre tabindex="0"><code>I am Foo::hello
+I am Bar::hello
+</code></pre><p>it also shows how you call functions from other namespaces. Namespaces are
+just seperated with two colons <code>::</code>. This is also how it is done in C++.</p>
+<p>You als can import functions from packages. But technically this is not
+a supported Perl language feature. We also call it exporting (not importing)
+as the module usually exports its functions to other modules when it gets loaded.</p>
+<p>But i don&rsquo;t cover this as it is unimportant for understanding the OO part of Perl.</p>
+<h1 id="bless">bless</h1>
+<p>Perl whole object-orientation is basically implemented by references, packages and
+the function <code>bless</code>. <code>bless</code> is a function expecting two arguments.</p>
+<ol>
+<li>Any kind of reference.</li>
+<li>Any package name as a string.</li>
+</ol>
+<p><code>bless</code> then adds some information to the reference to which package it belongs.
+By default this doesn&rsquo;t change much. You still can use the reference exactly
+the same. For example.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">@data</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$ref</span>  <span class="o">=</span> <span class="o">\</span><span class="nv">@data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">print</span> <span class="nv">$ref</span><span class="p">,</span> <span class="s">&#34;\n&#34;</span><span class="p">;</span>        <span class="c1"># Prints: ARRAY(0x5592bc17ddb0)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span> <span class="s">&#34;%d\n&#34;</span><span class="p">,</span> <span class="nv">$ref</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># Prints: 1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">bless</span><span class="p">(</span><span class="nv">$ref</span><span class="p">,</span> <span class="s">&#39;Foo&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">print</span> <span class="nv">$ref</span><span class="p">,</span> <span class="s">&#34;\n&#34;</span><span class="p">;</span>        <span class="c1"># Prints: Foo=ARRAY(0x5592bc17ddb0)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span> <span class="s">&#34;%d\n&#34;</span><span class="p">,</span> <span class="nv">$ref</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># Prints: 1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As you can see here. <code>$ref</code> is always a reference to an array, and you always
+can for example use <code>$ref-&gt;[0]</code> to access the first argument of that array.</p>
+<p>But once <code>bless</code> is called it adds the information that method calls should
+be searched in the package <code>Foo</code>.</p>
+<p>Method calls are also done in Perl with the <code>-&gt;</code> operator. So with a blessed
+reference now you can write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="nv">$ref</span><span class="o">-&gt;</span><span class="n">hello</span><span class="p">();</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>What this does is the following.</p>
+<ol>
+<li>In the reference it will look to which package it was blessed.</li>
+<li>It then does a transformation.</li>
+</ol>
+<p>In this example <code>$ref</code> was added the information of being part of the
+package <code>Foo</code>. The transformation that then happens is that the full function
+just get called, and the variable itself is passed as the first argument.</p>
+<p>So the above code turns into.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="nn">Foo::</span><span class="n">hello</span><span class="p">(</span><span class="nv">$ref</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The only difference is that this kind of method lookup is done at runtime. Not
+at compilation time. That&rsquo;s also one reason why object-orientation should
+be dynamic typed in my opinion. This is even true for some other languages. And
+it is also one of the reason why object-orientation is in general slower and has
+some overhead.</p>
+<p>This concept is also called a <a href="https://en.wikipedia.org/wiki/Virtual_method_table">Virtual Method Table</a></p>
+<p>I am not a fan of inheritance and avoid it at all. But for completeness. Every
+package in Perl can have a global <code>@ISA</code> array. It contains a list of packages
+that should be searched if a method was not defined in that package.</p>
+<p>So for example if you do <code>$ref-&gt;hello()</code> and <code>Foo::hello</code> was not defined, but
+<code>our @ISA = ('Bar')</code> was defined it tries to call <code>Bar::hello($ref)</code> next.</p>
+<p>You see why this can be slow?</p>
+<p>But at least in Perl some caching happens so not every method dispatch must be
+found every time.</p>
+<p>And yes, this kind of magic is also what happens in languages like C# or Java.
+All just hidden from you.</p>
+<p>This is also the reason why in Perl you always explicitly write <code>$self</code> as the
+first argument of any method. Python programmers do the same. Because that is
+what it is. The object, usually just some kind of data like a hash, array and so
+on is passed as the first argument to every method.</p>
+<p>In typically OO languages that kind of information is hidden, but you have a special
+variable like <code>this</code> that somehow represent this first argument.</p>
+<p>In the world of C, <a href="https://davidraab.github.io/posts/object-oriented-programming-in-c/">object-orientation was once just a design-pattern</a> until
+languages decided to make it a core feature of the language. Do you think that this
+was a good decision?</p>
+
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#references">References</a></li>
+    <li><a href="#dereferencing">dereferencing</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#bless">bless</a></li>
+  </ul>
+</nav> </aside>
+
+    </body>
+</html>
