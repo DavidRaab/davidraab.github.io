@@ -6,8 +6,15 @@
     <description>Recent content in Metaprogramming on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 29 Oct 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 08 May 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/tags/metaprogramming/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Class vs Hash</title>
+      <link>https://davidraab.github.io/posts/class-vs-hash/</link>
+      <pubDate>Wed, 08 May 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/class-vs-hash/</guid>
+      <description>In my previous articles about object-orientation I explained how OO in general works. I used Perl for the explanation, as it doesn&amp;rsquo;t hide its itnernals like most other languages do. That&amp;rsquo;s Why I like Perl&amp;rsquo;s OO.&#xA;Usually OO works that we define a mutable data-structure and pass it to a function that mutates it. So in some sense calling func($obj, $arg1) is the same as $obj-&amp;gt;func($arg1). It&amp;rsquo;s just a different syntax and order we write, but the concept is the same.</description>
+    </item>
     <item>
       <title>Creating a real enum Type in Perl</title>
       <link>https://davidraab.github.io/posts/creating-a-real-enum-type-in-perl/</link>

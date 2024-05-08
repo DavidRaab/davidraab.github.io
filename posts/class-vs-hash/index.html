@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>Class vs Hash // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.123.1">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="" />
+        <link rel="stylesheet" href="/css/main.min.0fa334c3f2650e7000dfc8e81f59d23191e59e78f62c565a598f4dc557c92abe.css" />
+        <script src="/static/code-toggle.js"></script>
+
+        
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Class vs Hash"/>
+<meta name="twitter:description" content="In my previous articles about object-orientation I explained how OO in general works. I used Perl for the explanation, as it doesn&rsquo;t hide its itnernals like most other languages do. That&rsquo;s Why I like Perl&rsquo;s OO.
+Usually OO works that we define a mutable data-structure and pass it to a function that mutates it. So in some sense calling func($obj, $arg1) is the same as $obj-&gt;func($arg1). It&rsquo;s just a different syntax and order we write, but the concept is the same."/>
+
+        <meta property="og:title" content="Class vs Hash" />
+<meta property="og:description" content="In my previous articles about object-orientation I explained how OO in general works. I used Perl for the explanation, as it doesn&rsquo;t hide its itnernals like most other languages do. That&rsquo;s Why I like Perl&rsquo;s OO.
+Usually OO works that we define a mutable data-structure and pass it to a function that mutates it. So in some sense calling func($obj, $arg1) is the same as $obj-&gt;func($arg1). It&rsquo;s just a different syntax and order we write, but the concept is the same." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/class-vs-hash/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-05-08T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-05-08T00:00:00+00:00" />
+
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>My personal Blog. Writing about programming and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Class vs Hash</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    May 8, 2024
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    11 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+                            <a class="tag" href="https://davidraab.github.io/tags/perl/">Perl</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/oop/">Oop</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/metaprogramming/">Metaprogramming</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>In my previous articles about object-orientation I explained how OO in
+general works. I used Perl for the explanation, as it doesn&rsquo;t hide its itnernals
+like most other languages do. That&rsquo;s <a href="https://davidraab.github.io/posts/why-i-like-perls-oo/">Why I like Perl&rsquo;s OO</a>.</p>
+<p>Usually OO works that we define a <em>mutable</em> data-structure and pass it
+to a function that mutates it. So in some sense calling <code>func($obj, $arg1)</code>
+is the same as <code>$obj-&gt;func($arg1)</code>. It&rsquo;s just a different syntax and order
+we write, but the concept is the same.</p>
+<p>This is also how <a href="https://davidraab.github.io/posts/object-oriented-programming-in-c/">object-orientation is used in C</a>, by using a <code>Struct</code>
+as the mutable data.</p>
+<p>Technically there is a big difference between a <code>Struct</code> in C and a <code>Hash</code> in
+Perl, but the way we use them is similar.</p>
+<p>In C we must define a <code>Struct</code> with its names and it types, because C is a
+statically typed language. But in Perl we don&rsquo;t need to define the types first
+because it is dynamically typed. We directly can use the names and values we
+wanna use.</p>
+<p>Let&rsquo;s see from an example. Consider I wanna save the name, birthday and weight
+of a person. In C, I need to create a <code>Struct</code> first, with its types.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">Person</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span>   <span class="o">*</span><span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">tm</span> <span class="n">birthday</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">float</span>  <span class="n">weight</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Only after this definition I can create or use a <code>Person</code> struct. I don&rsquo;t go
+into detail to create a variable from it. To annoying. But in C you need to
+malloc the memory first. It&rsquo;s like creating an object with <code>new</code> in a
+ypical <em>modern</em> object-oriented language like C#.</p>
+<p>On the other hand, in a dynamically typed language like Perl, I can directly
+create the data-type itself without prior definition of the type. I just can
+write for example.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$person</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span>     <span class="o">=&gt;</span> <span class="s">&#34;Alice&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">birthday</span> <span class="o">=&gt;</span> <span class="nn">DateTime</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="n">year</span> <span class="o">=&gt;</span> <span class="mi">1865</span><span class="p">,</span> <span class="n">month</span> <span class="o">=&gt;</span> <span class="mi">7</span><span class="p">,</span> <span class="n">day</span> <span class="o">=&gt;</span> <span class="mi">4</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">weight</span>   <span class="o">=&gt;</span> <span class="mf">40.8</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>When I started to learn Perl back in 2003 that&rsquo;s also how I learned coding it,
+and also how a lot of other code used it. But then the <a href="https://davidraab.github.io/posts/insanity-of-oo/">Insanity of OO</a>
+came to Perl. Suddenly this was not enough anymore. Because <em>good</em> object-orientation
+told us to create prober classes. So we created them too in Perl. Suddenly
+we needed to write this Perl code first, to be allowed to create a Person object/hash.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">package</span> <span class="nn">Person</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">new</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="p">(</span><span class="nv">$class</span><span class="p">,</span> <span class="nv">%args</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">bless</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">        <span class="n">name</span>     <span class="o">=&gt;</span> <span class="nv">$args</span><span class="p">{</span><span class="n">name</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="n">birthday</span> <span class="o">=&gt;</span> <span class="nv">$args</span><span class="p">{</span><span class="n">birthday</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="n">weight</span>   <span class="o">=&gt;</span> <span class="nv">$args</span><span class="p">{</span><span class="n">weight</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span> <span class="nv">$class</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">name</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="p">(</span><span class="nv">$self</span><span class="p">,</span> <span class="nv">$name</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="nv">@_</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">name</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">name</span><span class="p">}</span> <span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">birthday</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="p">(</span><span class="nv">$self</span><span class="p">,</span> <span class="nv">$name</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="nv">@_</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">birthday</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">birthday</span><span class="p">}</span> <span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">weight</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="p">(</span><span class="nv">$self</span><span class="p">,</span> <span class="nv">$name</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="nv">@_</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">weight</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">weight</span><span class="p">}</span> <span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">to_string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="p">(</span> <span class="nv">$self</span> <span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s">&#39;Name=[%s] Birthday=[%s] Weight=[%s]&#39;</span><span class="p">,</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="n">birthday</span><span class="p">,</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="n">weight</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>You can tell me a lot, but I just hate to write this kind of code. And I am
+not the only one in the Perl community who thinks so. Why do i don&rsquo;t like this?</p>
+<p>After years of working with Perl I actually liked statically typed languages.
+I think it is a good idea to have some types and a definition. Because you always
+have some types. Dynamic typing does not mean <em>no typing</em> as some people sometimes
+believe. It just means the concrete types are only known at runtime as already
+known as compilation-time (before some code is running).</p>
+<p>While dynamic typing allows some interesting stuff, I learned from practice that
+in over probably 99% of coding you never need this stuff. The above code is even
+an example to bring static typing into a dynamic typed language.</p>
+<p>The only reason why we write those <em>packages</em> in Perl is, so we can add some
+type-checking. For example in the <code>new</code> function we can test if the user passed
+the required fields and correct types. For example we could add a checking
+that <code>birthday</code> must be passed and it must be a <code>DateTime</code> object. Or maybe
+some valid string that then can be turned into a <code>DateTime</code>.</p>
+<p>But the above code, does none of this. The above class is basically just
+boilerplate-code doing absolutly nothing.</p>
+<p>Consider. When we just have a hash. We can easily get and set a value.
+It&rsquo;s built into the core language of Perl. Getting for example the birthday of
+a hash would be.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="nv">$person</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">birthday</span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and setting would be</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="nv">$person</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">birthday</span><span class="p">}</span> <span class="o">=</span> <span class="nn">DateTime</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="o">...</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>with the above package/class we created, we just put some wrappers around those
+abilities that is already present in the language itself. The only difference is
+hat we need to write less curly braces.</p>
+<p>getting becomes.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="nv">$person</span><span class="o">-&gt;</span><span class="n">birthday</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and setting becomes.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="nv">$person</span><span class="o">-&gt;</span><span class="n">birthday</span><span class="p">(</span><span class="nn">DateTime</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="o">...</span><span class="p">));</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and just to avoid those two braces we need to write a 9 lines method like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">birthday</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="p">(</span><span class="nv">$self</span><span class="p">,</span> <span class="nv">$name</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="nv">@_</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">birthday</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">birthday</span><span class="p">}</span> <span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>this code becomes so annoying to write. And it does not even do any kind
+of type-checking yet! If you want this, you also need to code this!</p>
+<p>But sure, <a href="https://davidraab.github.io/posts/meta-programming-in-perl/">Perl allows some kind of meta-programming</a>. So instead
+of always creating those damn getters and setters we can create a function creating
+those methods. This looks like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">getset</span><span class="p">($field) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">no</span> <span class="nn">strict</span> <span class="s">&#39;refs&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">*</span><span class="nv">$field</span> <span class="o">=</span> <span class="k">sub</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">my</span> <span class="p">(</span><span class="nv">$self</span><span class="p">,</span> <span class="nv">$value</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="nv">@_</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="nv">$field</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="nv">$field</span><span class="p">}</span> <span class="o">=</span> <span class="nv">$value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>with such a function in place, I now can re-write the whole package like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">package</span> <span class="nn">Person</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">getset</span><span class="p">($field) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">no</span> <span class="nn">strict</span> <span class="s">&#39;refs&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">*</span><span class="nv">$field</span> <span class="o">=</span> <span class="k">sub</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">my</span> <span class="p">(</span><span class="nv">$self</span><span class="p">,</span> <span class="nv">$value</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="nv">@_</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="nv">$field</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="nv">$field</span><span class="p">}</span> <span class="o">=</span> <span class="nv">$value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">new</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="p">(</span><span class="nv">$class</span><span class="p">,</span> <span class="nv">%args</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">bless</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">        <span class="n">name</span>     <span class="o">=&gt;</span> <span class="nv">$args</span><span class="p">{</span><span class="n">name</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="n">birthday</span> <span class="o">=&gt;</span> <span class="nv">$args</span><span class="p">{</span><span class="n">birthday</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="n">weight</span>   <span class="o">=&gt;</span> <span class="nv">$args</span><span class="p">{</span><span class="n">weight</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span> <span class="nv">$class</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">getset</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">getset</span><span class="p">(</span><span class="s">&#39;birthday&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">getset</span><span class="p">(</span><span class="s">&#39;weight&#39;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>I even can make a library for <code>getset</code>, so i don&rsquo;t have to create this function
+again and again. Because of this easyness a lot of people already did this.
+Like <a href="https://perldoc.perl.org/fields">fields</a> or <a href="https://perldoc.perl.org/Class::Struct">Class::Struct</a>
+or maybe <a href="https://perldoc.perl.org/Hash::Util::FieldHash">Hash::Util::FieldHash</a>.</p>
+<p>This is why we have millions of <em>object-oriented</em> modules in Perl. We have
+<a href="https://metacpan.org/pod/Class::Accessor">Class::Accessor</a>, and sure
+it most be faster in C, so we also have <a href="https://metacpan.org/pod/Class::Accessor::Fast">Class::Accessor::Fast</a>.</p>
+<p>A lot of modules are primitive in functionality, they don&rsquo;t do more than the <code>getset</code>
+I provided. Back in the year 2008, Steven Little implemented
+a whole <a href="https://metacpan.org/pod/Class::MOP">Meta-Object Protocol</a> in Perl that
+is known from CLOS (Common LISP Object System). He implemnted it to create
+<a href="https://metacpan.org/pod/Moose">Moose</a>, that somehow became probably the most
+used/advanced OO module in Perl.</p>
+<p>But it didn&rsquo;t ended here. Sure someone wouldn&rsquo;t like the overhead of that MOP, so
+again someone created <a href="https://metacpan.org/pod/Mouse">Mouse</a>, because it is faster.
+Then we had <a href="https://metacpan.org/pod/Moo">Moo</a>. And again we had so many <em>Moose</em>
+modules with the same syntax, so isn&rsquo;t it better to just use the first one loaded?</p>
+<p>So we got <a href="https://metacpan.org/pod/Any::Moose">Any::Moose</a>, but it is now deprecated.</p>
+<p>Anyway, there are still a lot more of such Perl modules. Some modules
+add some more functionality, some a little less. Some add type-checking some
+don&rsquo;t.</p>
+<p>But all they usually do is just add wrappers around setting and getting a key
+from a hash. Those wrappers usually only makes sense when they add something,
+like type checking. But then again, why not use a language that supports
+defining types instead?</p>
+<p>For example in F# I could define a type instead, and still have the easyiness of
+Perl.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Person</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Name</span><span class="o">:</span>     <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Birthday</span><span class="o">:</span> <span class="n">DateTime</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Weight</span><span class="o">:</span>   <span class="kt">float</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">alice</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Name</span>     <span class="o">=</span> <span class="s">&#34;Alice&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Birthday</span> <span class="o">=</span> <span class="n">DateTime</span><span class="o">(</span><span class="n">1865</span><span class="o">,</span> <span class="n">7</span><span class="o">,</span> <span class="n">4</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Weight</span>   <span class="o">=</span> <span class="n">40</span><span class="o">.</span><span class="n">8</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and we can access it with.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">birthday</span> <span class="o">=</span> <span class="n">alice</span><span class="o">.</span><span class="n">birthday</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>or for example create a new structure with a changed field. In F# they
+are immutable, that&rsquo;s why it creates a copy.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">alice2</span> <span class="o">=</span> <span class="o">{</span> <span class="n">alice</span> <span class="k">with</span> <span class="n">Birthday</span> <span class="o">=</span> <span class="n">DateTime</span><span class="o">(...)</span> <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The same easiness, but everything is statically typed, faster and
+typed-check at compilation time, instead of checking at runtime.</p>
+<p>I don&rsquo;t want to make an advertisment for F#. I don&rsquo;t really care which programming language
+you are using. Use whatever you like, but I hope you can see how annoying the lack
+of static typing becomes, and how much performance we lose in Perl because of this.</p>
+<p>And I often question why we even do that. Because all the reason why we create
+those wrappers are usually extremely bad code.</p>
+<p>Why do we create such getters/wrappers in OO? Besides type-cheking in Perl
+it is because we can do some kind of horrible side-effects all over the place.</p>
+<p>Examples are: Whenever you access a getter/setter some other field is manipulated,
+a counter is raised, a callback is called, maybe some other object is changed,
+some printing is done and all other crap all over the place happens that makes
+code hard to understand. Typicall object-oriented mess people call <em>good object-oriented code</em>.</p>
+<p>This is the essence of object-orientation. It always does more than you ever wanted. And
+you don&rsquo;t even have a clue what it does <em>more</em>. Because it is all <em>encapsulated</em> and hidden from
+you. The worst is that programmers even think that this is a <em>feature</em>. I call this a <em>bug</em>.</p>
+<p>This kind of crap is what makes object-orientation a mess, hard to test and
+raises complexity to infinity.</p>
+<p>I cannot bear this anymore.</p>
+<p>Please give me stupid data-structures. Data-structures that just holds data
+and nothing more. The only thing I need is a little bit of type-checking, and
+that&rsquo;s it.</p>
+<p>Do you know that you also could restrict the keys a hash is allowed to have in Perl?
+In <a href="https://metacpan.org/pod/Hash::Util">Hash::Util</a> you have a <code>lock_keys</code> function
+that restricts which keys are allowed. Setting a key that is not allowed throws
+an exception.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">person</span><span class="p">(%args) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">%obj</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lock_keys</span><span class="p">(</span><span class="nv">%obj</span><span class="p">,</span> <span class="sx">qw/name birthday weight/</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="k">my</span> <span class="nv">$key</span> <span class="p">(</span> <span class="nb">keys</span> <span class="nv">%args</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$obj</span><span class="p">{</span><span class="nv">$key</span><span class="p">}</span> <span class="o">=</span> <span class="nv">$args</span><span class="p">{</span><span class="nv">$key</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="o">\</span><span class="nv">%obj</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$alice</span> <span class="o">=</span> <span class="n">person</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span>     <span class="o">=&gt;</span> <span class="s">&#34;Alice&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">birthday</span> <span class="o">=&gt;</span> <span class="s">&#34;1900-01-01&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">weight</span>   <span class="o">=&gt;</span> <span class="mi">42</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>If everything you wanted was to ensure correct field-names, then you also can
+achieve it this way, without creating any kind of package/class.</p>
+<p>When you don&rsquo;t use type-checking, can you see that you basically just copied the
+whole functionality of a hash and you just can use a hash instead?</p>
+<p>One advantage of a dynamic typed language is that we don&rsquo;t need to predefine
+our data-structures. We just use them as needed. This advantage sure
+has some drawbacks like typos or type-checking errors. But that&rsquo;s how it is.</p>
+<p>When we add class/packages in Perl with type-checking all over the place, then
+we lose the advantages of dynmaic typing, and still don&rsquo;t get the benefits of
+static typing. To get those we had to change the language itself. We even lose
+performance. So what is the point of creating so much classes/packages in Perl
+with all of that overhead?</p>
+<p>But it also translates to other languages. You maybe have seen this in Java
+or C# too. People who get annoyed by writting those damn getters/setters all over
+the place. Either they also use some libraries that creates those classes
+at runtime through reflection or even use an editor (like Visual Studio) that
+creates whole template classes.</p>
+<p>Again, why not use a class with just public fields? This is what a hash technically
+is in a statically typed OO language. It&rsquo;s a restricted hash that only has the defined
+fields and types. The advanatages you think a getter/setter gives you, are no
+advantages at all. They usually makes code worse.</p>
+<p>Some people think that classes with public fields are bad, they call them
+<a href="https://en.wikipedia.org/wiki/Anemic_domain_model">Anemic Domain Model</a>. Don&rsquo;t
+be fooled, there is nothing wrong with an Anemic Domain Model. People that usually
+tell you that they are bad are just close minded and also telling you that
+everything not object-oriented must be bad.</p>
+
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents"></nav> </aside>
+
+    </body>
+</html>

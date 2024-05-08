@@ -6,19 +6,26 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 15 Apr 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 08 May 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Metaprogramming</title>
+      <link>https://davidraab.github.io/tags/metaprogramming/</link>
+      <pubDate>Wed, 08 May 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/metaprogramming/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Oop</title>
       <link>https://davidraab.github.io/tags/oop/</link>
-      <pubDate>Mon, 15 Apr 2024 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 08 May 2024 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/tags/oop/</guid>
       <description></description>
     </item>
     <item>
       <title>Perl</title>
       <link>https://davidraab.github.io/tags/perl/</link>
-      <pubDate>Mon, 15 Apr 2024 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 08 May 2024 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/tags/perl/</guid>
       <description></description>
     </item>
@@ -97,13 +104,6 @@
       <link>https://davidraab.github.io/tags/enum/</link>
       <pubDate>Sun, 29 Oct 2023 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/tags/enum/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Metaprogramming</title>
-      <link>https://davidraab.github.io/tags/metaprogramming/</link>
-      <pubDate>Sun, 29 Oct 2023 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/metaprogramming/</guid>
       <description></description>
     </item>
     <item>
