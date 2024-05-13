@@ -6,8 +6,15 @@
     <description>Recent content in Perl on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 08 May 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 13 May 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/tags/perl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Perl Argument Aliasing</title>
+      <link>https://davidraab.github.io/posts/perl-argument-aliasing/</link>
+      <pubDate>Mon, 13 May 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/perl-argument-aliasing/</guid>
+      <description>Different to many other languages Perl has an aliasing feature when you pass arguments to a function. As an example let&amp;rsquo;s see the following code.&#xA;1 2 3 sub increment { $_[0]++; } As probably known, all values in Perl are put into the @_ array. But when you directly modify one of these elements, then the original values are modified.&#xA;So executing the following.&#xA;1 2 3 4 5 6 7 my $x = 0; increment($x); say $x; increment($x); say $x; will print 1 and then 2.</description>
+    </item>
     <item>
       <title>Class vs Hash</title>
       <link>https://davidraab.github.io/posts/class-vs-hash/</link>
