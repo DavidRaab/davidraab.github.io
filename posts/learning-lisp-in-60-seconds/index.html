@@ -1,26 +1,32 @@
 <!doctype html>
 <html lang="en-us">
     <head>
-        <title>Assigning variables // David Raab</title>
+        <title>Learning Lisp in 60 seconds // David Raab</title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta charset="utf-8" />
         <meta name="generator" content="Hugo 0.123.1">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="David Raab" />
-        <meta name="description" content="My programming so far." />
+        <meta name="description" content="" />
         <link rel="stylesheet" href="/css/main.min.0fa334c3f2650e7000dfc8e81f59d23191e59e78f62c565a598f4dc557c92abe.css" />
         <script src="/static/code-toggle.js"></script>
 
         
-        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Assigning variables"/>
-<meta name="twitter:description" content="My programming so far."/>
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Learning Lisp in 60 seconds"/>
+<meta name="twitter:description" content="Do you wanna learn Lisp? If yes, you come to the right place. Do you know how to call a function/procedure in most languages? Yes right, like this.
+1 function(arg1, arg2, arg3) This syntax is used in C, C&#43;&#43;, Perl, Python, Java, &hellip; you get it.
+In a Lisp language you just put the starting ( before the function call and remove the commas.
+1 (function arg1 arg2 arg3) There you have it, you have learned 100% of the syntax of a Lisp language."/>
 
-        <meta property="og:title" content="Assigning variables" />
-<meta property="og:description" content="My programming so far." />
+        <meta property="og:title" content="Learning Lisp in 60 seconds" />
+<meta property="og:description" content="Do you wanna learn Lisp? If yes, you come to the right place. Do you know how to call a function/procedure in most languages? Yes right, like this.
+1 function(arg1, arg2, arg3) This syntax is used in C, C&#43;&#43;, Perl, Python, Java, &hellip; you get it.
+In a Lisp language you just put the starting ( before the function call and remove the commas.
+1 (function arg1 arg2 arg3) There you have it, you have learned 100% of the syntax of a Lisp language." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://davidraab.github.io/posts/assigning-variables/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-11-18T02:00:00+00:00" />
-<meta property="article:modified_time" content="2023-11-18T02:00:00+00:00" />
+<meta property="og:url" content="https://davidraab.github.io/posts/learning-lisp-in-60-seconds/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-05-28T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-05-28T00:00:00+00:00" />
 
 
 
@@ -58,14 +64,14 @@
 <main class="app-container">
     <article class="post">
         <header class="post-header">
-            <h1 class ="post-title">Assigning variables</h1>
+            <h1 class ="post-title">Learning Lisp in 60 seconds</h1>
             <div class="post-meta">
                 <div>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <title>calendar</title>
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
-                    Nov 18, 2023
+                    May 28, 2024
                 </div>
                 <div>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
@@ -79,51 +85,48 @@
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-                            <a class="tag" href="https://davidraab.github.io/tags/general-concepts/">General-Concepts</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/lisp/">Lisp</a>
                 </div>
             </div>
         </header>
         <div class="post-content">
-            <p>This is how you assign a value from right to left.</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="o">...</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>this is how you assign a value from left to right.</p>
-<h1 id="perl">Perl</h1>
+            <p>Do you wanna learn Lisp? If yes, you come to the right place. Do you
+know how to call a function/procedure in most languages? Yes right, like
+this.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">do_something</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="k">sub</span> <span class="p">($x) {</span> <span class="o">...</span> <span class="p">});</span>
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span><span class="p">(</span><span class="nx">arg1</span><span class="p">,</span> <span class="nx">arg2</span><span class="p">,</span> <span class="nx">arg3</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h1 id="javascript">JavaScript</h1>
+</div><p>This syntax is used in C, C++, Perl, Python, Java, &hellip; you get it.</p>
+<p>In a Lisp language you just put the starting <code>(</code> before the function call
+and remove the commas.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="nx">do_something</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">})</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-racket" data-lang="racket"><span class="line"><span class="cl"><span class="p">(</span><span class="n">function</span> <span class="n">arg1</span> <span class="n">arg2</span> <span class="n">arg3</span><span class="p">)</span><span class="err">
+</span></span></span></code></pre></td></tr></table>
 </div>
-</div><h1 id="f">F#</h1>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">doSomething</span> <span class="n">1</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="o">...</span> <span class="o">)</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div>
+</div><p>There you have it, you have learned 100% of the syntax of a Lisp language.
+The remaining part is just learning some functions. Have fun!</p>
+<h1 id="further-reading">Further Reading</h1>
+<p>I recommend <a href="https://racket-lang.org/">Racket</a> for learning. Why?</p>
+<ol>
+<li>You download just a package and it contains everything. An IDE with REPL
+and you can immediately start coding.</li>
+<li>It has a lot of <a href="https://docs.racket-lang.org/">good documentation</a>.</li>
+</ol>
+<p>Maybe you wanna start with <a href="https://docs.racket-lang.org/quick/index.html">The introduction with Pictures</a>
+I think it is a good start also for learning functional concepts. Just start
+reading it and maybe you wanna try it out.</p>
+<p>You also should read <a href="https://www.norvig.com/21-days.html">Teach Yourself Programming in Ten Years</a>
+by Peter Norvig if you didn&rsquo;t do it yet.</p>
+
         </div>
         <div class="post-footer">
             <div id="disqus_thread"></div>
@@ -151,9 +154,7 @@
 </main>
 <aside> <nav id="TableOfContents">
   <ul>
-    <li><a href="#perl">Perl</a></li>
-    <li><a href="#javascript">JavaScript</a></li>
-    <li><a href="#f">F#</a></li>
+    <li><a href="#further-reading">Further Reading</a></li>
   </ul>
 </nav> </aside>
 

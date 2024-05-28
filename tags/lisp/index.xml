@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lisp on David Raab</title>
+    <link>https://davidraab.github.io/tags/lisp/</link>
+    <description>Recent content in Lisp on David Raab</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 28 May 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/lisp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Learning Lisp in 60 seconds</title>
+      <link>https://davidraab.github.io/posts/learning-lisp-in-60-seconds/</link>
+      <pubDate>Tue, 28 May 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/learning-lisp-in-60-seconds/</guid>
+      <description>Do you wanna learn Lisp? If yes, you come to the right place. Do you know how to call a function/procedure in most languages? Yes right, like this.&#xA;1 function(arg1, arg2, arg3) This syntax is used in C, C++, Perl, Python, Java, &amp;hellip; you get it.&#xA;In a Lisp language you just put the starting ( before the function call and remove the commas.&#xA;1 (function arg1 arg2 arg3) There you have it, you have learned 100% of the syntax of a Lisp language.</description>
+    </item>
+  </channel>
+</rss>
