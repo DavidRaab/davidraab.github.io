@@ -6,8 +6,15 @@
     <description>Recent content in Posts on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 28 May 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 30 May 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Functions are interfaces</title>
+      <link>https://davidraab.github.io/posts/functions-are-interfaces/</link>
+      <pubDate>Thu, 30 May 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/functions-are-interfaces/</guid>
+      <description>When I started to learn C# around 2013 there were certainly new things I came into contact. Some of them had todo with the fact that I primarily used Perl, a dynamic typed language, but in some sense the language features of Perl were also far ahead of C# back then, leading to different solutions and how you use a language.&#xA;Back at that time I realised that a lot of programmers were into a &amp;ldquo;newly&amp;rdquo; thing.</description>
+    </item>
     <item>
       <title>Learning Lisp in 60 seconds</title>
       <link>https://davidraab.github.io/posts/learning-lisp-in-60-seconds/</link>

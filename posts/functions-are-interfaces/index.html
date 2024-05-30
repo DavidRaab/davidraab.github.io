@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>Functions are interfaces // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.123.1">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="" />
+        <link rel="stylesheet" href="/css/main.min.0fa334c3f2650e7000dfc8e81f59d23191e59e78f62c565a598f4dc557c92abe.css" />
+        <script src="/static/code-toggle.js"></script>
+
+        
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Functions are interfaces"/>
+<meta name="twitter:description" content="When I started to learn C# around 2013 there were certainly new things I came into contact. Some of them had todo with the fact that I primarily used Perl, a dynamic typed language, but in some sense the language features of Perl were also far ahead of C# back then, leading to different solutions and how you use a language.
+Back at that time I realised that a lot of programmers were into a &ldquo;newly&rdquo; thing."/>
+
+        <meta property="og:title" content="Functions are interfaces" />
+<meta property="og:description" content="When I started to learn C# around 2013 there were certainly new things I came into contact. Some of them had todo with the fact that I primarily used Perl, a dynamic typed language, but in some sense the language features of Perl were also far ahead of C# back then, leading to different solutions and how you use a language.
+Back at that time I realised that a lot of programmers were into a &ldquo;newly&rdquo; thing." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/functions-are-interfaces/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-05-30T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-05-30T00:00:00+00:00" />
+
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>Writing about programming (Perl, F#) and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Functions are interfaces</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    May 30, 2024
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    5 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+                            <a class="tag" href="https://davidraab.github.io/tags/fp/">Fp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/interfaces/">Interfaces</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/perl/">Perl</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/csharp/">Csharp</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>When I started to learn C# around 2013 there were certainly new things I
+came into contact. Some of them had todo with the fact that I primarily used
+Perl, a dynamic typed language, but in some sense the language features of
+Perl were also far ahead of C# back then, leading to different solutions
+and how you use a language.</p>
+<p>Back at that time I realised that a lot of programmers were into a &ldquo;newly&rdquo;
+thing. They teached that every interface should have only one method at best.</p>
+<p>Like most stuff in the OO world it seems a lot of extremist always take it to
+the extrem and saw it at the only way to do it. While I agree that one-method
+interfaces are pretty good and there are reasons to stick to it, there are
+also use-cases to have interfaces with many methods.</p>
+<p>But anyway let&rsquo;s focus on that one-method interfaces for the moment. For
+example you could come to the following idea. Everything that should be
+printable should have an interface called &ldquo;IPrintable&rdquo; with only one single
+method on it: <code>print_me</code>.</p>
+<p>In C# that interface would look like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">interface</span> <span class="nc">IPrintable</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">print_me</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>While I think that it is a very good idea to limit yourself to just a single
+method, there is a big problem with this kind of interfaces. Those kind of
+interfaces are actually useless as they are not needed at all.</p>
+<p>Think about it. When you have code that expects an <code>IPrintable</code> object, what
+are the possible things you can do with that?</p>
+<p>Thw answer: You just can call that one single method or not. And that&rsquo;s it.</p>
+<p>It doesn&rsquo;t even matter how that method is named. Above I called the method
+<code>print_me</code>, but it wouldn&rsquo;t even matter if that method is named <code>CallMe</code>,
+<code>Execute</code>, <code>Bark</code>, <code>Drive</code>, <code>Invoke</code> or whatever fancy name you come up with,
+all you can do is to execute that one method or don&rsquo;t.</p>
+<p>I could even go so far and actually use reflections, read that one method and
+just execute that method, this is how unimportant and generic the name of the
+method of such one-method interfaces are.</p>
+<p>Or in other words: <strong>All one-method interfaces are basically just representations
+of functions</strong>.</p>
+<p>We could make a generic interface for the above. Luckeliy we don&rsquo;t need, as C#
+already ships one. The above interface could be basically replaced by the
+<a href="https://learn.microsoft.com/en-us/dotnet/api/system.action">Action</a> type.</p>
+<p>Coming from Perl where I was used to work with functions and passing functions
+as arguments I found it sometimes shocking how inefficent typical C# or Java
+solutions are. (It is even a bigger shock to realize that C already had
+function-pointers and you had nothing comparable like that in early C#
+or Java versions).</p>
+<p>If you understand the above and you start to learn design-patterns like <a href="https://en.wikipedia.org/wiki/Strategy_pattern">Strategy Pattern</a>
+or <a href="https://en.wikipedia.org/wiki/Command_pattern">Command Pattern</a> you see how redundant they are. They are basically the
+same Pattern and just represent a function in a complicated way because those
+language those patterns was invented for didn&rsquo;t know <a href="https://en.wikipedia.org/wiki/Anonymous_function">lambdas</a> back at
+that time.</p>
+<p>Perl is a dynamic-typed language so being able to just pass any kind of function
+that the user can execute maybe can be seen as a dynamic typed feature, but
+it isn&rsquo;t.</p>
+<p>When you start learning F# then you will realize that every function has a
+signature. But different to let&rsquo;s say C# the name of a function doesn&rsquo;t matter.</p>
+<p>For example the whole <code>IPrintable</code> interface above would be represented as
+<code>unit -&gt; unit</code> in F#.</p>
+<p><code>unit</code> is like <code>void</code> in C#, a little bit different but the detail isn&rsquo;t so much
+important at that moment. All the signature tells you is that it represents
+a function (represented by an arrow <code>-&gt;</code>) that has an <code>unit</code> as its input
+and an <code>unit</code> as its output.</p>
+<p>Languages like F# (ML, Ocaml, Haskell, &hellip;) useses functions as interfaces. You
+are able to pass any function that has the same type-signature.</p>
+<p>You can pass an existing function that is somewhere defined, but you also can
+create a function on the fly by using a <a href="https://en.wikipedia.org/wiki/Anonymous_function">lambda</a>.</p>
+<p>So don&rsquo;t forget, whenever you create one-method interfaces you should
+either use <a href="https://learn.microsoft.com/en-us/dotnet/api/system.action">Action</a> or <a href="https://learn.microsoft.com/en-us/dotnet/api/system.func-1">Func</a> or however a function is defined
+in your language.</p>
+<h1 id="example">Example</h1>
+<p>Luckily C# was extended a lot in the later years, but when I started learning it,
+coming from a Perl background I wasn&rsquo;t pleased at all. An example was <em>Sorting</em>.</p>
+<p>Perl has a <code>sort</code> built-in that works by specifying a function that let&rsquo;s you
+define how you wanna sort. You wanna sort by numbers?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">@sorted</span> <span class="o">=</span> <span class="nb">sort</span> <span class="p">{</span> <span class="nv">$a</span> <span class="sr">&lt;=&gt;</span> <span class="nv">$b</span> <span class="p">}</span> <span class="nv">@numbers</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>you have some kind of objects that should be sorted by age?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">@sorted</span> <span class="o">=</span> <span class="nb">sort</span> <span class="p">{</span> <span class="nv">$a</span><span class="o">-&gt;</span><span class="n">age</span> <span class="sr">&lt;=&gt;</span> <span class="nv">$b</span><span class="o">-&gt;</span><span class="n">age</span> <span class="p">}</span> <span class="nv">@objs</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In C# on the other hand when you wanted to sort objects by some other criterium
+you needed to create an <a href="https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.icomparer-1">IComparer</a>. <code>IComparer&lt;T&gt;</code> is basically
+just a function <code>T -&gt; T -&gt; int</code>, but you had to create a whole class somewhere
+and implement that single <code>int CompareTo&lt;T&gt;(T,T)</code> method. It drived me nuts
+how complicated that crap was.</p>
+<p>Luckeliy, today you just can pass a <code>delegate</code> to <code>Sort</code> or use <a href="https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.orderby">LINQ&rsquo;s OrderBy</a>.</p>
+<p>But imagine how bad C# still would be if we did everything just <em>object-oriented</em>
+only (because it&rsquo;s the only true/best paradigm). Sadly there are still enough
+people out there believing in that kind of thinking.</p>
+<p>Btw. a typical procedural <a href="https://stackoverflow.com/questions/1787996/c-library-function-to-perform-sort">qsort</a>
+from the stdlib in C also expects you to pass a function-pointer making it less
+painfully to use as early C#.</p>
+
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#example">Example</a></li>
+  </ul>
+</nav> </aside>
+
+    </body>
+</html>
