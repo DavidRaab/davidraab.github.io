@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Design on David Raab</title>
+    <link>https://davidraab.github.io/tags/design/</link>
+    <description>Recent content in Design on David Raab</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 04 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/design/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Anemic Domain Model: Data and Behaviour should be separated</title>
+      <link>https://davidraab.github.io/posts/anemic-domain-model-data-and-behaviour-should-be-separated/</link>
+      <pubDate>Tue, 04 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/anemic-domain-model-data-and-behaviour-should-be-separated/</guid>
+      <description>In the object-oriented world there is often a debate around the so called Anemic Domain Model. An Anemic Domain Model is when you clearly separate your data and your code.&#xA;In object-orientation this is usually considered bad, but when you look at procedural or functional-programming things change. They are seen as good practice you should follow. So who is right?&#xA;Rich Domain Model The opposite of an Anemic Domain Model is usually called a Rich Domain Model the idea of it goes as follow.</description>
+    </item>
+  </channel>
+</rss>

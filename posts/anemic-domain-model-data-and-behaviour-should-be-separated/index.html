@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>Anemic Domain Model: Data and Behaviour should be separated // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.123.1">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="" />
+        <link rel="stylesheet" href="/css/main.min.0fa334c3f2650e7000dfc8e81f59d23191e59e78f62c565a598f4dc557c92abe.css" />
+        <script src="/static/code-toggle.js"></script>
+
+        
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Anemic Domain Model: Data and Behaviour should be separated"/>
+<meta name="twitter:description" content="In the object-oriented world there is often a debate around the so called Anemic Domain Model. An Anemic Domain Model is when you clearly separate your data and your code.
+In object-orientation this is usually considered bad, but when you look at procedural or functional-programming things change. They are seen as good practice you should follow. So who is right?
+Rich Domain Model The opposite of an Anemic Domain Model is usually called a Rich Domain Model the idea of it goes as follow."/>
+
+        <meta property="og:title" content="Anemic Domain Model: Data and Behaviour should be separated" />
+<meta property="og:description" content="In the object-oriented world there is often a debate around the so called Anemic Domain Model. An Anemic Domain Model is when you clearly separate your data and your code.
+In object-orientation this is usually considered bad, but when you look at procedural or functional-programming things change. They are seen as good practice you should follow. So who is right?
+Rich Domain Model The opposite of an Anemic Domain Model is usually called a Rich Domain Model the idea of it goes as follow." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/anemic-domain-model-data-and-behaviour-should-be-separated/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-06-04T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-06-04T00:00:00+00:00" />
+
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>Writing about programming (Perl, F#) and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Anemic Domain Model: Data and Behaviour should be separated</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Jun 4, 2024
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    7 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+                            <a class="tag" href="https://davidraab.github.io/tags/design/">Design</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>In the object-oriented world there is often a debate around the so called
+<em>Anemic Domain Model</em>. An <em>Anemic Domain Model</em> is when you clearly separate
+your data and your code.</p>
+<p>In object-orientation this is usually considered bad, but when you look at
+<em>procedural</em> or <em>functional-programming</em> things change. They are seen as
+good practice you should follow. So who is right?</p>
+<h1 id="rich-domain-model">Rich Domain Model</h1>
+<p>The opposite of an Anemic Domain Model is usually called a <em>Rich Domain Model</em>
+the idea of it goes as follow.</p>
+<p>Usually all begins with data. So let&rsquo;s say we have an application to manage
+some users. Could be for a webapplication like Wikipedia or any other web
+service your are using. Also could be for any other service like an organization
+that keeps track of it members. Or maybe just your Contact book in your Smartphone
+that keeps track of its user, telephone numbers and addresses. Details
+aren&rsquo;t so much important at the moment. So we just say we keep track of some
+user data.</p>
+<p>In a <em>Rich Domain Model</em> as you are used by <em>object-orientation</em> you usually
+will start with a <code>User</code> class. Then you will add all kinds of <em>methods</em> to
+that class for whatever stuff you wanna do with a <code>User</code>. This usually also
+includes <em>validation</em> for additional constraints on data that are not
+representable by its data. For example restriction an integer to a certain range
+like -100 to 100, or maybe restriction a string that is not allowed to start or
+end with whitespace. There are usually a dozens of such restriction you usally
+can come up with.</p>
+<p>We keep it <em>simple</em> (not really) so let&rsquo;s say we just have an User that
+stores an unique id, a login name, a full name and the birthday of the user.</p>
+<p>Then you go on and add all kinds of validation to the constructor of your class.
+You decide unique id can never be smaller than 0, a username cannot contain
+any whitespace at all, and so on.</p>
+<p>You also implement the getter/setter of your class to only allow valid values.</p>
+<p>Usually in most languages objects also have the idea of equality and comparison.
+So you also start to implement equality so you know if two objects refer to
+the same user or not. Sure you wanna comparison as when you show all users
+they should be ordered.</p>
+<p>This is called a <em>Rich Domain Model</em> and object-oriented programmer telling you
+it is the only way you should do it. Everything else is bad.</p>
+<h1 id="whats-wrong-with-a-rich-domain-model">What&rsquo;s wrong with a Rich Domain Model</h1>
+<p>So what is the problem with the above? Seems okay, you don&rsquo;t wanna have invalid
+data and it is cool to have all kind of abilities so you don&rsquo;t need to write them
+yourself, right?</p>
+<p>So let me ask you some question.</p>
+<p>What do you do, if you wanna save a User to a relational database? Do you add a
+<code>store_to_database</code> method to your <code>User</code> class? Usually that is a question
+that most people will answer with <em>No</em>. Most <em>object-oriented</em> programmers
+at least have heard about the problem of <em>dependencies</em>, they don&rsquo;t wanna add
+a dependencie that a <code>User</code> somehow needs to know about <em>databases</em>. But hey,
+do you see how this contradicts the idea of a <em>Rich Domain Model</em>?</p>
+<p>And anyway, what kind of database? MySQL, MariaDB, PostgreSQL, Oracle or SQLite?
+Maybe your application should support all of them? Maybe some?</p>
+<p>Should it have methods like <code>store_to_sqlite</code> and <code>store_to_postgres</code>?</p>
+<p>How about you provide a web-service for your users. You send the data across the
+wire and some <code>JavaScript</code> should read the user. So what you gonna do? Add some
+<code>to_json</code> to your <code>User</code> class?</p>
+<p>Let&rsquo;s say you pick some support for some databases and you pick some serialization
+(like JSON) and publish your code as a library someone else can use.</p>
+<p>You go on a vacation and a week later some users where impressed by your library.
+Some started to use it, but some have some feature Request.</p>
+<p>Someone is developing a web-service but they use <code>XML</code> instead of JSON, so they
+send you a pull-request for a <code>to_xml</code> method that is added to <code>User</code>.</p>
+<p>Someone else uses MongoDB so they ask if also <em>MongoDB</em> could be supported. Someone
+else wanna use <em>Cassandra</em> and someone else wants to use <em>CSV</em>.</p>
+<p>You implemented a <code>to_string</code> that only showed the <em>User ID</em> of your objects because
+that was all you needed for debugging and logging. But someone else wanna have
+a Terminal TUI so he wants a better <code>to_string</code> implementation that shows
+all data.</p>
+<p>And anyway, why the hell are you so dump and implemented comparison by comparing the
+<em>User Id</em>? Someone else wanna sort all users by its <em>Username</em>. Someone else
+is asking by sorting it by the <em>Real User Name</em>. Somone else wants it sorted
+by the <em>Username</em> and than by <em>Age</em>. I mean, you get it, right?</p>
+<p>In some organization people under the age of 18 are not allowed, so they request
+that validation should check for the age of 18. Maybe we can add a configuration
+to configure the minimum age?</p>
+<p>This is a <em>Rich Domain Model</em>. And I hope you know understand why a
+<em>Rich Domain Model</em> is utterly crap.</p>
+<p>They seems to be cool but it leads to exactly those kinds of problems that
+<em>object-oriented</em> programmer always run into. Into <a href="https://en.wikipedia.org/wiki/God_object">God objects</a>
+that just do too much.</p>
+<h1 id="a-better-alternative-the-anemic-domain-model">A better alternative. The Anemic Domain Model</h1>
+<p>So how do we better? The answer is by doing less. First of you must forget
+the idea that just having data is bad. Just having data is absolutely fine.
+In the past maybe 20 years a lot of <em>object-oriented</em> programmers are telling
+that it somehow bad (because it is procedural), but besides just claiming
+and repeating it, it doesn&rsquo;t become true.</p>
+<p>Separating data also doesn&rsquo;t mean that there is no code at all. It just means
+you put it somewhere else, instead of attaching it to the class as a method.</p>
+<p>Besides your data-structure that holds just data and maybe allows you to change
+pieces of the data, you will not add any validation, equality or comparison or any
+kind of other code to your data.</p>
+<p>But you still can come up with some code that helps you create objects from it.
+Maybe add some validation there to it. Maybe you think a Birthday cannot be in
+the future. So you create your own library that adds some extra validation to it
+to forbid this kind of thing.</p>
+<p>But someone else that doing a <em>Warhammer 40K</em> website that keeps track of some
+Warhammer characters maybe want the ability to create <em>birthdays</em> in the future.</p>
+<p>He maybe can use some functions that you have written, some he don&rsquo;t use, some
+he implement himself different.</p>
+<p>The organization that wanted only to have people older than 18 could just
+implement its own function to create users that disallows user that are too young.</p>
+<p>In the world of an <em>Anemic Domain Model</em> you started to implement a useful
+data-structure to manage <em>Users</em>. One year later you find a dozen of libraries
+out there that uses your data-structure.</p>
+<p>From <code>user_json</code>, <code>user_mysql</code>, <code>user_sqlite</code>, <code>user_warhammer</code>, <code>user_adult</code>, &hellip;
+you found around 100 libraries that have different validation, purposes and use
+cases. You can load all of them, or just some of them you really need.</p>
+<p>And the best is, you never created <em>God objects</em> or are faced with the problem
+that your classes have to many <em>unenccesary dependencies</em> that is seen so often
+in <em>object-oriented</em> code.</p>
+<h1 id="am-i-wrong">Am I wrong?</h1>
+<p>Maybe I am wrong and you still wanna use a <em>Rich Domain Model</em>. It&rsquo;s not a
+problem, but then at least I never wanna work with you and never wanna see code
+from you.</p>
+<h1 id="related-posts">Related Posts</h1>
+<ul>
+<li><a href="https://davidraab.github.io/posts/object-oriented-programming-in-c/">Object-Oriented Programming in C</a></li>
+<li><a href="https://davidraab.github.io/posts/why-i-like-perls-oo/">Why I Like Perl&rsquo;s OO</a></li>
+</ul>
+
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#rich-domain-model">Rich Domain Model</a></li>
+    <li><a href="#whats-wrong-with-a-rich-domain-model">What&rsquo;s wrong with a Rich Domain Model</a></li>
+    <li><a href="#a-better-alternative-the-anemic-domain-model">A better alternative. The Anemic Domain Model</a></li>
+    <li><a href="#am-i-wrong">Am I wrong?</a></li>
+    <li><a href="#related-posts">Related Posts</a></li>
+  </ul>
+</nav> </aside>
+
+    </body>
+</html>
