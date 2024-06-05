@@ -6,8 +6,15 @@
     <description>Recent content on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 04 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 05 Jun 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Why map was not discovered in Object-Oriented Programming</title>
+      <link>https://davidraab.github.io/posts/why-map-was-not-discovered-in-object-oriented-programming/</link>
+      <pubDate>Wed, 05 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/why-map-was-not-discovered-in-object-oriented-programming/</guid>
+      <description>When I started Perl programming back around 2003 one thing that perl had, what most language didn&amp;rsquo;t, already was the existence of the map function.&#xA;In today world of programming from JavaScript, C#, Java and so on, the concept nowadays is so common that nearly every language has it, and usually every programmers understands and use it.&#xA;That was not always the case. I can remember when LINQ was introduced in C# how a lot of people complaining how from know on C# would be a language that nobody else never can read or understand anymore.</description>
+    </item>
     <item>
       <title>Anemic Domain Model: Data and Behaviour should be separated</title>
       <link>https://davidraab.github.io/posts/anemic-domain-model-data-and-behaviour-should-be-separated/</link>
