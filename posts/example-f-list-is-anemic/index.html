@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>Example: F# List is Anemic // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.123.1">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="" />
+        <link rel="stylesheet" href="/css/main.min.0fa334c3f2650e7000dfc8e81f59d23191e59e78f62c565a598f4dc557c92abe.css" />
+        <script src="/static/code-toggle.js"></script>
+
+        
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Example: F# List is Anemic"/>
+<meta name="twitter:description" content="In my previous article Anemic Domain Model: Data and behaviour should be separated I explain why you should stick to an Anemic Domain Model and which benefits it offers.
+In this article we look into F# to see how it applies there. F# has many built-in data-structures like many languages. One of the most used data-structure is the List data-structure.
+When you follow a typical object-oriented solution then maybe you would end up with a List class, maybe you will consider some data as private, because the way how to manage a list should be managed by the class."/>
+
+        <meta property="og:title" content="Example: F# List is Anemic" />
+<meta property="og:description" content="In my previous article Anemic Domain Model: Data and behaviour should be separated I explain why you should stick to an Anemic Domain Model and which benefits it offers.
+In this article we look into F# to see how it applies there. F# has many built-in data-structures like many languages. One of the most used data-structure is the List data-structure.
+When you follow a typical object-oriented solution then maybe you would end up with a List class, maybe you will consider some data as private, because the way how to manage a list should be managed by the class." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/example-f-list-is-anemic/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-06-06T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-06-06T00:00:00+00:00" />
+
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>Writing about programming (Perl, F#) and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Example: F# List is Anemic</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Jun 6, 2024
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    8 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+                            <a class="tag" href="https://davidraab.github.io/tags/design/">Design</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">Fsharp</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>In my previous article <a href="https://davidraab.github.io/posts/anemic-domain-model-data-and-behaviour-should-be-separated/">Anemic Domain Model: Data and behaviour should be separated</a>
+I explain why you should stick to an Anemic Domain Model and which benefits it offers.</p>
+<p>In this article we look into F# to see how it applies there. F# has many built-in
+data-structures like many languages. One of the most used data-structure
+is the <code>List</code> data-structure.</p>
+<p>When you follow a typical object-oriented solution then maybe you would end up
+with a <code>List</code> class, maybe you will consider some data as private, because the
+way how to manage a list should be managed by the class. Usually this is done
+for different reasons. Mostly for corectness, safety or some other reasons I
+hear often.</p>
+<p>Usually the promises are never held, because then we would have bug-free programs
+without any security flaws in it. I have never seen a bug free program, especially
+not in object-oriented code, it usually is the most hardest code I see to understand
+and debug because of all that mutation and side-effects that appear everywhere.</p>
+<p>When you use F# then there is a clear separation between the definition of
+a List and its functions. This is not exactly the code how a List is defined
+in F# but it would probably look something like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">list</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="bp">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="o">(::)</span> <span class="k">of</span> <span class="k">&#39;</span><span class="n">a</span> <span class="o">*</span> <span class="kt">list</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The definition you see here tells you the following. A list can be two different
+things. Either it is <code>[]</code> or namely an <em>empty list</em> or it can be <code>::</code> usually
+named a <em>cons</em> cell. A <em>cons</em> cell contains an element of type <code>'a</code> (a generic
+type, that could for example be <code>int</code>) and the second element is another
+<code>list</code> element of the same type <code>'a</code>. So that second element either can be
+a <em>cons</em> cell again, or it is empty. This definition makes a list a
+recurive data-structure.</p>
+<p>The problem with the above definition is that you cannot create such a type
+yourself in F#. Because F# has special syntax that is only allowed for this
+built-in type. But you could come up with something similar like.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">mylist</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Empty</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Cons</span> <span class="k">of</span> <span class="k">&#39;</span><span class="n">a</span> <span class="o">*</span> <span class="n">mylist</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But anyway, the definition of the F# list is <em>open</em> in the sense that the definition
+is not private or you need a special constructor, class or anything else to create
+a list. Not only does it not restrict you in the creation, you also always can
+travers a list yourself, create any function you like yourself or modify an
+existing list.</p>
+<p>Here is an interesting question. Can you create an invalid list with this definition?</p>
+<p>The answer is. No, you can&rsquo;t. The definition of the <code>list</code> is choosen in such a
+way that it only allows for valid lists. But sure it can be invalid if you wanna
+create a list that only should contain numbers in a specific range. In <em>functional
+programming</em> there is a saying.</p>
+<blockquote>
+<p>Make invalid states unrepresentable</p>
+</blockquote>
+<p>and here you can see that approach. Already try to build your data in such a way
+that it cannot be invalid. Sure there are limits to this approach or when
+it becomes to complicated, but at least you should think more deeply
+about your data.</p>
+<div class="info">
+In the YouTube video <a href="https://www.youtube.com/watch?v=v1CmGbOGb2I">Why Ocaml</a>
+this topic is discussed more deeply.
+</div>
+<p>But just having a List like above wouldn&rsquo;t be awesome, it would mean you have
+to create a lot of useful functions yourself to work with a <code>List</code>. And creating
+those can be tedious. Because of this, F# already ships with a <code>List</code> module
+that provides ~100 functions to either create, modify or transform lists.</p>
+<p>You can use them, but you don&rsquo;t have too. For example I can use the built-in
+<code>map</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">nums</span>    <span class="o">=</span> <span class="o">[</span><span class="n">1</span> <span class="o">..</span> <span class="n">10</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">doubled</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">2</span><span class="o">)</span> <span class="n">nums</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">squared</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">)</span> <span class="n">nums</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Here you see the example I used in <a href="https://davidraab.github.io/posts/why-map-was-not-discovered-in-object-oriented-programming/">Why map was not discovered in OOP</a>.
+But you always can create your own functions if you like. Because the
+data-structure is open and always traversable you just can create your own
+<code>map</code> function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">rec</span> <span class="n">map</span> <span class="n">f</span> <span class="n">xs</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">xs</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="bp">[]</span>        <span class="o">-&gt;</span> <span class="bp">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">x</span> <span class="o">::</span> <span class="n">rest</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span> <span class="o">::</span> <span class="o">(</span><span class="n">map</span> <span class="n">f</span> <span class="n">rest</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This function is not <a href="https://en.wikipedia.org/wiki/Tail_call">Tail Recursive</a> but
+this is not an article about proper, correct or fast implementation of <code>map</code>.</p>
+<p>But needless to say is, that it is a good idea to try to re-implement all functions
+that <code>List</code> offers by yourself. If you do, you will actually learn a lot of
+functional programming, recursion and immutable data.</p>
+<p>So here is an interesting thing you maybe know or not, depending whether you
+used F# before or not. F# is not a pure functional language. It also offers OO
+(otherwise interacting with .Net would be hard) but also allows side-effects
+or throws exceptions.</p>
+<p>Especially the later is something I don&rsquo;t like. For example there is <code>List.map2</code>
+in F#. <code>List.map2</code> allows you to traverses through two lists at once and you
+somehow can combine those values you want.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">List</span><span class="p">.</span><span class="n">map2</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">[</span><span class="n">1</span><span class="o">;</span>   <span class="n">2</span><span class="o">;</span>  <span class="n">3</span><span class="o">;</span>  <span class="n">4</span><span class="o">;</span>  <span class="n">5</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">        <span class="o">[</span><span class="n">10</span><span class="o">;</span> <span class="n">10</span><span class="o">;</span> <span class="n">10</span><span class="o">;</span> <span class="n">10</span><span class="o">;</span> <span class="n">10</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>For example the code above creates the list <code>[11; 12; 13; 14; 15]</code>. It just adds
+the numbers for the same index together. This is helpful, but what happens
+when you provide two lists of different size to <code>List.map2</code>?</p>
+<p>Or let me ask it differently. What do you expect or should happen in that case?
+Because there are different answers and no answer is the right one.</p>
+<p>F# decided to throw an exception in that case. So if you have the following code.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">List</span><span class="p">.</span><span class="n">map2</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">[</span><span class="n">1</span><span class="o">;</span>   <span class="n">2</span><span class="o">;</span>  <span class="n">3</span><span class="o">;</span>  <span class="n">4</span><span class="o">;</span>  <span class="n">5</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">        <span class="o">[</span><span class="n">10</span><span class="o">;</span> <span class="n">10</span><span class="o">;</span> <span class="n">10</span><span class="o">;</span> <span class="n">10</span><span class="o">;</span> <span class="n">10</span><span class="o">;</span> <span class="n">10</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>then your code crashes. Because the first list only contains <code>5</code> elements
+and the second list contains <code>6</code> elements.</p>
+<p>I actually hate this behaviour. What I want to have is that it just works and
+does so much work that is possible. If the end of one of the list is reached,
+then it just stops returning what was computed so far.</p>
+<p>So what can I do in F#? Sure I always can create my own module and just implement
+my own <code>map2</code> that works this way. It looks like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">module</span> <span class="nn">Lst</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">rec</span> <span class="n">map2</span> <span class="n">f</span> <span class="n">xs</span> <span class="n">ys</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="k">match</span> <span class="n">xs</span><span class="o">,</span><span class="n">ys</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="bp">[]</span><span class="o">,</span><span class="bp">[]</span>        <span class="o">-&gt;</span> <span class="bp">[]</span> <span class="c1">// both lists are empty
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">|</span> <span class="bp">[]</span><span class="o">,_</span>         <span class="o">-&gt;</span> <span class="bp">[]</span> <span class="c1">// xs is empty
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">|</span> <span class="o">_,</span><span class="bp">[]</span>         <span class="o">-&gt;</span> <span class="bp">[]</span> <span class="c1">// ys is empty
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">|</span> <span class="n">x</span><span class="o">::</span><span class="n">xs</span><span class="o">,</span> <span class="n">y</span><span class="o">::</span><span class="n">ys</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span> <span class="n">y</span><span class="o">)</span> <span class="o">::</span> <span class="o">(</span><span class="n">map2</span> <span class="n">f</span> <span class="n">xs</span> <span class="n">ys</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now instead of using <code>List.map2</code> i just can use my own module.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Lst</span><span class="p">.</span><span class="n">map2</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">[</span><span class="n">1</span><span class="o">;</span>   <span class="n">2</span><span class="o">;</span>  <span class="n">3</span><span class="o">;</span>  <span class="n">4</span><span class="o">;</span>  <span class="n">5</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">        <span class="o">[</span><span class="n">10</span><span class="o">;</span> <span class="n">10</span><span class="o">;</span> <span class="n">10</span><span class="o">;</span> <span class="n">10</span><span class="o">;</span> <span class="n">10</span><span class="o">;</span> <span class="n">10</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and now it finally would return <code>[11; 12; 13; 14; 15]</code> instead of a program that
+crashes. Again, that function is not <a href="https://en.wikipedia.org/wiki/Tail_call">Tail Recursive</a>.</p>
+<p>Why can I do this? The reason for this is that the functions operating on a list
+don&rsquo;t have to be part of the <code>list</code> definition itself. The functions are just
+found in a Module named <code>List</code> and I can use them. Or don&rsquo;t.</p>
+<p>When I write my own functions I always can create my own module. I also could
+use some of <code>List</code> functions to implement my <code>Lst.map2</code> function.</p>
+<p>Heck, if I wanted I also could create a <code>PositiveIntList</code> module that would only
+allow positive integers as valid values. Every list created by <code>PositiveIntList</code>
+would than be a valid <code>list&lt;int&gt;</code> but it doesn&rsquo;t mean that every <code>list&lt;'a&gt;</code> or
+<code>list&lt;int&gt;</code> is a valid <code>PositiveIntList</code>.</p>
+<p>By implementing <code>PositiveIntList</code> I also could use a lot of the functions found
+in <code>List</code>.</p>
+<p>All of that is possible because the definition of the data-structure and the
+functions that create or work with a list are separated from each other and
+I have full access to the data definition myself.</p>
+<h1 id="a-rant">A rant</h1>
+<p>The reason that I am not forced to add my own functions as a method, need to
+inherit from a class, implement an interface, do some default interface
+implementation, extension methods or all other crap makes it the most flexible
+and easiest solution.</p>
+<p>In fact all of the above usually was added because classes and methods are actually
+to restrictive. A problem that for example doesn&rsquo;t even exist in C. Yeah, good old
+C invented 1972 that is now over 50+ years old had basically the same abilities
+that were introduced in C# 4 (Extension Methods) or C# 8 (Default Method Interfaces)
+by just using structs and procedures operating on structs.</p>
+<p>People always fear that when data is accessible and not <em>encapsulated</em>, usually
+the reason why people stick to object-orientation, then everything breaks and it
+would contain bugs. Sure it can cause malicious code, but nothing can prevent
+bad code and bugs, not even trying to encapsulate data. Otherwise we wouldn&rsquo;t
+had bugs in object-oriented code. But doing that <em>encapsulation</em> stuff makes working,
+extending and pretty much <em>everything</em> else so much more complicated that
+it isn&rsquo;t worth it. It caused more problems as it ever solved.</p>
+<p>C# basically needed to invented dozens of features in the last 20 years just
+to get the features back you lost by that whole idea of proper encapsulation.</p>
+<p>I did write Perl code for nearly 15 years in web-applications, one thing
+that Perl OO is often critizied is that this encapsulation is missing
+and you cannot make data private.</p>
+<p>Do you wanna know how often I encountered bugs because data was not private?
+Not a single time in 15 years of Perl development.</p>
+<p>Don&rsquo;t invent problems so you then can be proud of solving them.</p>
+<h1 id="related-posts">Related Posts</h1>
+<ul>
+<li><a href="https://davidraab.github.io/posts/object-oriented-programming-in-c/">Object-Oriented Programming in C</a></li>
+<li><a href="https://davidraab.github.io/posts/anemic-domain-model-data-and-behaviour-should-be-separated/">Anemic Domain Model</a></li>
+<li><a href="https://davidraab.github.io/posts/why-map-was-not-discovered-in-object-oriented-programming/">Why map was not discovered in OOP</a></li>
+</ul>
+
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#a-rant">A rant</a></li>
+    <li><a href="#related-posts">Related Posts</a></li>
+  </ul>
+</nav> </aside>
+
+    </body>
+</html>

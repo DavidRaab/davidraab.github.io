@@ -27,7 +27,7 @@
       <link>https://davidraab.github.io/posts/monoids/</link>
       <pubDate>Tue, 24 May 2016 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/posts/monoids/</guid>
-      <description>A monoid is a simple concept. It is a generalization of some patterns that you very likely already have seen. Being aware of those can help in designing some operations and can simplify things. Without much further ado let us look at three simple math equations.&#xA;1 + 2 = 3 (1 + 2) + 3 = 1 + (2 + 3) 1 + 0 = 0 + 1 Table of Content Binary Operations Associativity Identity Monoids Subtraction Multiplication Division What is the purpose of all of this?</description>
+      <description>A monoid is a simple concept. It is a generalization of some patterns that you very likely already have seen. Being aware of those can help in designing some operations and can simplify things. Without much further ado let us look at three simple math equations.&#xA;1 + 2 = 3 (1 + 2) + 3 = 1 + (2 + 3) 1 + 0 = 0 + 1 Binary Operations When we look at the first equation we just see the following: There exists some kind of binary operation that takes two things of the same type, and somehow combines those two things into one result of the same type.</description>
     </item>
     <item>
       <title>Algebraic Data-Types</title>

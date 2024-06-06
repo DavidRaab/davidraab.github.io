@@ -9,6 +9,13 @@
     <lastBuildDate>Thu, 06 Jun 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Example: F# List is Anemic</title>
+      <link>https://davidraab.github.io/posts/example-f-list-is-anemic/</link>
+      <pubDate>Thu, 06 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/example-f-list-is-anemic/</guid>
+      <description>In my previous article Anemic Domain Model: Data and behaviour should be separated I explain why you should stick to an Anemic Domain Model and which benefits it offers.&#xA;In this article we look into F# to see how it applies there. F# has many built-in data-structures like many languages. One of the most used data-structure is the List data-structure.&#xA;When you follow a typical object-oriented solution then maybe you would end up with a List class, maybe you will consider some data as private, because the way how to manage a list should be managed by the class.</description>
+    </item>
+    <item>
       <title>Why map was not discovered in Object-Oriented Programming</title>
       <link>https://davidraab.github.io/posts/why-map-was-not-discovered-in-object-oriented-programming/</link>
       <pubDate>Wed, 05 Jun 2024 00:00:00 +0000</pubDate>
@@ -244,7 +251,7 @@
       <link>https://davidraab.github.io/posts/monoids/</link>
       <pubDate>Tue, 24 May 2016 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/posts/monoids/</guid>
-      <description>A monoid is a simple concept. It is a generalization of some patterns that you very likely already have seen. Being aware of those can help in designing some operations and can simplify things. Without much further ado let us look at three simple math equations.&#xA;1 + 2 = 3 (1 + 2) + 3 = 1 + (2 + 3) 1 + 0 = 0 + 1 Table of Content Binary Operations Associativity Identity Monoids Subtraction Multiplication Division What is the purpose of all of this?</description>
+      <description>A monoid is a simple concept. It is a generalization of some patterns that you very likely already have seen. Being aware of those can help in designing some operations and can simplify things. Without much further ado let us look at three simple math equations.&#xA;1 + 2 = 3 (1 + 2) + 3 = 1 + (2 + 3) 1 + 0 = 0 + 1 Binary Operations When we look at the first equation we just see the following: There exists some kind of binary operation that takes two things of the same type, and somehow combines those two things into one result of the same type.</description>
     </item>
     <item>
       <title>Introduction to Functional Programming</title>

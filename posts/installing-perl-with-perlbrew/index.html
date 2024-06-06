@@ -133,13 +133,15 @@ the following.</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">perlbrew install-patchperl
-</span></span><span class="line"><span class="cl">perlbrew install perl-5.36.0 -j <span class="m">4</span>
+</span></span><span class="line"><span class="cl">perlbrew install perl-5.36.0 --thread -j <span class="m">10</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>The <code>-j 4</code> tells how many CPU cores should be used. This took around 4 minutes
+</div><p>The <code>-j 10</code> tells how many CPU cores should be used. This took around 4 minutes
 on my machine to compile Perl from source. After it is installed the new Perl
-version is installed but not used automatically. But
-you can now easily switch between Perl version with the <code>perlbrew</code> command.</p>
+version is installed but not used automatically. But you can now easily switch
+between Perl version with the <code>perlbrew</code> command.</p>
+<p><code>--thread</code> actives Perl newer <a href="https://perldoc.perl.org/perlthrtut">threading</a>
+support.</p>
 <p>You can see all installed Perl version with</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
