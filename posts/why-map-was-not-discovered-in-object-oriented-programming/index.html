@@ -13,18 +13,18 @@
 
         
         <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Why map was not discovered in Object-Oriented Programming"/>
-<meta name="twitter:description" content="When I started Perl programming back around 2003 one thing that perl had, what most language didn&rsquo;t, already was the existence of the map function.
+<meta name="twitter:description" content="When I started Perl programming back around 2003 one thing that Perl had, what most language didn&rsquo;t, was the existence of the map function.
 In today world of programming from JavaScript, C#, Java and so on, the concept nowadays is so common that nearly every language has it, and usually every programmers understands and use it.
-That was not always the case. I can remember when LINQ was introduced in C# how a lot of people complaining how from know on C# would be a language that nobody else never can read or understand anymore."/>
+That was not always the case. I can remember when LINQ was introduced in C# how a lot of people was complaining how from know on C# would be a language that nobody else never can read or understand anymore."/>
 
         <meta property="og:title" content="Why map was not discovered in Object-Oriented Programming" />
-<meta property="og:description" content="When I started Perl programming back around 2003 one thing that perl had, what most language didn&rsquo;t, already was the existence of the map function.
+<meta property="og:description" content="When I started Perl programming back around 2003 one thing that Perl had, what most language didn&rsquo;t, was the existence of the map function.
 In today world of programming from JavaScript, C#, Java and so on, the concept nowadays is so common that nearly every language has it, and usually every programmers understands and use it.
-That was not always the case. I can remember when LINQ was introduced in C# how a lot of people complaining how from know on C# would be a language that nobody else never can read or understand anymore." />
+That was not always the case. I can remember when LINQ was introduced in C# how a lot of people was complaining how from know on C# would be a language that nobody else never can read or understand anymore." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://davidraab.github.io/posts/why-map-was-not-discovered-in-object-oriented-programming/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2024-06-05T00:00:00+00:00" />
-<meta property="article:modified_time" content="2024-06-05T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-06-06T00:00:00+00:00" />
 
 
 
@@ -76,7 +76,7 @@ That was not always the case. I can remember when LINQ was introduced in C# how 
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-                    6 min read
+                    8 min read
                 </div>
                 <div>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
@@ -89,22 +89,22 @@ That was not always the case. I can remember when LINQ was introduced in C# how 
             </div>
         </header>
         <div class="post-content">
-            <p>When I started Perl programming back around 2003 one thing that perl had,
-what most language didn&rsquo;t, already was the existence of the <code>map</code> function.</p>
+            <p>When I started Perl programming back around 2003 one thing that Perl had,
+what most language didn&rsquo;t, was the existence of the <code>map</code> function.</p>
 <p>In today world of programming from JavaScript, C#, Java and so on, the concept
 nowadays is so common that nearly every language has it, and usually every programmers
 understands and use it.</p>
 <p>That was not always the case. I can remember when LINQ was introduced in C# how
-a lot of people complaining how from know on C# would be a language that nobody
+a lot of people was complaining how from know on C# would be a language that nobody
 else never can read or understand anymore. The same happened in Java when
-Java 8 introduced its Stream API.</p>
-<p>Not even that, also in the past I got a lot of complaining from other Perl
-programmers when I used <code>map</code> instead of just using a <code>for</code> loop. &ldquo;A <code>for</code> loop
+Java 8 introduced it&rsquo;s Stream API.</p>
+<p>Also in the past I got a lot of complaining from other Perl programmers when
+I used <code>map</code> instead of just using a <code>for</code> loop. &ldquo;A <code>for</code> loop
 is more readable&rdquo;, did those people say.</p>
-<p>What they really said was: I don&rsquo;t know the concept of <code>map</code> and because I
+<p>What they really meant to say was: I don&rsquo;t know the concept of <code>map</code> and because I
 never learned and understand it, I think it is not readable.</p>
 <p>But anyway, in this article I want you to show something different. Let&rsquo;s assume
-Perl hadn&rsquo;t <code>map</code> built-in. Could we implement it ourself, and would we do it?</p>
+Perl hadn&rsquo;t <code>map</code> built-in. Could we implement it ourself and would we do it?</p>
 <h1 id="what-map-does">What <code>map</code> does</h1>
 <p>Let&rsquo;s say we want to go through an array <code>@nums</code> and just double every number in it.
 But we also want to put the doubled number into a new array, usually we would write
@@ -205,7 +205,7 @@ up with a very quick implementation. It could look like this.</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>with this prototype we now can write it exactly like the Perl built-in <code>map</code>
-function.</p>
+function and dismiss the <code>sub</code> keyword.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -221,25 +221,39 @@ function.</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>So would we come up with this kind of abstraction? I guess yes, at least me
-I am always happy when I know how to achieve the same solution by reducing the
-code of its <em>Moving Parts</em>. That means i just want to write stuff that matters
-so it is easier to see the difference between two pieces of code.</p>
-<p>Compared to the <code>for</code> loop i gues 90% of all characters are usually just boilerplate
-und you just copy &amp; Paste them, again and again. <code>mymap</code> on the other hand reduced
-it to only the the code that matters.</p>
-<p>But another reason why we would come up with this solution is simply because the
-result is <em>shorter</em> then the original was. And this is maybe the most important
-point of it.</p>
+I am always happy when I am able to achieve the same with less code. I
+like it because the above <code>mymap</code> reduces the code to it&rsquo;s <em>Moving Parts</em>.</p>
+<p><em>Moving Parts</em> means that you only need to write the stuff that differs. When
+you look at both previous <code>for</code>-loop solutions, you see that most code is actually
+the same. When you do a diff on it than only small characters differs. Mainly just
+what we did with <code>$x</code>. To create the <code>@doubled</code> array we wrote <code>$x * 2</code> and
+in the squared version we wrote <code>$x * $x</code>.</p>
+<p>With the <code>mymap</code> function on the other hand we can strip it down to only write
+this piece of code. Or to it&rsquo;s core, we just write the <em>Moving Parts</em>. This
+overall makes code easier to read and understand as you only need to read
+and understand the <em>important parts</em>.</p>
+<p>The whole idea of <strong>go through an array, apply some code to it, and put the result
+into a new array</strong> now has become an abstraction known as <code>map</code>. Sure, if somebody
+don&rsquo;t know what <code>map</code> does he don&rsquo;t understand it. But that doesn&rsquo;t make it
+harder to understand. The same would happen if you don&rsquo;t know what a <code>for</code> loop
+does and trying to read a <code>for</code>-loop. Or trying to read any foreign language
+you don&rsquo;t know of.</p>
+<p>So while that abstraction is useful, it doesn&rsquo;t mean we automatically would use
+this abstraction. If we would use it or not depends on something different. It
+usually depends on the fact if the abstraction leads to writing less/shorter
+code.</p>
+<p>As <code>mymap</code> turns 4 lines of code into just a single line, usually there is a
+reason to use <code>map</code>. This is an important part, maybe the most important.</p>
 <p>To understand this, let&rsquo;s see how an Object Oriented solution would look like.</p>
 <h1 id="an-object-oriented-map">An Object Oriented map</h1>
 <p>So when I make the assumption of an object-oriented solution I just think about
-the typical features a &ldquo;pure&rdquo; OO language like Java or C# was at the beginning
-of its creation.</p>
+the typical features a &ldquo;pure&rdquo; (whatever that means) OO language like
+Java or C# was at the beginning of its creation.</p>
 <p>For some reason in those <strong>everything is an object</strong> languages where everything
-is an object. Everything is an object, except a function. So you cannot pass
+is an object. Everything is an object, except functions. So you cannot pass
 functions as arguments. Funny, heh?</p>
 <p>So let&rsquo;s assume Perl hadn&rsquo;t the ability to pass a subroutine and we also couldn&rsquo;t
-create a <code>sub { ... }</code> code reference on the fly. No problem we could come up with
+create a <code>sub { ... }</code> code reference on the fly. No problem, we could come up with
 a class. For example I could come up with a <code>Doubled</code> class.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -267,9 +281,8 @@ a class. For example I could come up with a <code>Doubled</code> class.</p>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>So what I basically do is the following. I just create a class, and I always
-expect that this class implements a method <code>invoke</code>. By creating that boilerplate
-class i now can do.</p>
+</div><p>Here I am creating a class and put my code into the <code>invoke</code> method. By
+creating that class I now can do.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -278,9 +291,11 @@ class i now can do.</p>
 <pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$double</span> <span class="o">=</span> <span class="nn">Doubled</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">();</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>I know can create an object that keeps hold of my single function. And because
-it is an object, i finally can pass that as an argument to something else.</p>
-<p>Finally a <code>mymap</code> would look like this.</p>
+</div><p>The only purpose of the <code>Doubled</code> class is actually that I can create an object
+from it. Why? Because then I can pass that object as a value and with that
+also pass my <code>invoke</code> method as an argument. In this case that class is completely
+obsolete because it would actually never makes sense to create a second object from it.</p>
+<p>In a class-based solution <code>mymap</code> would change to something like this.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -302,10 +317,10 @@ it is an object, i finally can pass that as an argument to something else.</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>mymap</code> itself wouldn&rsquo;t be much of a difference. We just expect any object
-that has an <code>invoke</code> method and call that one.</p>
+that has an <code>invoke</code> method, and call that one.</p>
 <p>So would we come up with this kind of abstraction in an object-oriented
 language?</p>
-<p>No we wouldn&rsquo;t because in an object-oriented language this piece of code.</p>
+<p>Maybe not, because in an object-oriented language this piece of code.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -357,26 +372,34 @@ language?</p>
 </span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">@squared</span> <span class="o">=</span> <span class="n">mymap</span> <span class="nv">$square</span><span class="p">,</span> <span class="mi">1</span> <span class="o">..</span> <span class="mi">10</span><span class="p">;</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>and still, people did this kind of stuff. Because sometimes this kind of code
-still offers value. What you see here is basically just the <a href="https://en.wikipedia.org/wiki/Strategy_pattern">Strategy Pattern</a>
-a poor man design-pattern when your language don&rsquo;t support <a href="https://en.wikipedia.org/wiki/Anonymous_function">lambdas</a>.</p>
-<p>A pattern that at least in C# or Java should be mostly deprecated and never
+</div><p>why should we ever want to turn 4 lines of code into 10+ lines of code? The
+whole purpose of creating a class just so we can pass the code <code>$x * $x</code> as
+a value is utterly absurd.</p>
+<p>And still, people did this kind of stuff. Because sometimes this
+still offers value. Sure it can be really helpful in a lot of cases that you can
+pass code as values instead of just data. <em>functional-programmers</em> do this
+<em>a lot</em>. I can come up with maybe a dozens of use-cases where this is helpfull.
+Doing this kind of thing is named the <a href="https://en.wikipedia.org/wiki/Strategy_pattern">Strategy Pattern</a> in object-oriented
+programming. A poor man design-pattern when your language don&rsquo;t support
+<a href="https://en.wikipedia.org/wiki/Anonymous_function">lambdas</a>.</p>
+<p>A pattern that at least in C# or Java have become obsolete and should never
 be used anymore.</p>
 <p>Sure in Java or C# you also need to add an interface definition because of its
 static-typing, making the solution even more bloated.</p>
 <p>And this is why <code>map</code> would basically never exist in an <em>object-oriented</em> language.</p>
-<p>The language itself basically offers no solution in making the code shorter. It
-only offers a way of doing the same with more lines of code. Something that is
-usually not considered good by programmers.</p>
+<p>The language itself gives you no ability to abstract that 4 lines of for-each loop
+into a shorter more readable code. It usually only can make it more complex
+with more lines of code, but that is usually not considered as <em>good</em> among
+programmers.</p>
 <h1 id="a-question">A Question</h1>
 <p>Sometimes people think that passing functions and creating them on the fly isn&rsquo;t
 object oriented at all.</p>
 <p>Well, do you know that whenever you pass an object you basically can think of it
 as passing complex data and maybe a hundred of methods as a single object as a single
 argument?</p>
-<p>Is passing a single function as an object not object-oriented because it is
-just a single function? Must an object at least have two, tree or six methods
-to be object-oriented?</p>
+<p>So why is passing a single function as an object not object-oriented? Because it is
+just a single function? How many methods must an object have to be considered an
+<em>object</em>? Two? Three? Twelve?</p>
 <p>Isn&rsquo;t passing a single function exactly and the best fullfilment of the object-oriented
 <a href="https://en.wikipedia.org/wiki/Single-responsibility_principle">Single Responsibility Principle</a>?</p>
 <h1 id="related-posts">Related Posts</h1>

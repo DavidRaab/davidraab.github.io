@@ -6,14 +6,14 @@
     <description>Recent content in Map on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 05 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 06 Jun 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/tags/map/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Why map was not discovered in Object-Oriented Programming</title>
       <link>https://davidraab.github.io/posts/why-map-was-not-discovered-in-object-oriented-programming/</link>
       <pubDate>Wed, 05 Jun 2024 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/posts/why-map-was-not-discovered-in-object-oriented-programming/</guid>
-      <description>When I started Perl programming back around 2003 one thing that perl had, what most language didn&amp;rsquo;t, already was the existence of the map function.&#xA;In today world of programming from JavaScript, C#, Java and so on, the concept nowadays is so common that nearly every language has it, and usually every programmers understands and use it.&#xA;That was not always the case. I can remember when LINQ was introduced in C# how a lot of people complaining how from know on C# would be a language that nobody else never can read or understand anymore.</description>
+      <description>When I started Perl programming back around 2003 one thing that Perl had, what most language didn&amp;rsquo;t, was the existence of the map function.&#xA;In today world of programming from JavaScript, C#, Java and so on, the concept nowadays is so common that nearly every language has it, and usually every programmers understands and use it.&#xA;That was not always the case. I can remember when LINQ was introduced in C# how a lot of people was complaining how from know on C# would be a language that nobody else never can read or understand anymore.</description>
     </item>
   </channel>
 </rss>
