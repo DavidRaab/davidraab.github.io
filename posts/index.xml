@@ -6,8 +6,15 @@
     <description>Recent content in Posts on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 06 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 10 Jun 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OOP is Partial Application</title>
+      <link>https://davidraab.github.io/posts/oop-is-partial-application/</link>
+      <pubDate>Mon, 10 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/oop-is-partial-application/</guid>
+      <description>In the past I spent a lot of time in different online forums, websites and so on. As I am interested in general about language design and learnt a lot of languages I also had many discussions with different programmers of different knowledge.&#xA;As I started programming with QBasic and C I am also used to procedural programming. The same goes for Perl. As of Perl 5 (1994) it also contains object-oriented programming, but still some parts of it are procedural.</description>
+    </item>
     <item>
       <title>Example: F# List is Anemic</title>
       <link>https://davidraab.github.io/posts/example-f-list-is-anemic/</link>
