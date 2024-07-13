@@ -6,8 +6,43 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 22 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 13 Jul 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Debian</title>
+      <link>https://davidraab.github.io/tags/debian/</link>
+      <pubDate>Sat, 13 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/debian/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ipc</title>
+      <link>https://davidraab.github.io/tags/ipc/</link>
+      <pubDate>Sat, 13 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/ipc/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Linux</title>
+      <link>https://davidraab.github.io/tags/linux/</link>
+      <pubDate>Sat, 13 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Perl</title>
+      <link>https://davidraab.github.io/tags/perl/</link>
+      <pubDate>Sat, 13 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/perl/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tool</title>
+      <link>https://davidraab.github.io/tags/tool/</link>
+      <pubDate>Sat, 13 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/tool/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Design</title>
       <link>https://davidraab.github.io/tags/design/</link>
@@ -58,13 +93,6 @@
       <description></description>
     </item>
     <item>
-      <title>Perl</title>
-      <link>https://davidraab.github.io/tags/perl/</link>
-      <pubDate>Thu, 30 May 2024 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/perl/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Lisp</title>
       <link>https://davidraab.github.io/tags/lisp/</link>
       <pubDate>Tue, 28 May 2024 00:00:00 +0000</pubDate>
@@ -104,20 +132,6 @@
       <link>https://davidraab.github.io/tags/general-concepts/</link>
       <pubDate>Sat, 18 Nov 2023 02:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/tags/general-concepts/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Linux</title>
-      <link>https://davidraab.github.io/tags/linux/</link>
-      <pubDate>Sat, 18 Nov 2023 01:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/linux/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Tool</title>
-      <link>https://davidraab.github.io/tags/tool/</link>
-      <pubDate>Sat, 04 Nov 2023 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/tool/</guid>
       <description></description>
     </item>
     <item>

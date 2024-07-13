@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tool on David Raab</title>
-    <link>https://davidraab.github.io/tags/tool/</link>
-    <description>Recent content in Tool on David Raab</description>
+    <title>Debian on David Raab</title>
+    <link>https://davidraab.github.io/tags/debian/</link>
+    <description>Recent content in Debian on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 13 Jul 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://davidraab.github.io/tags/tool/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://davidraab.github.io/tags/debian/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Debian Tool: Purging config of removed packages</title>
       <link>https://davidraab.github.io/posts/debian-tool-purging-config-of-removed-packages/</link>
       <pubDate>Sat, 13 Jul 2024 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/posts/debian-tool-purging-config-of-removed-packages/</guid>
       <description>In Debian the following &amp;ldquo;problem&amp;rdquo; sometimes arrives. Let&amp;rsquo;s say you install for example Apache2, you do something with it but shortly after you don&amp;rsquo;t need it anymore. By default Debian always keeps all configuration files alive. So after installing Apache2 once, you are left with some configuration files in /etc/apache2/.&#xA;This is usually a good idea, because removing a package and re-installing shouldn&amp;rsquo;t delete all your configuration. But what do you do if you really want to delete the configuration because you really don&amp;rsquo;t need them anymore?</description>
-    </item>
-    <item>
-      <title>Linux Tool: Searching for a Linux Command</title>
-      <link>https://davidraab.github.io/posts/searching-for-a-linux-command/</link>
-      <pubDate>Sat, 04 Nov 2023 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/posts/searching-for-a-linux-command/</guid>
-      <description>Lately I wanted to search for a Linux Command.&#xA;I didn&amp;rsquo;t knew the exact command, only that there must be a &amp;ldquo;wacom&amp;rdquo; in it. A configuration tool to set some more details of my wacom tablet. So I thought.&#xA;Hey, just collect all binary files in all the directores in the PATH Environment of Linux. The Path environment is divided with colons. Just let me give it a Regex it can match against.</description>
     </item>
   </channel>
 </rss>

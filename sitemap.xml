@@ -3,7 +3,31 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://davidraab.github.io/</loc>
-    <lastmod>2024-06-22T00:00:00+00:00</lastmod>
+    <lastmod>2024-07-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/debian/</loc>
+    <lastmod>2024-07-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/posts/debian-tool-purging-config-of-removed-packages/</loc>
+    <lastmod>2024-07-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/ipc/</loc>
+    <lastmod>2024-07-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/linux/</loc>
+    <lastmod>2024-07-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/perl/</loc>
+    <lastmod>2024-07-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/posts/</loc>
+    <lastmod>2024-07-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/</loc>
+    <lastmod>2024-07-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/tool/</loc>
+    <lastmod>2024-07-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/design/</loc>
     <lastmod>2024-06-10T00:00:00+00:00</lastmod>
@@ -16,12 +40,6 @@
   </url><url>
     <loc>https://davidraab.github.io/posts/oop-is-partial-application/</loc>
     <lastmod>2024-06-10T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/posts/</loc>
-    <lastmod>2024-06-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/</loc>
-    <lastmod>2024-06-22T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/example-f-list-is-anemic/</loc>
     <lastmod>2024-06-07T00:00:00+00:00</lastmod>
@@ -46,9 +64,6 @@
   </url><url>
     <loc>https://davidraab.github.io/tags/interfaces/</loc>
     <lastmod>2024-05-30T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/perl/</loc>
-    <lastmod>2024-06-22T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/learning-lisp-in-60-seconds/</loc>
     <lastmod>2024-05-28T00:00:00+00:00</lastmod>
@@ -101,16 +116,10 @@
     <loc>https://davidraab.github.io/tags/general-concepts/</loc>
     <lastmod>2023-11-18T02:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://davidraab.github.io/tags/linux/</loc>
-    <lastmod>2024-06-22T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://davidraab.github.io/posts/lazy-sequence-in-perl-three-ways-of-doing-fibonacci/</loc>
     <lastmod>2023-11-18T17:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/searching-for-a-linux-command/</loc>
-    <lastmod>2023-11-04T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/tool/</loc>
     <lastmod>2023-11-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/c/</loc>
