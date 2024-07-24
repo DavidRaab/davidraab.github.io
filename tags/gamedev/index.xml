@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gamedev on David Raab</title>
+    <link>https://davidraab.github.io/tags/gamedev/</link>
+    <description>Recent content in Gamedev on David Raab</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 24 Jul 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/gamedev/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GameDev: Implementing a Hash like structure</title>
+      <link>https://davidraab.github.io/posts/gamedev-implementing-a-hash-like-structure/</link>
+      <pubDate>Wed, 24 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/gamedev-implementing-a-hash-like-structure/</guid>
+      <description>What Is Recently I implemented my own data-structure to optimize the storage of my components in a game. Okay its more an architecture i am exploring not a real game at the moment. I just try to render and move as many things as possible while i try to keep frames per second as high as possible.&#xA;For example rendering 10,000 boxes let them move in random directions, and change direction every second to a new random direction runs at 600 fps.</description>
+    </item>
+  </channel>
+</rss>
