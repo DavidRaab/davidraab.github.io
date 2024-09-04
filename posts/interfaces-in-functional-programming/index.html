@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>interfaces in functional programming // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.123.1">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="" />
+        <link rel="stylesheet" href="/css/main.min.0fa334c3f2650e7000dfc8e81f59d23191e59e78f62c565a598f4dc557c92abe.css" />
+        <script src="/static/code-toggle.js"></script>
+
+        
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="interfaces in functional programming"/>
+<meta name="twitter:description" content="Recently I worked with Raylib a graphics library for doing/learning game development. When I created multiple small demos there was one thing I wanted todo across multiple projects. I wanted to drag game objects on the screen. I already solved that problem once so now I just needed to create a general function that allowed me to drag any kind of object, instead of writing a specific solution again and again."/>
+
+        <meta property="og:title" content="interfaces in functional programming" />
+<meta property="og:description" content="Recently I worked with Raylib a graphics library for doing/learning game development. When I created multiple small demos there was one thing I wanted todo across multiple projects. I wanted to drag game objects on the screen. I already solved that problem once so now I just needed to create a general function that allowed me to drag any kind of object, instead of writing a specific solution again and again." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/interfaces-in-functional-programming/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-09-04T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-09-04T00:00:00+00:00" />
+
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>Writing about programming (Perl, F#) and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">interfaces in functional programming</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Sep 4, 2024
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    17 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+                            <a class="tag" href="https://davidraab.github.io/tags/interfaces/">Interfaces</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/oop/">Oop</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fp/">Fp</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fsharp/">Fsharp</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>Recently I worked with <a href="https://www.raylib.com/">Raylib</a> a graphics library
+for doing/learning game development. When I created multiple small demos there
+was one thing I wanted todo across multiple projects. I wanted to drag
+game objects on the screen. I already solved that problem once so now
+I just needed to create a general function that allowed me to drag any kind
+of object, instead of writing a specific solution again and again.</p>
+<p>As always there are multiple ways on how to solve that. So first i give
+you an overview on how draging in a game actually works.</p>
+<ol>
+<li>
+<p>Usually we only can drag a single object (or a selection of objects)
+at once, because of this the State of what is currently draged is usually hold
+in a state (global) variable. We need this State because the Drag State
+must be processed from frame to frame.</p>
+</li>
+<li>
+<p>When the Left Mouse Button is Pressed, we actually need to get the
+mouse Position and check if the position where we clicked is inside of any
+drageable object. If it is, we save it in the drag state.</p>
+</li>
+<li>
+<p>Every dragable object actually needs some kind of collider we need to check
+against. Usually simple shapes like Rectangle and Spheres are good enough, but
+it also could be any kind of polygon.</p>
+</li>
+<li>
+<p>When the mouse Button is released, we actually need to End the Drag State.
+Usually also during draging we actually want to manipulate our drageable objects.
+For example update the Position (otherwise we wouldn&rsquo;t drag anything).</p>
+</li>
+</ol>
+<p>So, how do we get a generic solution that works with any kind of object?</p>
+<h1 id="solution-with-an-interface">Solution with an interface</h1>
+<p>The typical approach that is done in object-orientation would probably be to
+think of it as a behaviour. So we come up with the idea of an <code>IDrageable</code> interface.</p>
+<p>Everything that implements this interface can be draged. But what needs to be
+implemented? From the description above the only thing we actually need is some
+kind of <em>get a collider</em> for something that is drageable. Maybe we also need a
+<em>Position</em> that we are able to change? I let you think about it.</p>
+<p>So first I could create an interface. In F# creating such an interface would
+look like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">IDrageable</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">abstract</span> <span class="k">member</span> <span class="n">GetCollider</span><span class="o">:</span> <span class="kt">unit</span> <span class="o">-&gt;</span> <span class="n">Collider</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>All this interface describes is that every object that inherits from this interface
+must implement a <code>GetCollider()</code> method that returns a <code>Collider</code>.</p>
+<p>With such an interface we could now write a function with this signature.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">processDrag</span> <span class="n">currentState</span> <span class="o">(</span><span class="n">drageables</span><span class="o">:</span><span class="n">IDrageable</span> <span class="kt">list</span><span class="o">)</span> <span class="n">mouseInfo</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The idea is simple. We pass it the <code>currentState</code> of what is currently draged,
+or not draged. Then a bunch of <code>drageables</code> objects that can be draged, at last
+a <code>mouseInfo</code> that contains the current information about the mouse like which
+button is pressed/released and the mouse Position.</p>
+<p>Now all what we have todo is go through each <code>IDrageable</code> object, usually we than
+somewhere call <code>let collider = drageable.GetCollider()</code> to get the collider of
+the drageable object. We check the <code>currentState</code> and the <code>mouseState</code> and must
+determine if something starts draging, if something is already draged and so on.</p>
+<p>Code can be a little bit exhaustive, but otherwise the logic behind it is very
+easy solveable.</p>
+<p>While I could solve it with an interface, this isn&rsquo;t how I solved it. Instead I
+solved it with a more <em>functional</em> approach. So how does the functional approach
+differ?</p>
+<h1 id="the-functional-approach">The functional approach</h1>
+<p>So in a functional approach I don&rsquo;t use interfaces, still I want everything
+to be able to be draged. I could start with the function signature above, and
+without the interface it just looks like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">processDrag</span> <span class="n">currentState</span> <span class="o">(</span><span class="n">drageables</span><span class="o">:</span><span class="k">&#39;</span><span class="n">a</span> <span class="kt">list</span><span class="o">)</span> <span class="n">mouseInfo</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now it expects a generic list of things. It can be of any type <code>'a</code> but all of
+them must be the same type. The problem with this definition is that we cannot
+solve our problem of getting a collider. We actually need some way to say
+that not every kind of object is allowed. Only those, we can have a collider for.</p>
+<p>That&rsquo;s why in the object-oriented way we create an interface and than just write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">collider</span> <span class="o">=</span> <span class="kt">obj</span><span class="o">.</span><span class="n">GetCollider</span><span class="bp">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>but wouldn&rsquo;t it be cool if we just could write</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">collider</span> <span class="o">=</span> <span class="n">getCollder</span> <span class="kt">obj</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>in the functional approach? Well, we actually can exactly do that! But we
+need to change one thing for this to work. The problem is that we don&rsquo;t know
+which <code>getCollider</code> function should be called, it completely depends on the <code>obj</code>.
+So what we expect is that whoever calls the function <code>processDrag</code> must also pass
+the correct <code>getCollider</code> function as an argument. Now the signature
+looks like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">processDrag</span> <span class="n">currentState</span> <span class="o">(</span><span class="n">drageables</span><span class="o">:</span><span class="k">&#39;</span><span class="n">a</span> <span class="kt">list</span><span class="o">)</span> <span class="o">(</span><span class="n">getCollider</span><span class="o">:</span> <span class="k">&#39;</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">Collider</span><span class="o">)</span> <span class="n">mouseInfo</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As you can see, working without interfaces isn&rsquo;t so much of a difference, it&rsquo;s
+just a little bit different. But maybe you ask why you ever should do the functional
+approach? So here are some advantages and thoughts on why you better want
+the functional approach instead of the interface solution.</p>
+<h1 id="advantages-and-disadvantages">Advantages and Disadvantages</h1>
+<h2 id="the-interface-approach">The interface approach</h2>
+<p>Let&rsquo;s start with the interface. One advantage of using the interface approach
+over the functional approach is that you need one argument less when calling the
+function. We just could provide <code>IDrageable</code>. But what would happen if our
+<code>IDrageable</code> would contain more than just one-method definition?</p>
+<p>Then in the functional approach we have to pass one extra argument for every
+method definition in the interface.</p>
+<p>The next thing is an advantage and disadvnatage at the same time. We have to
+<em>tag</em> all our objects with <em>IDrageable</em>. Here is one thing I dislike at many
+<em>static-typed</em> object-oriented language. An interface is only implemented
+if that silly <em>IDrageable</em> is added, but every object must explicitly add
+that interface. So even if you have an object that implements an <code>GetCollider</code>
+method with the correct interface, you cannot use it until you add <code>IDrageable</code>
+to it. In that sense I think the language <em>Go</em> made it right with their interfaces
+as otherwise being a horrible language. But actually this is one of the reasons
+why in my opinion <em>object-orientation</em> should be <em>dynamic-typed</em>.</p>
+<p>So adding the interface can be an advantage, now you can see which game objects
+can be draged, and which not. And somehow it makes sense if every object knows
+best how the <code>Collider</code> for draging must be created? Or maybe not?</p>
+<p>It also can be an disadvantage. Let&rsquo;s assume you get a <code>Car</code> object and you
+want to be able to drag it. But whoever implemented <code>Car</code> doesn&rsquo;t want to add
+your <code>IDrageable</code> interface. Then you just have a problem.</p>
+<p>Okay, there are workarounds like creating an Adapter and so on, but that doesn&rsquo;t
+turn it into an advantage.</p>
+<p>So the general problem of interfaces (at least in most languages) are that
+the definition of a data-type, and its implementation of an interface are not
+separated, but they should be. As far as I know that is what
+<a href="https://doc.rust-lang.org/book/ch10-02-traits.html">Rust Traits</a> does.</p>
+<h2 id="the-functional-approach-1">The functional approach</h2>
+<h3 id="too-many-arguments">Too many arguments</h3>
+<p>So let&rsquo;s start with the disadvantage. For every method in an interface we
+need to add one extra argument. When there is only one method in an interface
+we only need to add one argument. In the case for 1-5 it is maybe acceptable.
+I guess it depends on who you ask. I think already up to three becomes a little bit
+clumsy, but would be <em>okay</em>.</p>
+<p>But there is a functional solution to that problem very similar to an interface.
+We create records containing functions.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Drageable</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">GetCollider</span><span class="o">:</span> <span class="kt">unit</span> <span class="o">-&gt;</span> <span class="n">Collider</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Method1</span><span class="o">:</span> <span class="n">X</span> <span class="o">-&gt;</span> <span class="nn">Y</span>
+</span></span><span class="line"><span class="cl">    <span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we can create a data-structure containing multiple functions. In some sense
+this approach is similar to object-orientation you see in <code>C</code> or <code>JavaScript</code>.
+They create data-structures and the data-structure itself contains a pointer
+to a function.</p>
+<p>You can easily add as many functions to it as you wish, at some point there
+is no big difference to an interface definition. In F# land people usually
+discourage this kind of usage and they tell you to use interfaces instead.
+I absolutely disagree to that. But more to this later.</p>
+<p>With this kind of approach you always can keep the extra argument to exactly
+one if needed.</p>
+<h3 id="types-dont-know-about-drageable">Types don&rsquo;t know about Drageable</h3>
+<p>Let&rsquo;s get back to the <code>Car</code> example. You get a <code>Car</code> object and want it to
+be dragged. With the functional approach you can make any kind of object
+compatible with your function, you just need to provide a <code>getCollider</code>
+function.</p>
+<p>You don&rsquo;t need to add an interface to <code>Car</code>, write another new wrapper class
+around <code>Car</code>, you maybe can just provide an inline implementation of getting
+a Collider just with a lambda function.</p>
+<p>As an example, testing my Spatial Tree implementation I wanted to be able to
+Drag every point on the Screen. A Point is defined like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Point</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">mutable</span> <span class="n">Pos</span><span class="o">:</span> <span class="n">Vector2</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Radius</span><span class="o">:</span> <span class="kt">float32</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>the code to Drag every point looked like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="n">drag</span> <span class="o">&lt;-</span> <span class="n">processDrag</span> <span class="n">drag</span> <span class="n">points</span> <span class="o">(</span><span class="k">fun</span> <span class="n">p</span> <span class="o">-&gt;</span> <span class="n">Circle</span> <span class="o">(</span><span class="n">p</span><span class="o">.</span><span class="n">Pos</span><span class="o">,</span><span class="n">p</span><span class="o">.</span><span class="n">Radius</span><span class="o">))</span> <span class="n">mouse</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Here you can see that i just pass the Lambda <code>(fun p -&gt; Circle (p.Pos,p.Radius))</code>
+to create a Circle Collider for every point.</p>
+<h3 id="behaviour-not-names">Behaviour not Names</h3>
+<p>You know what sometimes is the worst in interfaces? Its requirements on establishing
+<em>Names</em> as a convention. You know, I am not interested in if a method is
+named <code>GetCollider()</code>, <code>Collider()</code>, <code>RectCollider()</code> or whatever name someone
+comes up with. Maybe a data-type even has multiple Collider to choose from?</p>
+<p>The only thing I am interested, from the perspective of implementing <code>processDrag</code>,
+is that I somehow get a <code>Collider</code>, how that collider is exactly computed or which
+method I need to call is not my business.</p>
+<p>That&rsquo;s why I am expecting it to be passed as an argument. The advantage is also
+seen in the <code>Point</code> example above. I can make <code>Point</code> Drageable without that
+<code>Point</code> knows anything about draging. In fact, it doesn&rsquo;t even know anything about
+a Collider, but I can create one if needed. In object-orientation land this is
+also called <em>loose-coupling</em>. Something OOP people always try to achieve but
+are unable todo.</p>
+<p>It also doesn&rsquo;t need to apply to some kind of naming-convention.</p>
+<h3 id="naming-collisions">Naming Collisions</h3>
+<p>In the interface example above I said that somehow it makes sense that each
+object knows best how to create a collider. Now I say the opposite, it doesn&rsquo;t.</p>
+<p>You know dragging itself is not something that each object itself is aware of,
+it is a feature of whatever you (the game) needs todo with it. In some games
+it maybe makes sense to be able to drag cars, because you are building
+a strategy top-down game that is about managing stolen cars, or something like
+that. In a racing game it probably doesn&rsquo;t make sense at all.</p>
+<p>That&rsquo;s also why something like <code>GetCollider</code> doesn&rsquo;t make sense. Or maybe a
+<code>Car</code> already has a <code>GetCollider()</code>? I mean, how would a car otherwise have
+collision detection in a racing game without having some idea of collider?</p>
+<p>The problem here is that the same name can refer to different kind of <em>behavior</em>
+or <em>ideas</em>. The <code>GetCollider()</code> that will be returned will probably be a very
+accurate one. Some kind of complex concave mesh so collision detection is very
+accurate. The problem is that this kind of collider can be bad
+for mouse draging from a top-down perspective.</p>
+<p>Or maybe should we have named our method in the interface <code>GetColliderSuitableFor2DScreenCollision()</code>?</p>
+<p>For Draging you usually want just some kind of box around an object, not a pixel
+perfect collision system. With the functional approach you don&rsquo;t run
+into this problem, as you are the one when calling <code>processDrag</code> that tells
+which Collider should be choosen. Or maybe you even create a box Collider
+out of a Car because a Car doesn&rsquo;t provide a useful one by default? It&rsquo;s up to
+you and your needs in whatever you are creating.</p>
+<p>It doesn&rsquo;t make any sense that a Car itself should know what the best collider
+should be to be drageable.</p>
+<h3 id="switchable-behavior">Switchable behavior</h3>
+<p>That also leads to the next thing. For example I could add the interface
+implementation to the Point like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Point</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">mutable</span> <span class="n">Pos</span><span class="o">:</span> <span class="n">Vector2</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Radius</span><span class="o">:</span> <span class="kt">float32</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">interface</span> <span class="n">IDrageble</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">        <span class="k">member</span> <span class="n">self</span><span class="p">.</span><span class="nf">GetCollider</span><span class="bp">()</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Circle</span> <span class="o">(</span><span class="n">self</span><span class="o">.</span><span class="n">Pos</span><span class="o">,</span><span class="n">self</span><span class="o">.</span><span class="n">Radius</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>it has some quirks adding it to a Record, maybe a class would be better in F#.
+Because F# has no implicit casting we actually need to explicitly cast it to
+<code>IDrageable</code> when a function needs <code>IDrageable</code>, but this shouldn&rsquo;t be the
+point of this article. Let&rsquo;s assume we could pass this record to an <code>IDrageable</code>
+(or use a class instead), then this solutions is still less flexible.</p>
+<p>Now again, the type itself is under control of creating the collider, but
+why should the type know what the best collider actually is?</p>
+<p>Let&rsquo;s assume I have very little points. Maybe most points just have a radius of
+just very small pixels. Wouldn&rsquo;t it be annoying to try to drag 3 pixels points
+on the screen?</p>
+<p>Again, and I guess I am saying it for the third time. A type shouldn&rsquo;t know
+how to be draged. Maybe I want to ensure when I create the collider that the
+collider have at least a minimum size?</p>
+<p>Maybe that minimum-size depends on the Camera-Zoom level of the game?
+Could be, as this seems absolutely reasonable. But I certainly don&rsquo;t want <code>Point</code>
+now about the Camera-Zoom Level. You remember the idea of loose coupling?
+With the functional approach this all can be solved.</p>
+<p>One big advantage is that during runtime I can easily switch the behaviour of different
+collision detection systems. For example I could have a <code>colliderType</code> variable
+that picks which collider generating version i should pick.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">getCollider</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">colliderType</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Small</span>  <span class="o">-&gt;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">p</span> <span class="o">-&gt;</span> <span class="n">Circle</span> <span class="o">(</span><span class="n">p</span><span class="o">.</span><span class="n">Pos</span><span class="o">,</span> <span class="n">p</span><span class="o">.</span><span class="n">Radius</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="n">Medium</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">p</span> <span class="o">-&gt;</span> <span class="n">Circle</span> <span class="o">(</span><span class="n">p</span><span class="o">.</span><span class="n">Pos</span><span class="o">,</span> <span class="n">p</span><span class="o">.</span><span class="n">Radius</span> <span class="o">+</span> <span class="n">10f</span><span class="o">)</span> <span class="c1">// increase radius by 10px
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">|</span> <span class="n">Large</span>  <span class="o">-&gt;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">p</span> <span class="o">-&gt;</span> <span class="n">Circle</span> <span class="o">(</span><span class="n">p</span><span class="o">.</span><span class="n">Pos</span><span class="o">,</span> <span class="n">p</span><span class="o">.</span><span class="n">Radius</span> <span class="o">+</span> <span class="n">50f</span><span class="o">)</span> <span class="c1">// increase radius by 50px
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">drag</span> <span class="o">&lt;-</span> <span class="n">processDrag</span> <span class="n">drag</span> <span class="n">points</span> <span class="n">getCollider</span> <span class="n">mouse</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>How would you do that with interfaces? Because then you actually need to implement
+the same interface three times with three different implementations. Usually most
+languages just allow you to provide one implementation for one interface. (You
+could achieve that with three Adapter classes implementing it)</p>
+<h3 id="multiple-implementations">Multiple implementations</h3>
+<p>The idee of multiple implementations is also the reason why I prefer records
+with functions instead of interfaces. You absolutely can achieve the same
+with an interface. You first write your interface definition.</p>
+<p>For example you create <code>IDrageable</code> with three methods on it. Let&rsquo;s say
+you want to provide three different <code>IDrageable</code> implementations. Then
+you create three classes all implementing <code>IDrageable</code> let&rsquo;s say <code>SmallDrageable</code>,
+<code>MediumDrageable</code> and <code>LargeDrageable</code>.</p>
+<p>Now, those classes itself are pretty useless and you need to create an object of
+them. So maybe in your code you do.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">small</span>  <span class="o">=</span> <span class="k">new</span> <span class="n">SmallDrageable</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">medium</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MediumDrageable</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">large</span>  <span class="o">=</span> <span class="k">new</span> <span class="n">LargeDrageable</span><span class="bp">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>those classes are a little bit different. Instead of containing other state variables
+you use them like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">collider</span> <span class="o">=</span> <span class="n">small</span><span class="o">.</span><span class="n">getCollider</span><span class="o">(</span><span class="kt">obj</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and if that now looks familiar to you. It&rsquo;s basically the same as the first
+functional approach by just accepting a <code>getCollider</code> function as an argument.
+But instead of passing a single function, you pass an object containing multiple
+functions at once. But you also could use this approach with a single function,
+<a href="https://davidraab.github.io/posts/functions-are-interfaces/">because functions are interfaces</a>.</p>
+<p>But the problem of this approach is that it basically never makes sense to ever
+have more than one object of <code>SmallDrageable</code> and so on.</p>
+<p>On the other hand with Records this feels a lot more natural. You can define
+a single record that holds your definition (like an interface) and you would
+create three different records of the same type, instead of three different
+classes again.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">small</span>  <span class="o">=</span> <span class="o">{</span> <span class="n">GetCollider</span> <span class="o">=</span> <span class="o">...</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">medium</span> <span class="o">=</span> <span class="o">{</span> <span class="n">GetCollider</span> <span class="o">=</span> <span class="o">...</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">large</span>  <span class="o">=</span> <span class="o">{</span> <span class="n">GetCollider</span> <span class="o">=</span> <span class="o">...</span> <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>because they are basically three objects on its own I also could create a new
+record out of an existing one. Let&rsquo;s say I want to re-use <code>large</code> but only change
+one method of it. Easy.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">newWhatever</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">large</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">       <span class="n">Method1</span> <span class="o">=</span> <span class="o">...</span> <span class="c1">// New implementation just for Method1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Those objects can be created once, and that&rsquo;s it. How would you create a new version
+out of Large with just one method changed?</p>
+<p>I guess maybe a new class and copy &amp; paste all functions that don&rsquo;t change?</p>
+<p>And no, don&rsquo;t tell me with inheritance. So <code>Large</code> inherits from <code>Medium</code>, <code>Medium</code> inherits
+from <code>Small</code> and <code>Small</code> inherits from a Base class. The <code>Method1</code> implementations
+of <code>Small</code> changes, now quickly tell me, does it affect <code>Large</code>?</p>
+<h3 id="only-what-you-need">Only what you need</h3>
+<p>One of the biggest problem of an interface approach is to what it leads after some
+time. It can go into two directions. Either you have hundreds of small interfaces
+that all implement one method or maybe two.</p>
+<p>Well if that is the case you directly can jump to the functional approach, because
+then you have achieved a functional approach with lots of interfaces given every
+signature just its own name.</p>
+<p>Or maybe you are annoyed with hundreds of small interfaces and implementing
+them and tagging all your objects with all kinds of interfaces. Then you go
+to the <em>typical</em> OO approach that emerges after some time. With big interfaces
+that just do too much.</p>
+<p>I mean you have one interface that defines a <em>Position</em> and a <em>Collider</em> and
+another interface defining a <em>Position</em> and a <em>Rotation</em>, in some other cases
+you need a <em>Rotation</em> and a <em>Position</em> and so on. The chance that you create
+hundreds of classes with all kinds permutation are in my opinion nearly zero.</p>
+<p>What you likely do is maybe you have a <em>ITransform</em> (usually you also only
+have a single implementation) and maybe you add a <code>Collider</code> to that definition,
+because you are annoyed to create another new interface and it is so pleasent and easy
+to just add it to <code>ITransform</code>.</p>
+<p>So in the end you maybe end up with just very few interfaces in your code, but
+all interfaces contain like 20 methods. And because they contain so much methods
+you very likely only have one implementation of each of them, what makes interfaces
+in itself more or less useless.</p>
+<p>But you know, when you pick up the functional approach you always start with
+only what you need. You have a collection of <code>'a</code>. And if you just need the
+ability to get a collider from <code>'a</code> then this is also the only function you
+expect to be passed as an argument. You don&rsquo;t expect to pass some kind of
+interface that maybe has ten different methods on it you maybe never need.</p>
+<p>And if it gets annoying that you add more and more function to be passed as arguments
+then I think it is even something good.</p>
+<p>It maybe let&rsquo;s you think about picking another solution. Creating some kind
+of intermediate data-structure and so on. It actually needs some brain power
+to solve a problem and let&rsquo;s you think deeply about how to solve it, instead
+of just being able to add just one extra method to any crappy interface because
+it is just easy and convenient.</p>
+<p>As an example, let&rsquo;s say you have something of type <code>'a</code> and now in some general
+function you need information about three properties of any object.</p>
+<ol>
+<li>Position</li>
+<li>Color</li>
+<li>Collider</li>
+</ol>
+<p>then you could expect three functions like <code>getPosition</code>, <code>getColor</code> and <code>getCollider</code>
+to be passed as arguments to a function. But you also could create an
+intermediate data-structure just for this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">InfoNeeded</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Position</span><span class="o">:</span> <span class="n">Vector2</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Color</span><span class="o">:</span>    <span class="n">Color</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Collider</span><span class="o">:</span> <span class="n">Collider</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and then expect a function of type <code>'a -&gt; InfoNeeded</code> that just returns all
+information you need at once. Then you use it like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">whatever</span> <span class="o">(</span><span class="n">xs</span><span class="o">:</span><span class="k">&#39;</span><span class="n">a</span> <span class="kt">list</span><span class="o">)</span> <span class="o">(</span><span class="n">getInfo</span><span class="o">:</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">InfoNeeded</span><span class="o">)</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="n">xs</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="nv">info</span> <span class="o">=</span> <span class="n">getInfo</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">        <span class="n">printfn</span> <span class="s">&#34;Position is %A&#34;</span> <span class="n">info</span><span class="o">.</span><span class="n">Position</span>
+</span></span><span class="line"><span class="cl">        <span class="o">...</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="further-reading">Further Reading</h1>
+<ul>
+<li><a href="https://davidraab.github.io/posts/oop-is-partial-application/">OOP is Partial Application</a></li>
+<li><a href="https://davidraab.github.io/posts/functions-are-interfaces/">Functions are interfaces</a></li>
+</ul>
+
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#solution-with-an-interface">Solution with an interface</a></li>
+    <li><a href="#the-functional-approach">The functional approach</a></li>
+    <li><a href="#advantages-and-disadvantages">Advantages and Disadvantages</a>
+      <ul>
+        <li><a href="#the-interface-approach">The interface approach</a></li>
+        <li><a href="#the-functional-approach-1">The functional approach</a>
+          <ul>
+            <li><a href="#too-many-arguments">Too many arguments</a></li>
+            <li><a href="#types-dont-know-about-drageable">Types don&rsquo;t know about Drageable</a></li>
+            <li><a href="#behaviour-not-names">Behaviour not Names</a></li>
+            <li><a href="#naming-collisions">Naming Collisions</a></li>
+            <li><a href="#switchable-behavior">Switchable behavior</a></li>
+            <li><a href="#multiple-implementations">Multiple implementations</a></li>
+            <li><a href="#only-what-you-need">Only what you need</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#further-reading">Further Reading</a></li>
+  </ul>
+</nav> </aside>
+
+    </body>
+</html>
