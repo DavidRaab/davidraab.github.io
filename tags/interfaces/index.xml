@@ -16,6 +16,13 @@
       <description>Recently I worked with Raylib a graphics library for doing/learning game development. When I created multiple small demos there was one thing I wanted todo across multiple projects. I wanted to drag game objects on the screen. I already solved that problem once so now I just needed to create a general function that allowed me to drag any kind of object, instead of writing a specific solution again and again.</description>
     </item>
     <item>
+      <title>interfaces in functional programming</title>
+      <link>https://davidraab.github.io/posts/interfaces-in-functional-programming/</link>
+      <pubDate>Wed, 04 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/interfaces-in-functional-programming/</guid>
+      <description>Recently I worked with Raylib a graphics library for doing/learning game development. When I created multiple small demos there was one thing I wanted todo across multiple projects. I wanted to drag game objects on the screen. I already solved that problem once so now I just needed to create a general function that allowed me to drag any kind of object, instead of writing a specific solution again and again.</description>
+    </item>
+    <item>
       <title>Functions are interfaces</title>
       <link>https://davidraab.github.io/posts/functions-are-interfaces/</link>
       <pubDate>Thu, 30 May 2024 00:00:00 +0000</pubDate>
