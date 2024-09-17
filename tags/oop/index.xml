@@ -6,14 +6,14 @@
     <description>Recent content in Oop on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 04 Sep 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 17 Sep 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/tags/oop/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>interfaces in functional programming</title>
-      <link>https://davidraab.github.io/posts/interfaces-in-functional-programming/</link>
-      <pubDate>Wed, 04 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/posts/interfaces-in-functional-programming/</guid>
-      <description>Recently I worked with Raylib a graphics library for doing/learning game development. When I created multiple small demos there was one thing I wanted todo across multiple projects. I wanted to drag game objects on the screen. I already solved that problem once so now I just needed to create a general function that allowed me to drag any kind of object, instead of writing a specific solution again and again.</description>
+      <title>Data vs. Interfaces</title>
+      <link>https://davidraab.github.io/posts/data-vs-interfaces/</link>
+      <pubDate>Tue, 17 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/data-vs-interfaces/</guid>
+      <description>Intro When we face a problem, then we must admit one thing, there are always different kind of approaches how we can solve something. And on top of that, different kind of approaches have different kind of advantages and disadvantages.&#xA;Whatever you do, you will never find a perfect solution in the sense that this solution is best in everything.&#xA;Usually every advantage has its opposite disadvantage. For example for solving a problem there are usually different algorithm out there.</description>
     </item>
     <item>
       <title>interfaces in functional programming</title>

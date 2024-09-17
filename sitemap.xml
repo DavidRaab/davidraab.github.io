@@ -2,31 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://davidraab.github.io/tags/data/</loc>
+    <lastmod>2024-09-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/posts/data-vs-interfaces/</loc>
+    <lastmod>2024-09-17T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://davidraab.github.io/</loc>
-    <lastmod>2024-09-04T00:00:00+00:00</lastmod>
+    <lastmod>2024-09-17T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/fp/</loc>
-    <lastmod>2024-09-04T00:00:00+00:00</lastmod>
+    <lastmod>2024-09-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/interfaces/</loc>
+    <lastmod>2024-09-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/oop/</loc>
+    <lastmod>2024-09-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/posts/</loc>
+    <lastmod>2024-09-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://davidraab.github.io/tags/</loc>
+    <lastmod>2024-09-17T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/fsharp/</loc>
     <lastmod>2024-09-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://davidraab.github.io/tags/interfaces/</loc>
-    <lastmod>2024-09-04T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://davidraab.github.io/posts/interfaces-in-functional-programming/</loc>
-    <lastmod>2024-09-04T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/posts/interfaces-in-functional-programming/</loc>
-    <lastmod>2024-09-04T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/oop/</loc>
-    <lastmod>2024-09-04T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/posts/</loc>
-    <lastmod>2024-09-04T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/</loc>
     <lastmod>2024-09-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/tags/dictionary/</loc>
@@ -103,9 +106,6 @@
   </url><url>
     <loc>https://davidraab.github.io/posts/why-i-like-perls-oo/</loc>
     <lastmod>2024-04-15T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/data/</loc>
-    <lastmod>2024-03-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/insanity-of-oo/</loc>
     <lastmod>2024-03-16T00:00:00+00:00</lastmod>

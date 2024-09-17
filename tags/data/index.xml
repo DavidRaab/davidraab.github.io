@@ -6,8 +6,15 @@
     <description>Recent content in Data on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 16 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 17 Sep 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/tags/data/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Data vs. Interfaces</title>
+      <link>https://davidraab.github.io/posts/data-vs-interfaces/</link>
+      <pubDate>Tue, 17 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/data-vs-interfaces/</guid>
+      <description>Intro When we face a problem, then we must admit one thing, there are always different kind of approaches how we can solve something. And on top of that, different kind of approaches have different kind of advantages and disadvantages.&#xA;Whatever you do, you will never find a perfect solution in the sense that this solution is best in everything.&#xA;Usually every advantage has its opposite disadvantage. For example for solving a problem there are usually different algorithm out there.</description>
+    </item>
     <item>
       <title>Insanity of Object-Oriented Programming</title>
       <link>https://davidraab.github.io/posts/insanity-of-oo/</link>

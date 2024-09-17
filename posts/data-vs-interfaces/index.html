@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>Data vs. Interfaces // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.123.1">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="" />
+        <link rel="stylesheet" href="/css/main.min.0fa334c3f2650e7000dfc8e81f59d23191e59e78f62c565a598f4dc557c92abe.css" />
+        <script src="/static/code-toggle.js"></script>
+
+        
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Data vs. Interfaces"/>
+<meta name="twitter:description" content="Intro When we face a problem, then we must admit one thing, there are always different kind of approaches how we can solve something. And on top of that, different kind of approaches have different kind of advantages and disadvantages.
+Whatever you do, you will never find a perfect solution in the sense that this solution is best in everything.
+Usually every advantage has its opposite disadvantage. For example for solving a problem there are usually different algorithm out there."/>
+
+        <meta property="og:title" content="Data vs. Interfaces" />
+<meta property="og:description" content="Intro When we face a problem, then we must admit one thing, there are always different kind of approaches how we can solve something. And on top of that, different kind of approaches have different kind of advantages and disadvantages.
+Whatever you do, you will never find a perfect solution in the sense that this solution is best in everything.
+Usually every advantage has its opposite disadvantage. For example for solving a problem there are usually different algorithm out there." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/data-vs-interfaces/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-09-17T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-09-17T00:00:00+00:00" />
+
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>Writing about programming (Perl, F#) and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Data vs. Interfaces</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Sep 17, 2024
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    12 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+                            <a class="tag" href="https://davidraab.github.io/tags/data/">Data</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/interfaces/">Interfaces</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/oop/">Oop</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/fp/">Fp</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <h1 id="intro">Intro</h1>
+<p>When we face a problem, then we must admit one thing, there are always different
+kind of approaches how we can solve something. And on top of that, different kind of
+approaches have different kind of advantages and disadvantages.</p>
+<p>Whatever you do, you will never find a <em>perfect</em> solution in the sense that this
+solution is best in everything.</p>
+<p>Usually every advantage has its opposite disadvantage. For example for solving
+a problem there are usually different algorithm out there. Let&rsquo;s say we
+wanna sort an array, we could pick Quick-Sort as usually this is the fastest
+sorting algorithm.</p>
+<p>But it comes at a price. Quick-Sort can be very hard to implement and if wronlgy
+implemented, even can be one of the slowest algorithm. It also has another problem
+that sorting something by Quick-Sort is not Stable.</p>
+<p>Merge-Sort don&rsquo;t have this problem. It&rsquo;s easier to implement, always has a good
+performance and is stable. But in practice will be a little bit slower than
+Quick-Sort.</p>
+<p>This <em>problem</em> is not a computer only problem. You will find this kind of advantages
+and disadvantages basically everywhere. As there is no <em>perfect</em> solution it leads
+to the question on why you pick a certain solution and did you every consider
+its <em>advantages</em> and <em>disadvantages</em> or do you just pick something because
+<strong>the majority</strong> or a <strong>&lt;insert famous person here&gt;</strong> does so?</p>
+<h1 id="what-is-the-problem">What is the problem?</h1>
+<p><em>interfaces</em> are usually a solution to a problem that is picked primarily in
+object-orientet programming. But what actually is the problem?</p>
+<p>I would wish that I could give you a good answer, but I can&rsquo;t at the moment,
+so let&rsquo;s explore two different solutions to the same problem, maybe we get an
+answer.</p>
+<h1 id="the-problem">The problem</h1>
+<p>Let&rsquo;s consider the following problem that a lot of programs have. Your program
+offers some kind of configuration file. Your program should be able to
+read and to store/update the configuration file. Or maybe just read it?</p>
+<p>In an object-orientation solution you maybe come up with the idea of a <code>Config</code>
+class. That <code>Config</code> class basically just offers you two methods. A <code>get</code>
+method for reading a key. And a <code>set</code> method for setting a key.</p>
+<p>Now we could just implement the <code>Config</code> directly, without any interface. Somewhere
+in our program, usually at program-startup, we create a <code>Config</code> object, and
+then we pass that <code>Config</code> object to everything that needs to read/write
+the config.</p>
+<p>Object-oriented programmers say that this is <em>dependency-injection</em>. A functional
+programmer says that this is a <em>State Monad</em> or <em>Reader Monad</em> (if you just can
+read from the config).</p>
+<p>But solving the problem in this way can have some disadvantages. Consider that
+we have some poorly implemented <code>Config</code> and whenever you call <code>get</code> or <code>set</code> it
+will always read and write the config-file directly. So a lot of IO operations
+happens instead of just reading the file once.</p>
+<p>Or maybe is that an advantage? I mean whenever the config-file is changed even while
+the program is running, the running program will always get the latest current
+value?</p>
+<p>But usually we made the assumption that a config-file does not change so often
+that it matters, and even when it does, then we expect that the program just
+must be notified for re-reading or even just be restarted. Here you can see
+how we accept some disadvnatages and favor the advantages for better performance.</p>
+<p>But still doing this has another disadvantage. How about we want to support
+multiple config-files? This is usually the reason why it begins that people
+tell you why you should do an interface out of it. By extracting the interface</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">IConfig</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">abstract</span> <span class="k">member</span> <span class="n">Get</span> <span class="o">:</span> <span class="kt">string</span>          <span class="o">-&gt;</span> <span class="kt">string</span> <span class="c1">// let name = obj.Get(&#34;name&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">abstract</span> <span class="k">member</span> <span class="n">Set</span> <span class="o">:</span> <span class="o">(</span><span class="kt">string</span><span class="o">,</span><span class="kt">string</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="kt">unit</span>   <span class="c1">// obj.Set (&#34;name&#34;,&#34;hello&#34;)
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>now with such an interface you are able to create an <code>ConfigJSON</code>, <code>ConfigXML</code>,
+<code>ConfigINI</code> and so on.</p>
+<p>While this sometimes is a valid reason, I don&rsquo;t think it is always a valid
+reason. For example I absolutely see zero reasons why a program should support
+multiple config-files. Except it maybe invented its own config file and you
+need compatibility with the old one. As you can see there are reasons for that.</p>
+<p>One thing that object-oriented programming leads to is, that programmers in
+general, because of that, always starts to create interfaces, even when they
+are never needed. But they still do because <strong>maybe</strong> it will be needed.</p>
+<p>But there is still one other reason why you always want to create an interface.</p>
+<h2 id="side-effects">Side-effects</h2>
+<p>The biggest problem we face here is that <code>Config</code> and all of the other <code>Config*</code>
+classes share is that all of them do side-effects. That means they need to read
+or update/save a file on disk.</p>
+<p>And all kind of side-effects have one big problem. They make testing your code
+harder. Consider you want to test your <code>Config</code> classes or in general your
+application with different kind of configs. Then for every config you have
+you must create a config-file on disk.</p>
+<p>What happens if your code changes a config-file? I mean it was a supported feature
+right? Then you must create a test-system that maybe when it starts copies a bunch
+of config files from one folder to another, do your testing, then maybe delete it
+again.</p>
+<p>It&rsquo;s annoying in multiple ways and makes some stuff harder. But hey, we have an
+interface so why not create just an <code>ConfigInMemory</code> class?</p>
+<p>That <code>ConfigInMemory</code> has the same interface, but it just holds all config data
+in memory. It never reads and saves to a file. It&rsquo;s basically free of side-effects.</p>
+<p>Such a class is also good for testing, because just in code we can create a dozens
+of <code>ConfigInMemory</code> objects and just pass them around. We don&rsquo;t need to create
+a dozens of files anymore or do some kind of test-setup anymore.</p>
+<p>So <em>interfaces</em> are somehow awesome right? But, can we improve?</p>
+<h1 id="data-approach">Data approach</h1>
+<p>Yes, we can. So here is how I see the problem. First, when I see an interface
+that just provides me a <code>Get</code> and <code>Set</code> method all I see is just a <code>Hash</code>,
+<code>Dictionary</code> or however they are named in your favorite language.</p>
+<p>A <code>ConfigInMemory</code> is basically just that. A data-structure holding data
+just in memory. So here is another approach: Why instead of expecting an <code>IConfig</code>
+interface with a <code>Get</code> and <code>Set</code> method, why do you not just expect a <code>Dictionary</code>
+instead?</p>
+<p>So instead of</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">config</span> <span class="o">=</span> <span class="n">ConfigInMemory</span><span class="bp">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">)</span> <span class="c1">// multiple of those lines
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">obj</span><span class="o">.</span><span class="k">method</span><span class="o">(</span><span class="n">config</span><span class="o">,</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>you just do</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">config</span> <span class="o">=</span> <span class="n">dict</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span><span class="o">,</span> <span class="n">y</span> <span class="c1">// multiple of those lines
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="kt">obj</span><span class="o">.</span><span class="k">method</span><span class="o">(</span><span class="n">config</span><span class="o">,</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>I am used to Perl programming, and in such a dynamic typed language I would
+usually expect to pass a hash.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$config</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span>   <span class="o">=&gt;</span> <span class="s">&#34;whatever&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">width</span>  <span class="o">=&gt;</span> <span class="mi">1200</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">height</span> <span class="o">=&gt;</span> <span class="mi">600</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$obj</span><span class="o">-&gt;</span><span class="n">method</span><span class="p">(</span><span class="nv">$config</span><span class="p">,</span> <span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So, when you expect just a data-containe, how can we now read and write to
+from a file?</p>
+<p>Easy, how about just creating functions (static methods) that are able to read
+and write from or to a file?</p>
+<p>Could look like this</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">config</span> <span class="o">=</span> <span class="nn">Config</span><span class="p">.</span><span class="n">fromFileJSON</span><span class="o">(</span><span class="s">&#34;config/app.json&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">config</span> <span class="o">=</span> <span class="nn">Config</span><span class="p">.</span><span class="n">fromFileXML</span> <span class="o">(</span><span class="s">&#34;config/app.xml&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">config</span> <span class="o">=</span> <span class="nn">Config</span><span class="p">.</span><span class="n">fromFileINI</span> <span class="o">(</span><span class="s">&#34;config/app.ini&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nn">Config</span><span class="p">.</span><span class="n">saveFileJSON</span><span class="o">(</span><span class="n">config</span><span class="o">,</span> <span class="s">&#34;config/app.json&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nn">Config</span><span class="p">.</span><span class="n">saveFileXML</span> <span class="o">(</span><span class="n">config</span><span class="o">,</span> <span class="s">&#34;config/app.xml&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nn">Config</span><span class="p">.</span><span class="n">saveFileINI</span> <span class="o">(</span><span class="n">config</span><span class="o">,</span> <span class="s">&#34;config/app.init&#34;</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So instead of expecting an interface with different kind of operation you
+just expect the data-itself. By just accepting the data you can create different
+functions that are able ro create your data. But once they are data, it doesn&rsquo;t
+matter anymore if those data was read from a JSON, XML or INI file.</p>
+<p>Because our <code>config</code> is just a dictionary, you anyway just can create them in-memory
+and don&rsquo;t need to worry about side-effects.</p>
+<p>This approach works great in a <em>dynamic-typed</em> language, because usually
+every value of a key can be a different type. You can pick strings, numbers,
+or even again more complex types like, arrays, hashes again.</p>
+<p>In a <em>static-typed</em> language you maybe want todo a little change. Instead of
+a <em>dictionary</em> you maybe want to expect a <em>type</em> instead. For example when
+I expect to configure the title, width and size through a config file than
+I create a type like.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Config</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Title</span><span class="o">:</span>  <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Width</span><span class="o">:</span>  <span class="n">int</span>
+</span></span><span class="line"><span class="cl">    <span class="n">height</span><span class="o">:</span> <span class="n">int</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>here is one interesting aspect. Because I am expecting data, I never need
+interfaces. It doesn&rsquo;t even make sense to have <em>interfaces</em> for data.</p>
+<p>Yes, you maybe want to read from different kind of config files, but I don&rsquo;t
+need interfaces for this.</p>
+<p>When you stick to a <em>Data</em> approach than all what you do is you basically start
+to see your <em>side-effect-free-code</em> as your default approach.</p>
+<p>I have seen a lot of bad programmers that somehow come up with stupid crap that
+static methods can not be replaced. Seriously, somewhere in your code you
+need some kind of dispatch that decides which function must be called.</p>
+<p>And it doesn&rsquo;t matter if your code either calls a concrete static method (function)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">config</span> <span class="o">=</span> <span class="nn">Config</span><span class="p">.</span><span class="n">readFromJSON</span><span class="o">(</span><span class="s">&#34;app.json&#34;</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>or it does call a concrete class constructor</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">config</span> <span class="o">=</span> <span class="n">ConfigJSON</span><span class="o">(</span><span class="s">&#34;app.json&#34;</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>calling a class constructor is no kind of difference between calling <strong>any</strong>
+other static method. You can even consider <code>ConfigJSON</code> just as a global
+static method.</p>
+<p>And somewhere you have todo that dispatch. Otherwise you cannot read your config.</p>
+<p>You could for example create a <code>Config</code> class that automatically checks which
+config file format is available. And when multiple are available which one
+should be picked that than depending on this information either initializes you
+a <code>ConfigINI</code> or <code>ConfigJSON</code> but just returns you an <code>IConfig</code>.</p>
+<p>The same as you can create a <code>Config.read</code> function that does exactly the same
+kind of logic and just returns you the above defined <code>Config</code> type.</p>
+<p>You also can have a more complex config. Let&rsquo;s say I have a program that draws
+lines and want the lines it draws to be configured. I could do.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Line</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Start</span><span class="o">:</span> <span class="n">Vector2</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Stop</span><span class="o">:</span>  <span class="n">Vector2</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="nc">Config</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Title</span><span class="o">:</span>  <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Width</span><span class="o">:</span>  <span class="n">int</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Height</span><span class="o">:</span> <span class="n">int</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Lines</span><span class="o">:</span>  <span class="n">Line</span> <span class="n">array</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>I could create this data-structure in Memory like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">config</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Title</span>  <span class="o">=</span> <span class="s">&#34;Line Drawing&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Width</span>  <span class="o">=</span> <span class="n">1200</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Height</span> <span class="o">=</span> <span class="n">600</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Lines</span>  <span class="o">=</span> <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Start</span> <span class="o">=</span> <span class="n">vec2</span> <span class="o">-</span><span class="n">1f</span> <span class="n">0f</span><span class="o">;</span> <span class="n">Stop</span> <span class="o">=</span> <span class="n">vec2</span>  <span class="n">0f</span> <span class="n">1f</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Start</span> <span class="o">=</span> <span class="n">vec2</span>  <span class="n">0f</span> <span class="n">1f</span><span class="o">;</span> <span class="n">Stop</span> <span class="o">=</span> <span class="n">vec2</span>  <span class="n">1f</span> <span class="n">0f</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span> <span class="n">Start</span> <span class="o">=</span> <span class="n">vec2</span>  <span class="n">1f</span> <span class="n">0f</span><span class="o">;</span> <span class="n">Stop</span> <span class="o">=</span> <span class="n">vec2</span> <span class="o">-</span><span class="n">1f</span> <span class="n">0f</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>how you exactly map that to JSON, XML or INI is another topic, but you
+could for example pick the following JSON representation.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">title</span><span class="o">:</span>  <span class="s2">&#34;Line Drawing&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">width</span><span class="o">:</span>  <span class="mi">1200</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">height</span><span class="o">:</span>  <span class="mi">600</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">lines</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span> <span class="p">,</span>  <span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">         <span class="mi">0</span><span class="p">,</span><span class="mi">1</span> <span class="p">,</span>  <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">         <span class="mi">1</span><span class="p">,</span><span class="mi">0</span> <span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>or choose a dozens of other ways how to represent a line. Put for values
+in an array, also expect an js object and so on. How you map that exactly isn&rsquo;t
+the point of this article, the important aspect is the following.</p>
+<p>Whenever you interact with the <em>outside-world</em> relative to your application.
+That means usually doing side-effect by reading data from input devices,
+files, sockets, data-bases and so on. You always have one single-representation
+of whatever you need as data-format.</p>
+<p>Once you have that data-format you can create as much reader or writer to
+and from that data-format. But your application only uses that data-format,
+and your data is passed around.</p>
+<p>This way you eleminate the need for interfaces and avoid side-effects. You get
+to a state where your main application logic is just a series of functions
+transforming just data.</p>
+<p>At the edges (outer shell) of your program your program actually follows the
+following principle.</p>
+<ol>
+<li>Read stuff from external stuff, and create your data (IO)</li>
+<li>Do stuff on Data (pure) usually creating new data.</li>
+<li>Do something with new data, for example, print, write (IO)</li>
+</ol>
+<p>This kind of working is a common <em>pattern</em> in functional programming that has
+given the name <a href="https://github.com/kbilsted/Functional-core-imperative-shell/blob/master/README.md">functional core, imperative shell</a>, but at some
+degree this is also just called <em>procedural programming</em>.</p>
+<h1 id="verdict">Verdict</h1>
+<p>So what kind of problem did we try to solve with <em>interfaces</em>?</p>
+<p>We had the problem that our code actually needed different implementation, like
+reading from JSON, XML or JSON. And the other problem is that side-effects
+in a system causes problem.</p>
+<p>So when you stick to just data. Then.</p>
+<ol>
+<li>Data never has side-effects.</li>
+<li>When you separate data from behaviour then it is up to you to create as
+much functions that operate on that data as you wish.</li>
+</ol>
+<p>The same approach I have used here in F# also work in C# or any other
+object-oriented language. What you just need todo is just create a <code>Config</code>
+class that besides having public fields or simple getter/setter does absolutely
+zero additional things. Usually from bad programmers called an <em>Anemic Domain Model</em>
+considered as purely evil.</p>
+<p>In the approach above you just would create a simple <code>Line</code> class holding your
+start and stop point. The problem why purely object-oriented programmers don&rsquo;t
+come up to this kind of solutions is because they believe in complex things like
+an object that holds data and code instead of making it simple by separating
+those two things from each other.</p>
+<p>So separating your behaviour into an <em>interface</em> just to provide different
+implementations is just a poor way of solving the problem of having different
+similar, but still different, solutions.</p>
+<p>Back to sorting. When I want to sort an Array I create <code>quick_sort</code>, <code>merge_sort</code>
+and <code>insert_sort</code> functions that expects an <code>array</code> as its data. I don&rsquo;t come up
+with the idea to create an <code>ISortableArray</code> that has a <code>Sort</code> method and three
+different classes <code>QuickSortArray</code>, <code>MergeSortArray</code> and <code>InsertionSortArray</code>
+just to implement three different sorting algorithm.</p>
+<p>When you write code and for example you want to <code>sort</code> something but want to give
+the user the freedom to choose which <code>sort</code> method should be choosen. Then
+you expect that this function is passed as an argument. See my previous
+article about <a href="https://davidraab.github.io/posts/interfaces-in-functional-programming/">interfaces in functional programming</a>
+about this topic.</p>
+<h2 id="a-claim">A Claim</h2>
+<p>Here is a small claim from me. Because <em>interfaces</em> and <em>dependency injection</em>
+is just a worse way on solving <em>the problem</em> (what was it again?) and we
+always can do better by just having pure data. I would say:</p>
+<p><em>Dependency-injection is the worst design-pattern ever.</em></p>
+<h1 id="relative-topics">Relative Topics</h1>
+<ul>
+<li><a href="https://davidraab.github.io/posts/interfaces-in-functional-programming/">interfaces in functional programming</a></li>
+<li><a href="https://davidraab.github.io/posts/anemic-domain-model-data-and-behaviour-should-be-separated/">Anemic Domain Model</a></li>
+<li><a href="https://github.com/kbilsted/Functional-core-imperative-shell/blob/master/README.md">functional core, imperative shell</a></li>
+<li><a href="https://www.youtube.com/watch?v=SxdOUGdseq4">Rich Hickey - Simple Made Easy</a></li>
+<li><a href="https://www.youtube.com/watch?v=-I-VpPMzG7c">Rich Hickey - The Value of Values</a></li>
+</ul>
+
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#intro">Intro</a></li>
+    <li><a href="#what-is-the-problem">What is the problem?</a></li>
+    <li><a href="#the-problem">The problem</a>
+      <ul>
+        <li><a href="#side-effects">Side-effects</a></li>
+      </ul>
+    </li>
+    <li><a href="#data-approach">Data approach</a></li>
+    <li><a href="#verdict">Verdict</a>
+      <ul>
+        <li><a href="#a-claim">A Claim</a></li>
+      </ul>
+    </li>
+    <li><a href="#relative-topics">Relative Topics</a></li>
+  </ul>
+</nav> </aside>
+
+    </body>
+</html>

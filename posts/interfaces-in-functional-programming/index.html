@@ -72,7 +72,7 @@
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-                    17 min read
+                    18 min read
                 </div>
                 <div>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
@@ -333,6 +333,9 @@ seen in the <code>Point</code> example above. I can make <code>Point</code> Drag
 a Collider, but I can create one if needed. In object-orientation land this is
 also called <em>loose-coupling</em>. Something OOP people are crazy about, because
 they don&rsquo;t know how to achieve it.</p>
+<p>So one advantage is that the functional approach doesn&rsquo;t need to apply to some
+kind of naming-convention. You can make things work independently on how
+methods are named.</p>
 <div class="info">
 Assume you have a class that implements IXML, IJSon, IStorable, IDrawable,
 IMoveable, ICollision and maybe 10 more interfaces. Then your class must
@@ -344,9 +347,6 @@ coupled. You achive looseliy copling with an
 <a href="https://davidraab.github.io/posts/anemic-domain-model-data-and-behaviour-should-be-separated/">
 Anemic Domain Model</a>
 </div>
-<p>So one advantage is that the functional approach doesn&rsquo;t need to apply to some
-kind of naming-convention. You can make things work independently on how
-methods are named.</p>
 <h3 id="naming-collisions">Naming Collisions</h3>
 <p>In the interface example above I said that somehow it makes sense that each
 object knows best how to create a collider. Now I say the opposite, it doesn&rsquo;t.</p>
@@ -531,11 +531,19 @@ that just do too much.</p>
 <p>I mean you have one interface that defines a <em>Position</em> and a <em>Collider</em> and
 another interface defining a <em>Position</em> and a <em>Rotation</em>, in some other cases
 you need a <em>Rotation</em> and a <em>Position</em> and so on. The chance that you create
-hundreds of classes with all kinds permutation are in my opinion nearly zero.</p>
+hundreds of interfaces with all kinds permutation are in my opinion nearly zero.</p>
+<p>It is annoying to create interfaces and has a little bit of a burden, so you likely
+stick to just add one method to an interface that fells okay. But in the functional
+approach its actually more easy to just add one or two single functions as arguments,
+so you very likely do this.</p>
 <p>What you likely do is maybe you have a <em>ITransform</em> (usually you also only
 have a single implementation) and maybe you add a <code>Collider</code> to that definition,
 because you are annoyed to create another new interface and it is so pleasent and easy
-to just add it to <code>ITransform</code>.</p>
+to just add it to <code>ITransform</code>. And whenever you need acces to the Collider you anyway
+need acces to the Position. But this neglects the idea that not everything that
+has a Transform actually needs a Collider. Maybe you don&rsquo;t do that, who knows,
+the point is more that the typical interfaces approach leads to such a design
+because it is easier this way.</p>
 <p>So in the end you maybe end up with just very few interfaces in your code, but
 all interfaces contain like 20 methods. And because they contain so much methods
 you very likely only have one implementation of each of them, what makes interfaces
@@ -596,10 +604,28 @@ information you need at once. Then you use it like this.</p>
 </span></span><span class="line"><span class="cl">        <span class="o">...</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h1 id="further-reading">Further Reading</h1>
+</div><p>Here is another idea you can think about. Can we get away with the <code>xs</code> argument?</p>
+<p>How about changing it to just?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl"><span class="k">let</span> <span class="nv">whatever</span> <span class="o">(</span><span class="n">infos</span><span class="o">:</span><span class="n">InfoNeeded</span> <span class="kt">list</span><span class="o">)</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">info</span> <span class="k">in</span> <span class="n">infos</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">        <span class="n">printfn</span> <span class="s">&#34;Position is %A&#34;</span> <span class="n">info</span><span class="o">.</span><span class="n">Position</span>
+</span></span><span class="line"><span class="cl">        <span class="o">...</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>When does this approach work, and when does it not work?</p>
+<h1 id="further-reading">Further Reading</h1>
 <ul>
 <li><a href="https://davidraab.github.io/posts/oop-is-partial-application/">OOP is Partial Application</a></li>
 <li><a href="https://davidraab.github.io/posts/functions-are-interfaces/">Functions are interfaces</a></li>
+<li><a href="https://davidraab.github.io/posts/interfaces-in-functional-programming/">Anemic Domain Model</a></li>
 </ul>
 
         </div>
