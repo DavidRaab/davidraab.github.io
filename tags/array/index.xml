@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Array on David Raab</title>
+    <link>https://davidraab.github.io/tags/array/</link>
+    <description>Recent content in Array on David Raab</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 07 Oct 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/array/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Algorithms: Filtering an Array</title>
+      <link>https://davidraab.github.io/posts/algorithms-filtering-an-array/</link>
+      <pubDate>Mon, 07 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/algorithms-filtering-an-array/</guid>
+      <description>Let&amp;rsquo;s say we wanna filter an Array. In general that means we want to run some constraint on every element. The goal is to keep only the elements that fulfills the constraint.&#xA;This is a very easy task, and yet there are multiple ways on how todo that. Each solution offers different advantages and disadvantages.&#xA;But first let&amp;rsquo;s pick a concrete example. We just have an array of integers and we wanna keep only those that are even.</description>
+    </item>
+  </channel>
+</rss>

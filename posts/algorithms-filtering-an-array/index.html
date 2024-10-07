@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>Algorithms: Filtering an Array // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.123.1">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="" />
+        <link rel="stylesheet" href="/css/main.min.0fa334c3f2650e7000dfc8e81f59d23191e59e78f62c565a598f4dc557c92abe.css" />
+        <script src="/static/code-toggle.js"></script>
+
+        
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Algorithms: Filtering an Array"/>
+<meta name="twitter:description" content="Let&rsquo;s say we wanna filter an Array. In general that means we want to run some constraint on every element. The goal is to keep only the elements that fulfills the constraint.
+This is a very easy task, and yet there are multiple ways on how todo that. Each solution offers different advantages and disadvantages.
+But first let&rsquo;s pick a concrete example. We just have an array of integers and we wanna keep only those that are even."/>
+
+        <meta property="og:title" content="Algorithms: Filtering an Array" />
+<meta property="og:description" content="Let&rsquo;s say we wanna filter an Array. In general that means we want to run some constraint on every element. The goal is to keep only the elements that fulfills the constraint.
+This is a very easy task, and yet there are multiple ways on how todo that. Each solution offers different advantages and disadvantages.
+But first let&rsquo;s pick a concrete example. We just have an array of integers and we wanna keep only those that are even." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/algorithms-filtering-an-array/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-10-07T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-10-07T00:00:00+00:00" />
+
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>Writing about programming (Perl, F#) and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Algorithms: Filtering an Array</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Oct 7, 2024
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    7 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+                            <a class="tag" href="https://davidraab.github.io/tags/algorithms/">Algorithms</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/data-structures/">Data-Structures</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/array/">Array</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>Let&rsquo;s say we wanna filter an Array. In general that means we want to run
+some constraint on every element. The goal is to keep only the elements
+that fulfills the constraint.</p>
+<p>This is a very easy task, and yet there are multiple ways on how todo that.
+Each solution offers different advantages and disadvantages.</p>
+<p>But first let&rsquo;s pick a concrete example. We just have an array of integers and
+we wanna keep only those that are even.</p>
+<p>Here is one solution I would choose in Perl.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">@evens</span> <span class="o">=</span> <span class="nb">grep</span> <span class="p">{</span> <span class="nv">$_</span> <span class="nv">%</span> <span class="nv">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">}</span> <span class="nv">@numbers</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But, let&rsquo;s pick a more C-style of programming. The line above roughly translates
+to.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">@evens</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="k">my</span> <span class="nv">$num</span> <span class="p">(</span> <span class="nv">@numbers</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="nv">$num</span> <span class="nv">%</span> <span class="nv">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">push</span> <span class="nv">@evens</span><span class="p">,</span> <span class="nv">$num</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So, the code works the following:</p>
+<ol>
+<li>Create a new empty array</li>
+<li>Go through every element and check if it is an even number.</li>
+<li>When it is an even number, push it into the <code>@evens</code> array.</li>
+</ol>
+<p>The disadvantage of this approach is that this code takes up more memory (compared
+to other solutions). We create a new array and don&rsquo;t modify the existing one.</p>
+<p>On the other hand it has several advantages in my opinion.</p>
+<p>First, the code is very easy, making this piece of code wrong is actually very
+hard todo.</p>
+<p>From a runtime perspective it&rsquo;s also quite good. We anyway must check every element
+so a solution to this problem never can be less than <code>O(n)</code>. We must check every
+element, and we either push the element onto the new array or don&rsquo;t.</p>
+<p>In the <em>best-case</em> scenario all elements would be uneven, so we need to check every
+element, but never push any element onto the new array so we end up with an empty array.</p>
+<p>In the <em>worst-case</em> scenario all elements would be even and we actually would make a whole
+copy of the array taking twice as much memory.</p>
+<p>Neverthless we would say that both version takes <code>O(n)</code> timing even if the
+worst-case solution would take a little bit more time.</p>
+<h1 id="fully-mutable-approach">Fully mutable approach</h1>
+<p>The interesting aspect of the above code is that it is actually not a fully
+mutable version. At some point it reminds on how you program in a fully immutable
+world. There you would create a full new Array or sometimes an <strong>immutable list</strong>
+depending on which language is used.</p>
+<p>But how would a fully mutable version work? Okay, I don&rsquo;t have the patience to
+write the code for that version but here is what you need todo.</p>
+<p>First, you would need a function that is able to delete one element from an array.
+How do you delete an element? Usually by moving every following element one to
+the left.</p>
+<p>So let&rsquo;s say you want to delete index 10 of an array. Then you move index 11
+to index 10. index 12 to index 11, index 13 to index 12 and so on. You keep doing
+that until you reach the end of the array.</p>
+<p>Once you have such a function you can go through an array by it&rsquo;s index, when
+the condition you have is not matched you remove the current index. Then you
+re-check the current index again. No, you don&rsquo;t go to the next index, think twice
+why you need to re-check the current index.</p>
+<p>So what are the advantages and disadvantages of this approach?</p>
+<p>One advantage is that it consumes less memory. No new array is created, instead
+the current array is re-used. Actually this also can be an disadvantage, sometimes
+you want to keep the original array and not modify an array.</p>
+<p>One disadvantage is that it&rsquo;s performance is actually pretty worse. Think about it.</p>
+<p>Let&rsquo;s say you delete index 0 out of a 1,000 big array. Then you actually need to
+copy 999 elements and move 999 elements to the left.</p>
+<p>Then you repeat checking index 0, let&rsquo;s say it also needs to be deleted, then
+you now have to move 998 elements on to the left.</p>
+<p>In a <em>best-case</em> scenario no elements needs to be deleted, that means no deletion
+is done and this algorithm runs in <code>O(n)</code> time. The code just needs to check every
+element but never does something besides that.</p>
+<p>In a <em>wors-case</em> scenarion every element needs to be deleted. So you end up deleting
+every element, and it is done by moving every one to the left. So in an array
+with 1,000 elements it ends up doing 999 + 998 + 997 + 996 + &hellip; + 1 operation.</p>
+<p>When we are precisly it translates to a running time of <code>O(n ^ 2 / 2)</code> but overall
+we just say it&rsquo;s <code>O(n ^ 2)</code> or a quadratic runtime.</p>
+<h1 id="comparison">Comparison</h1>
+<p>One thing I have heard a lot when it comes to programming with immutability
+is that people blindly repeat stuff that programing with immutability would be
+slower. Well, the truth is that this isn&rsquo;t quite so easy.</p>
+<p>The first version of creating a new array and copying elements to a new array
+will usually outperform a fully mutable version, and it is also a lot easier
+to implement.</p>
+<p>This example also shows a property that general exists in algorithms and
+data-structures. Usually we can make things faster by the expense of using more
+memory.</p>
+<h1 id="resizeable-array">Resizeable Array</h1>
+<p>One interesting aspect is that the above algorithm and how it works expects
+a growing/resizeable array. In fact when you don&rsquo;t have that, runtime between
+both solutions can become even worse, on both solutions.</p>
+<p>For example in C (but also C#/.Net) an Array is of fixed-size. You cannot add or
+remove one element. Adding one element or removing one element means
+creating a new array with one element less and copy all elements except the one
+you don&rsquo;t want.</p>
+<p>I guess this kind of working is what people usually have in mind when they think
+about <em>immutability</em>, and yes, this kind of working would be even horrible. But
+you could do better.</p>
+<p>For example you could scan an array twice. First you count how many elements
+are even, then create/allocate the target array, and then copy every matching array
+to the new one.</p>
+<p>Here is an interesintg question I don&rsquo;t know the answer myself. Would it be faster
+to scan the array twice, calculate the size of the new array or use an resizeable
+array that sometimes grows itself when you add an element?</p>
+<p>I don&rsquo;t know, and usually I wouldn&rsquo;t care because roughly both solutions translate
+to an <code>O(n)</code> algorithm having nearly the same amount of performance, I would
+just pick a solution with an resizeable array because this solution is
+brainlessly easy. And most modern language anyway sheeps with an resizeable array.</p>
+<h1 id="immutability">Immutability</h1>
+<p>One thing I have learned or use more and more even unintentionally in whenever
+I write code is to threat some of my data as immutable even when they are mutable.</p>
+<p>I usually differentiate between a <em>construction phase</em> and a <em>normale usage phase</em>.</p>
+<p>Like above, I may have an array <code>@numbers</code> and even if that array is mutable
+and can be changed I usually would create a new array when I want to transform
+the data, not change <code>@numbers</code> itself.</p>
+<p>When I create <code>@evens</code> I consider that there is a <em>construction phase</em> where I
+create my data, usually by mutation. But once this creation is done, I usually
+try to never change <code>@evens</code> again.</p>
+<p>And hey, when this kind of style works in a slowish dynamic typed language like
+Perl that has no JIT compiler at all, believe me, it also works in a language
+with a modern JIT optimized runtime.</p>
+<h1 id="questions">Questions</h1>
+<ol>
+<li>I can imagine a scenario that runs in under <code>O(N)</code> timing. Can you imagine how?</li>
+<li>Are you aware of other solutions?</li>
+<li>Can you imagine other advantages and disadvantages I didn&rsquo;t mentioned?</li>
+</ol>
+
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#fully-mutable-approach">Fully mutable approach</a></li>
+    <li><a href="#comparison">Comparison</a></li>
+    <li><a href="#resizeable-array">Resizeable Array</a></li>
+    <li><a href="#immutability">Immutability</a></li>
+    <li><a href="#questions">Questions</a></li>
+  </ul>
+</nav> </aside>
+
+    </body>
+</html>
