@@ -20,7 +20,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://davidraab.github.io/posts/algorithms-filtering-an-array-benchmarks/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2024-10-12T00:00:00+00:00" />
-<meta property="article:modified_time" content="2024-10-12T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-11-07T00:00:00+00:00" />
 
 
 
@@ -527,29 +527,29 @@
 </div><p>Benchmark results on my machine</p>
 <pre><code>Benchmarking versions with array copies.
                 Rate     seq  splice  manual    grep first_5_seq first_5_manual
-seq             275/s      --    -25%    -77%    -79%        -89%           -89%
-splice          366/s     33%      --    -70%    -72%        -85%           -86%
-manual         1208/s    339%    230%      --     -6%        -52%           -53%
-grep           1291/s    370%    253%      7%      --        -49%           -50%
-first_5_seq    2511/s    814%    587%    108%     94%          --            -3%
-first_5_manual 2595/s    845%    610%    115%    101%          3%             --
+seq             333/s      --     -9%    -72%    -73%        -86%           -86%
+splice          366/s     10%      --    -69%    -71%        -85%           -85%
+manual         1188/s    257%    225%      --     -5%        -50%           -51%
+grep           1255/s    277%    243%      6%      --        -48%           -49%
+first_5_seq    2399/s    620%    556%    102%     91%          --            -2%
+first_5_manual 2438/s    632%    567%    105%     94%          2%             --
 
 Filtering all with different data-structures. No Array copies.
-        Rate    list list_nm     seq   array array_e    grep
-list     197/s      --     -1%    -33%    -72%    -92%    -92%
-list_nm  199/s      1%      --    -33%    -72%    -92%    -92%
-seq      296/s     50%     49%      --    -58%    -88%    -88%
-array    704/s    257%    254%    137%      --    -72%    -72%
-array_e 2535/s   1186%   1174%    755%    260%      --     -0%
-grep    2535/s   1186%   1174%    755%    260%      0%      --
+        Rate    list list_nm     seq   array    grep array_e
+list     282/s      --     -0%    -27%    -59%    -89%    -89%
+list_nm  282/s      0%      --    -27%    -59%    -89%    -89%
+seq      384/s     36%     36%      --    -44%    -85%    -85%
+array    684/s    142%    142%     78%      --    -73%    -73%
+grep    2535/s    798%    798%    559%    270%      --     -1%
+array_e 2560/s    806%    806%    566%    274%      1%      --
 
 Getting only first 5 even numbers.
                     Rate first_5_list first_5_array first_5_grep first_5_seq first_5_manual_nc
-first_5_list          197/s           --          -72%         -92%       -100%             -100%
-first_5_array         697/s         254%            --         -72%        -99%             -100%
-first_5_grep         2488/s        1162%          257%           --        -97%             -100%
-first_5_seq         87682/s       44370%        12476%        3424%          --              -93%
-first_5_manual_nc 1336170/s      677575%       191549%       53605%       1424%                --
+first_5_list          277/s           --          -61%         -89%       -100%             -100%
+first_5_array         704/s         154%            --         -71%       -100%             -100%
+first_5_grep         2465/s         789%          250%           --        -99%             -100%
+first_5_seq        183794/s       66186%        26016%        7356%          --              -90%
+first_5_manual_nc 1908815/s      688325%       271126%       77332%        939%                --
 
 ok - correct $numbers count
 </code></pre>

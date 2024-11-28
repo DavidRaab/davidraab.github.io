@@ -6,8 +6,15 @@
     <description>Recent content in Posts on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 12 Oct 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 28 Nov 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Benefits of Dynamic Typing</title>
+      <link>https://davidraab.github.io/posts/benefits-of-dynamic-typing/</link>
+      <pubDate>Thu, 28 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/benefits-of-dynamic-typing/</guid>
+      <description>This is not a post about static typing vs. dynamic typing. In the several past years I have worked with both and see advantages and disadvantages in both dynamic and static typing. While this might be an interesting topic on its own, this is maybe for a future post.&#xA;No matter what you like or dislike more, some languages are built from the core being either static or dynamic typed. Perl, including other languages like Python, Ruby, JavaScript, Lisp, Lua, &amp;hellip; are built as a dynamic typed language.</description>
+    </item>
     <item>
       <title>Algorithms: Filtering an Array (Benchmarks)</title>
       <link>https://davidraab.github.io/posts/algorithms-filtering-an-array-benchmarks/</link>

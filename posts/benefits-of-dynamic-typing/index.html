@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>Benefits of Dynamic Typing // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.123.1">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="Advantages of using a dynamic typed language as a dynamic typed language" />
+        <link rel="stylesheet" href="/css/main.min.0fa334c3f2650e7000dfc8e81f59d23191e59e78f62c565a598f4dc557c92abe.css" />
+        <script src="/static/code-toggle.js"></script>
+
+        
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Benefits of Dynamic Typing"/>
+<meta name="twitter:description" content="Advantages of using a dynamic typed language as a dynamic typed language"/>
+
+        <meta property="og:title" content="Benefits of Dynamic Typing" />
+<meta property="og:description" content="Advantages of using a dynamic typed language as a dynamic typed language" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/benefits-of-dynamic-typing/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-11-28T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-11-28T00:00:00+00:00" />
+
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>Writing about programming (Perl, F#) and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Benefits of Dynamic Typing</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Nov 28, 2024
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    15 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+                            <a class="tag" href="https://davidraab.github.io/tags/perl/">Perl</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/dynamic-typed/">Dynamic-Typed</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>This is not a post about static typing vs. dynamic typing. In the several
+past years I have worked with both and see advantages and disadvantages in
+both dynamic and static typing. While this might be an interesting topic
+on its own, this is maybe for a future post.</p>
+<p>No matter what you like or dislike more, some languages are built from
+the core being either static or dynamic typed. Perl, including other languages
+like Python, Ruby, JavaScript, Lisp, Lua, &hellip; are built as a dynamic
+typed language. But instead of embracing dynamic typing and using it&rsquo;s
+advantages many programers actually work with a dynamic typed language
+as if it would be static-typed and adding type-checking either through
+libraries or through obsessive use of classes.</p>
+<p>In Perl this is no exception. In this post I will show you what happens
+when you use a dynamic typed language like a dynamic typed language, not
+like a static typed language with missing type-checking.</p>
+<h1 id="creating-a-point">Creating a Point</h1>
+<p>For discussion we pick a <del>simple</del> easy example. We just want to create
+a Point that contains an X and Y value. Sometimes also called a <code>Vector2</code>.</p>
+<p>One way, and probably one of the most picked way in many languages today
+is to create a class out of it. In Perl this looks like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">package</span> <span class="nn">PointP</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="mf">5.036</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">new</span><span class="p">($class, $x, $y) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">bless</span><span class="p">({</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="nv">$x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=&gt;</span> <span class="nv">$y</span><span class="p">},</span> <span class="nv">$class</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">x</span><span class="p">($self, $x=undef) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="nb">defined</span> <span class="nv">$x</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">}</span> <span class="o">=</span> <span class="nv">$x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">y</span><span class="p">($self, $y=undef) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="nb">defined</span> <span class="nv">$y</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">y</span><span class="p">}</span> <span class="o">=</span> <span class="nv">$y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">y</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">to_string</span><span class="p">($self) {</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">sprintf</span> <span class="s">&#34;Point(%f,%f)&#34;</span><span class="p">,</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">,</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Here we define a class <code>Point</code> with methods <code>x</code> and <code>y</code> that act as a getter
+and setter at the same time. When you have written many many classes like
+this, like me, then maybe you gona go crazy of how stupid that code is
+and how much boilerplate it is to always write those getter/setters. One
+answer to that in Perl was <code>Moose</code>. So we also can write the class like
+this in Moose.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">package</span> <span class="nn">PointM</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="mf">5.036</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nn">Moose</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">has</span> <span class="s">&#39;x&#39;</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="n">is</span> <span class="o">=&gt;</span> <span class="s">&#39;rw&#39;</span><span class="p">,</span> <span class="n">isa</span> <span class="o">=&gt;</span> <span class="s">&#39;Num&#39;</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">has</span> <span class="s">&#39;y&#39;</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="n">is</span> <span class="o">=&gt;</span> <span class="s">&#39;rw&#39;</span><span class="p">,</span> <span class="n">isa</span> <span class="o">=&gt;</span> <span class="s">&#39;Num&#39;</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">to_string</span><span class="p">($self) {</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">sprintf</span> <span class="s">&#34;Point(%f,%f)&#34;</span><span class="p">,</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">,</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nn">__PACKAGE__</span><span class="o">-&gt;</span><span class="nn">meta</span><span class="o">-&gt;</span><span class="n">make_immutable</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Here is how both classes are used.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$p1</span> <span class="o">=</span> <span class="nn">PointP</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">print</span> <span class="nv">$p1</span><span class="o">-&gt;</span><span class="n">to_string</span><span class="p">,</span> <span class="s">&#34;\n&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$p2</span> <span class="o">=</span> <span class="nn">PointM</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">print</span> <span class="nv">$p2</span><span class="o">-&gt;</span><span class="n">to_string</span><span class="p">,</span> <span class="s">&#34;\n&#34;</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So what is wrong about this two examples you maybe ask? Well, a lot, so let&rsquo;s
+begin how a truly dynmic typed version looks. Here is the code you usually
+would write when you embrace dynamic-typing.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$point</span> <span class="o">=</span> <span class="p">{</span> <span class="n">x</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=&gt;</span> <span class="mi">2</span> <span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>You see what the problem is? That whole classes stuff usually creates just
+a lot of boilerplate mess that aren&rsquo;t really needed. I mean consider the
+following.</p>
+<p>All that those classes do is basically just wrapping a Hash. You write those
+getter/setters and what do they do? Well they just set a field in a Hash
+or get you a field from a Hash. But what is wrong just using a Hash instead?</p>
+<p>I mean let&rsquo;s look at how to get a field. Here is a class version compared
+to the direct version using a Hash.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$x</span> <span class="o">=</span> <span class="nv">$point</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$x</span> <span class="o">=</span> <span class="nv">$point</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and here is setting a value.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$x</span> <span class="o">=</span> <span class="nv">$point</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$x</span> <span class="o">=</span> <span class="nv">$point</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So all you get from those 10-20 lines class implementation is that you can
+omit those brace <code>{}</code> for either getting or setting a value?</p>
+<p>Now there is the next problem. Did you ever Benchmarked how much performance
+you will lose using a class instead of directly using a Hash? Here is
+a benchmark for initalization.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">cmpthese</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">perl</span> <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">..</span> <span class="mi">1_000</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">my</span> <span class="nv">$p</span> <span class="o">=</span> <span class="nn">PointP</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moose</span> <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">..</span> <span class="mi">1_000</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">my</span> <span class="nv">$p</span> <span class="o">=</span> <span class="nn">PointM</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">hash</span> <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">..</span> <span class="mi">1_000</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">my</span> <span class="nv">$h</span> <span class="o">=</span> <span class="p">{</span> <span class="n">x</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=&gt;</span> <span class="mi">2</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Here are the results.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">moose</span>  <span class="mi">640</span><span class="o">/</span><span class="n">s</span>    <span class="o">--</span>  <span class="o">-</span><span class="mi">80</span><span class="nv">%</span>  <span class="err">-</span><span class="nv">92%</span>
+</span></span><span class="line"><span class="cl"><span class="nv">perl</span>  <span class="mi">3139</span><span class="o">/</span><span class="n">s</span>  <span class="mi">391</span><span class="nv">%</span>    <span class="err">--</span>  <span class="err">-</span><span class="nv">60%</span>
+</span></span><span class="line"><span class="cl"><span class="nv">hash</span>  <span class="mi">7802</span><span class="o">/</span><span class="n">s</span> <span class="mi">1119</span><span class="nv">%</span>  <span class="nv">149%</span>    <span class="err">--</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So the pure perl version is roughly 5 times faster compared to moose. And
+just the Perl class to just using a hash is 2.5 times the performance.
+How about getting and setting a field?</p>
+<p>Here is the Benchmark code.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$pp</span> <span class="o">=</span> <span class="nn">PointP</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$pm</span> <span class="o">=</span> <span class="nn">PointM</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$h</span>  <span class="o">=</span> <span class="p">{</span> <span class="n">x</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=&gt;</span> <span class="mi">2</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span> <span class="s">&#34;get\n&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">cmpthese</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">perl</span> <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">..</span> <span class="mi">1_000</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">my</span> <span class="nv">$x</span> <span class="o">=</span> <span class="nv">$pp</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moose</span> <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">..</span> <span class="mi">1_000</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">my</span> <span class="nv">$x</span> <span class="o">=</span> <span class="nv">$pm</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">hash</span> <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">..</span> <span class="mi">1_000</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">my</span> <span class="nv">$x</span> <span class="o">=</span> <span class="nv">$h</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span> <span class="s">&#34;set\n&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">cmpthese</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">perl</span> <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">..</span> <span class="mi">1_000</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">$pp</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moose</span> <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">..</span> <span class="mi">1_000</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">$pm</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">hash</span> <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">..</span> <span class="mi">1_000</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">$h</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">}</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and here are the results.</p>
+<pre tabindex="0"><code>get
+         Rate  perl moose  hash
+perl   6981/s    --  -19%  -75%
+moose  8650/s   24%    --  -69%
+hash  28183/s  304%  226%    --
+
+set
+         Rate moose  perl  hash
+moose  2739/s    --  -61%  -92%
+perl   7045/s  157%    --  -79%
+hash  34133/s 1146%  385%    --
+</code></pre><p>Setting in Moose is so much more worse compare to the pure perl version because
+it additionally does a type-check for number. And of course that happens
+at runtime. That&rsquo;s what <strong>dynamic typing</strong> actually means. But compared
+to directly getting/setting a value in a hash both version are just
+extraordinaly bad.</p>
+<p>So at this point I say this solutions have already two problems.</p>
+<ol>
+<li>Too much boilerplate code.</li>
+<li>Too much of a performance hit.</li>
+</ol>
+<h1 id="can-we-improve">Can we improve?</h1>
+<p>There are reasons why people start using classes and I go into that further
+now. But let&rsquo;s see how creating a point is usually solved for example in typical
+Scheme.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">make-point</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nb">cons </span><span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">point-x</span> <span class="nv">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nb">car </span><span class="nv">p</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">point-y</span> <span class="nv">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nb">cdr </span><span class="nv">p</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>When you are unfamiliar with Scheme. Here is how that code translates to Perl.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">make_point</span><span class="p">($x,$y) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span><span class="nv">$x</span><span class="p">,</span><span class="nv">$y</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">point_x</span><span class="p">($point) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nv">$point</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">point_y</span><span class="p">($point) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nv">$point</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In some sense this is very familiar to the class/object-oriented versions.
+Only with the difference that it is by far a lot less code. Instead of so
+called <em>methods</em> you just create namespaced functions. What is interesting
+is the following.</p>
+<p>A function like <code>make_point()</code> creates a Point. But the structure it creates
+isn&rsquo;t <em>taged/flaged</em> as a point. It&rsquo;s structure is actually just an array/list
+with two fields, and that&rsquo;s it.</p>
+<p>You as a programmer have to remember if that is a point or not and if that
+value is valid or not. But also the function <code>point_x</code> and <code>point_y</code>
+are in some sense <em>sepcial</em> as they don&rsquo;t really check it&rsquo;s structure or check
+if they are valid points. They just expect an array and either return
+the first or second value. And that&rsquo;s what dynamic typing actually is about.</p>
+<p>At least, let&rsquo;s check how fast those versions are.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">point_set_x</span><span class="p">($point, $x) {</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$point</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Scheme version</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$p</span> <span class="o">=</span> <span class="n">make_point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">cmpthese</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">init</span> <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span> <span class="k">my</span> <span class="nv">$p</span> <span class="o">=</span> <span class="n">make_point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">get</span>  <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span> <span class="k">my</span> <span class="nv">$x</span> <span class="o">=</span> <span class="n">point_x</span><span class="p">(</span><span class="nv">$p</span><span class="p">)</span>     <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">set</span>  <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span> <span class="n">point_set_x</span><span class="p">(</span><span class="nv">$p</span><span class="p">)</span>         <span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre tabindex="0"><code>        Rate init  set  get
+init  8296/s   -- -20% -43%
+set  10383/s  25%   -- -28%
+get  14491/s  75%  40%   --
+</code></pre><p>Here we can see that initalization is around the same, while getting/setting
+is actually faster. But most of those performance benefits are because we
+use an Array instead of an Hash. Let&rsquo;s look what happens when we change
+the implemention to a Hash (I omit the code here).</p>
+<pre tabindex="0"><code>        Rate init  set  get
+init  5493/s   -- -45% -59%
+set   9998/s  82%   -- -25%
+get  13398/s 144%  34%   --
+</code></pre><p>Everything at least goes up. Initialization is nearly two times faster
+compared to creating an object. But also getting/setting is faster. It&rsquo;s
+usually faster because calling functions is usually faster as calling methods
+on objects and dividing a getter/setter into two parts can make the code faster as
+they are no branching logic that decides what todo or always do both things.</p>
+<p>So, here is the question. Why not stick to such a function based solution?
+It usually is by far more less code and it also is faster.</p>
+<p>But let&rsquo;s go a little bit deeper to see some more difference.</p>
+<h1 id="adding-behaviour">Adding behaviour</h1>
+<p>Let&rsquo;s assume the following. We want to add a function <code>add</code> that takes two
+points and adds them together. I like immutable programming, so even if
+the data-structure (Array,Hash) is mutable it means instead of mutating
+on of its input, we return the result as something new.</p>
+<p>Now it starts to become interesting, because we can pick two solutions
+to implement it. Here is the first solution of the Scheme like version.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">point_add_1</span><span class="p">($p1, $p2) {</span>
+</span></span><span class="line"><span class="cl">    <span class="n">make_point</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">point_x</span><span class="p">(</span><span class="nv">$p1</span><span class="p">)</span> <span class="o">+</span> <span class="n">point_x</span><span class="p">(</span><span class="nv">$p2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">point_y</span><span class="p">(</span><span class="nv">$p1</span><span class="p">)</span> <span class="o">+</span> <span class="n">point_y</span><span class="p">(</span><span class="nv">$p2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This solution is similar as the following solution in the object-oriented code.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">add1</span><span class="p">($self, $other) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nn">PointP</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$self</span><span class="o">-&gt;</span><span class="n">x</span> <span class="o">+</span> <span class="nv">$other</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$self</span><span class="o">-&gt;</span><span class="n">y</span> <span class="o">+</span> <span class="nv">$other</span><span class="o">-&gt;</span><span class="n">y</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So what we are doing in both cases is to not directly access the hash
+to extract <code>x</code> and <code>y</code>, instead we are used to use <em>methods</em> to access those
+fields. Well, methods that aren&rsquo;t that fast to begin with. So we now have
+four of those getter methods we call to just get 4 fields.</p>
+<p>Here is another way how to implement <code>add</code> instead.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">point_add_2</span><span class="p">($p1, $p2) {</span>
+</span></span><span class="line"><span class="cl">    <span class="n">make_point</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$p1</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">}</span> <span class="o">+</span> <span class="nv">$p2</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$p1</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">y</span><span class="p">}</span> <span class="o">+</span> <span class="nv">$p2</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">y</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">add2</span><span class="p">($self, $other) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nn">PointP</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">}</span> <span class="o">+</span> <span class="nv">$other</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">y</span><span class="p">}</span> <span class="o">+</span> <span class="nv">$other</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">y</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So instead of using functions/getters we directly use the hash. Just let&rsquo;s
+compare how fast those different implementations are.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$pp1</span> <span class="o">=</span> <span class="nn">PointP</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$pp2</span> <span class="o">=</span> <span class="nn">PointP</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$sp1</span> <span class="o">=</span> <span class="n">make_point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$sp2</span> <span class="o">=</span> <span class="n">make_point</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">cmpthese</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">class_1</span> <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span> <span class="nv">$pp1</span><span class="o">-&gt;</span><span class="n">add1</span><span class="p">(</span><span class="nv">$pp2</span><span class="p">)</span>        <span class="k">for</span> <span class="mi">1</span> <span class="o">..</span> <span class="mi">1000</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">class_2</span> <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span> <span class="nv">$pp1</span><span class="o">-&gt;</span><span class="n">add2</span><span class="p">(</span><span class="nv">$pp2</span><span class="p">)</span>        <span class="k">for</span> <span class="mi">1</span> <span class="o">..</span> <span class="mi">1000</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">hash_1</span>  <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span> <span class="n">point_add_1</span><span class="p">(</span><span class="nv">$sp1</span><span class="p">,</span> <span class="nv">$sp2</span><span class="p">)</span> <span class="k">for</span> <span class="mi">1</span> <span class="o">..</span> <span class="mi">1000</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">hash_2</span>  <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span> <span class="n">point_add_2</span><span class="p">(</span><span class="nv">$sp1</span><span class="p">,</span> <span class="nv">$sp2</span><span class="p">)</span> <span class="k">for</span> <span class="mi">1</span> <span class="o">..</span> <span class="mi">1000</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><pre tabindex="0"><code>class_1 1047/s      --    -34%    -49%    -63%
+hash_1  1585/s     51%      --    -23%    -44%
+class_2 2055/s     96%     30%      --    -28%
+hash_2  2844/s    172%     79%     38%      --
+</code></pre><p>As expected. The implementations that uses a function/method to access <code>x/y</code>
+are the slowest. But still amazing that a function based solution is already
+50% faster than an object-orientet solution.</p>
+<p>Otherwise directly accessing the hash fields makes the code around two times
+faster compared to it&rsquo;s similar solution. <code>class_2</code> is around two times
+faster as <code>class_1</code>. Same goes from <code>hash_1</code> to <code>hash_2</code>. From the slowest
+to the fastest version we have a 2.7x performance improvement.</p>
+<p>Here is btw. the Moose solution.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">add</span><span class="p">($self, $other) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nn">PointM</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">=&gt;</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="n">x</span> <span class="o">+</span> <span class="nv">$other</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">y</span> <span class="o">=&gt;</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="n">y</span> <span class="o">+</span> <span class="nv">$other</span><span class="o">-&gt;</span><span class="n">y</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and the benchmark.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$pm1</span> <span class="o">=</span> <span class="nn">PointM</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$pm2</span> <span class="o">=</span> <span class="nn">PointM</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">timethis</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="k">sub</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$pm1</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="nv">$pm2</span><span class="p">)</span> <span class="k">for</span> <span class="mi">1</span> <span class="o">..</span> <span class="mi">1000</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>this prints</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">timethis</span> <span class="k">for</span> <span class="mi">3</span><span class="p">:</span>  <span class="mi">3</span> <span class="n">wallclock</span> <span class="n">secs</span> <span class="p">(</span> <span class="mf">3.20</span> <span class="n">usr</span> <span class="o">+</span>  <span class="mf">0.00</span> <span class="n">sys</span> <span class="o">=</span>  <span class="mf">3.20</span> <span class="n">CPU</span><span class="p">)</span> <span class="nv">@</span> <span class="nv">462</span><span class="mf">.19</span><span class="o">/</span><span class="n">s</span> <span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1479</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So with roughly <code>460</code> calls per seconds we nearly have half of the speed compared to the <em>slowest</em> version <code>class_1</code> while <code>hash_2</code> is around <strong>6 times faster</strong>.</p>
+<p>How about a faster <code>Moose</code> version? Well in Moose it is usually discouraged
+to directly access the fields. I guess <em>proper</em> object-orientation is the reason
+for that. And sure you want those checks and behaviour that <code>Moose</code> typically
+add. So no fast version for you!</p>
+<p>Some call it <em>prober object-orientation</em>. I just call it bullshit.</p>
+<h1 id="advantages-and-disadvantages">Advantages and Disadvantages</h1>
+<p>It&rsquo;s something i cannot stress often enough. Everything has it&rsquo;s advantages
+and disadvantages. The same goes for which solution you pick.</p>
+<p>When you use function/methods to access the fields of <code>x</code> and <code>y</code> then
+there is one advantage. You actually can change the internal structure
+on how that object is represented. For example you change the hash version
+to an Array. Because Array access are faster. Doing that change would
+mean the <code>add1</code> solutions would still continue to work. While the <code>add2</code>
+solutions will break.</p>
+<p>So while the <code>add1</code> solution has an advantage when you change the internal
+representation it comes at a big performance hit. So those <code>add2</code> solutions
+are faster but when you change the internal representation you also
+must change those functions to reflect the lastest changes.</p>
+<p>But here is the great <strong>Buuuuut</strong>. How often do you fuckingly change the internal
+representation? Are you stupid or something like that?</p>
+<p>You usually pick one representation and then you stick with. I guess once you
+settled to one representation you maybe will stick for it for the rest of your
+life. So there is no point in <em>optimizing</em> a case that usually never will
+happen but causing you big performance hits for your code.</p>
+<p>And even when you change the internal representation maybe every 10 years,
+yeah you also must change <code>add</code>. That&rsquo;s not a big deal.</p>
+<h1 id="extending-point">Extending Point</h1>
+<p>Object-orientation is often teached that you can use crappy inheritance
+to extend your objects. So let&rsquo;s do that. We create a <code>Point3D</code> that
+we extend from <code>PointP</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">package</span> <span class="nn">Point3D</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="mf">5.036</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">our</span> <span class="nv">@ISA</span> <span class="o">=</span> <span class="s">&#39;PointP&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">new</span><span class="p">($class, $x, $y, $z) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">bless</span><span class="p">({</span> <span class="n">x</span> <span class="o">=&gt;</span> <span class="nv">$x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=&gt;</span> <span class="nv">$y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=&gt;</span> <span class="nv">$z</span> <span class="p">},</span> <span class="nv">$class</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">z</span><span class="p">($self, $z=undef) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="nb">defined</span> <span class="nv">$z</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">z</span><span class="p">}</span> <span class="o">=</span> <span class="nv">$z</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">z</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">add</span><span class="p">($self, $other) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nn">Point3D</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">}</span> <span class="o">+</span> <span class="nv">$other</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">y</span><span class="p">}</span> <span class="o">+</span> <span class="nv">$other</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">y</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">z</span><span class="p">}</span> <span class="o">+</span> <span class="nv">$other</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">z</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and now we can do:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$p1</span> <span class="o">=</span> <span class="nn">Point3D</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$p2</span> <span class="o">=</span> <span class="nn">Point3D</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$p3</span> <span class="o">=</span> <span class="nv">$p1</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="nv">$p2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span> <span class="s">&#34;P3{%f,%f,%f}&#34;</span><span class="p">,</span> <span class="nv">$p3</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">,</span> <span class="nv">$p3</span><span class="o">-&gt;</span><span class="n">y</span><span class="p">,</span> <span class="nv">$p3</span><span class="o">-&gt;</span><span class="n">z</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>okay, works nice. But how does our Scheme inspired code will look like
+with the same behaviour?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">make_point</span><span class="p">($x,$y)     {</span> <span class="k">return</span> <span class="p">{</span> <span class="n">x</span> <span class="o">=&gt;</span> <span class="nv">$x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=&gt;</span> <span class="nv">$y</span> <span class="p">}</span>          <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">make_point3</span><span class="p">($x,$y,$z) {</span> <span class="k">return</span> <span class="p">{</span> <span class="n">x</span> <span class="o">=&gt;</span> <span class="nv">$x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=&gt;</span> <span class="nv">$y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=&gt;</span> <span class="nv">$z</span> <span class="p">}</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">point_x</span><span class="p">($point)       {</span> <span class="nv">$point</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">}</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">point_y</span><span class="p">($point)       {</span> <span class="nv">$point</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">y</span><span class="p">}</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">point_z</span><span class="p">($point)       {</span> <span class="nv">$point</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">z</span><span class="p">}</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">point_str</span><span class="p">($point)     {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">defined</span> <span class="nv">$point</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">z</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">         <span class="p">?</span> <span class="nb">sprintf</span> <span class="s">&#34;2D: %f,%f,%f&#34;</span><span class="p">,</span> <span class="nv">$point</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">},</span> <span class="nv">$point</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">y</span><span class="p">},</span> <span class="nv">$point</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">z</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">         <span class="p">:</span> <span class="nb">sprintf</span> <span class="s">&#34;3D: %f,%f&#34;</span><span class="p">,</span>    <span class="nv">$point</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">},</span> <span class="nv">$point</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">y</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">point_add</span><span class="p">($p1, $p2) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$p</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">=&gt;</span> <span class="nv">$p1</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">}</span> <span class="o">+</span> <span class="nv">$p2</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="n">y</span> <span class="o">=&gt;</span> <span class="nv">$p1</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">y</span><span class="p">}</span> <span class="o">+</span> <span class="nv">$p2</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">y</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="nb">defined</span> <span class="nv">$p1</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">z</span><span class="p">}</span> <span class="o">&amp;&amp;</span> <span class="nb">defined</span> <span class="nv">$p1</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">z</span><span class="p">}</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$p</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">z</span><span class="p">}</span> <span class="o">=</span> <span class="nv">$p1</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">z</span><span class="p">}</span> <span class="o">+</span> <span class="nv">$p2</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">z</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nv">$p</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now, let&rsquo;s look at it. Obviously <code>point_x</code> and <code>point_y</code> don&rsquo;t need to change
+anymore. Obviously because all they do is just return an <code>x</code> field from a
+hash. It works by passing any hash that has <code>x</code> field. Very reusable and obviously
+not really needed at all. <code>$hash-&gt;{x}</code> does the same.</p>
+<p>We actually could create a <code>point3d_add</code> function and differentiate between
+<code>point_add</code> and <code>point3d_add</code> but, why? The whole purpose of dynamic typing
+is also to check for structures you pass in and depending on the structure
+you can decide different behaviour. Here <code>point_add</code> works with both.</p>
+<p>You can pass it 2D points and 3D points. You even can mix it and one
+can be a 2D point and the other being a 3D point. Not even that, it works
+with any hash that just have those fields.</p>
+<p>Here are the ways you can use those functions.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="c1"># Point3D</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$p1</span> <span class="o">=</span> <span class="nn">Point3D</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$p2</span> <span class="o">=</span> <span class="nn">Point3D</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$p3</span> <span class="o">=</span> <span class="nv">$p1</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="nv">$p2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Scheme like versions</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$p4</span> <span class="o">=</span> <span class="n">point_add</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Point3D</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">x</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span> <span class="n">y</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="n">z</span> <span class="o">=&gt;</span> <span class="mi">1</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$p5</span> <span class="o">=</span> <span class="n">point_add</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="n">z</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$p6</span> <span class="o">=</span> <span class="n">point_add</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">make_point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="n">z</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$p7</span> <span class="o">=</span> <span class="n">point_add</span><span class="p">(</span><span class="n">make_point3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">make_point3</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,));</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$p8</span> <span class="o">=</span> <span class="n">point_add</span><span class="p">(</span><span class="n">make_point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>    <span class="n">make_point3</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span> <span class="s">&#34;%s\n&#34;</span><span class="p">,</span> <span class="n">point_str</span><span class="p">(</span><span class="nv">$p1</span><span class="p">);</span> <span class="c1"># 3D: 1.000000,2.000000,3.000000</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span> <span class="s">&#34;%s\n&#34;</span><span class="p">,</span> <span class="n">point_str</span><span class="p">(</span><span class="nv">$p2</span><span class="p">);</span> <span class="c1"># 3D: 3.000000,2.000000,1.000000</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span> <span class="s">&#34;%s\n&#34;</span><span class="p">,</span> <span class="n">point_str</span><span class="p">(</span><span class="nv">$p3</span><span class="p">);</span> <span class="c1"># 3D: 4.000000,4.000000,4.000000</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span> <span class="s">&#34;%s\n&#34;</span><span class="p">,</span> <span class="n">point_str</span><span class="p">(</span><span class="nv">$p4</span><span class="p">);</span> <span class="c1"># 3D: 4.000000,4.000000,4.000000</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span> <span class="s">&#34;%s\n&#34;</span><span class="p">,</span> <span class="n">point_str</span><span class="p">(</span><span class="nv">$p5</span><span class="p">);</span> <span class="c1"># 2D: 2.000000,4.000000</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span> <span class="s">&#34;%s\n&#34;</span><span class="p">,</span> <span class="n">point_str</span><span class="p">(</span><span class="nv">$p6</span><span class="p">);</span> <span class="c1"># 2D: 2.000000,4.000000</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span> <span class="s">&#34;%s\n&#34;</span><span class="p">,</span> <span class="n">point_str</span><span class="p">(</span><span class="nv">$p7</span><span class="p">);</span> <span class="c1"># 3D: 4.000000,4.000000,4.000000</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span> <span class="s">&#34;%s\n&#34;</span><span class="p">,</span> <span class="n">point_str</span><span class="p">(</span><span class="nv">$p8</span><span class="p">);</span> <span class="c1"># 2D: 4.000000,4.000000</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Isn&rsquo;t it somehow awesome that we also can pass it <code>PointP</code> and <code>Point3D</code>
+objects? Create the hashes directly instead of calling <code>make_point</code> or
+<code>make_point3</code> and also mix 2D and 3D points? And besides all of that we
+even write less code for all of that.</p>
+<p>How about performance?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$o1</span> <span class="o">=</span> <span class="nn">Point3D</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$o2</span> <span class="o">=</span> <span class="nn">Point3D</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$s1</span> <span class="o">=</span> <span class="n">make_point3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$s2</span> <span class="o">=</span> <span class="n">make_point3</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">cmpthese</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">point3d</span> <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span> <span class="nv">$o1</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="nv">$o2</span><span class="p">)</span>       <span class="k">for</span> <span class="mi">1</span> <span class="o">..</span> <span class="mi">1000</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">scheme</span>  <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span> <span class="n">point_add</span><span class="p">(</span><span class="nv">$s1</span><span class="p">,</span> <span class="nv">$s2</span><span class="p">)</span> <span class="k">for</span> <span class="mi">1</span> <span class="o">..</span> <span class="mi">1000</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>here are the result.</p>
+<pre tabindex="0"><code>          Rate point3d  scheme
+point3d 1778/s      --    -28%
+scheme  2461/s     38%      --
+</code></pre><p><code>40%</code> is maybe not the greatest jump, but also not the worst. Considering
+that writing code this way offers you:</p>
+<ol>
+<li>Less code</li>
+<li>More flexible</li>
+<li>Higher performance</li>
+</ol>
+<p>only leaves with one question open.</p>
+<p>Why do you ever want to write object-oriented code with classes and a pseudo
+type-checking if when you start using a dynamic typed language like a
+dynamic typed language has so much more benefits?</p>
+
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#creating-a-point">Creating a Point</a></li>
+    <li><a href="#can-we-improve">Can we improve?</a></li>
+    <li><a href="#adding-behaviour">Adding behaviour</a></li>
+    <li><a href="#advantages-and-disadvantages">Advantages and Disadvantages</a></li>
+    <li><a href="#extending-point">Extending Point</a></li>
+  </ul>
+</nav> </aside>
+
+    </body>
+</html>
