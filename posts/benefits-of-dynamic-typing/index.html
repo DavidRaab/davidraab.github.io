@@ -247,12 +247,13 @@ to the direct version using a Hash.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$x</span> <span class="o">=</span> <span class="nv">$point</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$x</span> <span class="o">=</span> <span class="nv">$point</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">};</span>
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="nv">$point</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$point</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">}</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>So all you get from those 10-20 lines class implementation is that you can
-omit those brace <code>{}</code> for either getting or setting a value?</p>
+</div><p>So all you get from those 10-20 lines class implementation is that you replace
+curly braces <code>{}</code> with parenthesis <code>()</code>! And in setting you save one character
+for typing <code>=</code>. Woosh! Awesome!</p>
 <p>Now there is the next problem. Did you ever Benchmarked how much performance
 you will lose using a class instead of directly using a Hash? Here is
 a benchmark for initalization.</p>
@@ -479,7 +480,7 @@ isn&rsquo;t <em>taged/flaged</em> as a point. It&rsquo;s structure is actually j
 with two fields, and that&rsquo;s it.</p>
 <p>You as a programmer have to remember if that is a point or not and if that
 value is valid or not. But also the function <code>point_x</code> and <code>point_y</code>
-are in some sense <em>sepcial</em> as they don&rsquo;t really check it&rsquo;s structure or check
+are in some sense <em>special</em> as they don&rsquo;t really check it&rsquo;s structure or check
 if they are valid points. They just expect an array and either return
 the first or second value. And that&rsquo;s what dynamic typing actually is about.</p>
 <p>At least, let&rsquo;s check how fast those versions are.</p>
@@ -911,8 +912,8 @@ with any hash that just have those fields.</p>
 </span></span><span class="line"><span class="cl">    <span class="n">make_point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
 </span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="n">z</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">},</span>
 </span></span><span class="line"><span class="cl"><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$p7</span> <span class="o">=</span> <span class="n">point_add</span><span class="p">(</span><span class="n">make_point3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">make_point3</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,));</span>
-</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$p8</span> <span class="o">=</span> <span class="n">point_add</span><span class="p">(</span><span class="n">make_point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>    <span class="n">make_point3</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,));</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$p7</span> <span class="o">=</span> <span class="n">point_add</span><span class="p">(</span><span class="n">make_point3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">make_point3</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$p8</span> <span class="o">=</span> <span class="n">point_add</span><span class="p">(</span><span class="n">make_point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>    <span class="n">make_point3</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nb">printf</span> <span class="s">&#34;%s\n&#34;</span><span class="p">,</span> <span class="n">point_str</span><span class="p">(</span><span class="nv">$p1</span><span class="p">);</span> <span class="c1"># 3D: 1.000000,2.000000,3.000000</span>
 </span></span><span class="line"><span class="cl"><span class="nb">printf</span> <span class="s">&#34;%s\n&#34;</span><span class="p">,</span> <span class="n">point_str</span><span class="p">(</span><span class="nv">$p2</span><span class="p">);</span> <span class="c1"># 3D: 3.000000,2.000000,1.000000</span>
