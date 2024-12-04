@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sq on David Raab</title>
+    <link>https://davidraab.github.io/tags/sq/</link>
+    <description>Recent content in Sq on David Raab</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 04 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://davidraab.github.io/tags/sq/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Moose Traits vs. Sq</title>
+      <link>https://davidraab.github.io/posts/moose-traits-vs-sq/</link>
+      <pubDate>Wed, 04 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/moose-traits-vs-sq/</guid>
+      <description>Moose Traits vs. Sq (Explicit language) Did you ever hear of the Law of Demeter in object-orientation? Here is the idea behind it. Let&amp;rsquo;s assume we have a class, and that class has a property named options. This options is an array.&#xA;In procedural or functional programming we would just access that array and do whatever we wanna do with it. But somehow in object-orientation land people think this is bad.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,1247 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>Moose Traits vs. Sq // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.123.1">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="" />
+        <link rel="stylesheet" href="/css/main.min.0fa334c3f2650e7000dfc8e81f59d23191e59e78f62c565a598f4dc557c92abe.css" />
+        <script src="/static/code-toggle.js"></script>
+
+        
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Moose Traits vs. Sq"/>
+<meta name="twitter:description" content="Moose Traits vs. Sq (Explicit language) Did you ever hear of the Law of Demeter in object-orientation? Here is the idea behind it. Let&rsquo;s assume we have a class, and that class has a property named options. This options is an array.
+In procedural or functional programming we would just access that array and do whatever we wanna do with it. But somehow in object-orientation land people think this is bad."/>
+
+        <meta property="og:title" content="Moose Traits vs. Sq" />
+<meta property="og:description" content="Moose Traits vs. Sq (Explicit language) Did you ever hear of the Law of Demeter in object-orientation? Here is the idea behind it. Let&rsquo;s assume we have a class, and that class has a property named options. This options is an array.
+In procedural or functional programming we would just access that array and do whatever we wanna do with it. But somehow in object-orientation land people think this is bad." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/moose-traits-vs-sq/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-12-04T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-12-04T00:00:00+00:00" />
+
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>Writing about programming (Perl, F#) and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Moose Traits vs. Sq</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Dec 4, 2024
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    26 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+                            <a class="tag" href="https://davidraab.github.io/tags/perl/">Perl</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/sq/">Sq</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/oop/">Oop</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <h1 id="moose-traits-vs-sq-explicit-language">Moose Traits vs. Sq (Explicit language)</h1>
+<p>Did you ever hear of the <strong>Law of Demeter</strong> in object-orientation? Here
+is the idea behind it. Let&rsquo;s assume we have a class, and that class has
+a property named <code>options</code>. This <code>options</code> is an array.</p>
+<p>In procedural or functional programming we would just access that array
+and do whatever we wanna do with it. But somehow in object-orientation
+land people think this is bad. What you should instead do, that&rsquo;s what
+they are telling, is you should create <strong>methods</strong> that modify that attribute.</p>
+<p>Let&rsquo;s see some Perl Code to understand better. We have that simple class.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">package</span> <span class="nn">Stuff</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="mf">5.036</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">new</span><span class="p">($class) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">bless</span><span class="p">({</span><span class="n">options</span> <span class="o">=&gt;</span> <span class="o">[]</span><span class="p">},</span> <span class="nv">$class</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># getter</span>
+</span></span><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">options</span><span class="p">($self) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">options</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>With just that class we could do something like that.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$stuff</span> <span class="o">=</span> <span class="nn">Stuff</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">push</span> <span class="nv">@</span><span class="p">{</span> <span class="nv">$stuff</span><span class="o">-&gt;</span><span class="n">options</span> <span class="p">},</span> <span class="s">&#39;whatever&#39;</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>we could get a reference to the Array, then push values onto it. But
+&ldquo;<strong>proper</strong>&rdquo; object-orientation and the <strong>Law of Demeter</strong> tells you, you
+shouldn&rsquo;t do that. So how do we solve the issue to add a new option to
+the <code>options</code> field? Of course we need to write another method that does
+that.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">add_option</span><span class="p">($self, @args) {</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">push</span> <span class="nv">@</span><span class="p">{</span> <span class="nv">$stuff</span><span class="o">-&gt;</span><span class="n">options</span> <span class="p">},</span> <span class="nv">@args</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now with this method we finally can do.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="nv">$stuff</span><span class="o">-&gt;</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;whatever&#39;</span><span class="p">,</span> <span class="s">&#39;yes&#39;</span><span class="p">,</span> <span class="s">&#39;no&#39;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But this kind of code is actually kind of silly to say at least. It basically
+just wraps our <code>push ...</code> code we anyway could write into a method.</p>
+<p>You know what i think is funny? Object-orientation always tells you that it
+somehow delivers re-usable code, but it doesn&rsquo;t. This is just one example.
+Now for every array you have and you want to add a field you have to write
+the same method again and again.</p>
+<p>You have another field that is an array and you wanna be able to add something
+to it? Yeah, write that method again. Just with another name.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">add_flag</span><span class="p">($self, @args) {</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">push</span> <span class="nv">@</span><span class="p">{</span> <span class="nv">$stuff</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="p">},</span> <span class="nv">@args</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>How often do you wanna write crap code like that? Maybe after your thousands
+object you created and thousands of such properties, maybe you finally will
+release how idiotic this kind of coding becomes.</p>
+<p>So, what is a better alternative? Well, i don&rsquo;t know if it is better, but in
+Perl we easily can create the methods through code. For example we could
+generate the following function, that returns such a method.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">gen_push_array</span><span class="p">($field) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">sub</span><span class="p">(</span><span class="nv">$self</span><span class="p">,</span> <span class="nv">@args</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">push</span> <span class="nv">@</span><span class="p">{</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="nv">$field</span><span class="p">}</span> <span class="p">},</span> <span class="nv">@args</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>With such a function we now can write.</p>
+<pre tabindex="0"><code>no warnings;
+*add_option = gen_push_array(&#39;options&#39;);
+*add_flag   = gen_push_array(&#39;flags&#39;);
+</code></pre><p>So the function <code>gen_push_array</code> actually creates the method for us and
+when Perl&rsquo;s compilation stage ends it creates the methods for us by installing
+the methods to the symbol table.</p>
+<p>It reduces the code we have to write a lot. We still have to write a single
+line to add such a method, but this one line is better than always writing
+the whole method again and again, or not?</p>
+<p>When we are just pushing a value onto an array then it doesn&rsquo;t seems like
+a great win. But this rapidly will change once you have more complex logic.</p>
+<p>What is about sorting that array? Finding a value in that array? how about
+getting the minimum or maximum value? How about summing all values, iterating
+that array and so on.</p>
+<p>Do you always want to re-write the same logic again and again? Don&rsquo;t you have
+more important stuff todo as a programmer as writing those silly functions
+again and again?</p>
+<h1 id="moose-to-the-rescue">Moose to the Rescue?</h1>
+<p>Now we could write our own library and put functions like <code>gen_push_array</code>
+into it. Functions that when you call them create the apropiate methods for
+you. But we already have those libraries. <code>Moose</code> is one of them.</p>
+<p>But before we delve into that, here is one important question you can think
+of. What is wrong about just having a utility library?</p>
+<p>Let&rsquo;s assume we want the minimum value of an array, we just can write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">min</span><span class="p">($array) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$min_so_far</span> <span class="o">=</span> <span class="nb">undef</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="k">my</span> <span class="nv">$x</span> <span class="p">(</span> <span class="nv">@$array</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="nb">defined</span> <span class="nv">$min_so_far</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">$min_so_far</span> <span class="o">=</span> <span class="nv">$x</span> <span class="k">if</span> <span class="nv">$x</span> <span class="o">&lt;</span> <span class="nv">$min_so_far</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">$min_so_far</span> <span class="o">=</span> <span class="nv">$x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>when we want the minimum value of an array i now can write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$min</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span> <span class="nv">$object</span><span class="o">-&gt;</span><span class="n">method_arrayrref</span> <span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>why the hell do think object-oriented programmers think that this <code>min</code>
+function must be part as some method on every damn object?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$min</span> <span class="o">=</span> <span class="nv">$object</span><span class="o">-&gt;</span><span class="n">min_method</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Just think clearly for a moment and forget all that OO superior bullshit you
+are wrongly teached.</p>
+<p>A procedural function like <code>min</code> would be re-usable and you only have
+to implement it a single time. While in object-oriented land you basically
+have to write such a min function for every damn array field in every damn
+class you ever create.</p>
+<p>And while you do that. They are lying into your face and telling you
+how object-orientation helps in writing re-usable code. Re-usable my ass!</p>
+<p>Okay, let&rsquo;s go to <strong>Moose</strong>. They way how <strong>Moose</strong> &ldquo;fixes&rdquo; our problem is
+by giving you traits and creating delegate methods for you. It looks like
+this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">package</span> <span class="nn">Stuff</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">use</span> <span class="nn">Moose</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">has</span> <span class="s">&#39;options&#39;</span> <span class="o">=&gt;</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">traits</span>  <span class="o">=&gt;</span> <span class="p">[</span><span class="s">&#39;Array&#39;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">is</span>      <span class="o">=&gt;</span> <span class="s">&#39;ro&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">isa</span>     <span class="o">=&gt;</span> <span class="s">&#39;ArrayRef[Str]&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">default</span> <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span> <span class="o">[]</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">handles</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">all_options</span>    <span class="o">=&gt;</span> <span class="s">&#39;elements&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">add_option</span>     <span class="o">=&gt;</span> <span class="s">&#39;push&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">map_options</span>    <span class="o">=&gt;</span> <span class="s">&#39;map&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">filter_options</span> <span class="o">=&gt;</span> <span class="s">&#39;grep&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">find_option</span>    <span class="o">=&gt;</span> <span class="s">&#39;first&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">get_option</span>     <span class="o">=&gt;</span> <span class="s">&#39;get&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">join_options</span>   <span class="o">=&gt;</span> <span class="s">&#39;join&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">count_options</span>  <span class="o">=&gt;</span> <span class="s">&#39;count&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">has_options</span>    <span class="o">=&gt;</span> <span class="s">&#39;count&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">has_no_options</span> <span class="o">=&gt;</span> <span class="s">&#39;is_empty&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sorted_options</span> <span class="o">=&gt;</span> <span class="s">&#39;sort&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So what this code does is the following. It creates a class with the field
+<code>options</code> that by default is an empty array. It also does a type checking
+of just accepting strings.</p>
+<p>Additionally it creates methods like <code>add_option</code>, <code>map_options</code>, <code>filter_options</code>
+and so on as methods on <code>Stuff</code>, so you don&rsquo;t have to write that crap again
+and again.</p>
+<p>You can use that <code>Stuff</code> class like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$stuff</span> <span class="o">=</span> <span class="nn">Stuff</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$stuff</span><span class="o">-&gt;</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;whatever&#39;</span><span class="p">,</span> <span class="s">&#39;foo&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$foo</span>   <span class="o">=</span> <span class="nv">$stuff</span><span class="o">-&gt;</span><span class="n">get_option</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">@fs</span>    <span class="o">=</span> <span class="nv">$stuff</span><span class="o">-&gt;</span><span class="n">filter_options</span><span class="p">(</span><span class="k">sub</span> <span class="p">{</span> <span class="sr">m/\Af/</span> <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$count</span> <span class="o">=</span> <span class="nv">$stuff</span><span class="o">-&gt;</span><span class="n">count_options</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Seems nice, now we don&rsquo;t need to at least rewrite that whole functions again
+and again.</p>
+<h1 id="doing-it-the-sq-way">Doing it the Sq way</h1>
+<p>So now let&rsquo;s look at how we work with <code>Sq</code>. First of, we don&rsquo;t think in
+objects. We go back down at how Perl started, we think and divide things
+into data and code. We have code that operate on data. Data itself
+is just data. And because we are in Perl it&rsquo;s dynamic typed.</p>
+<p>Dynamic typing surely also has some drawbacks, but it also has some advantages
+as it let&rsquo;s us built data in a very clean way without thinking about the
+structure too much. We also can do multiple transformation steps with
+intermediate data representation until we reach our final representation,
+but forget about it here, this post is not about dynamic typing or static
+typing.</p>
+<p>So that <code>Stuff</code> class will be represensetd like this in <code>Sq</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$stuff</span> <span class="o">=</span> <span class="n">sq</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">options</span> <span class="o">=&gt;</span> <span class="o">[]</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and voila, that&rsquo;s all. The <code>sq</code> function recursively traverse the reference
+you pass it to and adds the <code>Array</code> and <code>Hash</code> blessing to that data.</p>
+<p>You are supposed to work with <code>$stuff</code> like any Hash or Array you are used in Perl.
+But the added blessing allows you to call some additional methods on it.</p>
+<p>The idea is simple. Let&rsquo;s go back to the <code>min</code> example. Sq provides
+a function named <code>Array::min</code>, and you can call this function in this
+way</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$opt_min</span> <span class="o">=</span> <span class="nn">Array::</span><span class="n">min</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">]);</span> <span class="c1"># Some(-3)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As you can see it is basically just a helper function in the procedural
+way. <code>min</code> is implemented once, no need to re-write it a thousand times.</p>
+<p>But Perls object orientation is unique that by adding a blessing to a package
+we basically can call it as a method. Now consider the following. While it looks
+object-oriented, it is not. To it&rsquo;s core <code>Sq</code> just uses Perl OO feature
+as a convenient way to write all functions in a chaining syntax.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$opt_min</span> <span class="o">=</span> <span class="nn">Array</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">min</span><span class="p">;</span> <span class="c1"># Some(-3)</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$opt_min</span> <span class="o">=</span> <span class="nn">Array::</span><span class="n">min</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">]);</span>    <span class="c1"># Some(-3)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It&rsquo;s just about having a better syntax that allows chaining operation. But
+you still can use both ways. The second way has the benefit that it also
+works with unblessed Arrays as any function in the <code>Array</code> package should do.</p>
+<p>So let&rsquo;s go back to our <code>Stuff</code> example. Here look at the comparison again.
+This is Moose.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$stuff</span> <span class="o">=</span> <span class="nn">Stuff</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$stuff</span><span class="o">-&gt;</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;whatever&#39;</span><span class="p">,</span> <span class="s">&#39;foo&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$foo</span>   <span class="o">=</span> <span class="nv">$stuff</span><span class="o">-&gt;</span><span class="n">get_option</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>                  <span class="c1"># foo</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">@fs</span>    <span class="o">=</span> <span class="nv">$stuff</span><span class="o">-&gt;</span><span class="n">filter_options</span><span class="p">(</span><span class="k">sub</span> <span class="p">{</span> <span class="sr">m/\Af/</span> <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$count</span> <span class="o">=</span> <span class="nv">$stuff</span><span class="o">-&gt;</span><span class="n">count_options</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This is Sq.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$stuff</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">options</span> <span class="o">=&gt;</span> <span class="o">[]</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$stuff</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">options</span><span class="p">}</span><span class="o">-&gt;</span><span class="nb">push</span><span class="p">(</span><span class="s">&#39;whatever&#39;</span><span class="p">,</span> <span class="s">&#39;foo&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$foo</span>    <span class="o">=</span> <span class="nv">$stuff</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">options</span><span class="p">}[</span><span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$fs</span>     <span class="o">=</span> <span class="nv">$stuff</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">options</span><span class="p">}</span><span class="o">-&gt;</span><span class="n">filter</span><span class="p">(</span><span class="n">sub</span><span class="p">(</span><span class="nv">$str</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$str</span> <span class="o">=~</span> <span class="sr">m/\Af/</span> <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$length</span> <span class="o">=</span> <span class="nv">$stuff</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">options</span><span class="p">}</span><span class="o">-&gt;</span><span class="nb">length</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So what basically changes is</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="nv">$stuff</span><span class="o">-&gt;</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;whatever&#39;</span><span class="p">,</span> <span class="s">&#39;foo&#39;</span><span class="p">);</span>      <span class="c1"># Moose</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$stuff</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">options</span><span class="p">}</span><span class="o">-&gt;</span><span class="nb">push</span><span class="p">(</span><span class="s">&#39;whatever&#39;</span><span class="p">,</span> <span class="s">&#39;foo&#39;</span><span class="p">);</span> <span class="c1"># Sq</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So all it does is basically a naming convention from <code>add_option</code> to
+a <code>option_add</code> naming convention instead.</p>
+<p>But, there is one big difference. You don&rsquo;t need to install those delegates.
+Not only that, we don&rsquo;t even need to create a class. I mean to
+work with <code>Stuff</code> and just the <code>option</code> field we had to create a package
+and write nearly 20 lines of code just for the <code>option</code> field.</p>
+<p>In <code>Sq</code> all of it is done in 3 lines of code and no package/class is needed. And not
+only do you have the same advantages, it provides a lot more functions too!</p>
+<p>Here are just some functions/methods that are currently written for the
+Array package: <strong>all, any, append, map, bind, cartesian, blit, copy, count, as_hash,
+choose, distinct, sort, sort_by, min, max, filter, find, first, last, fold,
+iter, intersperse, index, join, mapi, zip, push, pop, pick, repeat, reduce,
+rev, skip, take, slice, split, sum, sum_by, windowed</strong></p>
+<p>Those are not all functions, just to list the most important one. On top
+it also provides a lot of functions that helps in creating arrays in various
+ways. Those supposed to be called as constructors like <code>Array-&gt;new</code>.
+We have: <strong>new, init, unfold, range, range_step, replicate, concat</strong></p>
+<h1 id="validation">Validation?</h1>
+<p>One reason why we created methods in object-orientation was because of
+validation. In some sense and for Perl this meant we can add type-checking.</p>
+<p>And I don&rsquo;t think that fits Perl good. Look I absolutely like types in general,
+as I like working with F#. They have they benefits and sometimes they are also
+annoying.</p>
+<p>With <code>Sq</code> i actually try to bring ideas from <strong>F#</strong> or in general <strong>ML</strong>
+languages to Perl that heavily rely on types. But still I don&rsquo;t try to add
+type-checking (everywhere) or the idea of fixed data-structures.</p>
+<p>Why? Because if that is what you want, i guess you better use a language like
+<strong>F#</strong>. Dynamic typing has it&rsquo;s benefits and this module tries to use those
+benefits and not trying to work against them.</p>
+<p>In Moose we add least had the ability to add some types, for example
+<code>add_option</code> checks if everything we add is a <code>string</code>. But this has it&rsquo;s
+price because this kind of type-checking happens whenever you call any
+method and is a runtime type-check.</p>
+<p>Consider that the typical type-checking a static typed language has happens
+at compilation time, not at runtime. That is what <strong>static</strong> actually means.
+So those languages have type-checking at the compilation step but those are
+removed when the program runs. That&rsquo;s one reason why those languages are faster.</p>
+<p>But you can see why adding runtime type checks into a language like Perl
+that has no separated heavily optimized compiler steps or a Just-in-Time
+compiler to optimize further is maybe not the best idea?</p>
+<p><code>Sq</code> in the future will provide a function based type-checking simply based
+on predicates. That means you can create just a simple function that either
+returns a boolean value if some kind of data-structure fullfills a type, or
+don&rsquo;t. But this kind of type-checking leads to a different way on how you
+work and build things.</p>
+<p>You are supposed to work with data. Transform your data as much you want
+and only after everything is done, you maybe check if whatever you created
+is valid. You don&rsquo;t try to type-check every damn modification, especially
+not when it implies a lot of cpu performance.</p>
+<p>Further down the road <code>Sq</code> will provide an AOP (Aspect-Oriented-Programing)
+mechanism to add type-checking to function calls. That means you can add
+or remove type-checking at will.</p>
+<p>For example as long as you develope you can add the type-checking and ensure your
+code is correct and run your test-suite with it. But in production code when
+speed matters those type-checks are removed. Very much like a <strong>static</strong> compiled
+language.</p>
+<h1 id="another-example">Another Example</h1>
+<p>Let&rsquo;s look at another example on why I think this programming model is superior.
+Here is some data. Can you guess what it is just from seeing the data?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$album</span> <span class="o">=</span> <span class="n">sq</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">artist</span> <span class="o">=&gt;</span> <span class="s">&#39;Michael Jackson&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span>  <span class="o">=&gt;</span> <span class="s">&#39;Thriller&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tracks</span> <span class="o">=&gt;</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;Wanna Be Startin’ Somethin&#34;</span><span class="p">,</span> <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">363</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;Baby Be Mine&#34;</span><span class="p">,</span>               <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">260</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;The Girl Is Mine&#34;</span><span class="p">,</span>           <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">242</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;Thriller&#34;</span><span class="p">,</span>                   <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">357</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;Beat It&#34;</span><span class="p">,</span>                    <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">258</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;Billie Jean&#34;</span><span class="p">,</span>                <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">294</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;Human Nature&#34;</span><span class="p">,</span>               <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">246</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;P.Y.T.&#34;</span><span class="p">,</span>                     <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">239</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;The Lady in My Life&#34;</span><span class="p">,</span>        <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">300</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now let&rsquo;s assume i want to get the track with the maximum running time. I
+would write something like that.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$opt_longest_track</span> <span class="o">=</span> <span class="nv">$album</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">tracks</span><span class="p">}</span><span class="o">-&gt;</span><span class="n">max_by</span><span class="p">(</span><span class="n">sub</span><span class="p">(</span><span class="nv">$track</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$track</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">duration</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This just gives me the longest track as an optional value. What is an
+optional value you may ask? It&rsquo;s a value that contains the direct representation
+of either having a value or don&rsquo;t, but with methods on it. See <code>Sq::Core::Option</code>
+for further information. I now could do the following.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="nv">$opt_longest_track</span><span class="o">-&gt;</span><span class="n">match</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">None</span> <span class="o">=&gt;</span> <span class="k">sub</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">printf</span> <span class="s">&#34;No longest Track found. No Tracks defined?\n&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Some</span> <span class="o">=&gt;</span> <span class="n">sub</span><span class="p">(</span><span class="nv">$track</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">printf</span> <span class="s">&#34;Longest track is %s with %d seconds&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">$track</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">title</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">$track</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">duration</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now consider the following. OO fanatics tells you that directly accessing <code>tracks</code>
+is bad. So how would you get the longest Track from a album?</p>
+<p>I hope that class already implements that logic for you to access it. If not,
+maybe it implements iterating through that array? When you are the one
+who writes the class. Well than you have to implement at least a function
+that iterates through tracks or get the maximum. Maybe both.</p>
+<p>But again. Why the hell do you wanna rewrite iterating through an array?
+USE YOUR FUCKING LANGUAGE FEATURES!!!</p>
+<p>So here is a next improvement. You know, in Perl we work a lot with hashes,
+one thing we often need is to select a key from a hash. And because <code>Sq</code>
+heavily works with lambda it provides a helper function creating such functions.
+Here is what you also can write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="c1"># without &#39;key&#39; function</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$opt_longest_track</span> <span class="o">=</span> <span class="nv">$album</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">tracks</span><span class="p">}</span><span class="o">-&gt;</span><span class="n">max_by</span><span class="p">(</span><span class="n">sub</span><span class="p">(</span><span class="nv">$track</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$track</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">duration</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># with &#39;key&#39; function</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$opt_longest_track</span> <span class="o">=</span> <span class="nv">$album</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">tracks</span><span class="p">}</span><span class="o">-&gt;</span><span class="n">max_by</span><span class="p">(</span><span class="n">key</span> <span class="s">&#39;duration&#39;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In the above example I used <code>match</code>. Actually <code>match</code> is an expression
+and returns whatever those Some/None functions return. But it is also fine to just
+do some side-effects like printing. But let&rsquo;s assume you only want
+to execute some piece of code when you had some value, otherwise nothing
+should print. Then you can use <code>iter</code> instead. The <code>iter</code> here comes
+from <code>Option::iter</code> as <code>max_by</code> returns an <code>Option</code> value.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="nv">$album</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">tracks</span><span class="p">}</span><span class="o">-&gt;</span><span class="n">max_by</span><span class="p">(</span><span class="n">key</span> <span class="s">&#39;duration&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">iter</span><span class="p">(</span><span class="n">sub</span><span class="p">(</span><span class="nv">$track</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">printf</span> <span class="s">&#34;Longest track is %s with %d seconds&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$track</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">title</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$track</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">duration</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This piece of code searches for the longest track, and if it found one,
+usually this is the case as long the array is not empty, then it will print it.
+Otherwise nothing will happen.</p>
+<h1 id="classesmethods-are-bad">Classes/Methods are bad</h1>
+<p>You see what the biggest problem on classes or methods are? By default
+&ldquo;proper good&rdquo; OO tells you, you never should access data directly. It goes
+by the name <strong>encapsulation</strong>. But this kind of thinking brings you into a
+corner that you only can do things that the class implemented for you.</p>
+<p>But what do you do if you want todo something that is not present/implemented
+by the class?</p>
+<p>You see, when you just have data, it is completly up to you whatever you
+want todo with your data. Having a great utility belt with hundreds of function
+on Hash/Array provides you with all kind of tasks you need todo.</p>
+<p>Let&rsquo;s say for comparison someone would have returned me <code>Album</code> class
+but didn&rsquo;t provided me a proper iteration for the <code>tracks</code> field nor a
+<code>longest_track</code> method. Then how am i supposed to work with that object?</p>
+<p>At least some kind of iteration would be good, but you know, i don&rsquo;t want to
+write a <code>max</code> function to pick the longest track for the thousand time.</p>
+<p>Let&rsquo;s assume I am the one who have written the <code>Album</code> class, usually I then
+write code at least for my needs. So what happens if I share my code and
+now someone needs a function for also getting the <code>min</code> track?</p>
+<p>Do i really seriously have to write it again and again? Does it mean that
+whenever i create a class with an array field i better have to implement
+like 50 functions again and again for every damn field so hopefully everyone
+using my class can do whatever they need todo?</p>
+<p>Isn&rsquo;t that a real bad and completely inefficent way to write code? Can it
+get any more worse?</p>
+<p>By exposing data, and just data, and giving everyone full access to data you
+can assume the following.</p>
+<h2 id="fast">Fast</h2>
+<p>Accessing just data without method overhead. Calling a method is not for free
+even if that method literally does nothing. In the distribution there is
+a <strong>benchmarks/moose.pl</strong> file you can look into and execute. The fastest
+getter/setter in pure Perl i could come up still was three times slower
+than just accessing a field in a hash directly.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="nv">$obj</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$obj</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">title</span><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So you basically just get 1/3 of the performance so you don&rsquo;t need to write
+those curly braces. Setting is even more worse.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="nv">$obj</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;whatever&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$obj</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">title</span><span class="p">}</span> <span class="o">=</span> <span class="s">&#39;whatever&#39;</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So setting means we replaced curly braces with parenthesis! Awesome! But at
+least Lisp people will like that! And everything just costs us 2/3 of
+performance and we have to use a big library with all kinds of code
+generation because otherwise we go insane writing the millionst getter/setter!</p>
+<h2 id="re-use">Re-Use</h2>
+<p>By just exposing Array/Hash and providing methods/functions on it you get
+real re-use of code. No need to re-write the same old boring array/hash
+transformations or extraction functions you already have written a thousand
+times or maybe even more.</p>
+<h2 id="no-limitations">No Limitations</h2>
+<p>By exposing the data directly with all of it&rsquo;s functionality I let whoever
+use that data do whatever they like to it. They can extract and transform
+everything as they like. And i don&rsquo;t have to care a single bit anymore in
+implementing all kinds of methods because Array/Hash already ships with
+the implementation. Let those people just use the data as they want. It&rsquo;s
+good for everyone!</p>
+<h1 id="disadvantages">Disadvantages?</h1>
+<p>Everything has its advantages and disadvantages. Exposing data directly,
+especially mutable data can have some problems.</p>
+<p>I don&rsquo;t think having invalid data in itself is so bad as people always claim,
+but this is maybe a topic on it&rsquo;s own. The Moose example had one advantage
+that it also checked for a string when we called <code>add_option</code>. So only
+strings get added.</p>
+<p>By exposing data directly you don&rsquo;t have that ability anymore to do
+type-checking. For example someone could do</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="nv">$album</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">tracks</span><span class="p">}</span><span class="o">-&gt;</span><span class="nb">push</span><span class="p">({</span><span class="n">foo</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Someone just can add a silly hash like <code>{foo =&gt; 1}</code> that doesn&rsquo;t really
+represent a Track. Is that a problem?</p>
+<p>Yes and no.</p>
+<p>Yes i can write code, return data that represent an album and someone else
+can put garbage in it. It&rsquo;s possible, but why should i care? If people wanna
+do stupid things just let them do that. It&rsquo;s not my problem when they invalidate
+that data!</p>
+<p>Maybe it also can have some reason why they put that into it? I mean maybe after
+I returned my data a user does some transformation on it. Should i prohibit
+as a programmer that he can do that? Why should I?</p>
+<p>As a user of your own system all you usually need is just a function that helps
+you in the creation of your hashes. If you need type-checking, just add a function!</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">track</span><span class="p">($title, $duration) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nn">Hash</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">title</span>    <span class="o">=&gt;</span> <span class="nv">$title</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">duration</span> <span class="o">=&gt;</span> <span class="nv">$duration</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>When you want to add some more type checking. Fine! Do whatever you want.
+You don&rsquo;t need more than a function to add this. But still consider that
+<code>track</code> just returns a Hash that allows you to freely change or modify
+its data. Why should it be a problem? It doesn&rsquo;t have to be a <code>Track</code> class
+with poor functionality!</p>
+<p>Another way in how it is usually resolved is to sticking to <strong>immutable</strong> data
+instead. This means once data is created, you cannot modify it anymore. Any
+modification returns new data.</p>
+<p>In some sense <code>Sq</code> is written in that way, because most function you write
+create new data instead of modifying it&rsquo;s data. Even when Array or Hash
+are mutable you use them like you do in immutable programming. The idea
+is that you built up data, even in a mutable way, and once done you usually
+don&rsquo;t change them anymore.</p>
+<p>But again. The above shows one problem. It&rsquo;s too much the way of object
+thinking. Why even create a <code>track</code> function. Why not directly create a
+<code>add_track</code> function that expects an <code>$album</code> as a whole?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">add_track</span><span class="p">($album, $title, $duration) {</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$album</span><span class="o">-&gt;</span><span class="nb">push</span><span class="p">(</span><span class="n">tracks</span> <span class="o">=&gt;</span> <span class="nn">Hash</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">title</span>    <span class="o">=&gt;</span> <span class="nv">$title</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">duration</span> <span class="o">=&gt;</span> <span class="nv">$duration</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">add_track</span><span class="p">(</span><span class="nv">$album</span><span class="p">,</span> <span class="s">&#39;Bonus Track&#39;</span><span class="p">,</span> <span class="mi">240</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Stop thinking in the small and trying to make every field its own object,
+consider the whole data-structure, no matter how deep that structure is with
+hashes/arrays, as a whole unit that gets modified.</p>
+<p>This way you come up with useful functions that really saves you time.
+Don&rsquo;t do</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">add_track</span><span class="p">(</span><span class="nv">$album</span><span class="p">,</span> <span class="n">track</span><span class="p">(</span><span class="s">&#39;Bonus Track&#39;</span><span class="p">,</span> <span class="mi">240</span><span class="p">));</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Even if that is also totally fine sometimes! But here it doesn&rsquo;t really makes
+sense. A single <strong>Track</strong> is not something that really exists on its own, its
+part of an <strong>Album</strong>.</p>
+<p>Maybe you need the total runtime of an album?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">album_total_runtime</span><span class="p">($album) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nv">$album</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">tracks</span><span class="p">}</span><span class="o">-&gt;</span><span class="n">sum_by</span><span class="p">(</span><span class="n">key</span> <span class="s">&#39;duration&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$total_time</span> <span class="o">=</span> <span class="n">album_total_runtime</span><span class="p">(</span><span class="nv">$album</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Sure <code>Sq</code> also can come with speed penality. Even when I think that it usually
+will outperform any kind of OO module it still has some overhead. It
+heavily rely on creating lambdas all over the place and also expecting
+and calling lambda functions. Calling functions is not for free!</p>
+<p>As you can see in the <strong>moose.pl</strong> benchmark you already loose 2/3 of performance
+just because you use a getter/setter to access a hash field!</p>
+<p>So what do you do when you encounter performance problems? Well you always
+can rewrite those functions in a pure perl version. In profiling
+you measured that <code>album_total_runtime</code> causes most problems? No problem
+just rewrite it!</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">album_total_runtime</span><span class="p">($album) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="k">my</span> <span class="nv">$track</span> <span class="p">(</span> <span class="nv">@</span><span class="p">{</span> <span class="nv">$album</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">tracks</span><span class="p">}</span> <span class="p">}</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$sum</span> <span class="o">+=</span> <span class="nv">$track</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">duration</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nv">$sum</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The very fact that we threat <code>$album</code> just as pure data and we always have
+access to everything is also the reason why we can do that kind of approach!
+In an object-oriented codebase where we had some kind of objects we couldn&rsquo;t
+do that! We at least had to open the maintainers code/class, maybe change
+the implementation and then commit our changes hoping it maybe get accepted
+or not.</p>
+<p>While working together is nice. Why go through all of that trouble? Everybody
+should be able to just write any kind of data-transformation function for some
+piece of data without that any kind of collaberation is enforced!</p>
+<p>It&rsquo;s also up to you how much <code>Sq</code> you wanna use. We also can write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">album_total_runtime</span><span class="p">($album) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nv">$album</span><span class="o">-&gt;</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;tracks&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">map</span><span class="p">(</span><span class="n">sub</span><span class="p">(</span><span class="nv">$tracks</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">my</span> <span class="nv">$sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="k">my</span> <span class="nv">$track</span> <span class="p">(</span> <span class="nv">@$tracks</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">$sum</span> <span class="o">+=</span> <span class="nv">$track</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">duration</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nv">$sum</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span><span class="o">-&gt;</span><span class="ow">or</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The <code>Hash::get</code> function we call on <code>$album</code> returns the field as an
+optional. That means we either get <strong>Some value</strong> with the value in it,
+or it returns <strong>None</strong> when the key <code>tracks</code> in the Hash does not exists
+or is not defined.</p>
+<p>It then calls <code>Option::map</code> on that result. Either executing our sum
+function when we have <code>$tracks</code> or don&rsquo;t. The final <code>-&gt;or(0)</code> call
+comes from <code>Option::or</code> and either returns the calculated sum or <code>0</code> when
+we had no <code>tracks</code> field.</p>
+<p>But the crucial loop that actually creates the most performance impact is
+written without overhead. The above code translates to.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">album_total_runtime</span><span class="p">($album) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="nb">defined</span> <span class="nv">$album</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">tracks</span><span class="p">}</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="k">my</span> <span class="nv">$track</span> <span class="p">(</span> <span class="nv">@</span><span class="p">{</span> <span class="nv">$album</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">tracks</span><span class="p">}</span> <span class="p">}</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">$sum</span> <span class="o">+=</span> <span class="nv">$track</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">duration</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nv">$sum</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="gettersetters-are-bad">Getter/Setters are bad</h1>
+<p>But you know which lesson I have learned the most through all kinds of
+languages and using typical OO code?</p>
+<p>That all kinds of getters/setters are bad. Usually in OO they tell you
+that it is good. When you have that getter/setter you can just do
+that <strong>one additional thing</strong> while you get/set a value.</p>
+<p>Oh gosh, and you know what? Whenever that happens and a getter/setter does
+more than just getting or setting a variable, it ALWAYS CAUSES PROBLEMS! You
+just think you retrieve that one thing, or set one kind of field, but
+noooooo it does not.</p>
+<p>Suddenly a callback is called, some kind of other hidden piece of data is changed.
+Maybe you call a getter and think you just retrieve a field, but no, instead
+it just calculates a whole value again and again whenever you call it
+causing serious performance issues and you don&rsquo;t have a fucking clue that it
+does that because you think it is just a stupid getter!</p>
+<p>I mean look at <code>Moose</code>. When you create classes with <code>Moose</code> what do 99% of
+your field do you create? I guess not much, you just set a field to either &lsquo;ro&rsquo;
+or &lsquo;rw&rsquo; and maybe add a type constraint. That&rsquo;s what 99% of your fields look
+like. Moose is just there because it&rsquo;s a pain to always write the full
+<code>new</code> and all the getters/setters yourself!</p>
+<p>But again, why bother with getter/setters? Most of the time classes are just
+wrappers around hashes. And those getters/setters are just functions to get
+and set a value in a hash, that&rsquo;s it. But it comes at a high price you pay so
+you can maybe type two characters less. Remember.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$time</span> <span class="o">=</span> <span class="nv">$obj</span> <span class="o">-&gt;</span><span class="nb">time</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$time</span> <span class="o">=</span> <span class="nv">$hash</span><span class="o">-&gt;</span><span class="p">{</span><span class="nb">time</span><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>One reason why we used classes in Perl is because its dynamic typing nature
+of a Hash and how Perl works is prone to typing errors. Let&rsquo;s assume we
+would have written. <code>ttime</code> instead of <code>time</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$time</span> <span class="o">=</span> <span class="nv">$obj</span> <span class="o">-&gt;</span><span class="n">ttime</span><span class="p">;</span>   <span class="c1"># throws exception</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$time</span> <span class="o">=</span> <span class="nv">$hash</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">ttime</span><span class="p">};</span> <span class="c1"># returns undef</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Yeah, i get it. In that case it is really good that we get an exception,
+because what we have here is basically a programming error. We try to
+access a field that doesn&rsquo;t exists.</p>
+<p>It&rsquo;s like not using <code>use strict</code> and suddenly every variable you not
+explicitly define is not even an error anymore. Horrible. But Python
+developers that have that mantra about explicit is better than implicit
+will tell you that this is implicit creation of variables is not a problem.</p>
+<p>But do you know that Perl added something like <strong>restricted hashes</strong> since
+Perl 5.8? You actually can restrict a Hash to certain kinds of keys. So
+whenever you try to read/write a key that is not allowed it throws an exception.
+In <code>Hash::Util</code> you will find those functions to restrict a hash. Also those
+abilities are built into <code>Sq</code>. You can write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$hash</span> <span class="o">=</span> <span class="nn">Hash</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span>    <span class="o">=&gt;</span> <span class="s">&#39;whatever&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$title</span> <span class="o">=</span> <span class="nv">$hash</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">tile</span><span class="p">};</span> <span class="c1"># throws exception</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The <code>Hash::lock</code> method restricts the Hash to its current fields. So only
+getting or setting <code>title</code> or <code>duration</code> is now allowed. Everything else
+turns into an exception.</p>
+<h1 id="dynamic-typing">Dynamic Typing</h1>
+<p>Let&rsquo;s go quickly about some advantages you can do in a dynamic-typed language.
+Something you can do when you just treat data as data. Consider our Album again.</p>
+<p>Somewhere we have written code and we call</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$album</span> <span class="o">=</span> <span class="nv">$whatever</span><span class="o">-&gt;</span><span class="n">search</span><span class="p">(</span><span class="s">&#34;Michael Jackson Thriller&#34;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and the result we get is our data-structure we had above.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$album</span> <span class="o">=</span> <span class="n">sq</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">artist</span> <span class="o">=&gt;</span> <span class="s">&#39;Michael Jackson&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span>  <span class="o">=&gt;</span> <span class="s">&#39;Thriller&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tracks</span> <span class="o">=&gt;</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;Wanna Be Startin’ Somethin&#34;</span><span class="p">,</span> <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">363</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;Baby Be Mine&#34;</span><span class="p">,</span>               <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">260</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;The Girl Is Mine&#34;</span><span class="p">,</span>           <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">242</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;Thriller&#34;</span><span class="p">,</span>                   <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">357</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;Beat It&#34;</span><span class="p">,</span>                    <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">258</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;Billie Jean&#34;</span><span class="p">,</span>                <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">294</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;Human Nature&#34;</span><span class="p">,</span>               <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">246</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;P.Y.T.&#34;</span><span class="p">,</span>                     <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">239</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;The Lady in My Life&#34;</span><span class="p">,</span>        <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">300</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But you know, just working with the duration as seconds is not the best way.
+Maybe you wanna have a better representation of that?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">sub</span> <span class="nf">seconds_to_str</span><span class="p">($seconds) {</span>
+</span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$minutes</span> <span class="o">=</span> <span class="nb">int</span> <span class="p">(</span><span class="nv">$seconds</span> <span class="o">/</span> <span class="mi">60</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">       <span class="nv">$seconds</span> <span class="o">=</span> <span class="nv">$seconds</span> <span class="o">-</span> <span class="p">(</span><span class="nv">$minutes</span> <span class="o">*</span> <span class="mi">60</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">sprintf</span> <span class="s">&#34;%02d:%02d&#34;</span><span class="p">,</span> <span class="nv">$minutes</span><span class="p">,</span> <span class="nv">$seconds</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$album</span><span class="o">-&gt;</span><span class="n">on</span><span class="p">(</span><span class="n">tracks</span> <span class="o">=&gt;</span> <span class="n">sub</span><span class="p">(</span><span class="nv">$tracks</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="k">my</span> <span class="nv">$track</span> <span class="p">(</span> <span class="nv">@$tracks</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">my</span> <span class="nv">$dur</span> <span class="o">=</span> <span class="nv">$track</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">duration</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$track</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">duration</span><span class="p">}</span> <span class="o">=</span> <span class="n">sq</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">seconds</span>   <span class="o">=&gt;</span> <span class="nv">$dur</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">as_string</span> <span class="o">=&gt;</span> <span class="n">seconds_to_str</span><span class="p">(</span><span class="nv">$dur</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This is something that is basically not possible in a static typed language.
+We just iterate through the <code>tracks</code> array and changing the duration
+field.</p>
+<p>We replace every duration with a new Hash that now contains two pieces of
+information. For example a <code>duration = 240</code> now turns into.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="p">{</span> <span class="n">seconds</span> <span class="o">=&gt;</span> <span class="mi">240</span><span class="p">,</span> <span class="n">as_string</span> <span class="o">=&gt;</span> <span class="s">&#39;04:03&#39;</span> <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Okay, this example is a little bit made up. Because, why should you change
+that value when you have a function like <code>seconds_to_str</code> to just compute
+the value?</p>
+<p>But there are cases where this is helpfull, like when we iterate a
+certain kind of data-structure multiple times and while we do that we compute
+the time string multiple times. Instead of always recomputing the value
+we just can change our data-structure and compute the value once. So
+any other logic accessing the time field now has become a lot faster.</p>
+<p>What you see here is also the abilities <code>Sq</code> offers when working with Hashes.
+In this case we mutated the Hash, but we also can easily get a whole
+new <code>$album</code> value with all our changes applied without changing
+<code>$album</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$update</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$album</span><span class="o">-&gt;</span><span class="n">withf</span><span class="p">(</span><span class="n">tracks</span> <span class="o">=&gt;</span> <span class="n">sub</span><span class="p">(</span><span class="nv">$tracks</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">$tracks</span><span class="o">-&gt;</span><span class="nb">map</span><span class="p">(</span><span class="n">sub</span><span class="p">(</span><span class="nv">$track</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">$track</span><span class="o">-&gt;</span><span class="n">withf</span><span class="p">(</span><span class="n">duration</span> <span class="o">=&gt;</span> <span class="n">sub</span><span class="p">(</span><span class="nv">$dur</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nn">Hash</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">seconds</span>   <span class="o">=&gt;</span> <span class="nv">$dur</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">as_string</span> <span class="o">=&gt;</span> <span class="n">seconds_to_str</span><span class="p">(</span><span class="nv">$dur</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                <span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">});</span>
+</span></span><span class="line"><span class="cl">        <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>withf</code> is a function that allows us to create a copy of a hash with
+some fields changed. On <code>$album</code> we select <code>tracks</code> field to change
+and pass it a function that computes a new value from the current one.</p>
+<p>Then we just call <code>$tracks-&gt;map</code> and create a new Array by using
+the current <code>$track</code>. Here again on <code>$track</code> we select <code>duration</code>
+with <code>withf</code> to just change the duration and create a new Hash.</p>
+<p>Now <code>$update</code> has all changes applied without that <code>$album</code> got modified!
+It is up to you when you want to create new values or mutate data.</p>
+<p>Sure in a static typed language you could create a new type representing
+your new data structure. And doing this kind of immutable transformation is
+also very easy in a ML-like language like F#. But the direct in-place mutation
+is not really possible. Consider that while you do a mutation
+there is a time when some <code>duration</code> fields will contain just an <code>int</code>
+while other are already updated with a <code>Hash</code>.</p>
+<h1 id="further-info">Further Info</h1>
+<ul>
+<li><a href="https://github.com/DavidRaab/Sq">Sq Project Website</a></li>
+</ul>
+
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#moose-traits-vs-sq-explicit-language">Moose Traits vs. Sq (Explicit language)</a></li>
+    <li><a href="#moose-to-the-rescue">Moose to the Rescue?</a></li>
+    <li><a href="#doing-it-the-sq-way">Doing it the Sq way</a></li>
+    <li><a href="#validation">Validation?</a></li>
+    <li><a href="#another-example">Another Example</a></li>
+    <li><a href="#classesmethods-are-bad">Classes/Methods are bad</a>
+      <ul>
+        <li><a href="#fast">Fast</a></li>
+        <li><a href="#re-use">Re-Use</a></li>
+        <li><a href="#no-limitations">No Limitations</a></li>
+      </ul>
+    </li>
+    <li><a href="#disadvantages">Disadvantages?</a></li>
+    <li><a href="#gettersetters-are-bad">Getter/Setters are bad</a></li>
+    <li><a href="#dynamic-typing">Dynamic Typing</a></li>
+    <li><a href="#further-info">Further Info</a></li>
+  </ul>
+</nav> </aside>
+
+    </body>
+</html>

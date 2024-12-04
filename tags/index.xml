@@ -6,20 +6,34 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 28 Nov 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 04 Dec 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Dynamic-Typed</title>
-      <link>https://davidraab.github.io/tags/dynamic-typed/</link>
-      <pubDate>Thu, 28 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/dynamic-typed/</guid>
+      <title>Oop</title>
+      <link>https://davidraab.github.io/tags/oop/</link>
+      <pubDate>Wed, 04 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/oop/</guid>
       <description></description>
     </item>
     <item>
       <title>Perl</title>
       <link>https://davidraab.github.io/tags/perl/</link>
-      <pubDate>Thu, 28 Nov 2024 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 04 Dec 2024 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/tags/perl/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Sq</title>
+      <link>https://davidraab.github.io/tags/sq/</link>
+      <pubDate>Wed, 04 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/sq/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Dynamic-Typed</title>
+      <link>https://davidraab.github.io/tags/dynamic-typed/</link>
+      <pubDate>Thu, 28 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/dynamic-typed/</guid>
       <description></description>
     </item>
     <item>
@@ -62,13 +76,6 @@
       <link>https://davidraab.github.io/tags/interfaces/</link>
       <pubDate>Tue, 17 Sep 2024 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/tags/interfaces/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Oop</title>
-      <link>https://davidraab.github.io/tags/oop/</link>
-      <pubDate>Tue, 17 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/oop/</guid>
       <description></description>
     </item>
     <item>
