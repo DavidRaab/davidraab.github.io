@@ -6,8 +6,15 @@
     <description>Recent content on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 04 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 22 Dec 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Code as Data</title>
+      <link>https://davidraab.github.io/posts/code-as-data/</link>
+      <pubDate>Sun, 22 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/code-as-data/</guid>
+      <description>I have the following type definition.&#xA;1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 my $album = t_hash( t_with_keys(qw/artist title tracks/), t_keys( artist =&amp;gt; t_str(t_min 1), # string must have at least 1 char title =&amp;gt; t_str(t_min 1), tracks =&amp;gt; t_array( t_min(1), # Array must have at least 1 entry t_of( t_hash( # All entries must be hashes t_with_keys(qw/name duration/), t_keys( name =&amp;gt; t_str, duration =&amp;gt; $duration)))))); this is code that builds a function that you can run and type check against any value.</description>
+    </item>
     <item>
       <title>Moose Traits vs. Sq</title>
       <link>https://davidraab.github.io/posts/moose-traits-vs-sq/</link>
