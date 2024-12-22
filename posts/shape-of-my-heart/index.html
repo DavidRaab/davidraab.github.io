@@ -80,14 +80,13 @@
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
                             <a class="tag" href="https://davidraab.github.io/tags/perl/">Perl</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/sequence/">Sequence</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/perl-seq/">Perl-Seq</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/sq/">Sq</a>
                 </div>
             </div>
         </header>
         <div class="post-content">
             <p>Here are two programs that produces the same result.</p>
-<p>This is something I would have written without my Seq module.</p>
+<p>This is something I would have written without my <code>Sq</code> module.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -99,10 +98,10 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="p">[</span>
-</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="nb">map</span> <span class="p">{</span> <span class="p">[</span><span class="n">clubs</span>   <span class="o">=&gt;</span> <span class="nv">$_</span> <span class="p">]</span> <span class="p">}</span> <span class="sx">qw/7 8 9 10 B D K A/</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="nb">map</span> <span class="p">{</span> <span class="p">[</span><span class="n">spades</span>  <span class="o">=&gt;</span> <span class="nv">$_</span> <span class="p">]</span> <span class="p">}</span> <span class="sx">qw/7 8 9 10 B D K A/</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="nb">map</span> <span class="p">{</span> <span class="p">[</span><span class="n">hearts</span>  <span class="o">=&gt;</span> <span class="nv">$_</span> <span class="p">]</span> <span class="p">}</span> <span class="sx">qw/7 8 9 10 B D K A/</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="nb">map</span> <span class="p">{</span> <span class="p">[</span><span class="n">diamond</span> <span class="o">=&gt;</span> <span class="nv">$_</span> <span class="p">]</span> <span class="p">}</span> <span class="sx">qw/7 8 9 10 B D K A/</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="nb">map</span> <span class="p">{</span> <span class="p">[</span><span class="n">clubs</span>   <span class="o">=&gt;</span> <span class="nv">$_</span> <span class="p">]</span> <span class="p">}</span> <span class="sx">qw/7 8 9 10 J Q K A/</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="nb">map</span> <span class="p">{</span> <span class="p">[</span><span class="n">spades</span>  <span class="o">=&gt;</span> <span class="nv">$_</span> <span class="p">]</span> <span class="p">}</span> <span class="sx">qw/7 8 9 10 J Q K A/</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="nb">map</span> <span class="p">{</span> <span class="p">[</span><span class="n">hearts</span>  <span class="o">=&gt;</span> <span class="nv">$_</span> <span class="p">]</span> <span class="p">}</span> <span class="sx">qw/7 8 9 10 J Q K A/</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="nb">map</span> <span class="p">{</span> <span class="p">[</span><span class="n">diamond</span> <span class="o">=&gt;</span> <span class="nv">$_</span> <span class="p">]</span> <span class="p">}</span> <span class="sx">qw/7 8 9 10 J Q K A/</span><span class="p">),</span>
 </span></span><span class="line"><span class="cl"><span class="p">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -113,12 +112,18 @@
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="nn">Seq::</span><span class="n">cartesian</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">    <span class="nn">Seq</span><span class="o">-&gt;</span><span class="n">wrap</span><span class="p">(</span><span class="sx">qw/clubs spades hearts diamond/</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">    <span class="nn">Seq</span><span class="o">-&gt;</span><span class="n">wrap</span><span class="p">(</span><span class="sx">qw/7 8 9 10 B D K A/</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">use</span> <span class="nn">Sq</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$cards</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Seq::</span><span class="n">cartesian</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nn">Seq</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="sx">qw/clubs spades hearts diamond/</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nn">Seq</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="sx">qw/7 8 9 10 J Q K A/</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>This is the <a href="https://www.youtube.com/watch?v=QK-Z1K67uaA">Shape of my Heart</a></p>
@@ -138,11 +143,13 @@ also could have written.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
+</span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="nn">Seq</span><span class="o">-&gt;</span><span class="n">wrap</span><span class="p">(</span><span class="sx">qw/clubs spades hearts diamond/</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">cartesian</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">    <span class="nn">Seq</span><span class="o">-&gt;</span><span class="n">wrap</span><span class="p">(</span><span class="sx">qw/7 8 9 10 B D K A/</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$cards</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Seq</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="sx">qw/clubs spades hearts diamond/</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">cartesian</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nn">Seq</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="sx">qw/7 8 9 10 B D K A/</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>I prefer the first version <em>in this case</em>, in some other cases i prefer
@@ -162,6 +169,12 @@ advantages you want, for fast performance.</p>
 implementation in Perl. <strong>Discriminated Unions</strong> are such an awesome feature from F#,
 it makes it a pain to work in any other language that doesn&rsquo;t have this as
 a built-in language feature.</p>
+<h1 id="update">Update</h1>
+<p>Development switched from a module that was just about a sequence <code>Seq</code> to
+a new name <code>Sq</code>. This new module contains a lot of other stuff that work together
+like wrappers arround <code>Array</code>, <code>Hash</code>, data-structures for <code>Option</code>, <code>Result</code>
+and at the moment a <code>Sq::Parser</code> and it&rsquo;s own typing system <code>Sq::Type</code>.</p>
+<p><a href="https://github.com/DavidRaab/Sq">Sq on Github</a></p>
 
         </div>
         <div class="post-footer">
@@ -188,7 +201,11 @@ a built-in language feature.</p>
         </div>
     </article>
 </main>
-<aside> <nav id="TableOfContents"></nav> </aside>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#update">Update</a></li>
+  </ul>
+</nav> </aside>
 
     </body>
 </html>

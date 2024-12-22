@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en-us">
     <head>
-        <title>Perl Seq: Three ways of doing Fibonacci // David Raab</title>
+        <title>Perl Sq: Three ways of doing Fibonacci // David Raab</title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta charset="utf-8" />
         <meta name="generator" content="Hugo 0.123.1">
@@ -12,13 +12,13 @@
         <script src="/static/code-toggle.js"></script>
 
         
-        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Perl Seq: Three ways of doing Fibonacci"/>
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Perl Sq: Three ways of doing Fibonacci"/>
 <meta name="twitter:description" content="First preview of my Perl lazy Sequence implementation"/>
 
-        <meta property="og:title" content="Perl Seq: Three ways of doing Fibonacci" />
+        <meta property="og:title" content="Perl Sq: Three ways of doing Fibonacci" />
 <meta property="og:description" content="First preview of my Perl lazy Sequence implementation" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://davidraab.github.io/posts/lazy-sequence-in-perl-three-ways-of-doing-fibonacci/" /><meta property="article:section" content="posts" />
+<meta property="og:url" content="https://davidraab.github.io/posts/sq-fibonacci-with-seq/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-11-18T01:00:00+00:00" />
 <meta property="article:modified_time" content="2023-11-18T17:00:00+00:00" />
 
@@ -58,7 +58,7 @@
 <main class="app-container">
     <article class="post">
         <header class="post-header">
-            <h1 class ="post-title">Perl Seq: Three ways of doing Fibonacci</h1>
+            <h1 class ="post-title">Perl Sq: Three ways of doing Fibonacci</h1>
             <div class="post-meta">
                 <div>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
@@ -81,8 +81,7 @@
 </svg>
                             <a class="tag" href="https://davidraab.github.io/tags/perl/">Perl</a>
                             <a class="tag" href="https://davidraab.github.io/tags/linux/">Linux</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/sequence/">Sequence</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/perl-seq/">Perl-Seq</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/sq/">Sq</a>
                 </div>
             </div>
         </header>
@@ -92,8 +91,7 @@
 origin of those interfaces comes from functional programming. Thus i decided
 to primarily pick the F# API and port it to Perl.</p>
 <p>I already implemented a useful set of functions. Here is an example of the
-module and what you can do with it. Source code of my <a href="https://github.com/DavidRaab/Seq">Seq Module</a> can be
-found at GitHub so far.</p>
+module and what you can do with it. Source code of my <a href="https://github.com/DavidRaab/Sq">Sq Module</a> can be found at GitHub so far.</p>
 <p>When i have written more functions and documentation i will release it to CPAN.</p>
 <h1 id="first-solution">First solution</h1>
 <div class="highlight"><div class="chroma">
@@ -115,7 +113,7 @@ found at GitHub so far.</p>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$fib</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="nn">Seq</span><span class="o">-&gt;</span><span class="n">concat</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">        <span class="nn">Seq</span><span class="o">-&gt;</span><span class="n">wrap</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nn">Seq</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
 </span></span><span class="line"><span class="cl">        <span class="nn">Seq</span><span class="o">-&gt;</span><span class="n">unfold</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">sub</span><span class="p">(</span><span class="nv">$state</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">            <span class="k">my</span> <span class="nv">$next</span> <span class="o">=</span> <span class="nv">$state</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nv">$state</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
 </span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nv">$next</span><span class="p">,</span> <span class="p">[</span><span class="nv">$state</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="nv">$next</span><span class="p">];</span>
@@ -159,7 +157,7 @@ found at GitHub so far.</p>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$fib</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">        <span class="nn">Seq</span><span class="o">-&gt;</span><span class="n">concat</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">            <span class="nn">Seq</span><span class="o">-&gt;</span><span class="n">wrap</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="nn">Seq</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
 </span></span><span class="line"><span class="cl">            <span class="nn">Seq</span><span class="o">-&gt;</span><span class="n">unfold</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">sub</span><span class="p">(</span><span class="nv">$state</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">                <span class="k">my</span> <span class="nv">$next</span> <span class="o">=</span> <span class="nv">$state</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nv">$state</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
 </span></span><span class="line"><span class="cl">                <span class="nv">$state</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$state</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
@@ -202,7 +200,7 @@ found at GitHub so far.</p>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">my</span> <span class="nv">$fib</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">        <span class="nn">Seq</span><span class="o">-&gt;</span><span class="n">concat</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">            <span class="nn">Seq</span><span class="o">-&gt;</span><span class="n">wrap</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="nn">Seq</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
 </span></span><span class="line"><span class="cl">            <span class="nn">Seq</span><span class="o">-&gt;</span><span class="n">unfold</span><span class="p">({</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">},</span> <span class="n">sub</span><span class="p">(</span><span class="nv">$state</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">                <span class="k">my</span> <span class="nv">$next</span> <span class="o">=</span> <span class="nv">$state</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">}</span> <span class="o">+</span> <span class="nv">$state</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">y</span><span class="p">};</span>
 </span></span><span class="line"><span class="cl">                <span class="nv">$state</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">x</span><span class="p">}</span> <span class="o">=</span> <span class="nv">$state</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">y</span><span class="p">};</span>
@@ -247,7 +245,11 @@ found at GitHub so far.</p>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div>
+</div><h1 id="references">References</h1>
+<ul>
+<li><a href="https://github.com/DavidRaab/Sq">Sq on Github</a></li>
+</ul>
+
         </div>
         <div class="post-footer">
             <div id="disqus_thread"></div>
@@ -279,6 +281,7 @@ found at GitHub so far.</p>
     <li><a href="#second-solution">Second Solution</a></li>
     <li><a href="#third-solution">Third Solution</a></li>
     <li><a href="#bonus-my-concat-implementation">Bonus: My concat implementation</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav> </aside>
 

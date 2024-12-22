@@ -79,21 +79,21 @@
       <description>Seq::Manual::FromSub A deeper explanation how Seq-&amp;gt;from_sub works.&#xA;THE PROBLEM You could write the following in Perl&#xA;1 Seq-&amp;gt;wrap(1 .. 10_000_000) but it would be a bad idea. Perls range operator is non-lazy. When you call the above code perl will create an array with 10 Mio numbers and then pass that 10 Mio numbers to Seq-&amp;gt;wrap.&#xA;This is not only time-consuming, it will also use a lot of memory. Maybe with a bigger number your program or your computer could even crash with out of memory.</description>
     </item>
     <item>
-      <title>Perl Seq: bind &amp; cartesian</title>
-      <link>https://davidraab.github.io/posts/perl-seq-bind-and-cartesian/</link>
+      <title>Perl Sq: bind &amp; cartesian</title>
+      <link>https://davidraab.github.io/posts/perl-sq-bind-and-cartesian/</link>
       <pubDate>Mon, 20 Nov 2023 20:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/posts/perl-seq-bind-and-cartesian/</guid>
+      <guid>https://davidraab.github.io/posts/perl-sq-bind-and-cartesian/</guid>
       <description>The cartesian function returns the Cartesian Product. The Cartesian Product is the combination of all possible values.&#xA;1 2 3 4 5 my $data = Seq::cartesian( Seq-&amp;gt;wrap(qw/clubs spades hearts diamond/), Seq-&amp;gt;wrap(qw/7 8 9 10 B D K A/), )-&amp;gt;to_array; Calling to_array will evaluate the expression and generates the following Perl data-structure.&#xA;1 2 3 4 5 6 7 8 9 10 [ [&amp;#39;clubs&amp;#39; ,&amp;#39;7&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;8&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;9&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;10&amp;#39;], [&amp;#39;clubs&amp;#39; ,&amp;#39;B&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;D&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;K&amp;#39;],[&amp;#39;clubs&amp;#39; ,&amp;#39;A&amp;#39; ], [&amp;#39;spades&amp;#39; ,&amp;#39;7&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;8&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;9&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;10&amp;#39;], [&amp;#39;spades&amp;#39; ,&amp;#39;B&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;D&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;K&amp;#39;],[&amp;#39;spades&amp;#39; ,&amp;#39;A&amp;#39; ], [&amp;#39;hearts&amp;#39; ,&amp;#39;7&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;8&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;9&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;10&amp;#39;], [&amp;#39;hearts&amp;#39; ,&amp;#39;B&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;D&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;K&amp;#39;],[&amp;#39;hearts&amp;#39; ,&amp;#39;A&amp;#39; ], [&amp;#39;diamond&amp;#39;,&amp;#39;7&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;8&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;9&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;10&amp;#39;], [&amp;#39;diamond&amp;#39;,&amp;#39;B&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;D&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;K&amp;#39;],[&amp;#39;diamond&amp;#39;,&amp;#39;A&amp;#39; ], ] The implementation of Seq::cartesian.</description>
     </item>
     <item>
-      <title>Perl Seq: Combination with I/O</title>
+      <title>Perl Sq: Seq in combination with I/O</title>
       <link>https://davidraab.github.io/posts/seq-in-combination-with-io/</link>
       <pubDate>Mon, 20 Nov 2023 01:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/posts/seq-in-combination-with-io/</guid>
       <description>In one of my programs I already use my module. This program creates a new test-file in the &amp;rsquo;t&amp;rsquo; folder from a template. From all files in that directory I want to automatically pick the next highest number. I don&amp;rsquo;t want to search for the number myself.&#xA;So here is how i read all files from disk and only pick files matching the pattern &amp;ldquo;%d-$title.t&amp;rdquo;. Then i want the maximum number.</description>
     </item>
     <item>
-      <title>Perl Seq: bind &amp; flatten</title>
+      <title>Perl Sq: bind &amp; flatten</title>
       <link>https://davidraab.github.io/posts/perl-seq-module-bind-flatten/</link>
       <pubDate>Sun, 19 Nov 2023 02:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/posts/perl-seq-module-bind-flatten/</guid>
@@ -104,13 +104,13 @@
       <link>https://davidraab.github.io/posts/shape-of-my-heart/</link>
       <pubDate>Sun, 19 Nov 2023 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/posts/shape-of-my-heart/</guid>
-      <description>Here are two programs that produces the same result.&#xA;This is something I would have written without my Seq module.&#xA;1 2 3 4 5 6 [ (map { [clubs =&amp;gt; $_ ] } qw/7 8 9 10 B D K A/), (map { [spades =&amp;gt; $_ ] } qw/7 8 9 10 B D K A/), (map { [hearts =&amp;gt; $_ ] } qw/7 8 9 10 B D K A/), (map { [diamond =&amp;gt; $_ ] } qw/7 8 9 10 B D K A/), ] With my module, i now can write the same in this way.</description>
+      <description>Here are two programs that produces the same result.&#xA;This is something I would have written without my Sq module.&#xA;1 2 3 4 5 6 [ (map { [clubs =&amp;gt; $_ ] } qw/7 8 9 10 J Q K A/), (map { [spades =&amp;gt; $_ ] } qw/7 8 9 10 J Q K A/), (map { [hearts =&amp;gt; $_ ] } qw/7 8 9 10 J Q K A/), (map { [diamond =&amp;gt; $_ ] } qw/7 8 9 10 J Q K A/), ] With my module, i now can write the same in this way.</description>
     </item>
     <item>
-      <title>Perl Seq: Three ways of doing Fibonacci</title>
-      <link>https://davidraab.github.io/posts/lazy-sequence-in-perl-three-ways-of-doing-fibonacci/</link>
+      <title>Perl Sq: Three ways of doing Fibonacci</title>
+      <link>https://davidraab.github.io/posts/sq-fibonacci-with-seq/</link>
       <pubDate>Sat, 18 Nov 2023 01:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/posts/lazy-sequence-in-perl-three-ways-of-doing-fibonacci/</guid>
+      <guid>https://davidraab.github.io/posts/sq-fibonacci-with-seq/</guid>
       <description>Hi there, I am developing a new Perl module to bring a lazy Sequence to Perl.&#xA;It should provide the functionaly you see in C# LINQ or Java 8 Stream. The origin of those interfaces comes from functional programming. Thus i decided to primarily pick the F# API and port it to Perl.&#xA;I already implemented a useful set of functions. Here is an example of the module and what you can do with it.</description>
     </item>
     <item>

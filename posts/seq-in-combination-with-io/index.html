@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en-us">
     <head>
-        <title>Perl Seq: Combination with I/O // David Raab</title>
+        <title>Perl Sq: Seq in combination with I/O // David Raab</title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta charset="utf-8" />
         <meta name="generator" content="Hugo 0.123.1">
@@ -12,10 +12,10 @@
         <script src="/static/code-toggle.js"></script>
 
         
-        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Perl Seq: Combination with I/O"/>
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Perl Sq: Seq in combination with I/O"/>
 <meta name="twitter:description" content="Fixing the multi-millard dollar bug"/>
 
-        <meta property="og:title" content="Perl Seq: Combination with I/O" />
+        <meta property="og:title" content="Perl Sq: Seq in combination with I/O" />
 <meta property="og:description" content="Fixing the multi-millard dollar bug" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://davidraab.github.io/posts/seq-in-combination-with-io/" /><meta property="article:section" content="posts" />
@@ -58,7 +58,7 @@
 <main class="app-container">
     <article class="post">
         <header class="post-header">
-            <h1 class ="post-title">Perl Seq: Combination with I/O</h1>
+            <h1 class ="post-title">Perl Sq: Seq in combination with I/O</h1>
             <div class="post-meta">
                 <div>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
@@ -80,7 +80,7 @@
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
                             <a class="tag" href="https://davidraab.github.io/tags/perl/">Perl</a>
-                            <a class="tag" href="https://davidraab.github.io/tags/perl-seq/">Perl-Seq</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/sq/">Sq</a>
                 </div>
             </div>
         </header>
@@ -107,10 +107,10 @@ its <code>Path::Tiny</code>.</p>
 <pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="c1"># get the maximum id from test-files so far</span>
 </span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$maximum_id</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="nn">Seq</span>
-</span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="n">wrap</span><span class="p">(</span>   <span class="n">path</span><span class="p">(</span><span class="s">&#39;t&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">children</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span>    <span class="n">path</span><span class="p">(</span><span class="s">&#39;t&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">children</span> <span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="nb">map</span><span class="p">(</span>    <span class="n">sub</span><span class="p">(</span><span class="nv">$x</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$x</span><span class="o">-&gt;</span><span class="n">basename</span> <span class="p">})</span>
 </span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="n">choose</span><span class="p">(</span> <span class="n">sub</span><span class="p">(</span><span class="nv">$x</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$x</span> <span class="o">=~</span> <span class="sr">m/\A(\d+) .* \.t\z/xms</span> <span class="p">?</span> <span class="nv">$1</span> <span class="p">:</span> <span class="nb">undef</span> <span class="p">}</span> <span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="n">max</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">-&gt;</span><span class="nn">max</span><span class="o">-&gt;</span><span class="ow">or</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Here is how it works.</p>
@@ -157,6 +157,10 @@ instead of an <code>undef</code>.</p>
 <p>So I am basically fixing &ldquo;The multi-millard dollar-bug&rdquo;. Everything as a Perl
 module to load.</p>
 <p>Or at least, an attempt.</p>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://github.com/DavidRaab/Sq">Sq on Github</a></li>
+</ul>
 
         </div>
         <div class="post-footer">
@@ -183,7 +187,11 @@ module to load.</p>
         </div>
     </article>
 </main>
-<aside> <nav id="TableOfContents"></nav> </aside>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav> </aside>
 
     </body>
 </html>

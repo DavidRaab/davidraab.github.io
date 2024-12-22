@@ -140,13 +140,10 @@
     <loc>https://davidraab.github.io/posts/insanity-of-oo/</loc>
     <lastmod>2024-03-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://davidraab.github.io/tags/perl-seq/</loc>
-    <lastmod>2023-11-21T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://davidraab.github.io/posts/perl-seq-seq-manual-fromsub/</loc>
     <lastmod>2023-11-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://davidraab.github.io/posts/perl-seq-bind-and-cartesian/</loc>
+    <loc>https://davidraab.github.io/posts/perl-sq-bind-and-cartesian/</loc>
     <lastmod>2023-11-20T20:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/seq-in-combination-with-io/</loc>
@@ -154,9 +151,6 @@
   </url><url>
     <loc>https://davidraab.github.io/posts/perl-seq-module-bind-flatten/</loc>
     <lastmod>2023-11-19T02:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://davidraab.github.io/tags/sequence/</loc>
-    <lastmod>2023-11-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/shape-of-my-heart/</loc>
     <lastmod>2023-11-19T00:00:00+00:00</lastmod>
@@ -167,7 +161,7 @@
     <loc>https://davidraab.github.io/tags/general-concepts/</loc>
     <lastmod>2023-11-18T02:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://davidraab.github.io/posts/lazy-sequence-in-perl-three-ways-of-doing-fibonacci/</loc>
+    <loc>https://davidraab.github.io/posts/sq-fibonacci-with-seq/</loc>
     <lastmod>2023-11-18T17:00:00+00:00</lastmod>
   </url><url>
     <loc>https://davidraab.github.io/posts/searching-for-a-linux-command/</loc>

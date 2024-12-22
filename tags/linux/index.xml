@@ -16,10 +16,10 @@
       <description>In Debian the following &amp;ldquo;problem&amp;rdquo; sometimes arrives. Let&amp;rsquo;s say you install for example Apache2, you do something with it but shortly after you don&amp;rsquo;t need it anymore. By default Debian always keeps all configuration files alive. So after installing Apache2 once, you are left with some configuration files in /etc/apache2/.&#xA;This is usually a good idea, because removing a package and re-installing shouldn&amp;rsquo;t delete all your configuration. But what do you do if you really want to delete the configuration because you really don&amp;rsquo;t need them anymore?</description>
     </item>
     <item>
-      <title>Perl Seq: Three ways of doing Fibonacci</title>
-      <link>https://davidraab.github.io/posts/lazy-sequence-in-perl-three-ways-of-doing-fibonacci/</link>
+      <title>Perl Sq: Three ways of doing Fibonacci</title>
+      <link>https://davidraab.github.io/posts/sq-fibonacci-with-seq/</link>
       <pubDate>Sat, 18 Nov 2023 01:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/posts/lazy-sequence-in-perl-three-ways-of-doing-fibonacci/</guid>
+      <guid>https://davidraab.github.io/posts/sq-fibonacci-with-seq/</guid>
       <description>Hi there, I am developing a new Perl module to bring a lazy Sequence to Perl.&#xA;It should provide the functionaly you see in C# LINQ or Java 8 Stream. The origin of those interfaces comes from functional programming. Thus i decided to primarily pick the F# API and port it to Perl.&#xA;I already implemented a useful set of functions. Here is an example of the module and what you can do with it.</description>
     </item>
     <item>
