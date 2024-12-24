@@ -6,27 +6,27 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 22 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 24 Dec 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Lisp</title>
-      <link>https://davidraab.github.io/tags/lisp/</link>
-      <pubDate>Sun, 22 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/lisp/</guid>
-      <description></description>
-    </item>
     <item>
       <title>Perl</title>
       <link>https://davidraab.github.io/tags/perl/</link>
-      <pubDate>Sun, 22 Dec 2024 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 24 Dec 2024 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/tags/perl/</guid>
       <description></description>
     </item>
     <item>
       <title>Sq</title>
       <link>https://davidraab.github.io/tags/sq/</link>
-      <pubDate>Sun, 22 Dec 2024 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 24 Dec 2024 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/tags/sq/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Lisp</title>
+      <link>https://davidraab.github.io/tags/lisp/</link>
+      <pubDate>Sun, 22 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/lisp/</guid>
       <description></description>
     </item>
     <item>

@@ -6,8 +6,15 @@
     <description>Recent content in Posts on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 22 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 24 Dec 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sq Release v0.6</title>
+      <link>https://davidraab.github.io/posts/sq-release-0-6/</link>
+      <pubDate>Tue, 24 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/sq-release-0-6/</guid>
+      <description>I am now bumping the version to 0.7, so this commit will be the last to define 0.6 or how Perl versions are used for this as 0.006.&#xA;I cannot provide a full Changelog and I also do not care. I am working on this alone and cannot provide full professional support for everything. If someone else want to have a changelog he can go through the commit and create it itself.</description>
+    </item>
     <item>
       <title>Code as Data</title>
       <link>https://davidraab.github.io/posts/code-as-data/</link>

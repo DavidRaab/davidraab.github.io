@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>Sq Release v0.6 // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.123.1">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="" />
+        <link rel="stylesheet" href="/css/main.min.0fa334c3f2650e7000dfc8e81f59d23191e59e78f62c565a598f4dc557c92abe.css" />
+        <script src="/static/code-toggle.js"></script>
+
+        
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Sq Release v0.6"/>
+<meta name="twitter:description" content="I am now bumping the version to 0.7, so this commit will be the last to define 0.6 or how Perl versions are used for this as 0.006.
+I cannot provide a full Changelog and I also do not care. I am working on this alone and cannot provide full professional support for everything. If someone else want to have a changelog he can go through the commit and create it itself."/>
+
+        <meta property="og:title" content="Sq Release v0.6" />
+<meta property="og:description" content="I am now bumping the version to 0.7, so this commit will be the last to define 0.6 or how Perl versions are used for this as 0.006.
+I cannot provide a full Changelog and I also do not care. I am working on this alone and cannot provide full professional support for everything. If someone else want to have a changelog he can go through the commit and create it itself." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/sq-release-0-6/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-12-24T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-12-24T00:00:00+00:00" />
+
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>Writing about programming (Perl, F#) and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Sq Release v0.6</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Dec 24, 2024
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    14 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+                            <a class="tag" href="https://davidraab.github.io/tags/perl/">Perl</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/sq/">Sq</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>I am now bumping the version to <code>0.7</code>, so this commit will be the last to define
+<code>0.6</code> or how Perl versions are used for this as <code>0.006</code>.</p>
+<p>I cannot provide a full Changelog and I also do not care. I am working
+on this alone and cannot provide full professional support for everything.
+If someone else want to have a changelog he can go through the commit and
+create it itself. Contributions are welcome.</p>
+<p>There is still much todo. Even in the current state there are some crucial
+features missing like signature for functions in list context. Some
+methods in <code>Seq</code> are not lazy. The <code>Queue</code> probably needs a full rework. <code>List</code>
+isn&rsquo;t that important at the moment. I just concentrate of getting <code>Seq/Array</code>
+right, correct, feature complete and fully documented.</p>
+<h1 id="type-checking">Type-Checking</h1>
+<p>I consider the current state as a breakthrough because it now offers
+a basic type check system how I imagined it. This type-check system can
+not only be used for checking any data-structure but also for function
+signatures.</p>
+<p>Type-checking can be enabled by loading a module and is off by default.
+I consider this a crucial feature of the system because you get type-checking
+and just can disable it. It somehow works like in a static-typed language.</p>
+<p>In a static-typed language usually the compiler checks all kind of types
+and validation before the program is runned. But because of that it doesn&rsquo;t
+need todo it anymore at runtime. This is one reason why static-typed languages
+are faster.</p>
+<p>In some way the <code>Sq::Signature</code> provides the same benefits. Because of
+Perl&rsquo;s dynamic-typing and Lisp-like features, i am also using, it&rsquo;s hard todo
+type-checking in a pre-compiled state. The idea of Signatures and loading
+the type-check with <code>Sq::Sig</code> means we can temporarily add type-checking for
+functions, use it by default in development to catch a lot of mostly silly
+mistakes upfront. Once a program/library runs and it&rsquo;s test-suite runs fine
+with Signatures active (without crashing) then we can assume the program is
+correct enough. We never can be 100% sure everything is correct. But that&rsquo;s
+how programming is.</p>
+<p>This gives confidence that we can disable <code>Sq::Sig</code> and use the library/program
+without any type-checks activated at all. It&rsquo;s an idea I wanted to implement
+a long time. Because <code>Sq</code> itself already uses <code>Sq::Sig</code> and type-checks for
+all modules are activated and loaded in the test-files and i have over 2000+
+tests at the moment, i consider that this approach works well.</p>
+<h1 id="equality">Equality</h1>
+<p>You know one thing I hated in Perl and loved in F# a lot? It is that all
+data-structures in F# are <strong>comparable</strong> by default. Here i really mean <em>comparable</em>
+not just <em>equal</em>. But I mostly just care about equality at the most time.</p>
+<p>It is completely annoying that we can built any kind of complex data like</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$album1</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Artist</span> <span class="o">=&gt;</span> <span class="s">&#39;Queen&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Title</span>  <span class="o">=&gt;</span> <span class="s">&#39;Greatest Hits&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Tracks</span> <span class="o">=&gt;</span> <span class="n">seq</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">Title</span> <span class="o">=&gt;</span> <span class="s">&#39;We will Rock You&#39;</span>          <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">Title</span> <span class="o">=&gt;</span> <span class="s">&#39;Radio Gaga&#39;</span>                <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">Title</span> <span class="o">=&gt;</span> <span class="s">&#39;Who Wants To Life Forever&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">Title</span> <span class="o">=&gt;</span> <span class="s">&#34;You Don&#39;t Fool Me&#34;</span>         <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Tags</span> <span class="o">=&gt;</span> <span class="n">Some</span><span class="p">(</span><span class="sx">qw/80/</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$album2</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Artist</span> <span class="o">=&gt;</span> <span class="s">&#39;Queen&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Title</span>  <span class="o">=&gt;</span> <span class="s">&#39;Greatest Hits&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Tracks</span> <span class="o">=&gt;</span> <span class="n">seq</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">Title</span> <span class="o">=&gt;</span> <span class="s">&#39;We will Rock You&#39;</span>          <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">Title</span> <span class="o">=&gt;</span> <span class="s">&#39;Radio Gaga&#39;</span>                <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">Title</span> <span class="o">=&gt;</span> <span class="s">&#39;Who Wants To Life Forever&#39;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="n">Title</span> <span class="o">=&gt;</span> <span class="s">&#34;You Don&#39;t Fool Me&#34;</span>         <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Tags</span> <span class="o">=&gt;</span> <span class="n">Some</span><span class="p">(</span><span class="sx">qw/80/</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>but then we cannot write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="c1"># does not work</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span> <span class="nv">$album1</span> <span class="o">==</span> <span class="nv">$album2</span> <span class="p">)</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It doesn&rsquo;t work because of the typical way how <em>old</em>, <em>outdated</em>,
+<em>object-oriented</em>?, &hellip; languages thinks abot the above. They think about the
+above as memory and just compare memory addresses. It&rsquo;s a completely dump and
+fully useless default equality that most languages have, and it provides nearly
+no purpose at all.</p>
+<p>I mean, sometimes we can make equality checks <em>easy/fast</em> when something refers
+to the same memory-address. So it makes sense to be able to also check for memory
+addresses. But this shouldn&rsquo;t be the default!</p>
+<p>The interesting part is <strong>Testing</strong>. Because I claim that <strong>Testing</strong> is
+primarily just comparing data. When I am testing <code>Sq</code> I restrict
+myself to just two functions. <code>ok</code>, <code>is</code>. This maybe does all testing in I guess
+over 98% of all cases.</p>
+<p>The funny part is that <code>is</code> basically just compares two data-structures. And
+that&rsquo;s it. And i somehow feel cheated by it. Why? Why is a function like <code>is</code>
+that can compare deep-datastructures only available as a testing tool?</p>
+<p>What a shame. So I made it part of the language. In <code>Sq</code> you just get an <code>equal</code>
+function that checks data-structures recursively. So you can write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span> <span class="n">equal</span><span class="p">(</span><span class="nv">$album1</span><span class="p">,</span> <span class="nv">$album2</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># goes in here</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and it will correctly return a <em>truish</em> value for the data-structure. Gosh, here
+is a small rant about object-orientation again. Why do object-oriented programmer
+think that you must rewrite an <code>equal</code> function yourself every time for every damn
+class? Again, the claim you read about OO all the time is that it provides
+re-use of code, right?</p>
+<p>Something like data equality should be implemented <strong>ONCE</strong> and should be the
+default for everything.</p>
+<h1 id="testing">Testing</h1>
+<p>Then i have rewritten my own <strong>Testing</strong> and put it into <code>Sq::Test</code>. Because
+i just use 6 functions in total: <code>is</code>, <code>ok</code>, <code>like</code>, <code>dies</code>, <code>check_isa</code>, <code>done_testing</code>
+this was done pretty quickly. And those functions just work by using
+<code>equal</code> as the default comparison.</p>
+<p>I consider replacing <code>Test2</code> with my own Test-Suite a crucial step. It&rsquo;s like
+a Compiler you write first in another language and then re-write the new compiler
+in your own language and use the old compiler to compile your own language.</p>
+<p>I guess we developers know the chicken-egg problem got enough. So the Test-Suite
+runs fine. I only needed to change the <code>check_isa</code> calls because my API
+looked different to the one in <code>Test2</code>.</p>
+<p>The most interesting part was also that everything became faster, what I expected.
+From running the total test-suite in 5 CPU seconds it went down to just 2 CPU
+seconds.</p>
+<p>When something is not <code>equal</code> I just create a data-dump of what you <code>$got</code> and
+what is <code>$expected</code>. This is something i didn&rsquo;t like about <code>Test2</code> at all.</p>
+<p>By default it creates a <em>diff-like</em> comparision. I guess it is done for the
+following reasons:</p>
+<ul>
+<li>Focus on what is different, so you can see faster what didn&rsquo;t match</li>
+<li><em>Shorter</em> because not the whole data-structure must be dumped.</li>
+</ul>
+<p>Seems logical, but in practice it is useless.</p>
+<p>When a test fails rarerly i see just a small change in data. Most of the
+time everything is so different that the <em>diff-like</em> approach anyway just
+prints the whole data-structure. But it puts every change in a flat like
+table and every change on its own line. The problem is.</p>
+<ul>
+<li>I cannot read/comprehend <em>diff-like</em> structures.</li>
+<li>This is usually longer as just a dump of the whole data-structure.</li>
+</ul>
+<p>That&rsquo;s why I just stick to dumping. I guess anybody who also did some
+web-devlopment with JavaScript, what probably most developers are used today,
+have no problem of working, dumping and understanding JSON structures.
+Perl data-structures are the same. We just use <code>=&gt;</code> primarily in hashes instead
+of <code>:</code>, and we really have Arrays, not like in JavaScript where there are actually
+hashes, but this is probably another topic.</p>
+<h1 id="why-my-own-test-suite-is-so-important">Why my own Test-Suite is so important</h1>
+<p>I cannot underestimate the replacement of the Test-Suite. It&rsquo;s not that I have
+a big problem with <code>Test2</code>. It works for the most part and I am also adopting
+the exact same API. Changing to my own just meant to load another module.</p>
+<p>But i maybe don&rsquo;t need the whole feature-set of <code>Test2</code>, and this is actually
+a feature. Still that change was a crucial and important step.</p>
+<p>Because <code>Sq::Test</code> itself just uses the default <code>equal</code> implementation it&rsquo;s a
+stress test for the <code>equal</code> function. How well everything works and that this
+function is correct. It&rsquo;s also a test on how fast it is.</p>
+<p>Using my own <code>equal</code> function is so important because in <code>Sq</code> i also built my
+own Core data-structures and the <code>Seq</code> is part of it. But also <code>Option</code>
+and <code>Result</code> are like primarily data-types in <code>Sq</code>. <code>equal</code> understands them
+and so does the test-suite now understands those types.</p>
+<p>But also dumping understand those data-types. When I Dump a data-structure instead
+of getting.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">tags</span> <span class="o">=&gt;</span> <span class="nb">bless</span><span class="p">([</span><span class="mi">80</span><span class="p">],</span> <span class="s">&#39;Option&#39;</span><span class="p">),</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>what most Dumping modules would give me. I now get the <em>logical/meaning</em> of
+what I have hear. My Dumping instead shows.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">tags</span> <span class="o">=&gt;</span> <span class="n">Some</span><span class="p">(</span><span class="mi">80</span><span class="p">),</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So it shows how <code>Option</code> itself has become part as a core data-structure and
+it print&rsquo;s itself how you would create it, not how it&rsquo;s internal representation
+in data looks like.</p>
+<p>But also comparing <code>Seq</code> is somehow, hmm <em>cool</em> i guess? Consider that <code>Seq</code>
+is a lazy sequence and i now can write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$first</span>  <span class="o">=</span> <span class="nn">Seq</span><span class="o">-&gt;</span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1_000_000_000</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$second</span> <span class="o">=</span> <span class="nn">Seq</span><span class="o">-&gt;</span><span class="n">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1_000_000_000</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span> <span class="n">equal</span><span class="p">(</span><span class="nv">$first</span><span class="p">,</span> <span class="nv">$second</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>so those sequence are not identical. But the <code>equal</code> correctly implements equality
+in a lazy way. That means it will only run as long it needs. In the case above
+it will only compare a single element and then aborts immediately.</p>
+<p>It doesn&rsquo;t have to create two arrays with a billion elements just to check
+if they are equal or not. When the above would be equal then the <code>equal</code>
+check would take some time but otherwise will not consume much memory.</p>
+<p>Because <code>equal</code> also implements <code>Seq</code> correctly it also can be used as a
+core data-type in defining data-structures. With just <code>Test2</code> this wouldn&rsquo;t
+be possible.</p>
+<p>Because instead of comparing a <em>sequence</em> it would instead compare the internal
+representation of a <em>sequence</em>. And those would be just some blessed subroutine
+references.</p>
+<p>Also dumping understands a <em>sequence</em> and will dump it&rsquo;s data (not completely)
+instead of trying to dump a subroutine-reference.</p>
+<h1 id="equality--dumping">Equality / Dumping</h1>
+<p>Equality and Dumping is closed and open at the same time. What does that mean?</p>
+<p>It&rsquo;s closed because by default it only tries to equal things it knows about.
+At the moment it means it understands, <code>Array</code>, <code>ARRAY</code>, <code>Hash</code>, <code>HASH</code>, <code>Option</code>,
+<code>Result</code>, <code>Seq</code>.</p>
+<p>Here it is important that <code>Array</code> and <code>ARRAY</code> are considered the same. Great
+care in <code>Sq</code> was done that those are interchangeable. As described in <code>Array</code>
+the blessing is only done so you can call methods on an array instead of
+just using everything in a functional style. No real object-orientation is
+done here.</p>
+<p>Same goes with <code>Hash</code> and <code>Hash</code>. So it is closed by default because everything
+that is of any unknown type is considered unequal by default. As soon you put
+any object into a data-structure that is not of those types everything is always
+considered <em>not equal</em>.</p>
+<p>It is done this way because <code>Sq</code> is all about the idea that you separate data
+and behaviour. You should stick to data and functions that operate over functions.
+Not objects that contain methods with some hidden state.</p>
+<p>But this closing step is also done because in Perl we cannot really rely on a
+default equality. Perl separates number equality and string equality and those
+could be different. But how do I know which kind of equality I should choose
+for an unknown object?</p>
+<p>Or are those number and string representation even built to be used for equality?</p>
+<p>Here is another interesting challenge. How would you try to represent this
+data-structure as a string?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$album</span> <span class="o">=</span> <span class="n">sq</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">artist</span> <span class="o">=&gt;</span> <span class="s">&#39;Michael Jackson&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span>  <span class="o">=&gt;</span> <span class="s">&#39;Thriller&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tracks</span> <span class="o">=&gt;</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;Wanna Be Startin’ Somethin&#34;</span><span class="p">,</span> <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">363</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;Baby Be Mine&#34;</span><span class="p">,</span>               <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">260</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;The Girl Is Mine&#34;</span><span class="p">,</span>           <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">242</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;Thriller&#34;</span><span class="p">,</span>                   <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">357</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;Beat It&#34;</span><span class="p">,</span>                    <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">258</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;Billie Jean&#34;</span><span class="p">,</span>                <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">294</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;Human Nature&#34;</span><span class="p">,</span>               <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">246</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;P.Y.T.&#34;</span><span class="p">,</span>                     <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">239</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">title</span> <span class="o">=&gt;</span> <span class="s">&#34;The Lady in My Life&#34;</span><span class="p">,</span>        <span class="n">duration</span> <span class="o">=&gt;</span> <span class="mi">300</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>I guess many possible strings can be the result of that structure. Even
+a representation as <code>JSON</code> would be another string representation. Or
+maybe some other text format with a table? I don&rsquo;t know, but I wouldn&rsquo;t come
+to the idea to try to convert the above to a string and then compare it.</p>
+<p>That&rsquo;s why <code>equal</code> is closed and by default doesn&rsquo;t try to compare the
+internal structure of any other object. And I also consider that right.</p>
+<p>Because that is one of the <em>advantages</em> of object-orientation right? You have
+that encapsulation and hidden state that no one should look at? Cool, do that,
+but then you must implement equality yourself and I didn&rsquo;t care about your crap.</p>
+<p>But here is the deal. If you come up with a useful equality. Then just add it.
+<code>equal</code> is written in a way that it is extendible. It uses a dispatch-table
+by default for every unknown type. You want your special object to
+also be <code>equal</code> by default? Then just add it to <code>Sq</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="nn">Sq::Equality::</span><span class="n">add_equality</span><span class="p">(</span><span class="s">&#39;YourReference&#39;</span><span class="p">,</span> <span class="n">sub</span><span class="p">(</span><span class="nv">$obj</span><span class="p">,</span> <span class="nv">$other</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># decide how equality should look like and return 0,1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Once you have done this. <code>equal</code> also can correctly compare your objects. And
+when <code>equal</code> can compare your objects it also means the test-suite is able to correctly
+compare your objects! Including that those objects can be part of any recursive
+data-structure and it will work as expected.</p>
+<p>So it closed by default. But it is open as you can add your types. But then
+you must be explicitly about how comparision works for your objects.</p>
+<p>But consider one thing. The above function you can add to equality only is called
+for two things of the exact same reference-type. Inheritance isn&rsquo;t supported
+and will not be supported.</p>
+<h1 id="future-changes">Future Changes</h1>
+<p>I constantly change <code>Sq</code>. Sometimes I also rename some functions, even if that
+happens less often. Sometimes I change function signatures or expect different
+things. Still the more I write the more stable the API becomes.</p>
+<p>In a dynamic-typed language this is sometimes annoying because we don&rsquo;t have
+a compiler telling us where we need to make changes. But that&rsquo;s why <code>Sq::Sig</code>
+and it&rsquo;s signatures was also so important. Just load it by default in your
+test-suite, when something changes you hopefully get a useful enough error
+and your test-suite will immediately bail-out and telling you what you need
+to fix.</p>
+<p>This is also the exact same way how I use and develope <code>Sq</code> itself and it
+works fine so far. When I change something i just go through all errors/exceptions
+and fix everything. Update test, write new tests and so on. Until everything
+runs again.</p>
+<h1 id="no-equality-for-heapqueue">No Equality for Heap/Queue</h1>
+<p>Here is another interesting concept. <code>Heap</code> and <code>Queue</code> are default data-structures
+in <code>Sq</code>. Still no equality is defined for them and i wouldn&rsquo;t do that. Why?</p>
+<p>Because those data-structures are not for describing data. A <code>Heap</code> is a special
+data-structure that solves the porblem of quickly inserting elements and always
+getting the minimum value. It&rsquo;s not a concept to represent compareable data.</p>
+<p>Same goes for <code>Queue</code>. The idea of a <code>Queue</code> is that you usually put things
+at the end so you can process items in a FIFO way. Its not meant to be used
+as a comparable data-structure.</p>
+<h1 id="whats-next">What&rsquo;s Next?</h1>
+<p>Next I will optimize some function on <code>Seq</code>. I still need to make <code>Seq</code> and
+<code>Array</code> API compatible as much as possible. I need to implement a way to handle
+functions with List context so they can be supported with the <code>Signature</code>
+feature.</p>
+<p>I also want to implement Signatures to work with lambdas. I also have an idea
+to implement <em>generics</em> and need to check how good/well this will work.</p>
+<p>The Type/Parser are written with Combinators and maybe I want to switch to
+a data-approach in the future. A data-approach would allow some additional
+features that are easier to implement and I guess it would be faster.</p>
+<p>I have written the Parser because i wanted a better approach for parsing. This
+will be tested by writing some Parser for typical stuff like CSV, JSON, Markdown,
+POD but also Command Line Arguments.</p>
+<p>Then I need a lot better handling of quering files/folders. Here the <code>Seq</code> will
+be more heavily used. Because everything from a file, socket, pipe, &hellip;
+or opened directorie-handles are usually iterators and can be represented
+perfectly with a <code>Seq</code>.</p>
+<p>And sure, I need to document a lot more and write some Tutorials on everything.</p>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://github.com/DavidRaab/Sq">Sq on GitHub</a></li>
+</ul>
+
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#type-checking">Type-Checking</a></li>
+    <li><a href="#equality">Equality</a></li>
+    <li><a href="#testing">Testing</a></li>
+    <li><a href="#why-my-own-test-suite-is-so-important">Why my own Test-Suite is so important</a></li>
+    <li><a href="#equality--dumping">Equality / Dumping</a></li>
+    <li><a href="#future-changes">Future Changes</a></li>
+    <li><a href="#no-equality-for-heapqueue">No Equality for Heap/Queue</a></li>
+    <li><a href="#whats-next">What&rsquo;s Next?</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav> </aside>
+
+    </body>
+</html>
