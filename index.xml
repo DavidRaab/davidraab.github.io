@@ -6,8 +6,15 @@
     <description>Recent content on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 24 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 30 Dec 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sq: Counting to 1 Billion twice</title>
+      <link>https://davidraab.github.io/posts/sq-counting-to-1-billion-twice/</link>
+      <pubDate>Mon, 30 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/sq-counting-to-1-billion-twice/</guid>
+      <description> 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 #!/usr/bin/env perl use 5.036; use utf8; use open &amp;#39;:std&amp;#39;, &amp;#39;:encoding(UTF-8)&amp;#39;; use Sq; use Sq::Sig; # functional-style my $countup = assign { my $bill1 = Seq-&amp;gt;range(1,1_000_000_000); my $is_even = sub($x) { $x &amp;amp; 1 }; Seq::flatten_array( Seq::zip( Seq::filter($bill1, $is_even), Seq::remove($bill1, $is_even), ) ); }; run(sub { $countup-&amp;gt;iter(sub($x){ if ( $x % 10_000 == 0 ) { print &amp;#34;First: $x\n&amp;#34;; } }); }); # procedural / oo-style my $bill1 = Seq-&amp;gt;range(1,1_000_000_000); my $is_even = sub($x) { $x &amp;amp; 1 }; my $evens = $bill1-&amp;gt;filter($is_even); my $unevens = $bill1-&amp;gt;remove($is_even); my $zip = $evens-&amp;gt;zip($unevens); my $flatten = $zip-&amp;gt;flatten_array; run(sub { $flatten-&amp;gt;iter(sub($x){ if ( $x % 10_000 == 0 ) { print &amp;#34;Second: $x\n&amp;#34;; } }); }); sub run($f) { my $start = time(); $f-&amp;gt;(); my $stop = time(); printf &amp;#34;Time: %d seconds\n&amp;#34;, $stop; } Source Code for Example </description>
+    </item>
     <item>
       <title>Sq Release v0.6</title>
       <link>https://davidraab.github.io/posts/sq-release-0-6/</link>
