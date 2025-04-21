@@ -6,8 +6,15 @@
     <description>Recent content on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 01 Feb 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 21 Apr 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Why I Hate Templating Languages</title>
+      <link>https://davidraab.github.io/posts/why-i-hate-templating-languages/</link>
+      <pubDate>Mon, 21 Apr 2025 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/why-i-hate-templating-languages/</guid>
+      <description>In the past I have worked a lot in web-development. This goes back to the early 2000 when web-sites was primarily just CGI scripts and didn&amp;rsquo;t used any JavaScript at all. Back then JavaScript also was mostly very slow as most Browser interpreted JavaScript.&#xA;Back in that old times every click on a button, link and so on was a full request to the browser and a full new page has to be generated on the server side.</description>
+    </item>
     <item>
       <title>Quick: Useless Classes</title>
       <link>https://davidraab.github.io/posts/quick-useless-classes/</link>

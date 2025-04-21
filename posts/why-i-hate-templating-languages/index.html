@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>Why I Hate Templating Languages // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.123.1">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="" />
+        <link rel="stylesheet" href="/css/main.min.0fa334c3f2650e7000dfc8e81f59d23191e59e78f62c565a598f4dc557c92abe.css" />
+        <script src="/static/code-toggle.js"></script>
+
+        
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Why I Hate Templating Languages"/>
+<meta name="twitter:description" content="In the past I have worked a lot in web-development. This goes back to the early 2000 when web-sites was primarily just CGI scripts and didn&rsquo;t used any JavaScript at all. Back then JavaScript also was mostly very slow as most Browser interpreted JavaScript.
+Back in that old times every click on a button, link and so on was a full request to the browser and a full new page has to be generated on the server side."/>
+
+        <meta property="og:title" content="Why I Hate Templating Languages" />
+<meta property="og:description" content="In the past I have worked a lot in web-development. This goes back to the early 2000 when web-sites was primarily just CGI scripts and didn&rsquo;t used any JavaScript at all. Back then JavaScript also was mostly very slow as most Browser interpreted JavaScript.
+Back in that old times every click on a button, link and so on was a full request to the browser and a full new page has to be generated on the server side." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/why-i-hate-templating-languages/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2025-04-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2025-04-21T00:00:00+00:00" />
+
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>Writing about programming (Perl, F#) and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Why I Hate Templating Languages</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Apr 21, 2025
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    15 min read
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
+</svg>
+                            <a class="tag" href="https://davidraab.github.io/tags/design/">Design</a>
+                            <a class="tag" href="https://davidraab.github.io/tags/languages/">Languages</a>
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>In the past I have worked a lot in web-development. This goes back to the early
+2000 when web-sites was primarily just CGI scripts and didn&rsquo;t used any JavaScript
+at all. Back then JavaScript also was mostly very slow as most Browser interpreted
+JavaScript.</p>
+<p>Back in that old times every click on a button, link and so on was a full
+request to the browser and a full new page has to be generated on the server
+side.</p>
+<p>Today this is different. A lot of websites just load once and then updates
+itself by just sending JSON request and answers and &ldquo;updating&rdquo; the site. I
+have worked both ways.</p>
+<p>Do you know what I think is interesting? Those <em>updates</em> are usually hard todo,
+it considers a lot of <em>state-changes</em> and sometimes it can be that the actual
+content through a series of <em>updates</em> can be out of sync with the real data.</p>
+<p>Stuff like, you add/delete things and suddenly a button stays active/inactive
+because it doesn&rsquo;t <em>update</em> correctly. Because the programmer forget to set
+the state of a button. State changes can be very very hard.</p>
+<p>Then there are <strong>new concepts</strong>, or at least most people think it is new. For
+example frameworks that just generates a whole page completely even for the
+smallest change. But then a diff is made between the old state and the new state,
+and the diff is used to update the current state.</p>
+<p>This idea combines functional programming with non-functional programming. You
+have two immutable state you can compare as data. The code for updating the current
+state is just written once, so you don&rsquo;t have todo that, what means your
+code is less error prone.</p>
+<p>But you know, back when I was writing CGI scripts, that was already what i anyway
+did. We just sent the full generated HTML page back, without <em>updating</em> the site.</p>
+<p>A full Request/Response sometimes made the site a little bit slower to use,
+but we didn&rsquo;t had the full problems and bugs <em>modern</em> websites have with that
+state changes. It also had another benefit, a user always knew that he really
+did an action.</p>
+<p>Let&rsquo;s say I had to delete an entry from a table in a website. In an old site
+i could click a <strong>Delete</strong> button and the full site had to reload, either
+it showed the new updated table with it&rsquo;s deleted entry, or it didn&rsquo;t.</p>
+<p>Did you every used a website where you <em>deleted</em> something, it removed the
+entry from the website, but as soon you hit F5 it appeared again? Typical problems
+of state handling and managing state. The UI probably send an XMLHTTPRequest
+to the server, deleted it from the website but never checked if the request
+was sucessful or not.</p>
+<p>Maybe <em>modern</em> websites do that <em>correctly</em> by locking the UI, or give you a
+response, maybe a loading icon or <em>whatever</em>, but then we also just could go
+back to just loading the whole page, wouldn&rsquo;t it be easier?</p>
+<p>So anyway, I wanted to talk about templating systems. Back at the early 2000
+when web development emerged also the <em>patterns</em> about web development emerged. When I
+started web development and around 2000, Perl was the dominant language
+for creating websites. At the early beginning we also used the <a href="https://metacpan.org/dist/CGI/view/lib/CGI.pod">CGI</a>
+module for creating sites. So let&rsquo;s just look a little bit of the history
+how websites are created.</p>
+<h1 id="printing">Printing</h1>
+<p>A Web Server is technically nothing more as a system to serve files. Can be
+HTML files, but usually also any other file as images, CSS files or any other
+content.</p>
+<p>To allow <em>dynamic content</em> CGI was invented. When a file was marked as
+<em>executable</em> on a Unix system than instead of serving that file, the file was
+executed and whatever it print to it&rsquo;s <strong>Standard Output</strong> channel it serves
+as the content.</p>
+<p>This way we could run any program, start to use databases, allow user logins
+and start to create changing websites. Today this is considered normal, back
+in the old days, it wasn&rsquo;t.</p>
+<p>Anyway let&rsquo;s say i wanted to create a table with data. Then in my programing
+code i created the HTML. It maybe looked like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">print</span> <span class="s">&#34;&lt;table&gt;\n&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="k">my</span> <span class="nv">$row</span> <span class="p">(</span> <span class="nv">@entries_from_database</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">print</span> <span class="s">&#34;&lt;tr&gt;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="k">my</span> <span class="nv">$column</span> <span class="p">(</span> <span class="nv">@$row</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">print</span> <span class="s">&#34;&lt;td&gt;&#34;</span><span class="p">,</span> <span class="n">html_escape</span><span class="p">(</span><span class="nv">$column</span><span class="p">),</span> <span class="s">&#34;&lt;/td&gt;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">print</span> <span class="s">&#34;&lt;/tr&gt;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">print</span> <span class="s">&#34;&lt;/table&gt;\n&#34;</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="html-functions">HTML Functions</h1>
+<p>But you know, generating that HTML in strings again and again is a litte bit tedious.
+So modules like <a href="https://metacpan.org/dist/CGI/view/lib/CGI.pod">CGI</a> provided functions to help for that. Today this is
+considered <em>deprecated</em> (By the CGI module, not by me).</p>
+<p>But instead of the above it maybe then looked like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">print</span> <span class="s">&#34;&lt;table&gt;\n&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="k">my</span> <span class="nv">$row</span> <span class="p">(</span> <span class="nv">@entries_from_database</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">tr</span><span class="p">(</span><span class="nb">map</span> <span class="p">{</span> <span class="n">td</span><span class="p">(</span><span class="nv">$_</span><span class="p">)</span> <span class="p">}</span> <span class="nv">@$row</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">print</span> <span class="s">&#34;&lt;/table&gt;&#34;</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>the idea is simple. Instead of.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">print</span> <span class="s">&#34;&lt;h1&gt;&#34;</span> <span class="o">.</span> <span class="n">escape</span><span class="p">(</span><span class="nv">$title</span><span class="p">)</span> <span class="o">.</span> <span class="s">&#34;&lt;/h1&gt;&#34;</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>you just write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">h1</span><span class="p">(</span><span class="nv">$title</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="templating-language">Templating language</h1>
+<p>Back at the early 2000 web-development was a little bit different, because
+we didn&rsquo;t had so much interactive stuff on web-pages going on. I guess maybe 90%
+of whatever we served was just HTML, and only a little part of it was dynamic/interactive.</p>
+<p>So your CGI scripts was mostly just generating HTML, with only a tiny little bit
+of stuff that needed to be generated by the computer. For example we had those
+stupid Homepage counters, current time and and so on. Not much.</p>
+<p>On top of that web-developers started to use the MVC (Model View Controller)
+<em>Design Pattern</em> borrowed from Smalltalk to develope there websites.</p>
+<p>But somehow people misunderstand that pattern. For a long time people, even today,
+teach that the so called <em>View</em> should be free of <em>logic</em>, what isn&rsquo;t true at all.</p>
+<p>But anyway, the whole idea because most of the stuff was anyway HTML, people
+<em>inverted</em> CGI. Instead of a program that prints HTML, why not have a HTML
+document with only a small portions of what needs to be code?</p>
+<p>Seems more logical, right?</p>
+<p>One of the first Templating Language was <strong>P</strong>ersonal <strong>H</strong>ome <strong>P</strong>age Tools.
+Or just short. PHP. A replacement for a collection of Perl scripts.</p>
+<p>The idea is as follow. You just can create a HTML document. But whenever you
+need some piece of code. You can put it inside an opening <code>&lt;?php</code> and a closing <code>?&gt;</code>.</p>
+<p>Like this.</p>
+<pre tabindex="0"><code>&lt;html&gt;
+&lt;body&gt;
+    &lt;h1&gt;What Time is it?&lt;/h1&gt;
+    &lt;p&gt;&lt;?php echo php_function_to_get_time() ?&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>You now what is funny? <strong>PHP</strong> isn&rsquo;t really used a Templating Language since
+a very long time. Every PHP file just starts with.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;&lt;table&gt;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="nx">my</span> <span class="nv">$row</span> <span class="p">(</span> <span class="o">@</span><span class="nx">entries_from_database</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="nx">my</span> <span class="nv">$columns</span> <span class="p">(</span> <span class="o">@</span><span class="nv">$row</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">echo</span> <span class="s2">&#34;&lt;td&gt;&#34;</span> <span class="nx">Tr</span><span class="p">(</span><span class="nx">td</span><span class="p">(</span><span class="nv">$columns</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">echo</span> <span class="s2">&#34;&lt;/table&gt;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>i don&rsquo;t know the exact PHP syntax for a for-loop and don&rsquo;t wanna to look it up,
+so maybe the code above is wrong. But i assume you get the point. A templating
+language that was designed to serve HTML with some Code snippets in it
+basically turned into its own full blown programming language that now servers
+HTML string through the call of <code>echo</code>.</p>
+<p>So what is the difference here between the Perl way by using CGI with functions?
+None at all! We just have gone full circle.</p>
+<p>And you know what is even more funny. After we have gone full circle, people started
+to develope???? Can you guess it?</p>
+<p>THEY DEVELOPED TEMPLATING LANGUAGES IN PHP FOR PHP.</p>
+<p>So instead of using PHP with <code>echo</code> command, now you can use that awesome
+templating languages once again. So you basically have a templating language
+inside a templating language. I am just waiting that someone develops once again
+a templating language inside a templating language inside a template language
+and name that language <em>Inception</em> or so.</p>
+<h1 id="template-language-in-perl">Template Language in Perl</h1>
+<h2 id="xml-based">XML based</h2>
+<p>In Perl I have used three different Templating Languages. One was horrible, it
+added it&rsquo;s templating stuff as HTML/XML Tags, so it is always <em>valid</em> HTML, but
+the amount of mess you had to write was just horrible. Looked something like
+this.</p>
+<pre tabindex="0"><code>&lt;div tl-if=&#34;variable&gt;
+&lt;/div&gt;
+</code></pre><p>The idea was that you could still generate a full valid/visible HTML that could
+be opened by a designer in the browser. Then a developer could enhance that
+template with it&rsquo;s statement to generate a dynamic page.</p>
+<h2 id="htmltemplate">HTML::Template</h2>
+<p>Most of the time I used <a href="https://metacpan.org/pod/HTML::Template">HTML::Template</a></p>
+<p>Looks like this.</p>
+<pre tabindex="0"><code>&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Test Template&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    My Home Directory is &lt;TMPL_VAR NAME=HOME&gt;
+    &lt;p&gt;
+        My Path is set to &lt;TMPL_VAR NAME=PATH&gt;
+    &lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>I used it a very long time, and hated it. The problem of HTML::Template is that
+it is too limiting. It just supports. TMPL_IF, TMPL_LOOP, TMPL_VAR, TMPL_INLCUDE,
+TMPL_ELSE.</p>
+<p>Back in the days people always put this as an advantage. The idea was the the so called
+<em>View</em> should have no logic at all. So you have very limited ability todo
+any kind of logic in it. You basically just can insert variables. That&rsquo;s it.</p>
+<p>But you know. There is a difference between practice and theory. While it seems
+like a good idea, it isn&rsquo;t. Assume you have a Date field, and now you want to
+print it. But, in which format?</p>
+<p>Here are possible formats for the exact same date.</p>
+<pre tabindex="0"><code>19.02.1983
+1983-02-19
+02/19/1983
+19 02 1983
+February 19, 1983
+19 February 1983
+</code></pre><p>So, here are some questions. Which format do you pick and where do you pick the format?</p>
+<p>Let&rsquo;s say i just provide a <code>DATE</code> variable for my template. Then all i can do is
+write <code>&lt;TMPL_VAR DATE&gt;</code> to insert that date somewhere.</p>
+<p>That means the actual formating of the Date must be part of my Perl code. But wait.
+Wasn&rsquo;t the whole idea of a <em>View</em> that the <em>View</em> decides how it should be formated?
+Not my Perl code?</p>
+<p>Let&rsquo;s say i only have one code-base (i had in the past) and now you have three
+different websites, and each website once to use another format. How
+do you do that?</p>
+<p>Well, i can tell you how i did it. In the Perl code you basically have to create
+all possible variations of a date before hand. So you had a database field
+named <code>date</code>? Yeah nice, so out of that single field i created variables like.</p>
+<p><code>DATE_DAY</code>, <code>DATE_MONTH</code>, <code>DATE_YEAR</code>, <code>DATE_MONTH_TEXT</code>, <code>DATE_YEAR_SHORT</code>, &hellip;</p>
+<p>and so on. Maybe around 50 different variables so the Template system could pick
+and build the correct <em>View</em> it needs.</p>
+<p>But you know what. Now my Model/Controller code that actually just should
+read/create and store data is full of view logic all over the place.</p>
+<h2 id="template">Template</h2>
+<p>Then we had <a href="https://metacpan.org/pod/Template">Template::Toolkit</a>. When i have
+to pick a Templating system, this is the one I would choose. It has the features
+that today nearly every other Tempalting System in other languages copied.</p>
+<p>For example to insert a variable I can write.</p>
+<pre tabindex="0"><code>[%   GET variable %]    # &#39;GET&#39; keyword is optional
+[%       variable %]
+[%       hash.key %]
+[%         list.n %]
+[%     code(args) %]
+[% obj.meth(args) %]
+[%  &#34;value: $var&#34; %]
+</code></pre><p>or i also can set variables.</p>
+<pre tabindex="0"><code>[% SET variable = value %]    # &#39;SET&#39; also optional
+[%     variable = other_variable
+       variable = &#39;literal text @ $100&#39;
+       variable = &#34;interpolated text: $var&#34;
+       list     = [ val, val, val, val, ... ]
+       list     = [ val..val ]
+       hash     = { var =&gt; val, var =&gt; val, ... }
+%]
+</code></pre><p>Besides getting and setting variables it also has for-loops, conditions but
+also Pipes/Filters, Macros, Exception handling, &hellip;</p>
+<p>or in other words: I have another Programming Language, again &hellip; AGAIN!!!!</p>
+<h1 id="template-languages-are-bad">Template Languages are bad</h1>
+<p>And this is always what happens with every Templating Language i have seen.
+When a Templating Language have less features like <code>HTML::Template</code> then it is
+almost useless not providing much of a benefit at all.</p>
+<p>When the Templating Language tries to be more useful, then you basically end
+up with a new crappy, totally piece of crap shit language that no compiler
+can read, usually IDE has problems, bad error handling, messages, no
+IDE auto-completion and a weird horrible/verbose syntax compared to your normal
+programming language.</p>
+<p>Why do we do this kind of crap?</p>
+<p>On top most programming language are now completely interpreted. <code>Template</code>
+for example has a caching system. <code>Template</code> generates Perl code out of
+every <code>Template</code>, and the cache updates when the <code>Template</code> changes. This
+caching is also done for speed. Because directly executing Perl is faster than
+writing an interpreter in Perl that can interpret/parse <code>Template</code>.</p>
+<p>But you see how useless all of that is? How much time is spent always creating
+again and again Templating Languages that are actually programming languages
+just more worse?</p>
+<p>For example and If condition in Template look like this.</p>
+<pre tabindex="0"><code>[% IF condition %]
+    content
+[% ELSIF condition %]
+    content
+[% ELSE %]
+    content
+[% END %]
+</code></pre><p>but you know what. This is what i would have written directly in Perl, even
+without a module.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span> <span class="nv">$condition1</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">print</span> <span class="nv">$contentA</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">elsif</span> <span class="p">(</span> <span class="nv">$condition2</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">print</span> <span class="nv">$contentB</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">print</span> <span class="nv">$contentC</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But you know, i rather write Perl instead of <code>Template</code>. Because.</p>
+<ul>
+<li>It&rsquo;s easier to write</li>
+<li>A full programming language like Perl still has more features compared to <code>Template</code></li>
+<li>Perl is supported by my IDE</li>
+<li>Syntax checking, error handling of Perl Code.</li>
+<li>I also can write/create functions.</li>
+</ul>
+<p>The limitation of the last one is usually bypassed by a lot of Templating
+Systems by creating small Template snippets you can just include/embed and
+pass variables, or usually set some global context that is used.</p>
+<p>HORRIBLE!!!</p>
+<p>It&rsquo;s like</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="nv">$global_variable</span> <span class="o">=</span> <span class="o">...</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">function</span><span class="p">();</span> <span class="c1"># this function then uses $global_variable</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>instead of</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">function</span><span class="p">(</span><span class="nv">$variable</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But this isn&rsquo;t anything. Let&rsquo;s go back to our Date Formating. An often needed
+task. So <code>Template</code> also offers <em>Plugins</em>. Now i can do.</p>
+<pre tabindex="0"><code>[% USE date %]
+
+# use current time and default format
+[% date.format %]
+
+# specify time as seconds since epoch
+# or as a &#39;h:m:s d-m-y&#39; or &#39;y-m-d h:m:s&#39; string
+[% date.format(960973980) %]
+[% date.format(&#39;4:20:36 21/12/2000&#39;) %]
+[% date.format(&#39;2000/12/21 4:20:36&#39;) %]
+</code></pre><p>but then again. What&rsquo;s the point of that? Now my Templating System basically
+offers me a module/library system, like a full Programing Language.</p>
+<p>Seriously, you know what would be easier. If you just would stop using a Templating
+System and just use Perl Code to generate the View. So your <em>View</em> is just
+Perl Code. Not another porgramming language.</p>
+<h1 id="mvc">MVC</h1>
+<p>This leads back to the idea of MVC. Look the idea of MVC comes from Smalltalk.
+It was used to develope GUI applications and the idea was to seperate your
+code into three different parts.</p>
+<p>One code does the primary logic. It basically acts as a library you can call.
+A High Level API. For example you could have functions like <code>get_user_by_id()</code>.
+<code>create_new_user()</code>, and other stuff. This is the Part the <strong>Model</strong> should
+handle.</p>
+<p>Then you have the <strong>View</strong>. Also this one is just Program code, nothing different.
+But it handles formating. For example <code>get_user_by_id()</code> could return a
+data-structure returning all information to a user. Then a function like</p>
+<p><code>user_as_html()</code> would already be your View!</p>
+<p>you also could generate things like. <code>user_as_json()</code>, <code>user_as_xml()</code>, <code>user_as_ascii()</code>
+and so on. You can generate a dozens of different Views for the same data. But
+the View still can, and maybe should be, your programming language!</p>
+<p>Why learn and develope another crappy Templating Language?</p>
+<p>The <strong>Controller</strong> is the thing that connects both. For example in an Web-Application
+it is the part that reads the stuff sent from the Webbrowser and
+the HTTP Request or other environment variables, reads cookie information from
+database and so on. Does the right calls to your <strong>Model</strong> then generates the <strong>View</strong>.</p>
+<p>It&rsquo;s always the same circle.</p>
+<ol>
+<li>A request, Change, Action happens (however you wanna call that). <strong>Controller</strong></li>
+<li>Update your Global State (like database). <strong>Model</strong></li>
+<li>Generate a view from that State. <strong>View</strong></li>
+</ol>
+<p>you can basically develope any application like this. Stuff like <strong>MVVM</strong> and so
+on are just minor changes to the same idea. You even can develope games this way.</p>
+<p>The <strong>Controller</strong> is the part reading the user input. Your actions, be it from
+your keyboard, game controller or network, then update the global Game State, this
+is your <strong>Model</strong>. Then you generate a picture through your Graphics card from this
+<strong>View</strong>. Preferably with at least 60fps.</p>
+<p>You also could for example generate JSON-Data from the global state. Why? Maybe
+you wanna send those information through the network and create a multiplayer
+game? Then you need to share and send data and need yet another representation
+of your data instead of an image.</p>
+<p>You don&rsquo;t have to generate separted namespaces and call the one Controller, Model
+and View, you don&rsquo;t need to make three libraries out of it. You even just can
+use functions/procedures for it. But it is important that a single function only
+does one thing. Means either it processes Input/Actions, updates the Model
+or generates a View out from a Model. It all can be in a single file,
+written in a single Programming language.</p>
+<h1 id="summary">Summary</h1>
+<p>There is still a lot more I can write about that whole stuff about Templating
+Systems and go more deeper for some details. But here is my first Summary.
+Why do I hate Templating Systems?</p>
+<p>Usually their are just an extremely bad copy of a full programming language,
+recreteaded to be embedded into another document. Alone this fact and that
+you have to constantly add Opening/Closing braces whenever you want to add
+Code is just a mess.</p>
+<p>Typically every/most? Templating Language is also just worse when it comes to write
+re-usable things. You don&rsquo;t have functions or any other way to organize things.</p>
+<p>Sometimes a Templating Language offers stuff that is easier todo as in your
+programming language. For example <code>Template</code> offers filters/VMethods, as most modern
+Templating Systems do, you can for example write.</p>
+<pre tabindex="0"><code>&lt;a href=&#34;[% page_url | url %]&#34;&gt;
+</code></pre><p>Here the variable <code>page_url</code> is escaped as an URL. But a normal function would
+do the same. How about.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">url</span><span class="p">(</span><span class="nv">$page_url</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and it also offers Functions to filter, repeat, skip, search and do all other
+kind of stuff with Arrays/Hashes.</p>
+<p>For example <a href="https://template-toolkit.org/docs/manual/VMethods.html">Template documentation</a>
+gives the following example.</p>
+<pre tabindex="0"><code>[% ccard_no = &#34;1234567824683579&#34;;
+   ccard_no.chunk(4).join
+%]
+</code></pre><p>And this is also somehow the problem. Those Templating Languages usually
+provides better ways to work with data-structures as your programming language
+offers. That&rsquo;s why those languages are used.</p>
+<p>But in my opinion, instead of creating a whole new programming language, why
+not add those useful functions to your programming language?</p>
+<p>I am writing <a href="https://github.com/DavidRaab/Sq">Sq</a> and I added those functions
+directly to the data-structures in Perl. So for example i just can write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$ccard_no</span> <span class="o">=</span> <span class="s">&#34;1234567824683579&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">my</span> <span class="nv">$same</span>     <span class="o">=</span> <span class="nn">Str</span><span class="o">-&gt;</span><span class="n">chunk</span><span class="p">(</span><span class="nv">$ccard_no</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">join</span><span class="p">();</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and this is how every language should do it. You have a templating system
+that easily offers you to filter and manipulate arrays and hashes? Good, add
+those to your language instead of creating a Templating System with those features.</p>
+<p>Your language sucks so much that this isn&rsquo;t possible?</p>
+<p>Pick another programming language.</p>
+
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents">
+  <ul>
+    <li><a href="#printing">Printing</a></li>
+    <li><a href="#html-functions">HTML Functions</a></li>
+    <li><a href="#templating-language">Templating language</a></li>
+    <li><a href="#template-language-in-perl">Template Language in Perl</a>
+      <ul>
+        <li><a href="#xml-based">XML based</a></li>
+        <li><a href="#htmltemplate">HTML::Template</a></li>
+        <li><a href="#template">Template</a></li>
+      </ul>
+    </li>
+    <li><a href="#template-languages-are-bad">Template Languages are bad</a></li>
+    <li><a href="#mvc">MVC</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav> </aside>
+
+    </body>
+</html>

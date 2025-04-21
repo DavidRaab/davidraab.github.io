@@ -6,8 +6,22 @@
     <description>Recent content in Tags on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 01 Feb 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 21 Apr 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Design</title>
+      <link>https://davidraab.github.io/tags/design/</link>
+      <pubDate>Mon, 21 Apr 2025 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/design/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Languages</title>
+      <link>https://davidraab.github.io/tags/languages/</link>
+      <pubDate>Mon, 21 Apr 2025 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/tags/languages/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Perl</title>
       <link>https://davidraab.github.io/tags/perl/</link>
@@ -153,13 +167,6 @@
       <link>https://davidraab.github.io/tags/tool/</link>
       <pubDate>Sat, 13 Jul 2024 00:00:00 +0000</pubDate>
       <guid>https://davidraab.github.io/tags/tool/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Design</title>
-      <link>https://davidraab.github.io/tags/design/</link>
-      <pubDate>Mon, 10 Jun 2024 00:00:00 +0000</pubDate>
-      <guid>https://davidraab.github.io/tags/design/</guid>
       <description></description>
     </item>
     <item>
