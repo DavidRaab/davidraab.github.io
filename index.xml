@@ -6,8 +6,15 @@
     <description>Recent content on David Raab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 21 Apr 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 26 Dec 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://davidraab.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go&#39;s Error Handling</title>
+      <link>https://davidraab.github.io/posts/gos-error-handling/</link>
+      <pubDate>Fri, 26 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>https://davidraab.github.io/posts/gos-error-handling/</guid>
+      <description>Recently i tried out some Go. There are some good parts on Go that I think more languages should do, and some bad parts. Go&amp;rsquo;s Error Handling is something i consider better than in most other langauges, bad still bad enough looking on it from a function-programmer perspective.&#xA;So let&amp;rsquo;s dig deeper. Why do I think Go&amp;rsquo;s Error handling is better, let&amp;rsquo;s say compared to C. At least Go&amp;rsquo;s tries to be a system language competing with C.</description>
+    </item>
     <item>
       <title>Why I Hate Templating Languages</title>
       <link>https://davidraab.github.io/posts/why-i-hate-templating-languages/</link>

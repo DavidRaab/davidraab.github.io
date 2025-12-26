@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <title>Go&#39;s Error Handling // David Raab</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Hugo 0.123.1">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="David Raab" />
+        <meta name="description" content="" />
+        <link rel="stylesheet" href="/css/main.min.0fa334c3f2650e7000dfc8e81f59d23191e59e78f62c565a598f4dc557c92abe.css" />
+        <script src="/static/code-toggle.js"></script>
+
+        
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Go&#39;s Error Handling"/>
+<meta name="twitter:description" content="Recently i tried out some Go. There are some good parts on Go that I think more languages should do, and some bad parts. Go&rsquo;s Error Handling is something i consider better than in most other langauges, bad still bad enough looking on it from a function-programmer perspective.
+So let&rsquo;s dig deeper. Why do I think Go&rsquo;s Error handling is better, let&rsquo;s say compared to C. At least Go&rsquo;s tries to be a system language competing with C."/>
+
+        <meta property="og:title" content="Go&#39;s Error Handling" />
+<meta property="og:description" content="Recently i tried out some Go. There are some good parts on Go that I think more languages should do, and some bad parts. Go&rsquo;s Error Handling is something i consider better than in most other langauges, bad still bad enough looking on it from a function-programmer perspective.
+So let&rsquo;s dig deeper. Why do I think Go&rsquo;s Error handling is better, let&rsquo;s say compared to C. At least Go&rsquo;s tries to be a system language competing with C." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://davidraab.github.io/posts/gos-error-handling/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2025-12-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2025-12-26T00:00:00+00:00" />
+
+
+
+    </head>
+    <body>
+        <header class="app-header">
+            <a href="https://davidraab.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="David Raab" /></a>
+            <span class="app-header-title">David Raab</span>
+            <nav class="app-header-menu">
+                    <a class="app-header-menu-item" href="/">Home</a>
+                         - 
+                    
+                    <a class="app-header-menu-item" href="/tags/">Tags</a>
+            </nav>
+            <p>Writing about programming (Perl, F#) and other stuff.</p>
+            <div class="app-header-social">
+                
+                    <a href="https://github.com/DavidRaab" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>David Raab Github Profile</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+                    </a>
+                
+                    <a href="https://davidraab.github.io/index.xml" target="_blank" rel="noreferrer noopener me">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-rss">
+  <title>Atom Feed</title>
+  <path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>
+</svg>
+                    </a>
+                
+            </div>
+        </header>
+        
+<main class="app-container">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Go&#39;s Error Handling</h1>
+            <div class="post-meta">
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Dec 26, 2025
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    12 min read
+                </div>
+            </div>
+        </header>
+        <div class="post-content">
+            <p>Recently i tried out some Go. There are some good parts on Go that I think more
+languages should do, and some bad parts. Go&rsquo;s Error Handling is something i consider
+better than in most other langauges, bad still bad enough looking on it from a
+function-programmer perspective.</p>
+<p>So let&rsquo;s dig deeper. Why do I think Go&rsquo;s Error handling is better, let&rsquo;s say
+compared to C. At least Go&rsquo;s tries to be a system language competing with
+C.</p>
+<p>So when you program in C, there are no exceptions. Something that I consider
+very very good after programming for decades with languages that have exceptions.</p>
+<p>So, how do you do error-handling in C? Mostly functions must return an error-code
+that you must check. Code often end&rsquo;s up like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span> <span class="nf">someFunction1</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="nf">someFunction2</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="nf">someFunction3</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">             <span class="c1">// Code when all calls are succesfull
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// When someFunction3() failed
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// When someFunction2() failed
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// When someFunction1() failed
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>There are also other error-mechanism. Like using goto to jump to an error,
+that maybe is better. But anyway you can see, somehow writing/testing
+for errors becomes annoying.</p>
+<p>But, this is still necessary if you want correct code and no crashing programs.</p>
+<p>In C you also just can avoid and bypass the error-handling.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">someFunction1</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">someFunction2</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">someFunction3</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>nothing forces you to check the return value of a function! And a lot of people
+maybe do. Exactly as people do when they have exceptions as an error mechansim.</p>
+<p>The result are programs that crash often, have errors because of unhandled
+errors, don&rsquo;t behave as they should. In C this often even can mean serious
+security problems that can compromise a system.</p>
+<p>But before we continue why Go makes this a little better, how do you return
+values when every function just uses it&rsquo;s sinle return value for error-handling?</p>
+<p>The answer is that C programmers usually pass pointers to struct, or other
+storage, and the function writes it&rsquo;s result into that location. I am
+not so deep anymore into C. So here is a C# example that does the same.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kt">int</span>  <span class="n">number</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">success</span> <span class="p">=</span> <span class="kt">int</span><span class="p">.</span><span class="n">TryParse</span><span class="p">(</span><span class="k">value</span><span class="p">,</span> <span class="k">out</span> <span class="n">number</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span> <span class="n">success</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In C it almost looks the same. You just would write <code>&amp;number</code> to pass a pointer
+to <code>number</code>, so TryParse can write to that location. So how does <strong>Go</strong> improve
+on that? It can return multiple values at once. So in <strong>Go</strong> the same
+code looks like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">number</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">strconv</span><span class="p">.</span><span class="nf">ParseFloat</span><span class="p">(</span><span class="nx">yourString</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="nx">err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It almost looks the same. But being able to return two values at once makes it
+better. Different to <code>C</code> you also cannot bypassing checking <code>err</code>. Because
+in Go every unused variable turns into a compile-time error. So if you
+didn&rsquo;t check for <code>err</code> your program won&rsquo;t compile. It forces you to write
+code that don&rsquo;t fail.</p>
+<p>This is overall an improvement, but, not enough in my opinion. Functional
+languages just do better. So let me explain what functional languages do, and
+i show you how to implement it in Go.</p>
+<p>Just to start again, let&rsquo;s see the following example.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">numA</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">strconv</span><span class="p">.</span><span class="nf">ParseFloat</span><span class="p">(</span><span class="s">&#34;123&#34;</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="nx">err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">numB</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">strconv</span><span class="p">.</span><span class="nf">ParseFloat</span><span class="p">(</span><span class="s">&#34;abc&#34;</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">added</span> <span class="p">=</span> <span class="nx">numA</span> <span class="o">+</span> <span class="nx">numB</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;%d + %d = %d&#34;</span><span class="p">,</span> <span class="nx">numA</span><span class="p">,</span> <span class="nx">numB</span><span class="p">,</span> <span class="nx">added</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Could not convert number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Could not convert number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So what does that code does? It just parses two strings and adds them when
+succesfull. Otherwise it prints an error. This is actually much code for
+just parsing two numbers, on the other-side it is what you must write to
+have correct code.</p>
+<p>The problem of <strong>Go</strong> from a functional perspective is that it separates one
+information into two different variables. Actually the idea of parsing is more
+like an.</p>
+<ol>
+<li>It is succesfull and has the values</li>
+<li>It fails and there is an error.</li>
+</ol>
+<p>The problem of <strong>Go</strong> and many other languages is that they cannot express
+<code>OR Types</code>. The above is one information that tells you it is either this
+or that. Instead it returns two pieces of information and you must handle
+them yourself.</p>
+<p>Actually what <strong>Go</strong> did here is, it made the problem <em>complex</em>. Returning
+just one value would be <em>simple</em>. Go also doesn&rsquo;t support <em>Discrimanted Unions</em>,
+<em>Tagged Unions</em> and so on how <code>OR Types</code> are usually named, but we can hack it
+with a struct.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Result</span><span class="p">[</span><span class="nx">T</span> <span class="nx">any</span><span class="p">]</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">Ok</span>  <span class="nx">T</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">Err</span> <span class="kt">error</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So what this type does is exactly what error functions in <strong>Go</strong> return. It just
+stores two values into a single structure. The problem of this type compared
+to a real union is that it allows invalid state. For example <code>Err</code> could be
+set to an error, while <code>Ok</code> is a valid value. Or <code>Ok</code> is an invalid error,
+Nil, and so on and <code>Err</code> is still not set. But I accept this now for granted.</p>
+<p>So with that type in place, we now can write the following <code>wrap</code> function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nx">wrap</span><span class="p">[</span><span class="nx">T</span> <span class="nx">any</span><span class="p">](</span><span class="nx">x</span> <span class="nx">T</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="nx">Result</span><span class="p">[</span><span class="nx">T</span><span class="p">]</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">Result</span><span class="p">[</span><span class="nx">T</span><span class="p">]{</span> <span class="nx">Ok</span><span class="p">:</span><span class="nx">x</span><span class="p">,</span> <span class="nx">Err</span><span class="p">:</span><span class="kc">nil</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">zero</span> <span class="nx">T</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">Result</span><span class="p">[</span><span class="nx">T</span><span class="p">]{</span> <span class="nx">Ok</span><span class="p">:</span><span class="nx">zero</span><span class="p">,</span> <span class="nx">Err</span><span class="p">:</span><span class="nx">err</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>wrap</code> is intended to be used for <code>Go</code> error functions. In another language with
+better Generic support I also would made the <code>Err</code> case generic instead of
+always being <code>error</code>, but so far i didn&rsquo;t see that this was practical.</p>
+<p>Now, what we can write is the following.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">num1</span> <span class="o">:=</span> <span class="nf">wrap</span><span class="p">(</span><span class="nx">strconv</span><span class="p">.</span><span class="nf">ParseFloat</span><span class="p">(</span><span class="nx">strA</span><span class="p">,</span> <span class="mi">64</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nx">num2</span> <span class="o">:=</span> <span class="nf">wrap</span><span class="p">(</span><span class="nx">strconv</span><span class="p">.</span><span class="nf">ParseFloat</span><span class="p">(</span><span class="nx">strB</span><span class="p">,</span> <span class="mi">64</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>num1</code> and <code>num2</code> are now of type <code>Result[float64]</code>. This type now says the following.
+It might be a <code>float64</code> or it might be an <code>error</code>.</p>
+<p>Next i also would improve that a little bit. I just create my own function to parse
+a string.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">pf64</span><span class="p">(</span><span class="nx">str</span> <span class="kt">string</span><span class="p">)</span> <span class="nx">Result</span><span class="p">[</span><span class="kt">float64</span><span class="p">]</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nf">wrap</span><span class="p">(</span><span class="nx">strconv</span><span class="p">.</span><span class="nf">ParseFloat</span><span class="p">(</span><span class="nx">str</span><span class="p">,</span> <span class="mi">64</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>now i just have to write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">num1</span> <span class="o">:=</span> <span class="nf">pf64</span><span class="p">(</span><span class="nx">strA</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">num2</span> <span class="o">:=</span> <span class="nf">pf64</span><span class="p">(</span><span class="nx">strB</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But how do we work with such a type? Well, for example we could create a <code>ror</code> function.
+With the meaning of <em>result or</em>. We can pass it a <code>Result</code> type and it either returns
+the value when there was no error. Or it just returns the passed default value.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nx">ror</span><span class="p">[</span><span class="nx">A</span> <span class="nx">any</span><span class="p">](</span><span class="nx">res</span> <span class="nx">Result</span><span class="p">[</span><span class="nx">A</span><span class="p">],</span> <span class="nx">or</span> <span class="nx">A</span><span class="p">)</span> <span class="nx">A</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="nx">res</span><span class="p">.</span><span class="nx">Err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">Ok</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">or</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now, we can write the following.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">num1</span>  <span class="o">:=</span> <span class="nf">pf64</span><span class="p">(</span><span class="nx">strA</span><span class="p">)</span>  <span class="c1">// Result[float64]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">num2</span>  <span class="o">:=</span> <span class="nf">pf64</span><span class="p">(</span><span class="nx">strB</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">added</span> <span class="o">:=</span> <span class="nf">ror</span><span class="p">(</span><span class="nx">num1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="nf">ror</span><span class="p">(</span><span class="nx">num2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1">// float64
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Here <code>added</code> is now just of type <code>float64</code>. In that example the code is even so
+short, i would just inline the whole parsing.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">added</span> <span class="o">:=</span> <span class="nf">ror</span><span class="p">(</span><span class="nf">pf64</span><span class="p">(</span><span class="nx">strA</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="nf">ror</span><span class="p">(</span><span class="nf">pf64</span><span class="p">(</span><span class="nx">strB</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">// float64
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>so this one single line does parsing two string. And in the case one number
+fails parsing, it just picks <code>0</code> as the default value. And it still has the
+benefits that all error cases are handled. Not a single <code>err</code> was unchecked.
+This code, compared to throwing exceptions will also never fail.</p>
+<p>But usually <code>ror</code> is not the only function we create in functional programming.
+Let&rsquo;s say you have a function that justs adds 100 to a float.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">add100</span><span class="p">(</span><span class="nx">num</span> <span class="kt">float64</span><span class="p">)</span> <span class="kt">float64</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">num</span> <span class="o">+</span> <span class="mi">100</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>then we have one problem. We cannot directly use that function with a function
+returning a <code>Result[float64]</code>. But i guess no programmer has a problem to just
+write code that accesses the <code>Result.Err</code> case and write an easy <code>if</code>
+statement and either call <code>add100</code> or not. Right? We just need to put it into
+a function so that code becomes a reusable <em>design-pattern</em> (How OO people
+will tell you, but it is wrong, a design-pattern in OO is a piece of code
+you copy &amp; paste over and over because your language lacks abstraction). In
+functional programming we name this a <code>map</code> function. A type that supports
+<code>map</code> is named a <strong>Functor</strong>. Not that hard?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nx">rmap</span><span class="p">[</span><span class="nx">A</span> <span class="nx">any</span><span class="p">,</span> <span class="nx">B</span> <span class="nx">any</span><span class="p">](</span><span class="nx">result</span> <span class="nx">Result</span><span class="p">[</span><span class="nx">A</span><span class="p">],</span> <span class="nx">f</span> <span class="kd">func</span><span class="p">(</span><span class="nx">A</span><span class="p">)</span><span class="nx">B</span><span class="p">)</span> <span class="nx">Result</span><span class="p">[</span><span class="nx">B</span><span class="p">]</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">result</span><span class="p">.</span><span class="nx">Err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">Result</span><span class="p">[</span><span class="nx">B</span><span class="p">]{</span> <span class="nx">Ok</span><span class="p">:</span><span class="nf">f</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">Ok</span><span class="p">),</span> <span class="nx">Err</span><span class="p">:</span><span class="kc">nil</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">zero</span> <span class="nx">B</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">Result</span><span class="p">[</span><span class="nx">B</span><span class="p">]{</span> <span class="nx">Ok</span><span class="p">:</span><span class="nx">zero</span><span class="p">,</span> <span class="nx">Err</span><span class="p">:</span><span class="nx">result</span><span class="p">.</span><span class="nx">Err</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now what we can do is the following.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">num1</span> <span class="o">:=</span> <span class="nf">rmap</span><span class="p">(</span><span class="nf">pf64</span><span class="p">(</span><span class="s">&#34;100&#34;</span><span class="p">),</span> <span class="nx">add100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">num2</span> <span class="o">:=</span> <span class="nf">rmap</span><span class="p">(</span><span class="nf">pf64</span><span class="p">(</span><span class="s">&#34;abc&#34;</span><span class="p">),</span> <span class="nx">add100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">num3</span> <span class="o">:=</span> <span class="nf">rmap</span><span class="p">(</span><span class="nf">pf64</span><span class="p">(</span><span class="s">&#34;100&#34;</span><span class="p">),</span> <span class="kd">func</span><span class="p">(</span><span class="nx">x</span> <span class="kt">float64</span><span class="p">)</span> <span class="kt">float64</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">100</span> <span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So here you see how to parse strings and pass a function or a lambda
+to do something when parsing was correct. In all cases you still get an
+<code>Result[float64]</code> not a <code>float64</code>.</p>
+<p><code>num1</code> will contain <code>200</code>, <code>num2</code> contains an error because parsing was wrong,
+and <code>num3</code> will also contain <code>200</code>.</p>
+<p>The idea that a <code>Result</code> value is not directly extracted allows you to write
+code like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">x</span> <span class="o">:=</span> <span class="nf">failingFunc1</span><span class="p">(</span><span class="nx">whatever1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">y</span> <span class="o">:=</span> <span class="nf">rmap</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">func2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">z</span> <span class="o">:=</span> <span class="nf">rmap</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="nx">func3</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and so on. So we can just work with the value. It&rsquo;s like the advantage of
+code that throws exceptions. You just see the <em>happy path</em>. Only at the very end
+you check if there was an error. We for example could create another function
+that helps us to handle both cases.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nx">rmatch</span><span class="p">[</span><span class="nx">A</span> <span class="nx">any</span><span class="p">,</span> <span class="nx">B</span> <span class="nx">any</span><span class="p">](</span><span class="nx">result</span> <span class="nx">Result</span><span class="p">[</span><span class="nx">A</span><span class="p">],</span> <span class="nx">fok</span> <span class="kd">func</span><span class="p">(</span><span class="nx">A</span><span class="p">)</span><span class="nx">B</span><span class="p">,</span> <span class="nx">ferr</span> <span class="kd">func</span><span class="p">(</span><span class="kt">error</span><span class="p">)</span><span class="nx">B</span><span class="p">)</span> <span class="nx">B</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">result</span><span class="p">.</span><span class="nx">Err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nf">fok</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">Ok</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nf">ferr</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">Err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>with this we now can write at the end.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">x</span> <span class="o">:=</span> <span class="nf">failingFunc1</span><span class="p">(</span><span class="nx">whatever1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">y</span> <span class="o">:=</span> <span class="nf">rmap</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">func2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">z</span> <span class="o">:=</span> <span class="nf">rmap</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="nx">func3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">msg</span> <span class="o">:=</span> <span class="nf">rmatch</span><span class="p">(</span><span class="nx">z</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">func</span><span class="p">(</span><span class="nx">num</span> <span class="kt">float64</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">strconv</span><span class="p">.</span><span class="nf">FormatFloat</span><span class="p">(</span><span class="nx">num</span><span class="p">,</span> <span class="sc">&#39;f&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">func</span><span class="p">(</span><span class="nx">err</span>   <span class="kt">error</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">()</span> <span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>rmatch</code> expects two lambdas. The first one handles the case if the values was
+<code>Ok</code> and the second handles the case if we had an <code>Err</code>.</p>
+<p>The only problem of <code>Go</code> is it&rsquo;s lack of type-inference. Always writing
+all the types in a lambda becomes pretty annoying. But still, in my opinion
+this style of programming is even in <code>Go</code> much better than what you get by
+default in <code>Go</code>.</p>
+<p>You probably will add other functions. For example <code>map2</code> that can handle two
+<code>Result</code> values.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nx">rmap2</span><span class="p">[</span><span class="nx">A</span> <span class="nx">any</span><span class="p">,</span> <span class="nx">B</span> <span class="nx">any</span><span class="p">,</span> <span class="nx">C</span> <span class="nx">any</span><span class="p">](</span><span class="nx">res1</span> <span class="nx">Result</span><span class="p">[</span><span class="nx">A</span><span class="p">],</span> <span class="nx">res2</span> <span class="nx">Result</span><span class="p">[</span><span class="nx">B</span><span class="p">],</span> <span class="nx">f</span> <span class="kd">func</span><span class="p">(</span><span class="nx">A</span><span class="p">,</span><span class="nx">B</span><span class="p">)</span><span class="nx">C</span><span class="p">)</span> <span class="nx">Result</span><span class="p">[</span><span class="nx">C</span><span class="p">]</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">res1</span><span class="p">.</span><span class="nx">Err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="nx">res2</span><span class="p">.</span><span class="nx">Err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">Result</span><span class="p">[</span><span class="nx">C</span><span class="p">]{</span> <span class="nx">Ok</span><span class="p">:</span><span class="nf">f</span><span class="p">(</span><span class="nx">res1</span><span class="p">.</span><span class="nx">Ok</span><span class="p">,</span> <span class="nx">res2</span><span class="p">.</span><span class="nx">Ok</span><span class="p">),</span> <span class="nx">Err</span><span class="p">:</span><span class="kc">nil</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">zero</span> <span class="nx">C</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span> <span class="nx">res1</span><span class="p">.</span><span class="nx">Err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nx">Result</span><span class="p">[</span><span class="nx">C</span><span class="p">]{</span> <span class="nx">Ok</span><span class="p">:</span><span class="nx">zero</span><span class="p">,</span> <span class="nx">Err</span><span class="p">:</span><span class="nx">res1</span><span class="p">.</span><span class="nx">Err</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nx">Result</span><span class="p">[</span><span class="nx">C</span><span class="p">]{</span> <span class="nx">Ok</span><span class="p">:</span><span class="nx">zero</span><span class="p">,</span> <span class="nx">Err</span><span class="p">:</span><span class="nx">res2</span><span class="p">.</span><span class="nx">Err</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Consider how this <code>map2</code> is similar to the code we started with.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">numA</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">strconv</span><span class="p">.</span><span class="nf">ParseFloat</span><span class="p">(</span><span class="s">&#34;123&#34;</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="nx">err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">numB</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">strconv</span><span class="p">.</span><span class="nf">ParseFloat</span><span class="p">(</span><span class="s">&#34;abc&#34;</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">added</span> <span class="p">=</span> <span class="nx">numA</span> <span class="o">+</span> <span class="nx">numB</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;%d + %d = %d&#34;</span><span class="p">,</span> <span class="nx">numA</span><span class="p">,</span> <span class="nx">numB</span><span class="p">,</span> <span class="nx">added</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Could not convert number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Could not convert number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and it actually is! What we have done there was basically extracting/checking for
+two values and executed some code when both cases was successful. With <code>map2</code>
+we just put the whole stuff into a function so we don&rsquo;t have to re-write this
+piece of shit a thousand times.</p>
+<p>Here is another function. A function that trasnform the <code>Ok</code> value into a
+<code>string</code> or just uses the <code>error</code> as a string.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nx">rstring</span><span class="p">[</span><span class="nx">A</span> <span class="nx">any</span><span class="p">](</span><span class="nx">result</span> <span class="nx">Result</span><span class="p">[</span><span class="nx">A</span><span class="p">],</span> <span class="nx">fok</span> <span class="kd">func</span><span class="p">(</span><span class="nx">A</span><span class="p">)</span><span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nf">rmatch</span><span class="p">(</span><span class="nx">result</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">func</span><span class="p">(</span><span class="nx">x</span>       <span class="nx">A</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span> <span class="k">return</span> <span class="nf">fok</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>      <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">func</span><span class="p">(</span><span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">()</span> <span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>finally, we can write.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">numA</span>  <span class="o">:=</span> <span class="nf">pf64</span><span class="p">(</span><span class="s">&#34;123&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">numB</span>  <span class="o">:=</span> <span class="nf">pf64</span><span class="p">(</span><span class="s">&#34;abc&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">added</span> <span class="o">:=</span> <span class="nf">rmap2</span><span class="p">(</span><span class="nx">numA</span><span class="p">,</span> <span class="nx">numB</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">x</span> <span class="kt">float64</span><span class="p">,</span> <span class="nx">y</span> <span class="kt">float64</span><span class="p">)</span> <span class="kt">float64</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span> <span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="nx">msg</span>   <span class="o">:=</span> <span class="nf">rstring</span><span class="p">(</span><span class="nx">added</span><span class="p">,</span>    <span class="kd">func</span><span class="p">(</span><span class="nx">num</span> <span class="kt">float64</span><span class="p">)</span><span class="kt">string</span>            <span class="p">{</span> <span class="k">return</span> <span class="nx">strconv</span><span class="p">.</span><span class="nf">FormatFloat</span><span class="p">(</span><span class="nx">num</span><span class="p">,</span> <span class="sc">&#39;f&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span> <span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This code will now print <code>strconv.ParseFloat: parsing &quot;abc&quot;: invalid syntax</code>.</p>
+<p>I guess because of the annoying lambda syntax in <code>Go</code> you maybe want to
+extract the lambdas into it&rsquo;s own functions, so in the end you maybe end
+up with code looking like this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">numA</span>  <span class="o">:=</span> <span class="nf">pf64</span><span class="p">(</span><span class="s">&#34;123&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">numB</span>  <span class="o">:=</span> <span class="nf">pf64</span><span class="p">(</span><span class="s">&#34;abc&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">added</span> <span class="o">:=</span> <span class="nf">rmap2</span><span class="p">(</span><span class="nx">numA</span><span class="p">,</span> <span class="nx">numB</span><span class="p">,</span> <span class="nx">add</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">msg</span>   <span class="o">:=</span> <span class="nf">rstring</span><span class="p">(</span><span class="nx">added</span><span class="p">,</span> <span class="nx">float_to_string</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So this code does everything we want. Parse two strings. Still containing the
+iformation if it was sucessfull or not. <code>rmap2</code> just adds those two numbers
+together, but only when parsing of both were sucessfull. Then with <code>rstring</code>
+we transform the result into a string being able to printing, or we
+get the error message. Again everything also could be put
+into a single line.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">msg</span> <span class="o">:=</span> <span class="nf">rstring</span><span class="p">(</span><span class="nf">rmap2</span><span class="p">(</span><span class="nf">pf64</span><span class="p">(</span><span class="s">&#34;123&#34;</span><span class="p">),</span> <span class="nf">pf64</span><span class="p">(</span><span class="s">&#34;abc&#34;</span><span class="p">),</span> <span class="nx">add</span><span class="p">),</span> <span class="nx">float_to_string</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>because there is no real reasons why we need those variables. But this can
+be subjective if you are used to reading/writing functional code or not.</p>
+<p>How good could <code>Go</code> be if they also had choosen to add something like
+<em>Discrimanted Unions</em> and add such a Result-type instead of returning two values?</p>
+<p>It maybe would be one of my favorite languages.</p>
+<p>Another thing i dislike. For whatever reason Generics are not allowed when you
+use that <em>OO emulation mode</em>, that&rsquo;s how i call it. Where it looks like you
+call a method on a struct. Because then <code>Go</code> complains about that generics
+are not allowed. An absolute pain. Because then we also could have chaining syntax
+like</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">numa</span> <span class="o">:=</span> <span class="nf">pf64</span><span class="p">(</span><span class="nx">str</span><span class="p">).</span><span class="kd">map</span><span class="p">(</span><span class="nx">add100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">numb</span> <span class="o">:=</span> <span class="nf">rmap2</span><span class="p">(</span><span class="nx">numa</span><span class="p">,</span> <span class="nf">pf64</span><span class="p">(</span><span class="s">&#34;abc&#34;</span><span class="p">),</span> <span class="nx">add</span><span class="p">).</span><span class="nf">rstring</span><span class="p">(</span><span class="nx">float_to_string</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>but i guess generics on methods are still to advanced for <code>Go</code>, maybe it takes
+another 20 years until they add this feature.</p>
+
+        </div>
+        <div class="post-footer">
+            <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidraab" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </article>
+</main>
+<aside> <nav id="TableOfContents"></nav> </aside>
+
+    </body>
+</html>
